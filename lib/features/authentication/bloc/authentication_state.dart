@@ -1,0 +1,29 @@
+part of 'authentication_bloc.dart';
+
+abstract class GeneralAuthenticationState {
+  const GeneralAuthenticationState();
+}
+
+class InitialAuthenticationState extends GeneralAuthenticationState {}
+
+class FirstTimeState extends GeneralAuthenticationState {}
+
+class ShowSignInState extends GeneralAuthenticationState {
+  const ShowSignInState({
+    this.showBackButton = false,
+    this.action,
+  });
+
+  final bool showBackButton;
+  final VoidCallback? action;
+}
+
+class AuthenticatedState extends GeneralAuthenticationState {}
+
+class UnauthenticatedState extends GeneralAuthenticationState {}
+
+class GuestState extends GeneralAuthenticationState {}
+
+class VerificationState extends GeneralAuthenticationState {}
+
+class ForgetPasswordState extends GeneralAuthenticationState {}
