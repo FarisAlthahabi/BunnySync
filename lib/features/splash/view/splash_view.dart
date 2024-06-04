@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:bunny_sync/global/gen/assets.gen.dart';
 import 'package:bunny_sync/global/localization/strings.dart';
 import 'package:bunny_sync/global/mixins/mixins.dart';
 import 'package:bunny_sync/global/router/router.dart';
@@ -33,12 +34,11 @@ class _SplashPageState extends State<SplashPage> with PostFrameMixin {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    //TODO
-    // precacheImage(
-    //   Assets.icons.logo.provider(),
-    //   context,
-    //   size: logoSize,
-    // );
+    precacheImage(
+      Assets.icons.logo.provider(),
+      context,
+      size: logoSize,
+    );
   }
 
   @override
@@ -69,11 +69,10 @@ class _SplashPageState extends State<SplashPage> with PostFrameMixin {
                   ),
                 ),
                 const SizedBox(height: 15),
-                //TODO
-                // Assets.icons.logo.image(
-                //   width: logoSize.width,
-                //   height: logoSize.height,
-                // ),
+                Assets.icons.logo.image(
+                  width: logoSize.width,
+                  height: logoSize.height,
+                ),
                 SizedBox(height: 35.h),
                 Text(
                   Strings.slogan,
