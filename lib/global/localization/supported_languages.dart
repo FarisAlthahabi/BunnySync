@@ -1,9 +1,8 @@
 import 'package:equatable/equatable.dart';
 
 abstract class SupportedLanguages {
-  static const arabic = LanguageModel('العربية', 'ar');
   static const english = LanguageModel('English', 'en');
-  static const list = [arabic, english];
+  static const list = [english];
 }
 
 class LanguageModel with EquatableMixin {
