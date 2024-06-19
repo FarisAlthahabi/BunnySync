@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:bunny_sync/features/sign_in/utils/sign_in_strings.dart';
 import 'package:bunny_sync/global/extensions/string_x.dart';
+import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/localization/strings.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:email_validator/email_validator.dart';
@@ -43,7 +43,7 @@ class PostSignUpModel {
 
   String? validateFullName() {
     if (fullName.isNullOrEmpty) {
-      return SignInStrings.fullNameEmpty;
+      return 'full_name_empty'.i18n;
     }
     return null;
   }
