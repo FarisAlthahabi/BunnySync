@@ -10,11 +10,9 @@ class FirstTimeState extends GeneralAuthenticationState {}
 
 class ShowSignInState extends GeneralAuthenticationState {
   const ShowSignInState({
-    this.showBackButton = false,
     this.action,
   });
 
-  final bool showBackButton;
   final VoidCallback? action;
 }
 

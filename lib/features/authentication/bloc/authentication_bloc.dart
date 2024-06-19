@@ -24,12 +24,15 @@ class AuthenticationBloc
 
   final UserRepo _userRepo;
 
-  void _findIfAuthenticatedOrFirstTime(
+  Future<void> _findIfAuthenticatedOrFirstTime(
     IsAuthenticatedOrFirstTime event,
     Emitter<GeneralAuthenticationState> emit,
-  ) {
-    if (_userRepo.properties[firstTimeKey] as bool) {
+  ) async {
+    final firstTime = await _userRepo.getKey(firstTimeKey, defaultValue: true);
+    if (firstTime) {
       emit(FirstTimeState());
+      //TODO
+      // _userRepo.setKey(firstTimeKey, false);
     } else {
       if (_userRepo.user != null) {
         emit(AuthenticatedState());
@@ -45,7 +48,6 @@ class AuthenticationBloc
   ) async {
     emit(
       ShowSignInState(
-        showBackButton: event.showBackButton,
         action: event.onSignedIn,
       ),
     );

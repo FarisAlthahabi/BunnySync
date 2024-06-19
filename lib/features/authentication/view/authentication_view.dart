@@ -16,16 +16,24 @@ class AuthenticationView extends StatefulWidget {
 
 class _AuthenticationViewState extends State<AuthenticationView> {
   @override
+  void initState() {
+    super.initState();
+    context.read<AuthenticationBloc>().add(IsAuthenticatedOrFirstTime());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthenticationBloc, GeneralAuthenticationState>(
       builder: (context, state) {
         return AutoRouter.declarative(
           routes: (context) {
             return [
-              const MainNavigationRoute(),
+              if (state is FirstTimeState)
+                const IntroRoute(),
+              if (state is UnauthenticatedState)
+                SignInRoute(),
               if (state is ShowSignInState)
                 SignInRoute(
-                  showBackButton: state.showBackButton,
                   onSignedIn: state.action,
                 ),
             ];
