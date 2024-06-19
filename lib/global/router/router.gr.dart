@@ -27,19 +27,37 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const DashboardView(),
       );
     },
+    HomeRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const HomeView(),
+      );
+    },
+    IntroRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const IntroView(),
+      );
+    },
     MainNavigationRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const MainNavigationView(),
       );
     },
+    SelectSubscriptionPlanRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SelectSubscriptionPlanView(),
+      );
+    },
     SignInRoute.name: (routeData) {
-      final args = routeData.argsAs<SignInRouteArgs>();
+      final args = routeData.argsAs<SignInRouteArgs>(
+          orElse: () => const SignInRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: SignInView(
           key: args.key,
-          showBackButton: args.showBackButton,
           onSignedIn: args.onSignedIn,
         ),
       );
@@ -82,6 +100,34 @@ class DashboardRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [HomeView]
+class HomeRoute extends PageRouteInfo<void> {
+  const HomeRoute({List<PageRouteInfo>? children})
+      : super(
+          HomeRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'HomeRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [IntroView]
+class IntroRoute extends PageRouteInfo<void> {
+  const IntroRoute({List<PageRouteInfo>? children})
+      : super(
+          IntroRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'IntroRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [MainNavigationView]
 class MainNavigationRoute extends PageRouteInfo<void> {
   const MainNavigationRoute({List<PageRouteInfo>? children})
@@ -96,18 +142,30 @@ class MainNavigationRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [SelectSubscriptionPlanView]
+class SelectSubscriptionPlanRoute extends PageRouteInfo<void> {
+  const SelectSubscriptionPlanRoute({List<PageRouteInfo>? children})
+      : super(
+          SelectSubscriptionPlanRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SelectSubscriptionPlanRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [SignInView]
 class SignInRoute extends PageRouteInfo<SignInRouteArgs> {
   SignInRoute({
     Key? key,
-    required bool showBackButton,
     void Function()? onSignedIn,
     List<PageRouteInfo>? children,
   }) : super(
           SignInRoute.name,
           args: SignInRouteArgs(
             key: key,
-            showBackButton: showBackButton,
             onSignedIn: onSignedIn,
           ),
           initialChildren: children,
@@ -121,19 +179,16 @@ class SignInRoute extends PageRouteInfo<SignInRouteArgs> {
 class SignInRouteArgs {
   const SignInRouteArgs({
     this.key,
-    required this.showBackButton,
     this.onSignedIn,
   });
 
   final Key? key;
 
-  final bool showBackButton;
-
   final void Function()? onSignedIn;
 
   @override
   String toString() {
-    return 'SignInRouteArgs{key: $key, showBackButton: $showBackButton, onSignedIn: $onSignedIn}';
+    return 'SignInRouteArgs{key: $key, onSignedIn: $onSignedIn}';
   }
 }
 
