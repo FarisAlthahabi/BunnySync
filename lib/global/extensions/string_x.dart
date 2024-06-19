@@ -1,3 +1,6 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_svg/svg.dart';
+
 extension StringX on String? {
   bool get isNullOrEmpty => this == null || this!.isEmpty;
 
@@ -15,4 +18,19 @@ extension StringX2 on String {
 
     return result[0].toLowerCase() + result.substring(1);
   }
+
+  Widget svg({
+    double? width,
+    double? height,
+    Color? color,
+  }) =>
+      SvgPicture.asset(
+        this,
+        width: width,
+        height: height,
+        //TODO
+        color: color,
+      );
+
+  Color get color => Color(int.parse('0xff${trim()}'));
 }
