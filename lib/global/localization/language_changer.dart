@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:bunny_sync/global/localization/supported_languages.dart';
 import 'package:bunny_sync/global/localization/translations.i18n.dart';
 import 'package:flutter/material.dart';
@@ -52,22 +50,12 @@ class LanguageChanger {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String? language = prefs.getString(languageKey);
 
-    if (language == null) {
-      final deviceLanguage = Platform.localeName.substring(0, 2);
-      if (deviceLanguage == SupportedLanguages.arabic.code) {
-        language = SupportedLanguages.arabic.code;
-      } else {
-        language = SupportedLanguages.english.code;
-      }
-    }
-
+    language ??= SupportedLanguages.english.code;
     return _language = language;
   }
 
   String convertLanguageCodeToName(String language) {
-    if (SupportedLanguages.arabic.code == language) {
-      return SupportedLanguages.arabic.name;
-    } else if (SupportedLanguages.english.code == language) {
+    if (SupportedLanguages.english.code == language) {
       return SupportedLanguages.english.name;
     }
     throw Exception("Language name isn't found");
