@@ -25,6 +25,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.11.2"
+  animated_size_and_fade:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "42c9ec95b3d6aa81013dcadbf002cdeca0a05699"
+      url: "https://github.com/MohamadGreatWarrior/animated_size_and_fade.git"
+    source: git
+    version: "3.0.1"
   ansicolor:
     dependency: transitive
     description:
@@ -512,6 +521,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.7.0"
+  gettext_parser:
+    dependency: "direct main"
+    description:
+      name: gettext_parser
+      sha256: "9565c9dd1033ec125e1fbc7ccba6c0d2d753dd356122ba1a17e6aa7dc868f34a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.0"
   glob:
     dependency: transitive
     description:
@@ -1061,6 +1078,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  smooth_page_indicator:
+    dependency: "direct main"
+    description:
+      name: smooth_page_indicator
+      sha256: "725bc638d5e79df0c84658e1291449996943f93bacbc2cec49963dbbab48d8ae"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   source_gen:
     dependency: transitive
     description:
