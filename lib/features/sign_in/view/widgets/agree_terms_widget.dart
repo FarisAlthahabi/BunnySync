@@ -1,4 +1,3 @@
-import 'package:bunny_sync/features/sign_in/view/widgets/agree_terms_text_widget.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:flutter/material.dart';
 
