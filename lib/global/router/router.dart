@@ -34,6 +34,7 @@ class AppRouter extends _$AppRouter {
             AdaptiveRoute(
               page: MainNavigationRoute.page,
               children: [
+                //TODO: Grouping intro and select plan into onboarding parent route
                 AutoRoute(
                   page: IntroRoute.page,
                 ),
