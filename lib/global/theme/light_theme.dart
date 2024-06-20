@@ -23,22 +23,23 @@ final lightTheme = ThemeData(
       height: 1.36,
       fontSize: 24,
     ),
-    titleLarge: TextStyle(
-      color: AppColors.purpleDarkShade,
+    titleLarge: const TextStyle(
+      color: AppColors.darkBlue,
       height: 1.26,
       fontWeight: FontWeight.w600,
-      fontSize: 20.sp,
+      fontSize: 20,
     ),
-    titleMedium: TextStyle(
-      color: AppColors.purpleDarkShade,
+    titleMedium: const TextStyle(
+      color: AppColors.darkBlue,
       height: 1.4,
-      fontSize: 16.sp,
+      fontSize: 16,
     ),
     titleSmall: TextStyle(
-      color: AppColors.purpleDarkShade,
-      fontWeight: FontWeight.w500,
-      height: 1.37,
-      fontSize: 14.sp,
+      fontFamily: GoogleFonts.lexend().fontFamily,
+      color: AppColors.darkBlue,
+      fontWeight: FontWeight.w600,
+      height: 1.22,
+      fontSize: 14,
     ),
     labelLarge: const TextStyle(
       fontSize: 14,
@@ -49,6 +50,11 @@ final lightTheme = ThemeData(
       fontSize: 16.sp,
       height: 1.4,
       color: Colors.white,
+    ),
+    labelSmall: const TextStyle(
+      fontSize: 11,
+      height: 1.18,
+      color: AppColors.greyShade,
     ),
     bodyLarge: const TextStyle(
       color: AppColors.darkBlue,
@@ -202,7 +208,7 @@ final lightTheme = ThemeData(
     showUnselectedLabels: true,
     type: BottomNavigationBarType.fixed,
   ),
-  colorScheme: ColorScheme(
+  colorScheme: const ColorScheme(
     primary: AppColors.mainColor,
     primaryContainer: AppColors.mainColorShade,
     secondary: AppColors.orangeShade,
