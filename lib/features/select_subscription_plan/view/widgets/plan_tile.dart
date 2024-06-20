@@ -1,7 +1,7 @@
 import 'package:bunny_sync/features/select_subscription_plan/models/plan_model.dart';
 import 'package:bunny_sync/global/extensions/string_x.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
-import 'package:bunny_sync/global/widgets/animated_switchers/animated_switchers.dart';
+import 'package:bunny_sync/global/widgets/animation/animated_switchers/animated_switchers.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
