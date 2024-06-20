@@ -12,8 +12,9 @@ abstract class AppConstants {
   static final borderRadius5 = BorderRadius.circular(5);
   static final borderRadius8 = BorderRadius.circular(8);
   static final borderRadius10 = BorderRadius.circular(10);
-  static final borderRadius12 = BorderRadius.circular(12);
+  static const borderRadius12 = BorderRadius.all(Radius.circular(12));
   static final borderRadius15 = BorderRadius.circular(15);
+  static const borderRadius16 = BorderRadius.all(Radius.circular(16));
   static const borderRadius18 = BorderRadius.all(Radius.circular(18));
   static final borderRadius20 = BorderRadius.circular(20);
   static final circularBorderRadius = BorderRadius.circular(100);

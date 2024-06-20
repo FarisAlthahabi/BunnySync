@@ -22,7 +22,7 @@ abstract class AppColors {
   static const greenShade = Color(0xFF00B63B);
   static const greenShade2 = Color(0xFFe0f2dc);
   static const greenShade3 = Color(0xFF66BD50);
-  static final shadow = Colors.black.withOpacity(0.1);
+  static const shadow = Colors.black;
   static const glowEffectLight = greyShade2;
   static const glowEffectDark = greyShade2;
   static const lightBlue = Color(0xFF379AE6);
