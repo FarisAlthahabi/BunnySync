@@ -9,8 +9,8 @@ import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
-import 'package:bunny_sync/global/widgets/main_app_bar.dart';
 import 'package:bunny_sync/global/widgets/buttons/main_action_button.dart';
+import 'package:bunny_sync/global/widgets/main_app_bar.dart';
 import 'package:flutter/material.dart';
 
 abstract class SelectSubscriptionPlanViewCallBacks {
@@ -91,7 +91,7 @@ class _SelectSubscriptionPlanPageState extends State<SelectSubscriptionPlanPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BunnyAppBar(
+      appBar: MainAppBar(
         title: Text(
           'pricing_plan'.i18n,
         ),
