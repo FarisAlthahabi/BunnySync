@@ -184,6 +184,16 @@ final lightTheme = ThemeData(
       borderRadius: BorderRadius.circular(AppConstants.value8),
     ),
   ),
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+    backgroundColor: Colors.white,
+    selectedItemColor: AppColors.mainColor,
+    unselectedItemColor: AppColors.greyShade7,
+    selectedIconTheme: IconThemeData(color: AppColors.mainColor),
+    unselectedIconTheme: IconThemeData(color: AppColors.greyShade7),
+    showSelectedLabels: true,
+    showUnselectedLabels: true,
+    type: BottomNavigationBarType.fixed,
+  ),
   colorScheme: ColorScheme(
     primary: AppColors.mainColor,
     primaryContainer: AppColors.mainColorShade,

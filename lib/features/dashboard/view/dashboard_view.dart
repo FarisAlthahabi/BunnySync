@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:bunny_sync/global/di/di.dart';
+import 'package:bunny_sync/global/extensions/string_x.dart';
 import 'package:bunny_sync/global/gen/assets.gen.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/repos/repos.dart';
@@ -60,6 +61,13 @@ class _DashboardPageState extends State<DashboardPage>
     tabsRouter.setActiveIndex(currentIndex);
   }
 
+  Widget getBottomBarIcon(String path, {required bool isSelected}) {
+    return path.svg(
+      color:
+          isSelected ? context.cs.primary : context.cs.surfaceContainerHighest,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DashboardCubit, GeneralDashboardState>(
@@ -83,26 +91,32 @@ class _DashboardPageState extends State<DashboardPage>
                 borderRadius: AppConstants.topCornersBorderRadius,
                 child: BottomNavigationBar(
                   type: BottomNavigationBarType.fixed,
+                  currentIndex: currentIndex,
                   showSelectedLabels: true,
                   showUnselectedLabels: true,
-                  selectedItemColor: context.cs.primary,
                   onTap: (index) {
                     onBottomTab(currentIndex, index, tabsRouter);
                   },
-                  selectedLabelStyle: const TextStyle(color: Colors.white),
-                  unselectedItemColor: context.cs.surfaceContainerHighest,
-                  unselectedLabelStyle: const TextStyle(color: Colors.white),
                   items: [
                     BottomNavigationBarItem(
-                      icon: Assets.icons.charts.svg(),
+                      icon: getBottomBarIcon(
+                        Assets.icons.charts.path,
+                        isSelected: currentIndex == 0,
+                      ),
                       label: 'dashboard'.i18n,
                     ),
                     BottomNavigationBarItem(
-                      icon: Assets.icons.genders.svg(),
+                      icon: getBottomBarIcon(
+                        Assets.icons.genders.path,
+                        isSelected: currentIndex == 1,
+                      ),
                       label: 'breeders'.i18n,
                     ),
                     BottomNavigationBarItem(
-                      icon: Assets.icons.squares.svg(),
+                      icon: getBottomBarIcon(
+                        Assets.icons.squares.path,
+                        isSelected: currentIndex == 2,
+                      ),
                       label: 'litters'.i18n,
                     ),
                   ],
