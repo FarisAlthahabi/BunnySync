@@ -151,7 +151,7 @@ final lightTheme = ThemeData(
         fontFamily: GoogleFonts.manrope().fontFamily,
         fontSize: 16,
       ),
-      shape: RoundedRectangleBorder(borderRadius: AppConstants.borderRadius12),
+      shape: const RoundedRectangleBorder(borderRadius: AppConstants.borderRadius12),
     ),
   ),
   textButtonTheme: TextButtonThemeData(
@@ -169,7 +169,7 @@ final lightTheme = ThemeData(
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: AppConstants.borderRadius12,
       ),
       backgroundColor: Colors.white,
