@@ -21,6 +21,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const AuthenticationView(),
       );
     },
+    BreedersRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const BreedersView(),
+      );
+    },
     DashboardRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -37,6 +43,12 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const IntroView(),
+      );
+    },
+    LittersRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const LittersView(),
       );
     },
     MainNavigationRoute.name: (routeData) {
@@ -86,6 +98,20 @@ class AuthenticationRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [BreedersView]
+class BreedersRoute extends PageRouteInfo<void> {
+  const BreedersRoute({List<PageRouteInfo>? children})
+      : super(
+          BreedersRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'BreedersRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [DashboardView]
 class DashboardRoute extends PageRouteInfo<void> {
   const DashboardRoute({List<PageRouteInfo>? children})
@@ -123,6 +149,20 @@ class IntroRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'IntroRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [LittersView]
+class LittersRoute extends PageRouteInfo<void> {
+  const LittersRoute({List<PageRouteInfo>? children})
+      : super(
+          LittersRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'LittersRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

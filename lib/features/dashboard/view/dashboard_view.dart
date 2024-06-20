@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/repos/repos.dart';
+import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -63,7 +64,9 @@ class _DashboardPageState extends State<DashboardPage>
       builder: (context, state) {
         return AutoTabsScaffold(
           routes: const [
-
+            HomeRoute(),
+            BreedersRoute(),
+            LittersRoute(),
           ],
           extendBody: true,
           resizeToAvoidBottomInset: true,

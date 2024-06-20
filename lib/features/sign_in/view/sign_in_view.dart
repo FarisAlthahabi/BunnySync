@@ -7,6 +7,7 @@ import 'package:bunny_sync/features/sign_in/view/widgets/social_login_option_wid
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/gen/assets.gen.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
+import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme_x.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/app_snack_bar.dart';
@@ -158,11 +159,7 @@ class _SignInPageState extends State<SignInPage> implements SignInViewCallback {
 
   @override
   void onMainAction() {
-    if (showSignInOrUp) {
-      signInCubit.signIn(onSuccess: widget.onSignedIn);
-    } else {
-      signInCubit.signUp(onSuccess: widget.onSignedIn);
-    }
+    context.router.push(const DashboardRoute());
   }
 
   @override
