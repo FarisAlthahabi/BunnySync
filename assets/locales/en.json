@@ -35,5 +35,18 @@
   "i_agree_with_terms": "I agree with Terms & Conditions",
   "dashboard": "Dashboard",
   "breeders": "Breeders",
-  "litters": "Litters"
+  "litters": "Litters",
+  "active_breeders": "Active Breeders",
+  "total": "Total",
+  "does": "Does",
+  "bucks": "Bucks",
+  "active_litters": "Active Litters",
+  "kits_born": "Kits Born",
+  "sold": "Sold",
+  "butchered": "Butchered",
+  "died": "Died",
+  "income": "Income",
+  "monthly_finances": "Monthly Finances",
+  "expenses": "Expenses",
+  "kits": "Kits"
 }
