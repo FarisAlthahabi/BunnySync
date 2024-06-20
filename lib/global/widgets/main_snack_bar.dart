@@ -2,7 +2,7 @@ import 'package:bunny_sync/global/theme/theme_x.dart';
 import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
 
-abstract class AppSnackBar {
+abstract class MainSnackBar {
   static Future<T?> showInfoBar<T>({
     required BuildContext context,
     required Widget content,

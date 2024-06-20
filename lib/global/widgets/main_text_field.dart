@@ -1,8 +1,8 @@
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:flutter/material.dart';
 
-class BunnyTextField extends StatefulWidget {
-  const BunnyTextField({
+class AppTextField extends StatefulWidget {
+  const AppTextField({
     super.key,
     required this.hintText,
     this.isPassword = false,
@@ -24,10 +24,10 @@ class BunnyTextField extends StatefulWidget {
   final Widget? suffixIcon;
 
   @override
-  State<BunnyTextField> createState() => _BunnyTextFieldState();
+  State<AppTextField> createState() => _AppTextFieldState();
 }
 
-class _BunnyTextFieldState extends State<BunnyTextField> {
+class _AppTextFieldState extends State<AppTextField> {
   late bool isObscure = widget.isPassword;
 
   @override

@@ -10,9 +10,9 @@ import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme_x.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
-import 'package:bunny_sync/global/widgets/app_snack_bar.dart';
+import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:bunny_sync/global/widgets/bunny_logo.dart';
-import 'package:bunny_sync/global/widgets/bunny_text_field.dart';
+import 'package:bunny_sync/global/widgets/main_text_field.dart';
 import 'package:bunny_sync/global/widgets/buttons/main_action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -176,7 +176,7 @@ class _SignInPageState extends State<SignInPage> implements SignInViewCallback {
 
   @override
   void onSignInError(String message) {
-    AppSnackBar.showErrorBar(
+    MainSnackBar.showErrorBar(
       context: context,
       content: Text(message),
     );
@@ -240,7 +240,7 @@ class _SignInPageState extends State<SignInPage> implements SignInViewCallback {
                     show: !showSignInOrUp,
                     child: Column(
                       children: [
-                        BunnyTextField(
+                        AppTextField(
                           onChanged: onFullNameChanged,
                           onSubmitted: onFullNameSubmitted,
                           prefixIcon: Assets.icons.profile.svg(),
@@ -250,7 +250,7 @@ class _SignInPageState extends State<SignInPage> implements SignInViewCallback {
                       ],
                     ),
                   ),
-                  BunnyTextField(
+                  AppTextField(
                     onChanged: onEmailChanged,
                     onSubmitted: onEmailSubmitted,
                     focusNode: emailFocusNode,
@@ -258,7 +258,7 @@ class _SignInPageState extends State<SignInPage> implements SignInViewCallback {
                     hintText: 'enter_email'.i18n,
                   ),
                   const SizedBox(height: 25),
-                  BunnyTextField(
+                  AppTextField(
                     onChanged: onPasswordChanged,
                     onSubmitted: onPasswordSubmitted,
                     focusNode: passwordFocusNode,
