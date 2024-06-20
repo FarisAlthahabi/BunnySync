@@ -190,6 +190,14 @@ final lightTheme = ThemeData(
     unselectedItemColor: AppColors.greyShade7,
     selectedIconTheme: IconThemeData(color: AppColors.mainColor),
     unselectedIconTheme: IconThemeData(color: AppColors.greyShade7),
+    selectedLabelStyle: TextStyle(
+      fontSize: 12,
+      fontWeight: FontWeight.w700,
+    ),
+    unselectedLabelStyle: TextStyle(
+      fontSize: 12,
+      fontWeight: FontWeight.w700,
+    ),
     showSelectedLabels: true,
     showUnselectedLabels: true,
     type: BottomNavigationBarType.fixed,

@@ -90,10 +90,7 @@ class _DashboardPageState extends State<DashboardPage>
               child: ClipRRect(
                 borderRadius: AppConstants.topCornersBorderRadius,
                 child: BottomNavigationBar(
-                  type: BottomNavigationBarType.fixed,
                   currentIndex: currentIndex,
-                  showSelectedLabels: true,
-                  showUnselectedLabels: true,
                   onTap: (index) {
                     onBottomTab(currentIndex, index, tabsRouter);
                   },
