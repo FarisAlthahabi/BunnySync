@@ -1,34 +1,47 @@
+import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:flutter/material.dart';
 
-class BunnyAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const BunnyAppBar({
+class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const MainAppBar({
     super.key,
+    this.toolbarHeight = kToolbarHeight,
     this.automaticallyImplyLeading = true,
+    this.leadingWith = 56,
     this.leading,
     this.title,
     this.centerTitle,
-    this.actions, this.onTap,
+    this.actions,
+    this.backgroundColor,
   });
 
-  final VoidCallback? onTap;
+  final double toolbarHeight;
   final bool automaticallyImplyLeading;
+  final double leadingWith;
   final Widget? leading;
   final Widget? title;
   final bool? centerTitle;
   final List<Widget>? actions;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      toolbarHeight: kToolbarHeight,
+      elevation: 2,
+      scrolledUnderElevation: 4,
+      shadowColor: context.cs.shadow,
       title: title,
       automaticallyImplyLeading: automaticallyImplyLeading,
       leading: leading,
+      leadingWidth: leadingWith,
       centerTitle: centerTitle,
-      actions: actions,
+      backgroundColor: backgroundColor,
+      actions: [
+        ...?actions,
+        const SizedBox(width: 16),
+      ],
     );
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => Size.fromHeight(toolbarHeight);
 }

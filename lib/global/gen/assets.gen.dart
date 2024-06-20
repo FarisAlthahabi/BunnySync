@@ -18,6 +18,12 @@ class $AssetsIconsGen {
   /// File path: assets/icons/apple.svg
   SvgGenImage get apple => const SvgGenImage('assets/icons/apple.svg');
 
+  /// File path: assets/icons/apps.svg
+  SvgGenImage get apps => const SvgGenImage('assets/icons/apps.svg');
+
+  /// File path: assets/icons/cake.svg
+  SvgGenImage get cake => const SvgGenImage('assets/icons/cake.svg');
+
   /// File path: assets/icons/charts.svg
   SvgGenImage get charts => const SvgGenImage('assets/icons/charts.svg');
 
@@ -35,6 +41,10 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/genders.svg
   SvgGenImage get genders => const SvgGenImage('assets/icons/genders.svg');
+
+  /// File path: assets/icons/genders_thin.svg
+  SvgGenImage get gendersThin =>
+      const SvgGenImage('assets/icons/genders_thin.svg');
 
   /// File path: assets/icons/google.svg
   SvgGenImage get google => const SvgGenImage('assets/icons/google.svg');
@@ -60,6 +70,10 @@ class $AssetsIconsGen {
   /// File path: assets/icons/profile.svg
   SvgGenImage get profile => const SvgGenImage('assets/icons/profile.svg');
 
+  /// File path: assets/icons/round_dollar.svg
+  SvgGenImage get roundDollar =>
+      const SvgGenImage('assets/icons/round_dollar.svg');
+
   /// File path: assets/icons/sewing.svg
   SvgGenImage get sewing => const SvgGenImage('assets/icons/sewing.svg');
 
@@ -69,12 +83,15 @@ class $AssetsIconsGen {
   /// List of all assets
   List<dynamic> get values => [
         apple,
+        apps,
+        cake,
         charts,
         eye,
         facebook,
         folder,
         fur,
         genders,
+        gendersThin,
         google,
         intro,
         lock,
@@ -83,6 +100,7 @@ class $AssetsIconsGen {
         meeting,
         petHome,
         profile,
+        roundDollar,
         sewing,
         squares
       ];
