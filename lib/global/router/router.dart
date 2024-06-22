@@ -44,7 +44,7 @@ class AppRouter extends _$AppRouter {
                 AutoRoute(
                   page: SignInRoute.page,
                 ),
-                AdaptiveRoute(
+                AutoRoute(
                   initial: true,
                   page: DashboardRoute.page,
                   children: [
