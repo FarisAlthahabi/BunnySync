@@ -11,6 +11,7 @@ class AppImageWidget extends StatelessWidget {
     this.fit,
     this.width,
     this.height,
+    this.border,
     this.imageBuilder,
   });
 
@@ -19,22 +20,29 @@ class AppImageWidget extends StatelessWidget {
   final BoxFit? fit;
   final double? width;
   final double? height;
+  final Border? border;
   final ImageWidgetBuilder? imageBuilder;
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: borderRadius,
-      child: SizedBox(
-        width: width,
-        height: height,
-        child: CachedNetworkImage(
-          errorListener: (_) {},
-          imageUrl: url,
-          fit: fit,
-          imageBuilder: imageBuilder,
-          placeholder: (_, __) => const ThemedPlaceholderWidget(),
-          errorWidget: (_, __, ___) => const ImageErrorCoveredWidget(),
+    return Container(
+      decoration: BoxDecoration(
+        border: border,
+        borderRadius: borderRadius,
+      ),
+      child: ClipRRect(
+        borderRadius: borderRadius,
+        child: SizedBox(
+          width: width,
+          height: height,
+          child: CachedNetworkImage(
+            errorListener: (_) {},
+            imageUrl: url,
+            fit: fit,
+            imageBuilder: imageBuilder,
+            placeholder: (_, __) => const ThemedPlaceholderWidget(),
+            errorWidget: (_, __, ___) => const ImageErrorCoveredWidget(),
+          ),
         ),
       ),
     );
