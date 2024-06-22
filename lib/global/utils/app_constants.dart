@@ -10,7 +10,7 @@ abstract class AppConstants {
   static const storage = 'storage';
 
   static final borderRadius5 = BorderRadius.circular(5);
-  static final borderRadius8 = BorderRadius.circular(8);
+  static const borderRadius8 = BorderRadius.all(Radius.circular(8));
   static final borderRadius10 = BorderRadius.circular(10);
   static const borderRadius12 = BorderRadius.all(Radius.circular(12));
   static final borderRadius15 = BorderRadius.circular(15);
@@ -42,9 +42,19 @@ abstract class AppConstants {
 
   static const searchHeroTag = 'searchHeroTag';
 
+  static const padding4 = EdgeInsets.all(4);
+
+  static const padding10 = EdgeInsets.all(10);
+
+  static const padding12 = EdgeInsets.all(12);
+
   static const padding16 = EdgeInsets.all(16);
 
-  static const paddingHorizontal16 = EdgeInsets.symmetric(horizontal: 16);
+  static const padding20 = EdgeInsets.all(20);
+
+  static const paddingT16 = EdgeInsets.only(top: 16);
+
+  static const paddingH16 = EdgeInsets.symmetric(horizontal: 16);
 
   static const paddingH16V10 = EdgeInsets.symmetric(
     horizontal: 16,
@@ -56,11 +66,21 @@ abstract class AppConstants {
     vertical: 20,
   );
 
-  static const paddingHorizontal28 = EdgeInsets.symmetric(horizontal: 28);
+  static const paddingH16V28 = EdgeInsets.symmetric(
+    horizontal: 16,
+    vertical: 28,
+  );
 
-  static const paddingWithoutTop16 = EdgeInsets.only(
+  static const paddingH28 = EdgeInsets.symmetric(horizontal: 28);
+
+  static const paddingLRB16 = EdgeInsets.only(
     left: 16,
     right: 16,
+    bottom: 16,
+  );
+
+  static const paddingSB16 = EdgeInsetsDirectional.only(
+    start: 16,
     bottom: 16,
   );
 
