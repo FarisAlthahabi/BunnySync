@@ -23,6 +23,12 @@ final lightTheme = ThemeData(
       height: 1.36,
       fontSize: 24,
     ),
+    headlineSmall: TextStyle(
+      fontFamily: GoogleFonts.lexend().fontFamily,
+      color: AppColors.darkBlue,
+      height: 1.34,
+      fontSize: 22,
+    ),
     titleLarge: const TextStyle(
       color: AppColors.darkBlue,
       height: 1.26,
@@ -66,10 +72,10 @@ final lightTheme = ThemeData(
       height: 1.22,
       fontSize: 14,
     ),
-    bodySmall: TextStyle(
-      color: AppColors.greyShade4,
-      height: 1.48,
-      fontSize: 12.sp,
+    bodySmall: const TextStyle(
+      color: Colors.white,
+      height: 1.12,
+      fontSize: 12,
     ),
   ),
   checkboxTheme: CheckboxThemeData(
@@ -90,6 +96,11 @@ final lightTheme = ThemeData(
     ),
   ),
   scaffoldBackgroundColor: Colors.white,
+  dividerTheme: const DividerThemeData(
+    color: AppColors.mainColor,
+    thickness: 4,
+    space: 4,
+  ),
   appBarTheme: AppBarTheme(
     systemOverlayStyle: const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -103,20 +114,28 @@ final lightTheme = ThemeData(
       fontWeight: FontWeight.w700,
     ),
   ),
-  tabBarTheme: TabBarTheme(
+  tabBarTheme: const TabBarTheme(
     labelColor: AppColors.mainColor,
     indicatorColor: AppColors.mainColor,
-    indicatorSize: TabBarIndicatorSize.label,
-    unselectedLabelColor: AppColors.greyShade4,
+    dividerHeight: 0,
+    indicator: UnderlineTabIndicator(
+      borderSide: BorderSide(
+        width: 4,
+        color: AppColors.mainColor,
+      ),
+    ),
+    indicatorSize: TabBarIndicatorSize.tab,
+    unselectedLabelColor: AppColors.darkGrey,
     labelStyle: TextStyle(
-      fontFamily: GoogleFonts.manrope().fontFamily,
-      fontSize: 14.sp,
-      height: 1.4,
+      fontSize: 14,
+      height: 1.22,
+      fontWeight: FontWeight.w700,
+      color: AppColors.mainColor,
     ),
     unselectedLabelStyle: TextStyle(
-      fontFamily: GoogleFonts.manrope().fontFamily,
-      fontSize: 14.sp,
+      fontSize: 14,
       height: 1.4,
+      color: AppColors.darkGrey,
     ),
   ),
   inputDecorationTheme: _inputDecorationTheme,

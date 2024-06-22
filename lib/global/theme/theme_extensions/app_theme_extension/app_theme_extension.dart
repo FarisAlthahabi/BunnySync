@@ -10,4 +10,19 @@ class _$AppThemeExtension {
     AppColors.googleRed,
     AppColors.googleRed,
   ];
+
+  static List<Color> indicatorInfoColor = [
+    AppColors.red,
+    AppColors.red,
+  ];
+
+  static List<Color> maleColor = [
+    AppColors.maleColor,
+    AppColors.maleColor,
+  ];
+
+  static List<Color> femaleColor = [
+    AppColors.femaleColor,
+    AppColors.femaleColor,
+  ];
 }

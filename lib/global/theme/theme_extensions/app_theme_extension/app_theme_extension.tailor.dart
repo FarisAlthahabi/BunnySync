@@ -10,17 +10,29 @@ part of 'app_theme_extension.dart';
 
 class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
   const AppThemeExtension({
+    required this.femaleColor,
     required this.googleColor,
+    required this.indicatorInfoColor,
+    required this.maleColor,
   });
 
+  final Color femaleColor;
   final Color googleColor;
+  final Color indicatorInfoColor;
+  final Color maleColor;
 
   static final AppThemeExtension light = AppThemeExtension(
+    femaleColor: _$AppThemeExtension.femaleColor[0],
     googleColor: _$AppThemeExtension.googleColor[0],
+    indicatorInfoColor: _$AppThemeExtension.indicatorInfoColor[0],
+    maleColor: _$AppThemeExtension.maleColor[0],
   );
 
   static final AppThemeExtension dark = AppThemeExtension(
+    femaleColor: _$AppThemeExtension.femaleColor[1],
     googleColor: _$AppThemeExtension.googleColor[1],
+    indicatorInfoColor: _$AppThemeExtension.indicatorInfoColor[1],
+    maleColor: _$AppThemeExtension.maleColor[1],
   );
 
   static final themes = [
@@ -30,10 +42,16 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
 
   @override
   AppThemeExtension copyWith({
+    Color? femaleColor,
     Color? googleColor,
+    Color? indicatorInfoColor,
+    Color? maleColor,
   }) {
     return AppThemeExtension(
+      femaleColor: femaleColor ?? this.femaleColor,
       googleColor: googleColor ?? this.googleColor,
+      indicatorInfoColor: indicatorInfoColor ?? this.indicatorInfoColor,
+      maleColor: maleColor ?? this.maleColor,
     );
   }
 
@@ -42,7 +60,11 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
       covariant ThemeExtension<AppThemeExtension>? other, double t) {
     if (other is! AppThemeExtension) return this as AppThemeExtension;
     return AppThemeExtension(
+      femaleColor: Color.lerp(femaleColor, other.femaleColor, t)!,
       googleColor: Color.lerp(googleColor, other.googleColor, t)!,
+      indicatorInfoColor:
+          Color.lerp(indicatorInfoColor, other.indicatorInfoColor, t)!,
+      maleColor: Color.lerp(maleColor, other.maleColor, t)!,
     );
   }
 
@@ -52,14 +74,22 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
         (other.runtimeType == runtimeType &&
             other is AppThemeExtension &&
             const DeepCollectionEquality()
-                .equals(googleColor, other.googleColor));
+                .equals(femaleColor, other.femaleColor) &&
+            const DeepCollectionEquality()
+                .equals(googleColor, other.googleColor) &&
+            const DeepCollectionEquality()
+                .equals(indicatorInfoColor, other.indicatorInfoColor) &&
+            const DeepCollectionEquality().equals(maleColor, other.maleColor));
   }
 
   @override
   int get hashCode {
     return Object.hash(
       runtimeType.hashCode,
+      const DeepCollectionEquality().hash(femaleColor),
       const DeepCollectionEquality().hash(googleColor),
+      const DeepCollectionEquality().hash(indicatorInfoColor),
+      const DeepCollectionEquality().hash(maleColor),
     );
   }
 }
@@ -67,5 +97,8 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
 extension AppThemeExtensionBuildContextProps on BuildContext {
   AppThemeExtension get appThemeExtension =>
       Theme.of(this).extension<AppThemeExtension>()!;
+  Color get femaleColor => appThemeExtension.femaleColor;
   Color get googleColor => appThemeExtension.googleColor;
+  Color get indicatorInfoColor => appThemeExtension.indicatorInfoColor;
+  Color get maleColor => appThemeExtension.maleColor;
 }

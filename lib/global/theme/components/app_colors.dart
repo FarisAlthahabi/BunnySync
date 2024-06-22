@@ -30,4 +30,8 @@ abstract class AppColors {
   static const googleRed = Color(0xFFDB4437);
   static const lightPurple = Color(0xFFF5F1FE);
   static const lightGrey = Color(0xFFF3F4F6);
+  static const darkGrey = Color(0xFF424856);
+  static const red = Color(0xFFDE3B40);
+  static const maleColor = Color(0xFF15ABFF);
+  static const femaleColor = Color(0xFFFF56A5);
 }
