@@ -74,6 +74,9 @@ class $AssetsIconsGen {
   SvgGenImage get roundDollar =>
       const SvgGenImage('assets/icons/round_dollar.svg');
 
+  /// File path: assets/icons/search.svg
+  SvgGenImage get search => const SvgGenImage('assets/icons/search.svg');
+
   /// File path: assets/icons/sewing.svg
   SvgGenImage get sewing => const SvgGenImage('assets/icons/sewing.svg');
 
@@ -101,6 +104,7 @@ class $AssetsIconsGen {
         petHome,
         profile,
         roundDollar,
+        search,
         sewing,
         squares
       ];
