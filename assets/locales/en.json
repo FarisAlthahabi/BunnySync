@@ -54,5 +54,9 @@
   "inactive": "Inactive",
   "all": "All",
   "id": "ID",
-  "prefix": "Prefix"
+  "prefix": "Prefix",
+  "profile": "Profile",
+  "pedigree" : "Pedigree",
+  "notes" : "Notes",
+  "tasks" : "Tasks"
 }
