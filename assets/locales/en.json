@@ -48,5 +48,11 @@
   "income": "Income",
   "monthly_finances": "Monthly Finances",
   "expenses": "Expenses",
-  "kits": "Kits"
+  "kits": "Kits",
+  "search": "Search",
+  "active": "Active",
+  "inactive": "Inactive",
+  "all": "All",
+  "id": "ID",
+  "prefix": "Prefix"
 }
