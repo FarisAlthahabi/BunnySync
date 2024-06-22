@@ -198,7 +198,7 @@ class _SignInPageState extends State<SignInPage> implements SignInViewCallback {
         ),
         child: SafeArea(
           child: SingleChildScrollView(
-            padding: AppConstants.paddingHorizontal28,
+            padding: AppConstants.paddingH28,
             child: SizedBox(
               height: 1.sh,
               child: Column(
@@ -240,7 +240,7 @@ class _SignInPageState extends State<SignInPage> implements SignInViewCallback {
                     show: !showSignInOrUp,
                     child: Column(
                       children: [
-                        AppTextField(
+                        MainTextField(
                           onChanged: onFullNameChanged,
                           onSubmitted: onFullNameSubmitted,
                           prefixIcon: Assets.icons.profile.svg(),
@@ -250,7 +250,7 @@ class _SignInPageState extends State<SignInPage> implements SignInViewCallback {
                       ],
                     ),
                   ),
-                  AppTextField(
+                  MainTextField(
                     onChanged: onEmailChanged,
                     onSubmitted: onEmailSubmitted,
                     focusNode: emailFocusNode,
@@ -258,7 +258,7 @@ class _SignInPageState extends State<SignInPage> implements SignInViewCallback {
                     hintText: 'enter_email'.i18n,
                   ),
                   const SizedBox(height: 25),
-                  AppTextField(
+                  MainTextField(
                     onChanged: onPasswordChanged,
                     onSubmitted: onPasswordSubmitted,
                     focusNode: passwordFocusNode,
@@ -299,7 +299,7 @@ class _SignInPageState extends State<SignInPage> implements SignInViewCallback {
                         ),
                       ),
                       Padding(
-                        padding: AppConstants.paddingHorizontal16,
+                        padding: AppConstants.paddingH16,
                         child: Text('or'.i18n),
                       ),
                       Expanded(

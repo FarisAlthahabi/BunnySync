@@ -79,8 +79,8 @@ class _SelectSubscriptionPlanPageState extends State<SelectSubscriptionPlanPage>
         FeatureModel('Duis cupidatat velitr', isSelected: true),
         FeatureModel('Officia aliqua sunt ', isSelected: true),
         FeatureModel('Enim aliquip labore dolo', isSelected: true),
-        FeatureModel('Incididunt ex voluptate', isSelected: false),
-        FeatureModel('Reprehenderit aliquip occaeca', isSelected: false),
+        FeatureModel('Incididunt ex voluptate', isSelected: true),
+        FeatureModel('Reprehenderit aliquip occaeca', isSelected: true),
       ],
     ),
   ];

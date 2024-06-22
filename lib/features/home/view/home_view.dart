@@ -4,7 +4,7 @@ import 'package:bunny_sync/global/extensions/date_time_x.dart';
 import 'package:bunny_sync/global/gen/assets.gen.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
-import 'package:bunny_sync/global/widgets/animation/indexed_vertical_slide_fade_animated_tile.dart';
+import 'package:bunny_sync/global/widgets/animation/indexed_grid_scale_fade_animated_tile.dart';
 import 'package:bunny_sync/global/widgets/bunny_logo.dart';
 import 'package:bunny_sync/global/widgets/images/app_image_widget.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';

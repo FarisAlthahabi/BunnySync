@@ -27,7 +27,7 @@ class SelectGoalScreen extends StatelessWidget
     ];
 
     return Padding(
-      padding: AppConstants.paddingHorizontal16,
+      padding: AppConstants.paddingH16,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

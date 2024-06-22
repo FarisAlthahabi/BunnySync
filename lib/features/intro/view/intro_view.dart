@@ -107,7 +107,7 @@ class _IntroPageState extends State<IntroPage> implements IntroViewCallBacks {
             ),
             const SizedBox(height: 30),
             Padding(
-              padding: AppConstants.paddingHorizontal16,
+              padding: AppConstants.paddingH16,
               child: Column(
                 children: [
                   SizedBox(

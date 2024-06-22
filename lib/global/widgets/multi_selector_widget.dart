@@ -3,10 +3,8 @@ import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 abstract class MultiSelectorItemModel {
-  MultiSelectorItemModel({required this.title, required this.icon});
-
-  final String title;
-  final String icon;
+  String get title;
+  String get icon;
 }
 
 class MultiSelectorWidget<T extends MultiSelectorItemModel>
