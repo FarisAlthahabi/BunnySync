@@ -1,4 +1,5 @@
-import 'package:flutter/painting.dart';
+import 'package:bunny_sync/global/theme/theme.dart';
+import 'package:flutter/cupertino.dart';
 
 abstract class AppShadows {
   static List<BoxShadow> createShadowsForColor(
@@ -279,6 +280,20 @@ abstract class AppShadows {
         // ignore: avoid_redundant_argument_values
         spreadRadius: 0.0,
         color: color3,
+      ),
+    ];
+  }
+
+  static List<BoxShadow> getTileShadow(BuildContext context) {
+    return [
+      BoxShadow(
+        blurRadius: 2.0,
+        color: context.cs.shadow.withOpacity(0.12),
+      ),
+      BoxShadow(
+        offset: const Offset(0.0, 8.0),
+        blurRadius: 17.0,
+        color: context.cs.shadow.withOpacity(0.15),
       ),
     ];
   }
