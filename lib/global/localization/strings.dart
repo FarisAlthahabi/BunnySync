@@ -1,6 +1,4 @@
 abstract class Strings {
-  static const appName = 'Bunny Sync';
-  static const slogan = 'Slogan here';
   static const wentWrong = 'Something went wrong, please try again.';
   static const wentWrongSwipe =
       'Something went wrong, please try again by swiping down.';

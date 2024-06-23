@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/global/gen/assets.gen.dart';
-import 'package:bunny_sync/global/localization/strings.dart';
+import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/mixins/mixins.dart';
 import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme_x.dart';
@@ -61,7 +61,7 @@ class _SplashPageState extends State<SplashPage> with PostFrameMixin {
             child: Column(
               children: [
                 Text(
-                  Strings.appName,
+                  'app_name'.i18n,
                   style: TextStyle(
                     height: 1.7,
                     color: context.cs.onSurface,
@@ -75,7 +75,7 @@ class _SplashPageState extends State<SplashPage> with PostFrameMixin {
                 ),
                 SizedBox(height: 35.h),
                 Text(
-                  Strings.slogan,
+                  'slogan'.i18n,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     height: 1.7,

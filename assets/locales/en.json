@@ -1,4 +1,6 @@
 {
+  "app_name": "Bunny Sync",
+  "slogan": "Slogan here",
   "log_into_your_account": "Log into your account",
   "full_name": "Full Name",
   "full_name_empty": "Full name can't empty",
