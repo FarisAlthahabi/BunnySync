@@ -21,6 +21,16 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const AuthenticationView(),
       );
     },
+    BreederDetailsRoute.name: (routeData) {
+      final args = routeData.argsAs<BreederDetailsRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: BreederDetailsView(
+          key: args.key,
+          breeder: args.breeder,
+        ),
+      );
+    },
     BreedersRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -95,6 +105,44 @@ class AuthenticationRoute extends PageRouteInfo<void> {
   static const String name = 'AuthenticationRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [BreederDetailsView]
+class BreederDetailsRoute extends PageRouteInfo<BreederDetailsRouteArgs> {
+  BreederDetailsRoute({
+    Key? key,
+    required BreederModel breeder,
+    List<PageRouteInfo>? children,
+  }) : super(
+          BreederDetailsRoute.name,
+          args: BreederDetailsRouteArgs(
+            key: key,
+            breeder: breeder,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'BreederDetailsRoute';
+
+  static const PageInfo<BreederDetailsRouteArgs> page =
+      PageInfo<BreederDetailsRouteArgs>(name);
+}
+
+class BreederDetailsRouteArgs {
+  const BreederDetailsRouteArgs({
+    this.key,
+    required this.breeder,
+  });
+
+  final Key? key;
+
+  final BreederModel breeder;
+
+  @override
+  String toString() {
+    return 'BreederDetailsRouteArgs{key: $key, breeder: $breeder}';
+  }
 }
 
 /// generated route for
