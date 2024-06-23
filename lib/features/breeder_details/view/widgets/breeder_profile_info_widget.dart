@@ -1,5 +1,4 @@
 import 'package:bunny_sync/features/breeders/models/breeder_model.dart';
-import 'package:bunny_sync/global/gen/assets.gen.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/widgets/breeder_image_widget.dart';
