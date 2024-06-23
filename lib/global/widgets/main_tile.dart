@@ -7,21 +7,32 @@ class MainTile extends StatelessWidget {
     super.key,
     this.padding = AppConstants.padding16,
     required this.child,
+    this.onTap,
   });
 
   final EdgeInsetsGeometry padding;
   final Widget child;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: padding,
       decoration: BoxDecoration(
         color: context.cs.surface,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: AppConstants.borderRadius8,
         boxShadow: AppShadows.getTileShadow(context),
       ),
-      child: child,
+      child: Material(
+        type: MaterialType.transparency,
+        child: InkWell(
+          borderRadius: AppConstants.borderRadius8,
+          onTap: onTap,
+          child: Padding(
+            padding: padding,
+            child: child,
+          ),
+        ),
+      ),
     );
   }
 }

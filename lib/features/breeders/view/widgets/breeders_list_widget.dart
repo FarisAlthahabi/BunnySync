@@ -9,9 +9,11 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 class BreedersListWidget extends StatelessWidget {
   const BreedersListWidget({
     super.key,
+    required this.onBreederTap,
     this.padding = AppConstants.padding16,
   });
 
+  final ValueSetter<BreederModel> onBreederTap;
   final EdgeInsetsGeometry padding;
 
   @override
@@ -24,6 +26,7 @@ class BreedersListWidget extends StatelessWidget {
             'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Oryctolagus_cuniculus_Tasmania_2_%28cropped%29.jpg/440px-Oryctolagus_cuniculus_Tasmania_2_%28cropped%29.jpg',
         id: '3343',
         prefix: 'qws',
+        buckOrDoe: true,
         properties: [
           RabbitPropertyModel(
             title: 'Litters',
@@ -49,6 +52,7 @@ class BreedersListWidget extends StatelessWidget {
             'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Oryctolagus_cuniculus_Tasmania_2_%28cropped%29.jpg/440px-Oryctolagus_cuniculus_Tasmania_2_%28cropped%29.jpg',
         id: '3343',
         prefix: 'qws',
+        buckOrDoe: false,
         properties: [
           RabbitPropertyModel(
             title: 'Litters',
@@ -79,7 +83,10 @@ class BreedersListWidget extends StatelessWidget {
         itemBuilder: (context, index) {
           return IndexedListSlideFadeAnimatedTile(
             index: index,
-            child: BreederTile(breeder: breeders[index]),
+            child: BreederTile(
+              breeder: breeders[index],
+              onTap: onBreederTap,
+            ),
           );
         },
         separatorBuilder: (context, index) => const SizedBox(height: 16),

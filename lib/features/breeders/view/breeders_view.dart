@@ -1,10 +1,16 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:bunny_sync/features/breeders/models/breeder_model.dart';
 import 'package:bunny_sync/features/breeders/view/widgets/breeders_list_widget.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
+import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/custom_app_bar.dart';
 import 'package:bunny_sync/global/widgets/keep_alive_widget.dart';
 import 'package:flutter/material.dart';
+
+abstract class BreedersViewCallbacks {
+  void onBreederTap(BreederModel breeder);
+}
 
 @RoutePage()
 class BreedersView extends StatelessWidget {
@@ -23,7 +29,15 @@ class BreedersPage extends StatefulWidget {
   State<BreedersPage> createState() => _BreedersPageState();
 }
 
-class _BreedersPageState extends State<BreedersPage> {
+class _BreedersPageState extends State<BreedersPage>
+    implements BreedersViewCallbacks {
+  @override
+  void onBreederTap(BreederModel breeder) {
+    context.router.push(
+      BreederDetailsRoute(breeder: breeder),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -50,22 +64,25 @@ class _BreedersPageState extends State<BreedersPage> {
                   ),
                 ],
               ),
-              const SliverFillRemaining(
+              SliverFillRemaining(
                 child: TabBarView(
                   children: [
                     KeepAliveWidget(
                       child: BreedersListWidget(
                         padding: AppConstants.paddingH16V28,
+                        onBreederTap: onBreederTap,
                       ),
                     ),
                     KeepAliveWidget(
                       child: BreedersListWidget(
                         padding: AppConstants.paddingH16V28,
+                        onBreederTap: onBreederTap,
                       ),
                     ),
                     KeepAliveWidget(
                       child: BreedersListWidget(
                         padding: AppConstants.paddingH16V28,
+                        onBreederTap: onBreederTap,
                       ),
                     ),
                   ],
