@@ -29,10 +29,11 @@ final lightTheme = ThemeData(
       height: 1.34,
       fontSize: 22,
     ),
-    titleLarge: const TextStyle(
+    titleLarge: TextStyle(
+      fontFamily: GoogleFonts.lexend().fontFamily,
       color: AppColors.darkBlue,
       height: 1.26,
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w700,
       fontSize: 20,
     ),
     titleMedium: const TextStyle(
