@@ -21,11 +21,17 @@ class $AssetsIconsGen {
   /// File path: assets/icons/apps.svg
   SvgGenImage get apps => const SvgGenImage('assets/icons/apps.svg');
 
+  /// File path: assets/icons/buck.svg
+  SvgGenImage get buck => const SvgGenImage('assets/icons/buck.svg');
+
   /// File path: assets/icons/cake.svg
   SvgGenImage get cake => const SvgGenImage('assets/icons/cake.svg');
 
   /// File path: assets/icons/charts.svg
   SvgGenImage get charts => const SvgGenImage('assets/icons/charts.svg');
+
+  /// File path: assets/icons/doe.svg
+  SvgGenImage get doe => const SvgGenImage('assets/icons/doe.svg');
 
   /// File path: assets/icons/eye.svg
   SvgGenImage get eye => const SvgGenImage('assets/icons/eye.svg');
@@ -87,8 +93,10 @@ class $AssetsIconsGen {
   List<dynamic> get values => [
         apple,
         apps,
+        buck,
         cake,
         charts,
+        doe,
         eye,
         facebook,
         folder,
