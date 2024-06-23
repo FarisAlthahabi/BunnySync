@@ -56,7 +56,10 @@
   "id": "ID",
   "prefix": "Prefix",
   "profile": "Profile",
-  "pedigree" : "Pedigree",
-  "notes" : "Notes",
-  "tasks" : "Tasks"
+  "pedigree": "Pedigree",
+  "notes": "Notes",
+  "tasks": "Tasks",
+  "buck": "Buck",
+  "doe": "Doe",
+  "breeder": "Breeder"
 }
