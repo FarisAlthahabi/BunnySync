@@ -1,3 +1,4 @@
+import 'package:bunny_sync/features/breeders/models/breeder_model.dart';
 import 'package:bunny_sync/features/litters/models/litter_model.dart';
 import 'package:bunny_sync/features/litters/view/widgets/litter_tile.dart';
 import 'package:bunny_sync/global/gen/assets.gen.dart';
@@ -23,19 +24,21 @@ class LittersListWidget extends StatelessWidget {
     final litters = [
       LitterModel(
         parents: [
-          ParentModel(
+          BreederModel (
             name: 'Bunny Name',
-            image:
-                'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Oryctolagus_cuniculus_Tasmania_2_%28cropped%29.jpg/440px-Oryctolagus_cuniculus_Tasmania_2_%28cropped%29.jpg',
+            image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Oryctolagus_cuniculus_Tasmania_2_%28cropped%29.jpg/440px-Oryctolagus_cuniculus_Tasmania_2_%28cropped%29.jpg',
             id: '3343',
             prefix: 'qws',
+            buckOrDoe: true,
+            properties: [],
           ),
-          ParentModel(
+          BreederModel (
             name: 'Bunny Name',
-            image:
-                'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Oryctolagus_cuniculus_Tasmania_2_%28cropped%29.jpg/440px-Oryctolagus_cuniculus_Tasmania_2_%28cropped%29.jpg',
+            image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Oryctolagus_cuniculus_Tasmania_2_%28cropped%29.jpg/440px-Oryctolagus_cuniculus_Tasmania_2_%28cropped%29.jpg',
             id: '3343',
             prefix: 'qws',
+            buckOrDoe: false,
+            properties: [],
           ),
         ],
         buckOrDoe: true,
@@ -95,19 +98,21 @@ class LittersListWidget extends StatelessWidget {
       ),
       LitterModel(
         parents: [
-          ParentModel(
+          BreederModel (
             name: 'Bunny Name',
-            image:
-                'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Oryctolagus_cuniculus_Tasmania_2_%28cropped%29.jpg/440px-Oryctolagus_cuniculus_Tasmania_2_%28cropped%29.jpg',
+            image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Oryctolagus_cuniculus_Tasmania_2_%28cropped%29.jpg/440px-Oryctolagus_cuniculus_Tasmania_2_%28cropped%29.jpg',
             id: '3343',
             prefix: 'qws',
+            buckOrDoe: true,
+            properties: [],
           ),
-          ParentModel(
+          BreederModel (
             name: 'Bunny Name',
-            image:
-                'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Oryctolagus_cuniculus_Tasmania_2_%28cropped%29.jpg/440px-Oryctolagus_cuniculus_Tasmania_2_%28cropped%29.jpg',
+            image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Oryctolagus_cuniculus_Tasmania_2_%28cropped%29.jpg/440px-Oryctolagus_cuniculus_Tasmania_2_%28cropped%29.jpg',
             id: '3343',
             prefix: 'qws',
+            buckOrDoe: false,
+            properties: [],
           ),
         ],
         buckOrDoe: false,
