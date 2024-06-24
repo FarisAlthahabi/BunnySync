@@ -23,21 +23,22 @@ class LitterTile extends StatelessWidget {
         children: [
           Stack(
             children: [
-              LitterProfileInfoWidget(litter: litter,),
-           Align(
+              LitterProfileInfoWidget(
+                litter: litter,
+              ),
+              Align(
                 alignment: AlignmentDirectional.topEnd,
                 child: TextButton(
-                onPressed: () {},
-                style: TextButton.styleFrom(
-                  padding: AppConstants.padding4,
-                  minimumSize: Size.zero,
+                  onPressed: () {},
+                  style: TextButton.styleFrom(
+                    padding: AppConstants.padding4,
+                    minimumSize: Size.zero,
+                  ),
+                  child: const Icon(Icons.more_vert_rounded),
                 ),
-                child: const Icon(Icons.more_vert_rounded),
-              ),
               ),
             ],
           ),
-          
           const SizedBox(height: 16),
           const Row(
             children: [
@@ -55,7 +56,7 @@ class LitterTile extends StatelessWidget {
           ),
           const SizedBox(height: 24),
           InfoPropertiesWidget(
-            properties: litter.properties.sublist(0,5),
+            properties: litter.properties.sublist(0, 5),
             propertyStructures: [
               PropertyStructure(
                 mainAxisCellCount: 1.6,

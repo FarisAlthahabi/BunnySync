@@ -45,26 +45,5 @@ class LitterDetailsTile extends StatelessWidget {
             )
           : null,
     );
-    // Container(
-    //   decoration: BoxDecoration(color: tileColor),
-    //   child: Row(
-    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //     children: [
-    //       Padding(
-    //         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
-    //         child: Text(
-    //           rabbitProperty.title,
-    //         ),
-    //       ),
-    //       Padding(
-    //         padding: const EdgeInsets.only(right: 15),
-    //         child: Text(
-    //           rabbitProperty.value,
-    //           style: TextStyle(color: context.cs.primary),
-    //         ),
-    //       ),
-    //     ],
-    //   ),
-    // );
   }
 }
