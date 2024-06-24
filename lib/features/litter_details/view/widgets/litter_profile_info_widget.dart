@@ -53,7 +53,7 @@ class LitterProfileInfoWidget extends StatelessWidget {
               const SizedBox(
                 height: 25,
               ),
-              Assets.icons.genders.svg(),
+              Assets.icons.family.svg(),
             ],
           ),
           Column(
