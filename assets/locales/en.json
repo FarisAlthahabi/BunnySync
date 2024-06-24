@@ -63,5 +63,9 @@
   "tasks": "Tasks",
   "buck": "Buck",
   "doe": "Doe",
-  "breeder": "Breeder"
+  "breeder": "Breeder",
+  "timeline" : "Timeline",
+  "ledger" : "Ledger",
+  "status" : "Status",
+  "litter" : "Litter"
 }
