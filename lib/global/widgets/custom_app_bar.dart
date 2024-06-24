@@ -52,7 +52,7 @@ class CustomAppBar extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               Text(
-                'breeders'.i18n,
+                title,
                 style: context.tt.displayLarge,
               ),
               const SizedBox(height: 16),
