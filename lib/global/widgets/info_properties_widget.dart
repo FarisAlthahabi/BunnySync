@@ -58,17 +58,21 @@ class InfoPropertiesWidget<T extends InfoPropertyModel>
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    property.title,
-                    style: context.tt.headlineSmall?.copyWith(
-                      fontSize: 20,
+                  FittedBox(
+                    child: Text(
+                      property.title,
+                      style: context.tt.headlineSmall?.copyWith(
+                              fontSize: 20,
+                            ),
                     ),
                   ),
                   const SizedBox(height: 2),
                   const Spacer(),
-                  Text(
-                    property.value,
-                    style: context.tt.bodyMedium,
+                  FittedBox(
+                    child: Text(
+                      property.value,
+                      style: context.tt.bodyMedium,
+                    ),
                   ),
                 ],
               ),

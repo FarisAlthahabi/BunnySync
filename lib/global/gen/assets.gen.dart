@@ -39,6 +39,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/facebook.svg
   SvgGenImage get facebook => const SvgGenImage('assets/icons/facebook.svg');
 
+  /// File path: assets/icons/family.svg
+  SvgGenImage get family => const SvgGenImage('assets/icons/family.svg');
+
   /// File path: assets/icons/folder.svg
   SvgGenImage get folder => const SvgGenImage('assets/icons/folder.svg');
 
@@ -99,6 +102,7 @@ class $AssetsIconsGen {
         doe,
         eye,
         facebook,
+        family,
         folder,
         fur,
         genders,
