@@ -55,6 +55,16 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const IntroView(),
       );
     },
+    LitterDetailsRoute.name: (routeData) {
+      final args = routeData.argsAs<LitterDetailsRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: LitterDetailsView(
+          key: args.key,
+          litter: args.litter,
+        ),
+      );
+    },
     LittersRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -199,6 +209,44 @@ class IntroRoute extends PageRouteInfo<void> {
   static const String name = 'IntroRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [LitterDetailsView]
+class LitterDetailsRoute extends PageRouteInfo<LitterDetailsRouteArgs> {
+  LitterDetailsRoute({
+    Key? key,
+    required LitterModel litter,
+    List<PageRouteInfo>? children,
+  }) : super(
+          LitterDetailsRoute.name,
+          args: LitterDetailsRouteArgs(
+            key: key,
+            litter: litter,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'LitterDetailsRoute';
+
+  static const PageInfo<LitterDetailsRouteArgs> page =
+      PageInfo<LitterDetailsRouteArgs>(name);
+}
+
+class LitterDetailsRouteArgs {
+  const LitterDetailsRouteArgs({
+    this.key,
+    required this.litter,
+  });
+
+  final Key? key;
+
+  final LitterModel litter;
+
+  @override
+  String toString() {
+    return 'LitterDetailsRouteArgs{key: $key, litter: $litter}';
+  }
 }
 
 /// generated route for
