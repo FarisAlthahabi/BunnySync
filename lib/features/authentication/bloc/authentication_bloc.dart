@@ -31,8 +31,7 @@ class AuthenticationBloc
     final firstTime = await _userRepo.getKey(firstTimeKey, defaultValue: true);
     if (firstTime) {
       emit(FirstTimeState());
-      //TODO
-      // _userRepo.setKey(firstTimeKey, false);
+      _userRepo.setKey(firstTimeKey, false);
     } else {
       if (_userRepo.user != null) {
         emit(AuthenticatedState());

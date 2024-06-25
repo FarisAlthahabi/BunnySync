@@ -5,6 +5,7 @@ import 'package:bunny_sync/features/breeders/models/breeder_model.dart';
 import 'package:bunny_sync/features/breeders/view/breeders_view.dart';
 import 'package:bunny_sync/features/dashboard/view/dashboard_view.dart';
 import 'package:bunny_sync/features/home/view/home_view.dart';
+import 'package:bunny_sync/features/intro/view/intro_router.dart';
 import 'package:bunny_sync/features/intro/view/intro_view.dart';
 import 'package:bunny_sync/features/litter_details/view/litter_details_view.dart';
 import 'package:bunny_sync/features/litters/models/litter_model.dart';
@@ -35,19 +36,21 @@ class AppRouter extends _$AppRouter {
             AdaptiveRoute(
               page: SignInRoute.page,
             ),
-            AdaptiveRoute(
-              page: MainNavigationRoute.page,
+            AutoRoute(
+              page: IntroRouter.page,
               children: [
-                //TODO: Grouping intro and select plan into onboarding parent route
                 AutoRoute(
+                  initial: true,
                   page: IntroRoute.page,
                 ),
                 AutoRoute(
                   page: SelectSubscriptionPlanRoute.page,
                 ),
-                AutoRoute(
-                  page: SignInRoute.page,
-                ),
+              ],
+            ),
+            AdaptiveRoute(
+              page: MainNavigationRoute.page,
+              children: [
                 AutoRoute(
                   initial: true,
                   page: DashboardRoute.page,

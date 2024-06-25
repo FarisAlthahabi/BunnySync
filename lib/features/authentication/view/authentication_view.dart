@@ -29,13 +29,11 @@ class _AuthenticationViewState extends State<AuthenticationView> {
           routes: (context) {
             return [
               if (state is FirstTimeState)
-                const IntroRoute(),
+                const IntroRouter(),
               if (state is UnauthenticatedState)
                 SignInRoute(),
-              if (state is ShowSignInState)
-                SignInRoute(
-                  onSignedIn: state.action,
-                ),
+              if (state is AuthenticatedState)
+                const MainNavigationRoute(),
             ];
           },
         );
