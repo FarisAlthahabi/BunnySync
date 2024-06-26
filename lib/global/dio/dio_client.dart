@@ -6,8 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
-const imageBaseUrl = 'https://fvdmdev.xyz/storage/app/public/';
-const _baseUrl = 'https://fvdmdev.xyz/api';
+const _baseUrl = 'http://bunnysync.bunnyhorde.com/api/';
 
 @singleton
 class DioClient {
@@ -26,7 +25,7 @@ class DioClient {
       PrettyDioLogger(
         requestHeader: false,
         requestBody: true,
-        responseBody: false,
+        responseBody: true,
         responseHeader: false,
         maxWidth: 98,
         compact: true,
