@@ -10,7 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
 part 'states/general_sign_in_state.dart';
+
 part 'states/sign_in_state.dart';
+
 part 'states/text_field_state.dart';
 
 @injectable
@@ -26,26 +28,24 @@ class SignInCubit extends Cubit<GeneralSignInState> {
 
   PostSignUpModel _postSignUpModel = const PostSignUpModel();
 
-  String? get email => _postSignUpModel.email;
-
   void setFullName(String fullName) {
-    _postSignUpModel = _postSignUpModel.copyWith(fullName: fullName);
+    _postSignUpModel = _postSignUpModel.copyWith(fullName: () => fullName);
     emit(TextFieldState(TextFieldType.fullName));
   }
 
   void setEmail(String email) {
-    _postSignUpModel = _postSignUpModel.copyWith(email: email);
+    _postSignUpModel = _postSignUpModel.copyWith(email: () => email);
     emit(TextFieldState(TextFieldType.email));
   }
 
   void setPassword(String password) {
-    _postSignUpModel = _postSignUpModel.copyWith(password: password);
+    _postSignUpModel = _postSignUpModel.copyWith(password: () => password);
     emit(TextFieldState(TextFieldType.password));
   }
 
   void setConfirmPassword(String confirmPassword) {
     _postSignUpModel =
-        _postSignUpModel.copyWith(confirmPassword: confirmPassword);
+        _postSignUpModel.copyWith(confirmPassword: () => confirmPassword);
     emit(TextFieldState(TextFieldType.confirmPassword));
   }
 
@@ -76,8 +76,8 @@ class SignInCubit extends Cubit<GeneralSignInState> {
 
     try {
       final response = await _signInRepo.signIn(
-        _postSignUpModel.email ?? '',
-        _postSignUpModel.password ?? '',
+        _postSignUpModel.email,
+        _postSignUpModel.password,
       );
       emit(SignInSuccess(response.data));
       _authenticationBloc?.add(
@@ -166,12 +166,12 @@ class SignInCubit extends Cubit<GeneralSignInState> {
   }
 
   void resetFullName() {
-    _postSignUpModel = _postSignUpModel.copyWithNull(fullName: true);
+    _postSignUpModel = _postSignUpModel.copyWith(fullName: () => null);
     emit(TextFieldState(TextFieldType.fullName));
   }
 
   void resetConfirmPassword() {
-    _postSignUpModel = _postSignUpModel.copyWithNull(confirmPassword: true);
+    _postSignUpModel = _postSignUpModel.copyWith(confirmPassword: () => null);
     emit(TextFieldState(TextFieldType.confirmPassword));
   }
 }

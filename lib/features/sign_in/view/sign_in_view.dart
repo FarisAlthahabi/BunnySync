@@ -7,11 +7,11 @@ import 'package:bunny_sync/features/sign_in/view/widgets/social_login_option_wid
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/gen/assets.gen.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
-import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme_x.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/bunny_logo.dart';
 import 'package:bunny_sync/global/widgets/buttons/main_action_button.dart';
+import 'package:bunny_sync/global/widgets/loading_indicator.dart';
 import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:bunny_sync/global/widgets/main_text_field.dart';
 import 'package:flutter/material.dart';
@@ -138,9 +138,7 @@ class _SignInPageState extends State<SignInPage> implements SignInViewCallback {
 
   @override
   void onPasswordSubmitted(String password) {
-    if (showSignInOrUp) {
-      onMainAction();
-    }
+    onMainAction();
   }
 
   @override
@@ -154,12 +152,15 @@ class _SignInPageState extends State<SignInPage> implements SignInViewCallback {
   }
 
   @override
-  void onForgotPassword() {
-  }
+  void onForgotPassword() {}
 
   @override
   void onMainAction() {
-    context.router.push(const DashboardRoute());
+    if (showSignInOrUp) {
+      signInCubit.signIn();
+    } else {
+      signInCubit.signUp();
+    }
   }
 
   @override
@@ -200,10 +201,10 @@ class _SignInPageState extends State<SignInPage> implements SignInViewCallback {
           child: SingleChildScrollView(
             padding: AppConstants.paddingH28,
             child: SizedBox(
-              height: 1.sh,
+              height: 1.5.sh,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  SizedBox(height: 0.15.sh),
                   const BunnyLogo(),
                   const SizedBox(height: 17),
                   AnimatedHeightAndFade(
@@ -240,54 +241,103 @@ class _SignInPageState extends State<SignInPage> implements SignInViewCallback {
                     show: !showSignInOrUp,
                     child: Column(
                       children: [
-                        MainTextField(
-                          onChanged: onFullNameChanged,
-                          onSubmitted: onFullNameSubmitted,
-                          prefixIcon: Assets.icons.profile.svg(),
-                          hintText: 'full_name'.i18n,
+                        BlocBuilder<SignInCubit, GeneralSignInState>(
+                          buildWhen: (previous, current) =>
+                              current is TextFieldState &&
+                              current.type == TextFieldType.fullName,
+                          builder: (context, state) {
+                            return MainTextField(
+                              onChanged: onFullNameChanged,
+                              onSubmitted: onFullNameSubmitted,
+                              prefixIcon: Assets.icons.profile.svg(),
+                              hintText: 'full_name'.i18n,
+                              errorText:
+                                  state is TextFieldState ? state.error : null,
+                            );
+                          },
                         ),
                         const SizedBox(height: 25),
                       ],
                     ),
                   ),
-                  MainTextField(
-                    onChanged: onEmailChanged,
-                    onSubmitted: onEmailSubmitted,
-                    focusNode: emailFocusNode,
-                    prefixIcon: Assets.icons.mail.svg(),
-                    hintText: 'enter_email'.i18n,
+                  BlocBuilder<SignInCubit, GeneralSignInState>(
+                    buildWhen: (previous, current) =>
+                        current is TextFieldState &&
+                        current.type == TextFieldType.email,
+                    builder: (context, state) {
+                      return MainTextField(
+                        onChanged: onEmailChanged,
+                        onSubmitted: onEmailSubmitted,
+                        focusNode: emailFocusNode,
+                        prefixIcon: Assets.icons.mail.svg(),
+                        hintText: 'enter_email'.i18n,
+                        errorText: state is TextFieldState ? state.error : null,
+                      );
+                    },
                   ),
                   const SizedBox(height: 25),
-                  MainTextField(
-                    onChanged: onPasswordChanged,
-                    onSubmitted: onPasswordSubmitted,
-                    focusNode: passwordFocusNode,
-                    prefixIcon: Assets.icons.lock.svg(),
-                    hintText: 'enter_password'.i18n,
-                    isPassword: true,
-                  ),
-                  Align(
-                    alignment: AlignmentDirectional.centerEnd,
-                    child: TextButton(
-                      onPressed: onForgotPassword,
-                      child: Text('forget_password_question'.i18n),
-                    ),
+                  BlocBuilder<SignInCubit, GeneralSignInState>(
+                    buildWhen: (previous, current) =>
+                        current is TextFieldState &&
+                        current.type == TextFieldType.password,
+                    builder: (context, state) {
+                      return MainTextField(
+                        onChanged: onPasswordChanged,
+                        onSubmitted: onPasswordSubmitted,
+                        focusNode: passwordFocusNode,
+                        prefixIcon: Assets.icons.lock.svg(),
+                        hintText: 'enter_password'.i18n,
+                        isPassword: true,
+                        errorText: state is TextFieldState ? state.error : null,
+                      );
+                    },
                   ),
                   AnimatedHeightAndFade(
                     child: showSignInOrUp
-                        ? const SizedBox(height: 20)
-                        : const Column(
+                        ? const SizedBox(height: 25)
+                        : Column(
                             children: [
-                              SizedBox(height: 8),
-                              AgreeTermsWidget(),
+                              const SizedBox(height: 22),
+                              BlocBuilder<SignInCubit, GeneralSignInState>(
+                                buildWhen: (previous, current) =>
+                                    current is TextFieldState &&
+                                    current.type ==
+                                        TextFieldType.confirmPassword,
+                                builder: (context, state) {
+                                  return MainTextField(
+                                    onChanged: onConfirmPasswordChanged,
+                                    onSubmitted: onConfirmPasswordSubmitted,
+                                    prefixIcon: Assets.icons.lock.svg(),
+                                    hintText: 'confirm_password'.i18n,
+                                    errorText: state is TextFieldState
+                                        ? state.error
+                                        : null,
+                                  );
+                                },
+                              ),
+                              const SizedBox(height: 25),
+                              const AgreeTermsWidget(),
                             ],
                           ),
                   ),
                   SizedBox(
                     width: double.maxFinite,
-                    child: MainActionButton(
-                      text: 'continue'.i18n,
-                      onTap: onMainAction,
+                    child: BlocBuilder<SignInCubit, GeneralSignInState>(
+                      builder: (context, state) {
+                        var onTap = onMainAction;
+                        Widget? child;
+
+                        if (state is SignInLoading) {
+                          onTap = () {};
+                          child = const LoadingIndicator();
+                        }
+
+                        return MainActionButton(
+                          text: 'sign_in'.i18n,
+                          onTap: onTap,
+                          child: child,
+                        );
+                      },
                     ),
                   ),
                   const SizedBox(height: 25),

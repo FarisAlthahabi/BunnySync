@@ -13,7 +13,6 @@ class SignInModel extends Equatable {
   const SignInModel({
     required this.token,
     required this.name,
-    required this.userId,
   });
 
   factory SignInModel.fromJsonStr(String str) =>
@@ -27,9 +26,6 @@ class SignInModel extends Equatable {
 
   @JsonKey(name: 'name')
   final String name;
-
-  @JsonKey(name: 'user_id')
-  final int userId;
 
 
   String toJsonStr() => jsonEncode(toJson());

@@ -16,7 +16,6 @@ abstract class _$SignInModelCWProxy {
   SignInModel call({
     String? token,
     String? name,
-    int? userId,
   });
 }
 
@@ -37,7 +36,6 @@ class _$SignInModelCWProxyImpl implements _$SignInModelCWProxy {
   SignInModel call({
     Object? token = const $CopyWithPlaceholder(),
     Object? name = const $CopyWithPlaceholder(),
-    Object? userId = const $CopyWithPlaceholder(),
   }) {
     return SignInModel(
       token: token == const $CopyWithPlaceholder() || token == null
@@ -48,10 +46,6 @@ class _$SignInModelCWProxyImpl implements _$SignInModelCWProxy {
           ? _value.name
           // ignore: cast_nullable_to_non_nullable
           : name as String,
-      userId: userId == const $CopyWithPlaceholder() || userId == null
-          ? _value.userId
-          // ignore: cast_nullable_to_non_nullable
-          : userId as int,
     );
   }
 }
@@ -69,12 +63,10 @@ extension $SignInModelCopyWith on SignInModel {
 SignInModel _$SignInModelFromJson(Map<String, dynamic> json) => SignInModel(
       token: json['token'] as String,
       name: json['name'] as String,
-      userId: (json['user_id'] as num).toInt(),
     );
 
 Map<String, dynamic> _$SignInModelToJson(SignInModel instance) =>
     <String, dynamic>{
       'token': instance.token,
       'name': instance.name,
-      'user_id': instance.userId,
     };
