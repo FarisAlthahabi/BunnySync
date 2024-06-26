@@ -11,8 +11,9 @@ ResponseModel<T> _$ResponseModelFromJson<T>(
   T Function(Object? json) fromJsonT,
 ) =>
     ResponseModel<T>(
-      message: json['message'] as String? ?? '',
+      success: json['success'] as bool,
       data: fromJsonT(json['data']),
+      message: json['message'] as String? ?? '',
     );
 
 Map<String, dynamic> _$ResponseModelToJson<T>(
@@ -20,6 +21,7 @@ Map<String, dynamic> _$ResponseModelToJson<T>(
   Object? Function(T value) toJsonT,
 ) =>
     <String, dynamic>{
-      'message': instance.message,
+      'success': instance.success,
       'data': toJsonT(instance.data),
+      'message': instance.message,
     };

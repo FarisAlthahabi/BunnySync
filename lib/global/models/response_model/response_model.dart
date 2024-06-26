@@ -8,8 +8,9 @@ part 'response_model.g.dart';
 )
 class ResponseModel<T> {
   const ResponseModel({
-    required this.message,
+    required this.success,
     required this.data,
+    required this.message,
   });
 
   factory ResponseModel.fromJson(
@@ -19,10 +20,13 @@ class ResponseModel<T> {
     return _$ResponseModelFromJson(json, dataFromJson);
   }
 
+  final bool success;
+
+  final T data;
+
   @JsonKey(name: 'message', defaultValue: '')
   final String message;
 
-  final T data;
 
   Map<String, dynamic> toJson(
     Object Function(T value) dataToJson,
