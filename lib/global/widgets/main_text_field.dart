@@ -61,6 +61,7 @@ class _MainTextFieldState extends State<MainTextField> {
               )
             : widget.suffixIcon,
         hintText: widget.hintText,
+        errorText: widget.errorText,
       ),
     );
   }

@@ -6,20 +6,23 @@ class MainActionButton extends StatelessWidget {
     required this.text,
     required this.onTap,
     this.textStyle,
+    this.child,
   });
 
   final String text;
   final VoidCallback onTap;
   final TextStyle? textStyle;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onTap,
-      child: Text(
-        text,
-        style: textStyle,
-      ),
+      child: child ??
+          Text(
+            text,
+            style: textStyle,
+          ),
     );
   }
 }

@@ -171,7 +171,8 @@ final lightTheme = ThemeData(
         fontFamily: GoogleFonts.manrope().fontFamily,
         fontSize: 16,
       ),
-      shape: const RoundedRectangleBorder(borderRadius: AppConstants.borderRadius12),
+      shape: const RoundedRectangleBorder(
+          borderRadius: AppConstants.borderRadius12),
     ),
   ),
   textButtonTheme: TextButtonThemeData(
@@ -286,5 +287,8 @@ const _inputDecorationTheme = InputDecorationTheme(
     fontSize: 16,
     color: AppColors.greyShade2,
   ),
-  errorStyle: TextStyle(color: AppColors.redShade),
+  errorStyle: TextStyle(
+    color: AppColors.redShade,
+    fontSize: 14,
+  ),
 );
