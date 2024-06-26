@@ -64,8 +64,9 @@
   "buck": "Buck",
   "doe": "Doe",
   "breeder": "Breeder",
-  "timeline" : "Timeline",
-  "ledger" : "Ledger",
-  "status" : "Status",
-  "litter" : "Litter"
+  "timeline": "Timeline",
+  "ledger": "Ledger",
+  "status": "Status",
+  "litter": "Litter",
+  "confirm_password": "Confirm Password"
 }
