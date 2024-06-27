@@ -8,16 +8,16 @@ part of 'post_sign_up_model.dart';
 
 PostSignUpModel _$PostSignUpModelFromJson(Map<String, dynamic> json) =>
     PostSignUpModel(
-      fullName: json['fullName'] as String?,
+      name: json['name'] as String?,
       email: json['email'] as String?,
       password: json['password'] as String?,
-      confirmPassword: json['confirmPassword'] as String?,
+      confirm_password: json['confirm_password'] as String?,
     );
 
 Map<String, dynamic> _$PostSignUpModelToJson(PostSignUpModel instance) =>
     <String, dynamic>{
-      'fullName': instance.fullName,
+      'name': instance.name,
       'email': instance.email,
       'password': instance.password,
-      'confirmPassword': instance.confirmPassword,
+      'confirm_password': instance.confirm_password,
     };

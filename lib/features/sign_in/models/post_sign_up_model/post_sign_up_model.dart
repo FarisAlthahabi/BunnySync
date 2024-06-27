@@ -13,12 +13,12 @@ part 'post_sign_up_model.g.dart';
 @immutable
 class PostSignUpModel {
   const PostSignUpModel({
-    String? fullName,
+    String? name,
     String? email,
     String? password,
-    String? confirmPassword,
-  })  : _fullName = fullName,
-        _confirmPassword = confirmPassword,
+    String? confirm_password,
+  })  : _name = name,
+        _confirmPassword = confirm_password,
         _password = password,
         _email = email;
 
@@ -29,7 +29,7 @@ class PostSignUpModel {
       _$PostSignUpModelFromJson(json);
 
   @JsonKey(name: 'name')
-  final String? _fullName;
+  final String? _name;
 
   @JsonKey(name: 'email')
   final String? _email;
@@ -37,13 +37,13 @@ class PostSignUpModel {
   @JsonKey(name: 'password')
   final String? _password;
 
-  @JsonKey(name: 'c_password')
+  @JsonKey(name: 'confirm_password')
   final String? _confirmPassword;
 
   Map<String, dynamic> toJson() => _$PostSignUpModelToJson(this);
 
   String? validateFullName() {
-    if (_fullName.isNullOrEmpty) {
+    if (_name.isNullOrEmpty) {
       return 'full_name_empty'.i18n;
     }
     return null;
@@ -99,16 +99,16 @@ class PostSignUpModel {
     String? Function()? confirmPassword,
   }) {
     return PostSignUpModel(
-      fullName: fullName != null ? fullName() : _fullName,
+      name: fullName != null ? fullName() : _name,
       email: email != null ? email() : _email,
       password: password != null ? password() : _password,
-      confirmPassword:
+      confirm_password:
           confirmPassword != null ? confirmPassword() : _confirmPassword,
     );
   }
 
-  String get fullName {
-    return _fullName ?? (throw Exception('fullName is null'));
+  String get name {
+    return _name ?? (throw Exception('fullName is null'));
   }
 
   String get email {
@@ -119,7 +119,7 @@ class PostSignUpModel {
     return _password ?? (throw Exception('password is null'));
   }
 
-  String get confirmPassword {
+  String get confirm_password {
     return _confirmPassword ?? (throw Exception('confirmPassword is null'));
   }
 }

@@ -148,7 +148,6 @@ class SignInCubit extends Cubit<GeneralSignInState> {
       );
     } catch (e, stackTrace) {
       addError(e, stackTrace);
-
       if (e is SignUpException) {
         final emailErrors = e.errors[TextFieldType.email];
         if (emailErrors != null && emailErrors.isNotEmpty) {

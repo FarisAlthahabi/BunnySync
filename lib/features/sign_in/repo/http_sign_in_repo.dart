@@ -48,8 +48,7 @@ class HttpSignInRepo implements SignInRepo {
         (json) {
           final data = json as Map<String, dynamic>?;
           if (data == null) throw 'Data is null';
-          final response = data['response'] as Map<String, dynamic>;
-          return SignInModel.fromJson(response);
+          return SignInModel.fromJson(data);
         },
       );
     } catch (e) {
