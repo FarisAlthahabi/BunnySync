@@ -6,6 +6,9 @@ part of 'sign_in_repo.dart';
 class HttpSignInRepo implements SignInRepo {
   final DioClient _dioClient = DioClient();
 
+  //! added
+  final UserRepo userRepo = UserRepo();
+
   @override
   Future<ResponseModel<SignInModel>> signIn(
     String email,
@@ -20,6 +23,8 @@ class HttpSignInRepo implements SignInRepo {
     );
 
     final body = response.data as Map<String, dynamic>;
+    //! added
+    userRepo.setKey('token', body['data']['token']);
 
     return ResponseModel<SignInModel>.fromJson(
       body,
@@ -72,5 +77,25 @@ class HttpSignInRepo implements SignInRepo {
       }
       rethrow;
     }
+  }
+
+  //! added
+  @override
+  Future<ResponseModel<LogOutModel>> logout() async {
+    final response = await _dioClient.post(
+      '/logout',
+      headers: {"Authorization": "Bearer ${userRepo.getKey('token')}"},
+    );
+
+    final body = response.data as Map<String, dynamic>;
+
+    return ResponseModel<LogOutModel>.fromJson(
+      body,
+      (json) {
+        final data = json as Map<String, dynamic>?;
+        if (data == null) throw 'Data is null';
+        return LogOutModel.fromJson(data);
+      },
+    );
   }
 }

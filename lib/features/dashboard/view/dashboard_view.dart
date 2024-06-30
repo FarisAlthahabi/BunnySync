@@ -17,6 +17,8 @@ abstract class DashboardViewCallback {
     int currentIndex,
     TabsRouter tabsRouter,
   );
+
+  void onAddTap();
 }
 
 @RoutePage()
@@ -59,6 +61,13 @@ class _DashboardPageState extends State<DashboardPage>
       this.currentIndex = currentIndex;
     });
     tabsRouter.setActiveIndex(currentIndex);
+  }
+
+  @override
+  void onAddTap() {
+    context.router.push(
+      const AddBreederRoute(),
+    );
   }
 
   Widget getBottomBarIcon(String path, {required bool isSelected}) {
@@ -121,6 +130,13 @@ class _DashboardPageState extends State<DashboardPage>
               ),
             );
           },
+          floatingActionButton: FloatingActionButton(
+            onPressed: onAddTap,
+            shape:  RoundedRectangleBorder(
+                borderRadius: AppConstants.circularBorderRadius,),
+            backgroundColor: AppColors.mainColorShade2,
+            child: const Icon(Icons.add),
+          ),
         );
       },
     );

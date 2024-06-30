@@ -15,4 +15,5 @@ abstract class Strings {
   static const password8Chars = 'Password should be at least 8 characters';
   static const confirmPasswordEmpty = "Confirm password can't be empty";
   static const passwordsNotMatch = "passwords don't match";
+  static const nameEmpty = "Name can't be empty";
 }

@@ -138,7 +138,11 @@ class _SignInPageState extends State<SignInPage> implements SignInViewCallback {
 
   @override
   void onPasswordSubmitted(String password) {
-    confirmPasswordFocusNode.requestFocus();
+    if (showSignInOrUp) {
+      onMainAction();
+    } else {
+      confirmPasswordFocusNode.requestFocus();
+    }
   }
 
   @override
