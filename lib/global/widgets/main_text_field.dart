@@ -12,6 +12,8 @@ class MainTextField extends StatefulWidget {
     this.onChanged,
     this.prefixIcon,
     this.suffixIcon,
+    this.labelText,
+    this.keyboardType,
   });
 
   final String hintText;
@@ -22,6 +24,8 @@ class MainTextField extends StatefulWidget {
   final ValueChanged<String>? onChanged;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
+  final String? labelText;
+  final TextInputType? keyboardType;
 
   @override
   State<MainTextField> createState() => _MainTextFieldState();
@@ -32,37 +36,61 @@ class _MainTextFieldState extends State<MainTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      onSubmitted: widget.onSubmitted,
-      onChanged: widget.onChanged,
-      obscureText: isObscure,
-      focusNode: widget.focusNode,
-      decoration: InputDecoration(
-        prefixIconConstraints: const BoxConstraints(
-          minWidth: 40,
-          minHeight: 20,
-          maxWidth: 40,
-          maxHeight: 20,
-        ),
-        prefixIcon: widget.prefixIcon,
-        suffixIcon: widget.isPassword
-            ? GestureDetector(
-                onTap: () {
-                  setState(() {
-                    isObscure = !isObscure;
-                  });
-                },
-                child: Icon(
-                  isObscure
-                      ? Icons.visibility_outlined
-                      : Icons.visibility_off_outlined,
-                  color: context.cs.tertiary,
+    final label = widget.labelText;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        if (label != null)
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label,
+                style: context.tt.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: context.cs.surfaceContainerHighest,
                 ),
-              )
-            : widget.suffixIcon,
-        hintText: widget.hintText,
-        errorText: widget.errorText,
-      ),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+            ],
+          ),
+        TextField(
+          onSubmitted: widget.onSubmitted,
+          onChanged: widget.onChanged,
+          obscureText: isObscure,
+          focusNode: widget.focusNode,
+          keyboardType: widget.keyboardType,
+          decoration: InputDecoration(
+            prefixIconConstraints: const BoxConstraints(
+              minWidth: 40,
+              minHeight: 20,
+              maxWidth: 40,
+              maxHeight: 20,
+            ),
+            prefixIcon: widget.prefixIcon,
+            suffixIcon: widget.isPassword
+                ? GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isObscure = !isObscure;
+                      });
+                    },
+                    child: Icon(
+                      isObscure
+                          ? Icons.visibility_outlined
+                          : Icons.visibility_off_outlined,
+                      color: context.cs.tertiary,
+                    ),
+                  )
+                : widget.suffixIcon,
+            hintText: widget.hintText,
+            errorText: widget.errorText,
+          ),
+        ),
+      ],
     );
   }
 }
