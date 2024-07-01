@@ -28,8 +28,7 @@ class LitterProfileInfoWidget extends StatelessWidget {
           ),
           Column(
             children: [
-              BreederImageWidget(
-                image: litter.parents[0].image,
+              const BreederImageWidget(
                 maleOrFemale: true,
                 size: 50,
               ),
@@ -58,8 +57,7 @@ class LitterProfileInfoWidget extends StatelessWidget {
           ),
           Column(
             children: [
-              BreederImageWidget(
-                image: litter.parents[0].image,
+              const BreederImageWidget(
                 maleOrFemale: false,
                 size: 50,
               ),
