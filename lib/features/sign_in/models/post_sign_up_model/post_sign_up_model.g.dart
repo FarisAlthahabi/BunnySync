@@ -11,7 +11,7 @@ PostSignUpModel _$PostSignUpModelFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String?,
       email: json['email'] as String?,
       password: json['password'] as String?,
-      confirm_password: json['confirm_password'] as String?,
+      confirmPassword: json['confirmPassword'] as String?,
     );
 
 Map<String, dynamic> _$PostSignUpModelToJson(PostSignUpModel instance) =>
@@ -19,5 +19,5 @@ Map<String, dynamic> _$PostSignUpModelToJson(PostSignUpModel instance) =>
       'name': instance.name,
       'email': instance.email,
       'password': instance.password,
-      'confirm_password': instance.confirm_password,
+      'confirmPassword': instance.confirmPassword,
     };

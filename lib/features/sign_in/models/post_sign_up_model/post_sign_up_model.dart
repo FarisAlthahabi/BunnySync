@@ -16,9 +16,9 @@ class PostSignUpModel {
     String? name,
     String? email,
     String? password,
-    String? confirm_password,
+    String? confirmPassword,
   })  : _name = name,
-        _confirmPassword = confirm_password,
+        _confirmPassword = confirmPassword,
         _password = password,
         _email = email;
 
@@ -102,7 +102,7 @@ class PostSignUpModel {
       name: fullName != null ? fullName() : _name,
       email: email != null ? email() : _email,
       password: password != null ? password() : _password,
-      confirm_password:
+      confirmPassword:
           confirmPassword != null ? confirmPassword() : _confirmPassword,
     );
   }
@@ -119,7 +119,7 @@ class PostSignUpModel {
     return _password ?? (throw Exception('password is null'));
   }
 
-  String get confirm_password {
+  String get confirmPassword {
     return _confirmPassword ?? (throw Exception('confirmPassword is null'));
   }
 }

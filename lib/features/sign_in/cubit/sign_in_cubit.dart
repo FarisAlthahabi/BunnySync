@@ -81,6 +81,7 @@ class SignInCubit extends Cubit<GeneralSignInState> {
         _postSignUpModel.password,
       );
       emit(SignInSuccess(response.data));
+
       _authenticationBloc?.add(
         SignInRequested(
           response.data,
