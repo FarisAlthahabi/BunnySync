@@ -7,26 +7,30 @@ class HttpAddBreederRepo implements AddBreederRepo {
   final UserRepo userRepo = UserRepo();
 
   @override
-  Future<ResponseModel<NewBreederModel>> addBreeder(
-      PostAddBreederModel postAddBreederModel) async {
+  Future<ResponseModel<BreederModel>> addBreeder(
+    PostAddBreederModel postAddBreederModel,
+  ) async {
     try {
       final response = await _dioClient.post(
         '/breeders',
         data: postAddBreederModel.toJson(),
-        headers: {"Authorization": "Bearer ${userRepo.getKey('token')}"},
       );
+
       final body = response.data as Map<String, dynamic>;
-      return ResponseModel<NewBreederModel>.fromJson(
+
+      return ResponseModel<BreederModel>.fromJson(
         body,
         (json) {
           final data = json as Map<String, dynamic>?;
           if (data == null) throw 'Data is null';
-          return NewBreederModel.fromJson(data);
+          return BreederModel.fromJson(data);
         },
       );
-    } on Exception catch (e) {
+    } catch (e) {
+      if (e is NotFoundException) {
+        throw e.message ?? 'something_went_wrong'.i18n;
+      }
       rethrow;
     }
-
   }
 }

@@ -1,12 +1,9 @@
-// ignore_for_file: avoid_dynamic_calls
-
 part of 'sign_in_repo.dart';
 
 @Injectable(as: SignInRepo)
 class HttpSignInRepo implements SignInRepo {
   final DioClient _dioClient = DioClient();
 
-  //! added
   final UserRepo userRepo = UserRepo();
 
   @override
@@ -23,8 +20,6 @@ class HttpSignInRepo implements SignInRepo {
     );
 
     final body = response.data as Map<String, dynamic>;
-    //! added
-    userRepo.setKey('token', body['data']['token']);
 
     return ResponseModel<SignInModel>.fromJson(
       body,
@@ -62,7 +57,8 @@ class HttpSignInRepo implements SignInRepo {
 
         final body = e.response?.data as Map<String, dynamic>;
 
-        final emailErrors = body['errors']['inputs']['email'] as List<dynamic>?;
+        final emailErrors = ((body['errors'] as Map<String, dynamic>)['inputs']
+            as Map<String, dynamic>)['email'] as List<dynamic>?;
         if (emailErrors != null && emailErrors.isNotEmpty) {
           signUpException = signUpException.copyWith(
             errors: {
@@ -79,12 +75,10 @@ class HttpSignInRepo implements SignInRepo {
     }
   }
 
-  //! added
   @override
   Future<ResponseModel<LogOutModel>> logout() async {
     final response = await _dioClient.post(
       '/logout',
-      headers: {"Authorization": "Bearer ${userRepo.getKey('token')}"},
     );
 
     final body = response.data as Map<String, dynamic>;
