@@ -44,8 +44,11 @@ class UnauthorizedException extends DioException {
 }
 
 class NotFoundException extends DioException {
-  NotFoundException(RequestOptions requestOptions)
-      : super(requestOptions: requestOptions);
+  NotFoundException({
+    required super.requestOptions,
+    super.response,
+    super.message,
+  });
 
   @override
   String toString() {
