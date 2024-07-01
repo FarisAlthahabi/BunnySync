@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of '../add_breeder_cubit.dart';
 
 @immutable
@@ -9,15 +8,13 @@ class AddBreederInitial extends AddBreederState {}
 class AddBreederLoading extends AddBreederState {}
 
 class AddBreederSuccess extends AddBreederState {
-  final NewBreederModel newBreederModel;
-  AddBreederSuccess(
-    this.newBreederModel,
-  );
+  AddBreederSuccess(this.breederModel);
+
+  final BreederModel breederModel;
 }
 
 class AddBreederFail extends AddBreederState {
+  AddBreederFail(this.message);
+
   final String message;
-  AddBreederFail(
-    this.message,
-  );
 }

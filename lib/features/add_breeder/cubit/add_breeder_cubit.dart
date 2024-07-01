@@ -1,14 +1,15 @@
 import 'package:bloc/bloc.dart';
-import 'package:bunny_sync/features/add_breeder/models/new_breeder_model/new_breeder_model.dart';
 import 'package:bunny_sync/features/add_breeder/models/post_add_breeder_model/post_add_breeder_model.dart';
 import 'package:bunny_sync/features/add_breeder/repo/add_breeder_repo.dart';
-import 'package:bunny_sync/global/localization/localization.dart';
-import 'package:bunny_sync/global/localization/strings.dart';
+import 'package:bunny_sync/features/breeders/models/breeder_model.dart';
+import 'package:bunny_sync/global/utils/enums/gender_types_enum.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
 part 'states/breeder_name_post_state.dart';
+
 part 'states/add_breeder_state.dart';
+
 part 'states/general_add_breeder_state.dart';
 
 @injectable
@@ -37,9 +38,9 @@ class AddBreederCubit extends Cubit<GeneralAddBreederState> {
     );
   }
 
-  void setGender(String gender) {
+  void setGender(GenderTypes gender) {
     _postAddBreederModel = _postAddBreederModel.copyWith(
-      gender: () => gender,
+      gender: () => gender.name,
     );
   }
 
@@ -55,9 +56,9 @@ class AddBreederCubit extends Cubit<GeneralAddBreederState> {
     );
   }
 
-  void setWeight(double weight) {
+  void setWeight(String weight) {
     _postAddBreederModel = _postAddBreederModel.copyWith(
-      weight: () => weight,
+      weight: () => double.parse(weight),
     );
   }
 
@@ -72,14 +73,16 @@ class AddBreederCubit extends Cubit<GeneralAddBreederState> {
     if (nameError != null) {
       emit(BreederNamePostInvalid(nameError));
       return;
-    } 
+    }
 
     emit(AddBreederLoading());
+
     try {
       final response = await _addBreederRepo.addBreeder(_postAddBreederModel);
       emit(AddBreederSuccess(response.data));
-    } on Exception catch (e) {
-      emit(AddBreederFail(Strings.wentWrong.i18n));
+    } catch (e, s) {
+      addError(e, s);
+      emit(AddBreederFail(e.toString()));
     }
   }
 }

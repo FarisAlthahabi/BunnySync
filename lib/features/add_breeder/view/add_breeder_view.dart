@@ -4,13 +4,17 @@ import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
+import 'package:bunny_sync/global/utils/enums/gender_types_enum.dart';
 import 'package:bunny_sync/global/widgets/buttons/main_action_button.dart';
 import 'package:bunny_sync/global/widgets/loading_indicator.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
+import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:bunny_sync/global/widgets/main_text_field.dart';
+import 'package:bunny_sync/global/widgets/radio_selector_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 abstract class AddBreederViewCallBack {
   void onNameChanged(String name);
@@ -39,7 +43,7 @@ abstract class AddBreederViewCallBack {
 
   void onSave();
 
-  void onGenderSelected(bool? isChecked);
+  void onGenderSelected(GenderTypes gender);
 
   void onDatePicked(DateTime date, List<int> numbers);
 }
@@ -67,10 +71,6 @@ class AddBreederPage extends StatefulWidget {
 class _AddBreederPageState extends State<AddBreederPage>
     implements AddBreederViewCallBack {
   DateTime selectedDate = DateTime.now();
-
-  bool isBuckSelected = true;
-  bool isDoeSelected = false;
-  late String gender;
 
   late final AddBreederCubit addBreederCubit = context.read();
 
@@ -138,18 +138,14 @@ class _AddBreederPageState extends State<AddBreederPage>
 
   @override
   void onWeightChanged(String weight) {
-    addBreederCubit.setWeight(double.parse(weight));
+    addBreederCubit.setWeight(weight);
   }
 
   @override
-  void onWeightSubmitted(String weight) {
-    // TODO: implement onWeightSubmitted
-  }
+  void onWeightSubmitted(String weight) {}
 
   @override
   void initState() {
-    gender = 'male';
-    addBreederCubit.setGender(gender);
     super.initState();
   }
 
@@ -162,16 +158,7 @@ class _AddBreederPageState extends State<AddBreederPage>
   }
 
   @override
-  void onGenderSelected(bool? isChecked) {
-    setState(() {
-      isBuckSelected = isDoeSelected;
-      isDoeSelected = !isDoeSelected;
-    });
-    if (isBuckSelected) {
-      gender = 'male';
-    } else {
-      gender = 'female';
-    }
+  void onGenderSelected(GenderTypes gender) {
     addBreederCubit.setGender(gender);
   }
 
@@ -205,59 +192,32 @@ class _AddBreederPageState extends State<AddBreederPage>
                     const SizedBox(
                       height: 30,
                     ),
-                    Text(
-                      '${"name".i18n}*',
-                      style: context.tt.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.darkGrey,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
                     MainTextField(
                       onSubmitted: onNameSubmitted,
                       onChanged: onNameChanged,
                       focusNode: nameFocusNode,
                       hintText: "name".i18n,
+                      labelText: '${"name".i18n} *',
                     ),
                     const SizedBox(
                       height: 25,
-                    ),
-                    Text(
-                      "prefix".i18n,
-                      style: context.tt.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.darkGrey,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 5,
                     ),
                     MainTextField(
                       onSubmitted: onPrefixSubmitted,
                       onChanged: onPrefixChanged,
                       focusNode: prefixFocusNode,
                       hintText: "prefix".i18n,
+                      labelText: "prefix".i18n,
                     ),
                     const SizedBox(
                       height: 25,
-                    ),
-                    Text(
-                      "cage".i18n,
-                      style: context.tt.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.darkGrey,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 5,
                     ),
                     MainTextField(
                       onSubmitted: onCageSubmitted,
                       onChanged: onCageChanged,
                       focusNode: cageFocusNode,
                       hintText: "cage".i18n,
+                      labelText: "cage".i18n,
                     ),
                     const SizedBox(
                       height: 25,
@@ -278,86 +238,42 @@ class _AddBreederPageState extends State<AddBreederPage>
                         const SizedBox(
                           height: 5,
                         ),
-                        Row(
-                          children: [
-                            Radio(
-                              value: isBuckSelected,
-                              groupValue: true,
-                              onChanged: onGenderSelected,
-                            ),
-                            Text("buck".i18n),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Radio(
-                              value: isDoeSelected,
-                              groupValue: true,
-                              onChanged: onGenderSelected,
-                            ),
-                            Text("doe".i18n),
-                          ],
+                        RadioSelectorWidget<GenderTypes>(
+                          items: GenderTypes.values,
+                          onSelected: onGenderSelected,
                         ),
                       ],
                     ),
                     const SizedBox(
                       height: 25,
                     ),
-                    Text(
-                      "color".i18n,
-                      style: context.tt.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.darkGrey,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
                     MainTextField(
                       onSubmitted: onColorSubmitted,
                       onChanged: onColorChanged,
                       focusNode: colorFocusNode,
                       hintText: "hex".i18n,
+                      labelText: "color".i18n,
                     ),
                     const SizedBox(
                       height: 25,
-                    ),
-                    Text(
-                      "tatto".i18n,
-                      style: context.tt.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.darkGrey,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 5,
                     ),
                     MainTextField(
                       onSubmitted: onTattoSubmitted,
                       onChanged: onTattoChanged,
                       focusNode: tattoFocusNode,
                       hintText: "tatto".i18n,
+                      labelText: "tatto".i18n,
                     ),
                     const SizedBox(
                       height: 25,
-                    ),
-                    Text(
-                      "weight".i18n,
-                      style: context.tt.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.darkGrey,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 5,
                     ),
                     MainTextField(
                       onSubmitted: onWeightSubmitted,
                       onChanged: onWeightChanged,
                       focusNode: weightFocusNode,
                       hintText: "35",
-                    ),
-                    const SizedBox(
-                      height: 25,
+                      labelText: "weight".i18n,
+                      keyboardType: TextInputType.number,
                     ),
                     const SizedBox(
                       height: 25,
@@ -369,25 +285,23 @@ class _AddBreederPageState extends State<AddBreederPage>
                         color: AppColors.darkGrey,
                       ),
                     ),
-                    const SizedBox(
-                      height: 25,
-                    ),
+                    const SizedBox(height: 10),
                     Center(
-                      child: Container(
-                        width: 300,
-                        padding: const EdgeInsets.symmetric(horizontal: 25),
+                      child: SizedBox(
+                        width: 0.7.sw,
                         child: DatePickerWidget(
                           initialDate: DateTime.now(),
                           looping: true,
                           dateFormat: "dd/MMM/yyyy",
                           onChange: onDatePicked,
                           pickerTheme: DateTimePickerTheme(
-                            itemTextStyle: context.tt.bodyLarge!.copyWith(
-                              fontSize: 18,
-                              color: AppColors.mainColorShade2,
-                              fontWeight: FontWeight.w700,
-                            ),
-                            dividerColor: AppColors.mainColorShade2,
+                            itemTextStyle: context.tt.bodyLarge?.copyWith(
+                                  fontSize: 18,
+                                  color: context.cs.secondaryContainer,
+                                  fontWeight: FontWeight.w700,
+                                ) ??
+                                const TextStyle(),
+                            dividerColor: context.cs.secondaryContainer,
                           ),
                         ),
                       ),
@@ -406,15 +320,24 @@ class _AddBreederPageState extends State<AddBreederPage>
                   padding: AppConstants.paddingH16,
                   child: SizedBox(
                     width: double.maxFinite,
-                    child: BlocConsumer<AddBreederCubit, GeneralAddBreederState>(
+                    child:
+                        BlocConsumer<AddBreederCubit, GeneralAddBreederState>(
                       listener: (context, state) {
                         if (state is BreederNamePostInvalid) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Center(child: Text(state.message)),
-                              backgroundColor: Colors.red,
-                              duration: AppConstants.duration2s,
-                            ),
+                          MainSnackBar.showErrorMessageBar(
+                            context,
+                            state.message,
+                          );
+                        } else if (state is AddBreederSuccess) {
+                          MainSnackBar.showSuccessMessageBar(
+                            context,
+                            "breeder_added".i18n,
+                          );
+                          context.router.maybePop();
+                        } else if (state is AddBreederFail) {
+                          MainSnackBar.showErrorMessageBar(
+                            context,
+                            state.message,
                           );
                         }
                       },
