@@ -52,7 +52,12 @@ class AppInterceptor extends Interceptor {
           case 403:
             throw AccessForbiddenException(err.requestOptions);
           case 404:
-            throw NotFoundException(err.requestOptions);
+            throw NotFoundException(
+              requestOptions: err.requestOptions,
+              response: err.response,
+              message: (err.response?.data as Map<String, dynamic>? ??
+                  {})['message'] as String?,
+            );
           case 409:
             throw ConflictException(err.requestOptions);
           case 500:

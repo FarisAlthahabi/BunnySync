@@ -39,6 +39,7 @@ abstract class AppConstants {
   static const duration200ms = Duration(milliseconds: 200);
   static const duration300ms = Duration(milliseconds: 300);
   static const duration400ms = Duration(milliseconds: 400);
+  static const duration2s = Duration(seconds: 2);
 
   static const searchHeroTag = 'searchHeroTag';
 
@@ -55,6 +56,10 @@ abstract class AppConstants {
   static const padding24 = EdgeInsets.all(24);
 
   static const paddingT16 = EdgeInsets.only(top: 16);
+
+  static const paddingH2 = EdgeInsets.symmetric(horizontal : 4);
+
+  static const paddingH5 = EdgeInsets.symmetric(horizontal : 4);
 
   static const paddingH16 = EdgeInsets.symmetric(horizontal: 16);
 

@@ -138,7 +138,11 @@ class _SignInPageState extends State<SignInPage> implements SignInViewCallback {
 
   @override
   void onPasswordSubmitted(String password) {
-    onMainAction();
+    if (showSignInOrUp) {
+      onMainAction();
+    } else {
+      confirmPasswordFocusNode.requestFocus();
+    }
   }
 
   @override
@@ -305,10 +309,12 @@ class _SignInPageState extends State<SignInPage> implements SignInViewCallback {
                                         TextFieldType.confirmPassword,
                                 builder: (context, state) {
                                   return MainTextField(
+                                    focusNode: confirmPasswordFocusNode,
                                     onChanged: onConfirmPasswordChanged,
                                     onSubmitted: onConfirmPasswordSubmitted,
                                     prefixIcon: Assets.icons.lock.svg(),
                                     hintText: 'confirm_password'.i18n,
+                                    isPassword: true,
                                     errorText: state is TextFieldState
                                         ? state.error
                                         : null,
@@ -333,7 +339,8 @@ class _SignInPageState extends State<SignInPage> implements SignInViewCallback {
                         }
 
                         return MainActionButton(
-                          text: 'sign_in'.i18n,
+                          text:
+                              showSignInOrUp ? 'sign_in'.i18n : 'sign_up'.i18n,
                           onTap: onTap,
                           child: child,
                         );

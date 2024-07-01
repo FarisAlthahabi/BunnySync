@@ -1,5 +1,6 @@
 import 'package:bunny_sync/features/breeders/models/breeder_model.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
+import 'package:bunny_sync/global/models/rabbit_property_model.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/breeder_image_widget.dart';
@@ -19,6 +20,11 @@ class BreederTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final rabbitProperties = [
+      RabbitPropertyModel(title: 'breed'.i18n, value: breeder.breed ?? 'breed'),
+      RabbitPropertyModel(title: 'color'.i18n, value: breeder.color ?? 'color'),
+    ];
+
     return MainTile(
       padding: AppConstants.paddingSB16,
       onTap: () => onTap(breeder),
@@ -31,8 +37,7 @@ class BreederTile extends StatelessWidget {
                 padding: AppConstants.paddingT16,
                 child: Row(
                   children: [
-                    BreederImageWidget(
-                      image: breeder.image,
+                    const BreederImageWidget(
                       maleOrFemale: true,
                     ),
                     const SizedBox(width: 20),
@@ -84,9 +89,9 @@ class BreederTile extends StatelessWidget {
           Padding(
             padding: const EdgeInsetsDirectional.only(end: 16.0),
             child: InfoPropertiesWidget(
-              properties: breeder.properties,
+              properties: rabbitProperties,
               propertyStructures: List.generate(
-                breeder.properties.length,
+                rabbitProperties.length,
                 (index) {
                   return PropertyStructure(
                     mainAxisCellCount: 1.6,

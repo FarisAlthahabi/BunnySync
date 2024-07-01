@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:bunny_sync/features/authentication/bloc/authentication_bloc.dart';
 import 'package:bunny_sync/features/select_subscription_plan/models/feature_model.dart';
 import 'package:bunny_sync/features/select_subscription_plan/models/plan_model.dart';
 import 'package:bunny_sync/features/select_subscription_plan/view/widgets/feature_of_plan_tile.dart';
@@ -6,12 +7,12 @@ import 'package:bunny_sync/features/select_subscription_plan/view/widgets/plan_t
 import 'package:bunny_sync/features/select_subscription_plan/view/widgets/text_widgets.dart';
 import 'package:bunny_sync/global/gen/assets.gen.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
-import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/buttons/main_action_button.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 abstract class SelectSubscriptionPlanViewCallBacks {
   void onSelectPlan(PlanModel plan);
@@ -39,6 +40,7 @@ class SelectSubscriptionPlanPage extends StatefulWidget {
 
 class _SelectSubscriptionPlanPageState extends State<SelectSubscriptionPlanPage>
     implements SelectSubscriptionPlanViewCallBacks {
+  late final AuthenticationBloc authenticationBloc = context.read();
   @override
   void onSelectPlan(PlanModel plan) {
     setState(() {
@@ -48,7 +50,7 @@ class _SelectSubscriptionPlanPageState extends State<SelectSubscriptionPlanPage>
 
   @override
   void onContinueTap() {
-    context.router.push(SignInRoute());
+    authenticationBloc.add(IsAuthenticatedOrFirstTime());
   }
 
   //TODO: Should come from the bloc

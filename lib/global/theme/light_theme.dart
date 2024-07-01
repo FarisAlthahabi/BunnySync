@@ -172,7 +172,8 @@ final lightTheme = ThemeData(
         fontSize: 16,
       ),
       shape: const RoundedRectangleBorder(
-          borderRadius: AppConstants.borderRadius12),
+        borderRadius: AppConstants.borderRadius12,
+      ),
     ),
   ),
   textButtonTheme: TextButtonThemeData(
@@ -234,6 +235,7 @@ final lightTheme = ThemeData(
     primaryContainer: AppColors.mainColorShade,
     secondary: AppColors.orangeShade,
     onSecondary: Colors.white,
+    secondaryContainer: AppColors.mainColorShade2,
     onPrimary: Colors.white,
     brightness: Brightness.light,
     tertiary: AppColors.darkBlue,

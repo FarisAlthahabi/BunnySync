@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of '../sign_in_cubit.dart';
 
 @immutable
@@ -23,4 +24,12 @@ class SignInError extends SignInState {
   SignInError(this.message);
 
   final String message;
+}
+
+class LogOutSuccess extends SignInState {
+  LogOutSuccess(
+    this.logOutModel,
+  );
+
+  final LogOutModel logOutModel;
 }

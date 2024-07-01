@@ -1,6 +1,5 @@
 import 'package:bunny_sync/features/breeders/models/breeder_model.dart';
 import 'package:bunny_sync/features/breeders/view/widgets/breeder_tile.dart';
-import 'package:bunny_sync/global/models/rabbit_property_model.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/animation/indexed_list_slide_fade_animated_tile.dart';
 import 'package:flutter/material.dart';
@@ -22,55 +21,29 @@ class BreedersListWidget extends StatelessWidget {
     final breeders = [
       BreederModel(
         name: 'Bunny Name',
-        image:
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Oryctolagus_cuniculus_Tasmania_2_%28cropped%29.jpg/440px-Oryctolagus_cuniculus_Tasmania_2_%28cropped%29.jpg',
-        id: '3343',
+        id: 3343,
         prefix: 'qws',
-        buckOrDoe: true,
-        properties: [
-          RabbitPropertyModel(
-            title: 'Litters',
-            value: '10',
-          ),
-          RabbitPropertyModel(
-            title: 'Kits',
-            value: '12',
-          ),
-          RabbitPropertyModel(
-            title: 'Age',
-            value: '2.5',
-          ),
-          RabbitPropertyModel(
-            title: 'Weight',
-            value: '1.2',
-          ),
-        ],
+        userId: 1,
+        uuid: 'qws-3343',
+        updatedAt: DateTime.now(),
+        createdAt: DateTime.now(),
+        cage: 'Cage 1',
+        breed: 'Breed 1',
+        color: 'Color 1',
+        tatto: 'Tatto 1',
       ),
       BreederModel(
-        name: 'Bunny Name',
-        image:
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Oryctolagus_cuniculus_Tasmania_2_%28cropped%29.jpg/440px-Oryctolagus_cuniculus_Tasmania_2_%28cropped%29.jpg',
-        id: '3343',
+        name: 'Bunny Name 2',
+        id: 3344,
         prefix: 'qws',
-        buckOrDoe: false,
-        properties: [
-          RabbitPropertyModel(
-            title: 'Litters',
-            value: '10',
-          ),
-          RabbitPropertyModel(
-            title: 'Kits',
-            value: '12',
-          ),
-          RabbitPropertyModel(
-            title: 'Age',
-            value: '2.5',
-          ),
-          RabbitPropertyModel(
-            title: 'Weight',
-            value: '1.2',
-          ),
-        ],
+        userId: 1,
+        uuid: 'qws-3344',
+        updatedAt: DateTime.now(),
+        createdAt: DateTime.now(),
+        cage: 'Cage 2',
+        breed: 'Breed 2',
+        color: 'Color 2',
+        tatto: 'Tatto 2',
       ),
     ];
 

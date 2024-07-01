@@ -68,5 +68,15 @@
   "ledger": "Ledger",
   "status": "Status",
   "litter": "Litter",
-  "confirm_password": "Confirm Password"
+  "confirm_password": "Confirm Password",
+  "new_breeder" : "New Breeder",
+  "name" : "Name",
+  "cage" : "Cage",
+  "gender" : "Gender",
+  "color" : "Color",
+  "tatto" : "Tatto",
+  "weight" : "Weight",
+  "set_date": "Set Date",
+  "hex" : "#hex",
+  "save" : "Save"
 }

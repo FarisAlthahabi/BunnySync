@@ -1,10 +1,10 @@
-// ignore_for_file: avoid_dynamic_calls
-
 part of 'sign_in_repo.dart';
 
 @Injectable(as: SignInRepo)
 class HttpSignInRepo implements SignInRepo {
   final DioClient _dioClient = DioClient();
+
+  final UserRepo userRepo = UserRepo();
 
   @override
   Future<ResponseModel<SignInModel>> signIn(
@@ -48,8 +48,7 @@ class HttpSignInRepo implements SignInRepo {
         (json) {
           final data = json as Map<String, dynamic>?;
           if (data == null) throw 'Data is null';
-          final response = data['response'] as Map<String, dynamic>;
-          return SignInModel.fromJson(response);
+          return SignInModel.fromJson(data);
         },
       );
     } catch (e) {
@@ -58,7 +57,8 @@ class HttpSignInRepo implements SignInRepo {
 
         final body = e.response?.data as Map<String, dynamic>;
 
-        final emailErrors = body['errors']['inputs']['email'] as List<dynamic>?;
+        final emailErrors = ((body['errors'] as Map<String, dynamic>)['inputs']
+            as Map<String, dynamic>)['email'] as List<dynamic>?;
         if (emailErrors != null && emailErrors.isNotEmpty) {
           signUpException = signUpException.copyWith(
             errors: {
@@ -73,5 +73,23 @@ class HttpSignInRepo implements SignInRepo {
       }
       rethrow;
     }
+  }
+
+  @override
+  Future<ResponseModel<LogOutModel>> logout() async {
+    final response = await _dioClient.post(
+      '/logout',
+    );
+
+    final body = response.data as Map<String, dynamic>;
+
+    return ResponseModel<LogOutModel>.fromJson(
+      body,
+      (json) {
+        final data = json as Map<String, dynamic>?;
+        if (data == null) throw 'Data is null';
+        return LogOutModel.fromJson(data);
+      },
+    );
   }
 }

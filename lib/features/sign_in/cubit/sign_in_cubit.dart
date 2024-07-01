@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:bunny_sync/features/authentication/bloc/authentication_bloc.dart';
+import 'package:bunny_sync/features/sign_in/models/log_out_model/log_out_model.dart';
 import 'package:bunny_sync/features/sign_in/models/post_sign_up_model/post_sign_up_model.dart';
 import 'package:bunny_sync/features/sign_in/models/sign_in_model/sign_in_model.dart';
 import 'package:bunny_sync/features/sign_in/models/sign_up_exception/sign_up_exception.dart';
@@ -80,6 +81,7 @@ class SignInCubit extends Cubit<GeneralSignInState> {
         _postSignUpModel.password,
       );
       emit(SignInSuccess(response.data));
+
       _authenticationBloc?.add(
         SignInRequested(
           response.data,
@@ -148,7 +150,6 @@ class SignInCubit extends Cubit<GeneralSignInState> {
       );
     } catch (e, stackTrace) {
       addError(e, stackTrace);
-
       if (e is SignUpException) {
         final emailErrors = e.errors[TextFieldType.email];
         if (emailErrors != null && emailErrors.isNotEmpty) {
@@ -173,5 +174,19 @@ class SignInCubit extends Cubit<GeneralSignInState> {
   void resetConfirmPassword() {
     _postSignUpModel = _postSignUpModel.copyWith(confirmPassword: () => null);
     emit(TextFieldState(TextFieldType.confirmPassword));
+  }
+
+  Future<void>logout({VoidCallback? onSuccess}) async{
+    emit(SignInLoading());
+
+    try {
+      final response = await _signInRepo.logout();
+      emit(LogOutSuccess(response.data));
+      _authenticationBloc?.add(
+        SignOutRequested(),
+      );
+    } catch (e) {
+      emit(SignInError(Strings.wentWrong.i18n));
+    }
   }
 }
