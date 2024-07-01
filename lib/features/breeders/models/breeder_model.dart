@@ -1,27 +1,64 @@
-import 'package:bunny_sync/global/gen/assets.gen.dart';
-import 'package:bunny_sync/global/localization/localization.dart';
-import 'package:bunny_sync/global/models/rabbit_property_model.dart';
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
+import 'package:bunny_sync/global/utils/enums/gender_types_enum.dart';
+import 'package:flutter/material.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'breeder_model.g.dart';
+
+@immutable
+@JsonSerializable()
 class BreederModel {
-  BreederModel({
-    required this.name,
-    required this.image,
+
+  const BreederModel({
     required this.id,
-    required this.prefix,
-    required this.buckOrDoe,
-    required this.properties,
+    required this.userId,
+    required this.uuid,
+    required this.name,
+    required this.updatedAt,
+    required this.createdAt,
+    this.prefix,
+    this.cage,
+    this.gender,
+    this.color,
+    this.tatto,
+    this.breed,
   });
 
+  factory BreederModel.fromJsonStr(String str) =>
+      BreederModel.fromJson(jsonDecode(str) as Map<String, dynamic>);
+
+  factory BreederModel.fromJson(Map<String, dynamic> json) =>
+      _$BreederModelFromJson(json);
+
+  final int id;
+
+  @JsonKey(name: 'user_id')
+  final int userId;
+
+  final String uuid;
+
   final String name;
-  final String image;
-  final String id;
-  final String prefix;
-  final bool buckOrDoe;
-  final List<RabbitPropertyModel> properties;
 
-  Widget get genderIcon =>
-      buckOrDoe ? Assets.icons.buck.svg() : Assets.icons.doe.svg();
+  @JsonKey(name: 'updated_at')
+  final DateTime updatedAt;
 
-  String get gender => buckOrDoe ? 'buck'.i18n : 'doe'.i18n;
+  @JsonKey(name: 'created_at')
+  final DateTime createdAt;
+
+  final String? prefix;
+
+  final String? cage;
+
+  final GenderTypes? gender;
+
+  final String? color;
+
+  final String? tatto;
+
+  final String? breed;
+
+  String toJsonStr() => jsonEncode(toJson());
+
+  Map<String, dynamic> toJson() => _$BreederModelToJson(this);
 }
