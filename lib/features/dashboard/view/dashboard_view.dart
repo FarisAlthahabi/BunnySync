@@ -132,9 +132,10 @@ class _DashboardPageState extends State<DashboardPage>
           },
           floatingActionButton: FloatingActionButton(
             onPressed: onAddTap,
-            shape:  RoundedRectangleBorder(
-                borderRadius: AppConstants.circularBorderRadius,),
-            backgroundColor: AppColors.mainColorShade2,
+            shape: RoundedRectangleBorder(
+              borderRadius: AppConstants.circularBorderRadius,
+            ),
+            backgroundColor: context.cs.secondaryContainer,
             child: const Icon(Icons.add),
           ),
         );
