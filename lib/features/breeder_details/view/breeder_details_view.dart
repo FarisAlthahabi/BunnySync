@@ -40,6 +40,11 @@ class BreederDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final rabbitProperties = [
+      RabbitPropertyModel(title: 'breed'.i18n, value: breeder.breed ?? 'breed'),
+      RabbitPropertyModel(title: 'color'.i18n, value: breeder.color ?? 'color'),
+    ];
+
     return DefaultTabController(
       length: tabs.length,
       child: Scaffold(
@@ -82,9 +87,9 @@ class BreederDetailsPage extends StatelessWidget {
                                   horizontal: 16,
                                 ),
                                 child: InfoPropertiesWidget(
-                                  properties: breeder.properties.sublist(0, 2),
+                                  properties: rabbitProperties,
                                   propertyStructures: List.generate(
-                                    breeder.properties.sublist(0, 2).length,
+                                    rabbitProperties.length,
                                     (index) {
                                       return PropertyStructure(
                                         mainAxisCellCount: 1.6,
