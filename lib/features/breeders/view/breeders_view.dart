@@ -9,6 +9,7 @@ import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/custom_app_bar.dart';
 import 'package:bunny_sync/global/widgets/keep_alive_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -42,10 +43,80 @@ class _BreedersPageState extends State<BreedersPage>
     implements BreedersViewCallbacks {
   late final BreedersCubit breedersCubit = context.read();
 
+  final parentScrollController = ScrollController();
+  final child1ScrollController = ScrollController();
+  final child2ScrollController = ScrollController();
+  final child3ScrollController = ScrollController();
+
+  bool isParentScrollingDownward = false;
+  bool isParentScrollingUpward = false;
+
   @override
   void initState() {
-    breedersCubit.getBreeders();
     super.initState();
+
+    breedersCubit.getBreeders();
+
+    child1ScrollController.addListener(
+      createScrollListener(
+        parent: parentScrollController,
+        child: child1ScrollController,
+      ),
+    );
+
+    child2ScrollController.addListener(
+      createScrollListener(
+        parent: parentScrollController,
+        child: child2ScrollController,
+      ),
+    );
+
+    child3ScrollController.addListener(
+      createScrollListener(
+        parent: parentScrollController,
+        child: child3ScrollController,
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    parentScrollController.dispose();
+    child1ScrollController.dispose();
+    child2ScrollController.dispose();
+    child3ScrollController.dispose();
+
+    super.dispose();
+  }
+
+  VoidCallback createScrollListener({
+    required ScrollController parent,
+    required ScrollController child,
+  }) {
+    return () {
+      child.addListener(() {
+        if (child.position.userScrollDirection == ScrollDirection.reverse &&
+            !isParentScrollingDownward) {
+          parent.animateTo(
+            200,
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.easeIn,
+          );
+          isParentScrollingDownward = true;
+          isParentScrollingUpward = false;
+        } else if (child.position.userScrollDirection ==
+            ScrollDirection.forward &&
+            !isParentScrollingUpward) {
+          parent.animateTo(
+            0,
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.easeIn,
+          );
+          isParentScrollingUpward = true;
+          isParentScrollingDownward = false;
+        }
+      });
+    };
   }
 
   @override
@@ -68,6 +139,8 @@ class _BreedersPageState extends State<BreedersPage>
         body: SafeArea(
           top: false,
           child: CustomScrollView(
+            controller: parentScrollController,
+            physics: const NeverScrollableScrollPhysics(),
             slivers: [
               BlocBuilder<BreedersCubit, GeneralBreedersState>(
                 builder: (context, state) {
@@ -108,6 +181,7 @@ class _BreedersPageState extends State<BreedersPage>
                           children: [
                             KeepAliveWidget(
                               child: BreedersListWidget(
+                                controller: child1ScrollController,
                                 breedersModel: state.breedersModel,
                                 padding: AppConstants.paddingH16V28,
                                 onBreederTap: onBreederTap,
@@ -115,6 +189,7 @@ class _BreedersPageState extends State<BreedersPage>
                             ),
                             KeepAliveWidget(
                               child: BreedersListWidget(
+                                controller: child2ScrollController,
                                 breedersModel: state.breedersModel,
                                 padding: AppConstants.paddingH16V28,
                                 onBreederTap: onBreederTap,
@@ -122,6 +197,7 @@ class _BreedersPageState extends State<BreedersPage>
                             ),
                             KeepAliveWidget(
                               child: BreedersListWidget(
+                                controller: child3ScrollController,
                                 breedersModel: state.breedersModel,
                                 padding: AppConstants.paddingH16V28,
                                 onBreederTap: onBreederTap,

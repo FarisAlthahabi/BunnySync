@@ -9,11 +9,14 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 class BreedersListWidget extends StatelessWidget {
   const BreedersListWidget({
     super.key,
+    
     required this.onBreederTap,
     this.padding = AppConstants.padding16,
     required this.breedersModel,
+    this.controller,
   });
 
+  final ScrollController? controller;
   final BreedersModel breedersModel;
   final ValueSetter<BreederModel> onBreederTap;
   final EdgeInsetsGeometry padding;
@@ -23,8 +26,8 @@ class BreedersListWidget extends StatelessWidget {
 
     return AnimationLimiter(
       child: ListView.separated(
+        controller: controller,
         shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
         padding: padding,
         itemCount: breedersModel.breeders.length,
         itemBuilder: (context, index) {
