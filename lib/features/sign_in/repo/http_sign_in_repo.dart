@@ -76,20 +76,7 @@ class HttpSignInRepo implements SignInRepo {
   }
 
   @override
-  Future<ResponseModel<LogOutModel>> logout() async {
-    final response = await _dioClient.post(
-      '/logout',
-    );
-
-    final body = response.data as Map<String, dynamic>;
-
-    return ResponseModel<LogOutModel>.fromJson(
-      body,
-      (json) {
-        final data = json as Map<String, dynamic>?;
-        if (data == null) throw 'Data is null';
-        return LogOutModel.fromJson(data);
-      },
-    );
+  Future<void> logout() async {
+    await _dioClient.post('/logout');
   }
 }
