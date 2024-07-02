@@ -10,7 +10,6 @@ part 'post_add_breeder_model.g.dart';
 @immutable
 class PostAddBreederModel {
   const PostAddBreederModel({
-    String? category_breeder_id,
     String? name,
     String? prefix,
     String? cage,
@@ -20,8 +19,7 @@ class PostAddBreederModel {
     DateTime? date,
     double? weight,
     String? breed,
-  })  : _categoryId = '',
-        _name = name,
+  })  : _name = name,
         _prefix = prefix,
         _cage = cage,
         _gender = gender,
@@ -29,8 +27,7 @@ class PostAddBreederModel {
         _tatto = tatto,
         _date = date,
         _weight = weight,
-        _breed = 'Angora';
-
+        _breed = breed;
 
   factory PostAddBreederModel.fromJsonStr(String str) =>
       PostAddBreederModel.fromJson(jsonDecode(str) as Map<String, dynamic>);
@@ -38,8 +35,6 @@ class PostAddBreederModel {
   factory PostAddBreederModel.fromJson(Map<String, dynamic> json) =>
       _$PostAddBreederModelFromJson(json);
 
-  @JsonKey(name: "category_breeder_id")
-  final String? _categoryId;
   @JsonKey(name: "name")
   final String? _name;
   @JsonKey(name: "prefix")
@@ -81,7 +76,6 @@ class PostAddBreederModel {
     double? Function()? weight,
   }) {
     return PostAddBreederModel(
-      category_breeder_id: categoryId != null ? categoryId() : _categoryId,
       name: name != null ? name() : _name,
       prefix: prefix != null ? prefix() : _prefix,
       cage: cage != null ? cage() : _cage,
@@ -92,10 +86,6 @@ class PostAddBreederModel {
       breed: breed != null ? breed() : _breed,
       weight: weight != null ? weight() : _weight,
     );
-  }
-
-  String get category_breeder_id {
-    return _categoryId ?? (throw Exception('category id is null'));
   }
 
   String get name {
