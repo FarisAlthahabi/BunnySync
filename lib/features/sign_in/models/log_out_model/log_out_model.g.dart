@@ -14,9 +14,7 @@ abstract class _$LogOutModelCWProxy {
   /// LogOutModel(...).copyWith(id: 12, name: "My name")
   /// ````
   LogOutModel call({
-    bool? success,
     List<dynamic>? data,
-    String? message,
   });
 }
 
@@ -35,23 +33,13 @@ class _$LogOutModelCWProxyImpl implements _$LogOutModelCWProxy {
   /// LogOutModel(...).copyWith(id: 12, name: "My name")
   /// ````
   LogOutModel call({
-    Object? success = const $CopyWithPlaceholder(),
     Object? data = const $CopyWithPlaceholder(),
-    Object? message = const $CopyWithPlaceholder(),
   }) {
     return LogOutModel(
-      success: success == const $CopyWithPlaceholder() || success == null
-          ? _value.success
-          // ignore: cast_nullable_to_non_nullable
-          : success as bool,
       data: data == const $CopyWithPlaceholder()
           ? _value.data
           // ignore: cast_nullable_to_non_nullable
           : data as List<dynamic>?,
-      message: message == const $CopyWithPlaceholder() || message == null
-          ? _value.message
-          // ignore: cast_nullable_to_non_nullable
-          : message as String,
     );
   }
 }
@@ -67,14 +55,10 @@ extension $LogOutModelCopyWith on LogOutModel {
 // **************************************************************************
 
 LogOutModel _$LogOutModelFromJson(Map<String, dynamic> json) => LogOutModel(
-      success: json['success'] as bool,
       data: json['data'] as List<dynamic>?,
-      message: json['message'] as String,
     );
 
 Map<String, dynamic> _$LogOutModelToJson(LogOutModel instance) =>
     <String, dynamic>{
-      'success': instance.success,
       'data': instance.data,
-      'message': instance.message,
     };

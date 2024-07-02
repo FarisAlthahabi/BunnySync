@@ -78,5 +78,7 @@
   "weight" : "Weight",
   "set_date": "Set Date",
   "hex" : "#hex",
-  "save" : "Save"
+  "save" : "Save",
+  "logout_success" : "You have logged out successfully",
+  "add_new_type": "Add New Type"
 }

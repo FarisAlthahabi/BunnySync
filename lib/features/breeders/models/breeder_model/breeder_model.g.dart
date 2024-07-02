@@ -19,6 +19,14 @@ BreederModel _$BreederModelFromJson(Map<String, dynamic> json) => BreederModel(
       color: json['color'] as String?,
       tatto: json['tatto'] as String?,
       breed: json['breed'] as String?,
+      categoryBreederId: (json['category_breeder_id'] as num?)?.toInt(),
+      weight: json['weight'] as String,
+      litters: json['litters'] as String,
+      kits: json['kits'] as String,
+      age: json['age'] as String,
+      status: json['status'] as String,
+      photo: json['photo'] as String,
+      dtRowIndex: (json['DT_RowIndex'] as num).toInt(),
     );
 
 Map<String, dynamic> _$BreederModelToJson(BreederModel instance) =>
@@ -35,6 +43,14 @@ Map<String, dynamic> _$BreederModelToJson(BreederModel instance) =>
       'color': instance.color,
       'tatto': instance.tatto,
       'breed': instance.breed,
+      'category_breeder_id': instance.categoryBreederId,
+      'weight': instance.weight,
+      'litters': instance.litters,
+      'kits': instance.kits,
+      'age': instance.age,
+      'status': instance.status,
+      'photo': instance.photo,
+      'DT_RowIndex': instance.dtRowIndex,
     };
 
 const _$GenderTypesEnumMap = {

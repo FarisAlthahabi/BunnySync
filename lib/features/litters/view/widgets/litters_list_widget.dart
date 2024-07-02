@@ -1,9 +1,10 @@
-import 'package:bunny_sync/features/breeders/models/breeder_model.dart';
+import 'package:bunny_sync/features/breeders/models/breeder_model/breeder_model.dart';
 import 'package:bunny_sync/features/litters/models/litter_model.dart';
 import 'package:bunny_sync/features/litters/view/widgets/litter_tile.dart';
 import 'package:bunny_sync/global/gen/assets.gen.dart';
 import 'package:bunny_sync/global/models/rabbit_property_model.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
+import 'package:bunny_sync/global/utils/enums/gender_types_enum.dart';
 import 'package:bunny_sync/global/widgets/animation/indexed_list_slide_fade_animated_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -25,6 +26,15 @@ class LittersListWidget extends StatelessWidget {
       LitterModel(
         parents: [
           BreederModel(
+            age: '10',
+            dtRowIndex: 1,
+            kits: '',
+            litters: '',
+            photo: '',
+            status: 'Active',
+            weight: '10.2',
+            categoryBreederId: 1,
+            gender: GenderTypes.male,
             name: 'Bunny Name',
             id: 3344,
             prefix: 'qws',
@@ -38,6 +48,15 @@ class LittersListWidget extends StatelessWidget {
             tatto: 'Tatto 1',
           ),
           BreederModel(
+            age: '10',
+            dtRowIndex: 1,
+            kits: '',
+            litters: '',
+            photo: '',
+            status: 'Active',
+            weight: '10.2',
+            categoryBreederId: 1,
+            gender: GenderTypes.female,
             name: 'Bunny Name 2',
             id: 3344,
             prefix: 'qws',
@@ -109,6 +128,15 @@ class LittersListWidget extends StatelessWidget {
       LitterModel(
         parents: [
           BreederModel(
+            age: '10',
+            dtRowIndex: 1,
+            kits: '',
+            litters: '',
+            photo: '',
+            status: 'Active',
+            weight: '10.2',
+            categoryBreederId: 1,
+            gender: GenderTypes.male,
             name: 'Bunny Name',
             id: 3344,
             prefix: 'qws',
@@ -122,6 +150,15 @@ class LittersListWidget extends StatelessWidget {
             tatto: 'Tatto 1',
           ),
           BreederModel(
+            age: '10',
+            dtRowIndex: 1,
+            kits: '',
+            litters: '',
+            photo: '',
+            status: 'Active',
+            weight: '10.2',
+            categoryBreederId: 1,
+            gender: GenderTypes.female,
             name: 'Bunny Name 2',
             id: 3344,
             prefix: 'qws',

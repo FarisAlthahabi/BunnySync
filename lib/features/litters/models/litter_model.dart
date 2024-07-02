@@ -1,4 +1,4 @@
-import 'package:bunny_sync/features/breeders/models/breeder_model.dart';
+import 'package:bunny_sync/features/breeders/models/breeder_model/breeder_model.dart';
 import 'package:bunny_sync/global/models/rabbit_property_model.dart';
 
 class LitterModel {

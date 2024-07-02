@@ -13,9 +13,7 @@ part 'log_out_model.g.dart';
 class LogOutModel {
 
   const LogOutModel({
-    required this.success,
     this.data,
-    required this.message,
   });
 
   factory LogOutModel.fromJsonStr(String str) =>
@@ -29,16 +27,11 @@ class LogOutModel {
   Map<String, dynamic> toJson() => _$LogOutModelToJson(this);
   
 
-  @JsonKey(name : 'success')
-  final bool success;
 
   @JsonKey(name : 'data')
   final List<dynamic>? data;
 
-  @JsonKey(name : 'message')
-  final String message;
 
-  
 
 
 }

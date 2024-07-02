@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/add_breeder/view/add_breeder_view.dart';
 import 'package:bunny_sync/features/authentication/view/authentication_view.dart';
 import 'package:bunny_sync/features/breeder_details/view/breeder_details_view.dart';
-import 'package:bunny_sync/features/breeders/models/breeder_model.dart';
+import 'package:bunny_sync/features/breeders/models/breeder_model/breeder_model.dart';
 import 'package:bunny_sync/features/breeders/view/breeders_view.dart';
 import 'package:bunny_sync/features/dashboard/view/dashboard_view.dart';
 import 'package:bunny_sync/features/home/view/home_view.dart';
