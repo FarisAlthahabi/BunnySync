@@ -16,9 +16,8 @@ class PostSignUpModel {
     String? name,
     String? email,
     String? password,
-    String? confirmPassword,
+    this.confirmPassword,
   })  : _name = name,
-        _confirmPassword = confirmPassword,
         _password = password,
         _email = email;
 
@@ -37,8 +36,8 @@ class PostSignUpModel {
   @JsonKey(name: 'password')
   final String? _password;
 
-  @JsonKey(name: 'confirm_password')
-  final String? _confirmPassword;
+  @JsonKey(name: 'confirm_password', required: true)
+  final String? confirmPassword;
 
   Map<String, dynamic> toJson() => _$PostSignUpModelToJson(this);
 
@@ -77,7 +76,7 @@ class PostSignUpModel {
   String? validateConfirmPassword() {
     final password = _password;
 
-    if (_confirmPassword.isNullOrEmpty) {
+    if (confirmPassword.isNullOrEmpty) {
       return Strings.confirmPasswordEmpty;
     }
 
@@ -85,7 +84,7 @@ class PostSignUpModel {
       return null;
     }
 
-    if (password != _confirmPassword) {
+    if (password != confirmPassword) {
       return Strings.passwordsNotMatch;
     }
 
@@ -103,7 +102,7 @@ class PostSignUpModel {
       email: email != null ? email() : _email,
       password: password != null ? password() : _password,
       confirmPassword:
-          confirmPassword != null ? confirmPassword() : _confirmPassword,
+          confirmPassword != null ? confirmPassword() : this.confirmPassword,
     );
   }
 
@@ -117,9 +116,5 @@ class PostSignUpModel {
 
   String get password {
     return _password ?? (throw Exception('password is null'));
-  }
-
-  String get confirmPassword {
-    return _confirmPassword ?? (throw Exception('confirmPassword is null'));
   }
 }
