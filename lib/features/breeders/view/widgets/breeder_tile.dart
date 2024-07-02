@@ -1,4 +1,4 @@
-import 'package:bunny_sync/features/breeders/models/breeder_model.dart';
+import 'package:bunny_sync/features/breeders/models/breeder_model/breeder_model.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/models/rabbit_property_model.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
@@ -7,6 +7,7 @@ import 'package:bunny_sync/global/widgets/breeder_image_widget.dart';
 import 'package:bunny_sync/global/widgets/info_properties_widget.dart';
 import 'package:bunny_sync/global/widgets/main_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class BreederTile extends StatelessWidget {
   const BreederTile({
@@ -21,8 +22,10 @@ class BreederTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final rabbitProperties = [
-      RabbitPropertyModel(title: 'breed'.i18n, value: breeder.breed ?? 'breed'),
-      RabbitPropertyModel(title: 'color'.i18n, value: breeder.color ?? 'color'),
+      RabbitPropertyModel(title: 'litters'.i18n, value: breeder.litters),
+      RabbitPropertyModel(title: 'kits'.i18n, value: breeder.kits),
+      RabbitPropertyModel(title: 'age'.i18n, value: breeder.age),
+      RabbitPropertyModel(title: 'weight'.i18n, value: breeder.weight),
     ];
 
     return MainTile(
@@ -37,8 +40,10 @@ class BreederTile extends StatelessWidget {
                 padding: AppConstants.paddingT16,
                 child: Row(
                   children: [
-                    const BreederImageWidget(
-                      maleOrFemale: true,
+                    const Skeleton.shade(
+                      child: BreederImageWidget(
+                        maleOrFemale: true,
+                      ),
                     ),
                     const SizedBox(width: 20),
                     Column(
@@ -78,7 +83,9 @@ class BreederTile extends StatelessWidget {
               ),
               Expanded(
                 flex: 70,
-                child: Divider(),
+                child: Skeleton.shade(
+                  child: Divider(),
+                ),
               ),
               Spacer(
                 flex: 15,

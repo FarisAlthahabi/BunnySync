@@ -8,7 +8,6 @@ part of 'post_add_breeder_model.dart';
 
 PostAddBreederModel _$PostAddBreederModelFromJson(Map<String, dynamic> json) =>
     PostAddBreederModel(
-      category_breeder_id: json['category_breeder_id'] as String?,
       name: json['name'] as String?,
       prefix: json['prefix'] as String?,
       cage: json['cage'] as String?,
@@ -24,7 +23,6 @@ PostAddBreederModel _$PostAddBreederModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$PostAddBreederModelToJson(
         PostAddBreederModel instance) =>
     <String, dynamic>{
-      'category_breeder_id': instance.category_breeder_id,
       'name': instance.name,
       'prefix': instance.prefix,
       'cage': instance.cage,

@@ -4,8 +4,6 @@ part of 'add_breeder_repo.dart';
 class HttpAddBreederRepo implements AddBreederRepo {
   final DioClient _dioClient = DioClient();
 
-  final UserRepo userRepo = UserRepo();
-
   @override
   Future<ResponseModel<BreederModel>> addBreeder(
     PostAddBreederModel postAddBreederModel,

@@ -4,6 +4,7 @@ import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/search_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class TabModel {
   TabModel({
@@ -65,15 +66,17 @@ class CustomAppBar extends StatelessWidget {
         child: Container(
           color: context.cs.surface,
           padding: AppConstants.paddingH16,
-          child: TabBar(
-            tabs: tabs
-                .map(
-                  (tab) => TabHeader(
-                    text: tab.title,
-                    indicatorValue: tab.indicatorValue,
-                  ),
-                )
-                .toList(),
+          child: Skeleton.shade(
+            child: TabBar(
+              tabs: tabs
+                  .map(
+                    (tab) => TabHeader(
+                      text: tab.title,
+                      indicatorValue: tab.indicatorValue,
+                    ),
+                  )
+                  .toList(),
+            ),
           ),
         ),
       ),

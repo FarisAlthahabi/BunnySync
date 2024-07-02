@@ -2,7 +2,7 @@ import 'package:auto_route/annotations.dart';
 import 'package:bunny_sync/features/breeder_details/view/widgets/breeder_details_tile.dart';
 import 'package:bunny_sync/features/breeder_details/view/widgets/breeder_profile_info_widget.dart';
 import 'package:bunny_sync/features/breeder_details/view/widgets/details_tab_bar.dart';
-import 'package:bunny_sync/features/breeders/models/breeder_model.dart';
+import 'package:bunny_sync/features/breeders/models/breeder_model/breeder_model.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/models/rabbit_property_model.dart';
 import 'package:bunny_sync/global/theme/theme.dart';

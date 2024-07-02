@@ -1,6 +1,7 @@
 import 'package:bunny_sync/global/gen/assets.gen.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class SearchTextField extends StatelessWidget {
   const SearchTextField({
@@ -26,7 +27,9 @@ class SearchTextField extends StatelessWidget {
           maxWidth: 40,
           maxHeight: 20,
         ),
-        prefixIcon: Assets.icons.search.svg(),
+        prefixIcon: Skeleton.shade(
+          child: Assets.icons.search.svg(),
+        ),
         border: OutlineInputBorder(
           borderSide: BorderSide.none,
           borderRadius: BorderRadius.circular(4),

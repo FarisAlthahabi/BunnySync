@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/dashboard/cubit/dashboard_cubit.dart';
+import 'package:bunny_sync/features/dashboard/view/widgets/add_new_type_widget.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/extensions/string_x.dart';
 import 'package:bunny_sync/global/gen/assets.gen.dart';
@@ -8,6 +9,7 @@ import 'package:bunny_sync/global/repos/repos.dart';
 import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
+import 'package:bunny_sync/global/widgets/main_show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,6 +21,10 @@ abstract class DashboardViewCallback {
   );
 
   void onAddTap();
+
+  void onBreederTap();
+
+  void onLittertap();
 }
 
 @RoutePage()
@@ -50,7 +56,7 @@ class _DashboardPageState extends State<DashboardPage>
   late final UserRepo userRepo = context.read();
 
   int currentIndex = 0;
-
+  
   @override
   void onBottomTab(
     int previousIndex,
@@ -64,9 +70,29 @@ class _DashboardPageState extends State<DashboardPage>
   }
 
   @override
-  void onAddTap() {
+  void onBreederTap() {
+    Navigator.pop(context);
     context.router.push(
       const AddBreederRoute(),
+    );
+  }
+
+  @override
+  void onLittertap() {
+    Navigator.pop(context);
+    context.router.push(
+      const AddBreederRoute(),
+    );
+  }
+
+  @override
+  void onAddTap() {
+    mainShowBottomSheet(
+      context,
+      widget: AddNewTypeWidget(
+        onBreederTap: onBreederTap,
+        onLitterTap: onLittertap,
+      ),
     );
   }
 

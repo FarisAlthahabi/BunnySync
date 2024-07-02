@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:bunny_sync/features/add_breeder/models/post_add_breeder_model/post_add_breeder_model.dart';
 import 'package:bunny_sync/features/add_breeder/repo/add_breeder_repo.dart';
-import 'package:bunny_sync/features/breeders/models/breeder_model.dart';
+import 'package:bunny_sync/features/breeders/models/breeder_model/breeder_model.dart';
 import 'package:bunny_sync/global/utils/enums/gender_types_enum.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';

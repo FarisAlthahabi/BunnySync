@@ -9,7 +9,6 @@ part 'breeder_model.g.dart';
 @immutable
 @JsonSerializable()
 class BreederModel {
-
   const BreederModel({
     required this.id,
     required this.userId,
@@ -23,6 +22,14 @@ class BreederModel {
     this.color,
     this.tatto,
     this.breed,
+    this.categoryBreederId,
+    required this.weight,
+    required this.litters,
+    required this.kits,
+    required this.age,
+    required this.status,
+    required this.photo,
+    required this.dtRowIndex,
   });
 
   factory BreederModel.fromJsonStr(String str) =>
@@ -57,6 +64,24 @@ class BreederModel {
   final String? tatto;
 
   final String? breed;
+
+  @JsonKey(name: 'category_breeder_id')
+  final int? categoryBreederId;
+
+  final String weight;
+
+  final String litters;
+
+  final String kits;
+
+  final String age;
+
+  final String status;
+
+  final String photo;
+
+  @JsonKey(name: 'DT_RowIndex')
+  final int dtRowIndex;
 
   String toJsonStr() => jsonEncode(toJson());
 

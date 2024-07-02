@@ -2,6 +2,7 @@ import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 abstract class InfoPropertyModel {
   String get title;
@@ -44,37 +45,39 @@ class InfoPropertiesWidget<T extends InfoPropertyModel>
           return StaggeredGridTile.count(
             mainAxisCellCount: propertyStructure.mainAxisCellCount,
             crossAxisCellCount: propertyStructure.crossAxisCellCount,
-            child: Container(
-              padding: AppConstants.padding12,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(
-                  color: context.cs.primary,
-                  width: 1.3,
+            child: Skeleton.shade(
+              child: Container(
+                padding: AppConstants.padding12,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                    color: context.cs.primary,
+                    width: 1.3,
+                  ),
                 ),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  FittedBox(
-                    child: Text(
-                      property.title,
-                      style: context.tt.headlineSmall?.copyWith(
-                              fontSize: 20,
-                            ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    FittedBox(
+                      child: Text(
+                        property.title,
+                        style: context.tt.headlineSmall?.copyWith(
+                                fontSize: 20,
+                              ),
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 2),
-                  const Spacer(),
-                  FittedBox(
-                    child: Text(
-                      property.value,
-                      style: context.tt.bodyMedium,
+                    const SizedBox(height: 2),
+                    const Spacer(),
+                    FittedBox(
+                      child: Text(
+                        property.value,
+                        style: context.tt.bodyMedium,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           );
