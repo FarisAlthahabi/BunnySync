@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:bunny_sync/features/authentication/bloc/authentication_bloc.dart';
-import 'package:bunny_sync/features/sign_in/models/log_out_model/log_out_model.dart';
 import 'package:bunny_sync/features/sign_in/models/post_sign_up_model/post_sign_up_model.dart';
 import 'package:bunny_sync/features/sign_in/models/sign_in_model/sign_in_model.dart';
 import 'package:bunny_sync/features/sign_in/models/sign_up_exception/sign_up_exception.dart';
@@ -180,8 +179,8 @@ class SignInCubit extends Cubit<GeneralSignInState> {
     emit(SignInLoading());
 
     try {
-      final response = await _signInRepo.logout();
-      emit(LogOutSuccess(response.data));
+      await _signInRepo.logout();
+      emit(LogOutSuccess());
       _authenticationBloc?.add(
         SignOutRequested(),
       );

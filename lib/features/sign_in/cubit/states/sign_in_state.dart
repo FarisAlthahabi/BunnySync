@@ -27,9 +27,5 @@ class SignInError extends SignInState {
 }
 
 class LogOutSuccess extends SignInState {
-  LogOutSuccess(
-    this.logOutModel,
-  );
-
-  final LogOutModel logOutModel;
+  LogOutSuccess();
 }
