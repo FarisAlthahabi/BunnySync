@@ -1,4 +1,4 @@
-import 'package:bunny_sync/features/dashboard/view/widgets/breeder_type_widget.dart';
+import 'package:bunny_sync/features/dashboard/view/widgets/new_type_widget.dart';
 import 'package:bunny_sync/global/extensions/string_x.dart';
 import 'package:bunny_sync/global/gen/assets.gen.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
@@ -32,7 +32,7 @@ class AddNewTypeWidget extends StatelessWidget {
             ),
             Row(
               children: [
-                BreederTypeWidget(
+                NewTypeWidget(
                   onTap: onBreederTap,
                   icon: Assets.icons.genders.path.svg(
                     color: context.cs.primary,
@@ -42,7 +42,7 @@ class AddNewTypeWidget extends StatelessWidget {
                 const SizedBox(
                   width: 16,
                 ),
-                BreederTypeWidget(
+                NewTypeWidget(
                   onTap: onLitterTap,
                   icon: Assets.icons.squares.path.svg(
                     color: context.cs.primary,

@@ -62,7 +62,6 @@ class _HomePageState extends State<HomePage> implements HomeViewCallBacks {
             "logout_success".i18n,
           );
         } else if (state is SignInError) {
-            //authenticationBloc.add(SignOutRequested());
           MainSnackBar.showErrorMessageBar(
             context,
             state.message,
@@ -89,18 +88,18 @@ class _HomePageState extends State<HomePage> implements HomeViewCallBacks {
                 ),
               ),
               actions: [
-                IconButton(
-                  iconSize: 30,
-                  color: AppColors.mainColor,
-                  onPressed: onLogOutTap,
-                  icon: const Icon(Icons.door_sliding_outlined),
-                ),
                 AppImageWidget(
                   url: 'https://picsum.photos/200/300',
                   width: 40,
                   height: 40,
                   fit: BoxFit.cover,
                   borderRadius: BorderRadius.circular(25),
+                ),
+                IconButton(
+                  iconSize: 30,
+                  color: AppColors.mainColor,
+                  onPressed: onLogOutTap,
+                  icon: const Icon(Icons.logout_rounded),
                 ),
               ],
             ),

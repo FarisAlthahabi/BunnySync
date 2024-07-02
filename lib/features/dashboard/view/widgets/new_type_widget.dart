@@ -1,8 +1,8 @@
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:flutter/material.dart';
 
-class BreederTypeWidget extends StatelessWidget {
-  const BreederTypeWidget({
+class NewTypeWidget extends StatelessWidget {
+  const NewTypeWidget({
     super.key,
     required this.title,
     required this.icon,
