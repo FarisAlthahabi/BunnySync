@@ -18,12 +18,12 @@ class NewTypeWidget extends StatelessWidget {
     return Column(
       children: [
         InkWell(
-        hoverColor: AppColors.backgroundColor,
+          hoverColor: AppColors.backgroundColor,
           onTap: onTap,
           child: CircleAvatar(
             backgroundColor: AppColors.greyShade9,
             radius: 30,
-            child: icon
+            child: icon,
           ),
         ),
         const SizedBox(
