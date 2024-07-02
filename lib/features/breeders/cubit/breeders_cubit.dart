@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:bunny_sync/features/breeders/models/breeders_model/breeders_model.dart';
+import 'package:bunny_sync/features/breeders/models/breeders_model/fake_breeders_model.dart';
 import 'package:bunny_sync/features/breeders/repo/breeders_repo.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
@@ -15,7 +16,7 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
   final BreedersRepo _breedersRepo;
 
   Future<void> getBreeders() async {
-    emit(BreedersLoading());
+    emit(BreedersLoading(fakeBreedersModel));
     try {
       final response = await _breedersRepo.getBreeders();
       emit(BreedersSuccess(response));

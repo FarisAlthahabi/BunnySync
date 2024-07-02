@@ -3,6 +3,7 @@ import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/light_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class BunnySyncMaterialApp extends StatefulWidget {
   const BunnySyncMaterialApp({super.key});
@@ -19,16 +20,19 @@ class _BunnySyncMaterialAppState extends State<BunnySyncMaterialApp> {
     return ScreenUtilInit(
       designSize: const Size(430, 932),
       builder: (context, child) {
-        return MaterialApp.router(
-          title: 'app_name'.i18n,
-          theme: lightTheme,
-          debugShowCheckedModeBanner: false,
-          routerDelegate: appRouter.delegate(
-            navigatorObservers: () => [
-              HeroController(),
-            ],
+        return SkeletonizerConfig(
+          data: const SkeletonizerConfigData(),
+          child: MaterialApp.router(
+            title: 'app_name'.i18n,
+            theme: lightTheme,
+            debugShowCheckedModeBanner: false,
+            routerDelegate: appRouter.delegate(
+              navigatorObservers: () => [
+                HeroController(),
+              ],
+            ),
+            routeInformationParser: appRouter.defaultRouteParser(),
           ),
-          routeInformationParser: appRouter.defaultRouteParser(),
         );
       },
     );

@@ -5,13 +5,12 @@ import 'package:bunny_sync/features/breeders/view/widgets/breeders_list_widget.d
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/router/router.dart';
-import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/custom_app_bar.dart';
 import 'package:bunny_sync/global/widgets/keep_alive_widget.dart';
-import 'package:bunny_sync/global/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 abstract class BreedersViewCallbacks {
   void onBreederTap(BreederModel breeder);
@@ -42,6 +41,7 @@ class BreedersPage extends StatefulWidget {
 class _BreedersPageState extends State<BreedersPage>
     implements BreedersViewCallbacks {
   late final BreedersCubit breedersCubit = context.read();
+
   @override
   void initState() {
     breedersCubit.getBreeders();
@@ -69,59 +69,66 @@ class _BreedersPageState extends State<BreedersPage>
           top: false,
           child: CustomScrollView(
             slivers: [
-              CustomAppBar(
-                onSearchChanged: (value) {},
-                title: 'breeders'.i18n,
-                tabs: [
-                  TabModel(
-                    title: 'active'.i18n,
-                    indicatorValue: '5',
-                  ),
-                  TabModel(
-                    title: 'inactive'.i18n,
-                    indicatorValue: '5',
-                  ),
-                  TabModel(
-                    title: 'all'.i18n,
-                  ),
-                ],
+              BlocBuilder<BreedersCubit, GeneralBreedersState>(
+                builder: (context, state) {
+                  if (state is BreedersFetch) {
+                    return Skeletonizer.sliver(
+                      enabled: state is BreedersLoading,
+                      child: CustomAppBar(
+                        onSearchChanged: (value) {},
+                        title: 'breeders'.i18n,
+                        tabs: [
+                          TabModel(
+                            title: 'active'.i18n,
+                            indicatorValue: '5',
+                          ),
+                          TabModel(
+                            title: 'inactive'.i18n,
+                            indicatorValue: '5',
+                          ),
+                          TabModel(
+                            title: 'all'.i18n,
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                  return const SliverToBoxAdapter(
+                    child: SizedBox(),
+                  );
+                },
               ),
               SliverFillRemaining(
                 child: BlocBuilder<BreedersCubit, GeneralBreedersState>(
                   builder: (context, state) {
-                    if (state is BreedersLoading) {
-                      return const Scaffold(
-                        body: Center(
-                          child: LoadingIndicator(
-                            color: AppColors.mainColor,
-                          ),
+                    if (state is BreedersFetch) {
+                      return Skeletonizer(
+                        enabled: state is BreedersLoading,
+                        child: TabBarView(
+                          children: [
+                            KeepAliveWidget(
+                              child: BreedersListWidget(
+                                breedersModel: state.breedersModel,
+                                padding: AppConstants.paddingH16V28,
+                                onBreederTap: onBreederTap,
+                              ),
+                            ),
+                            KeepAliveWidget(
+                              child: BreedersListWidget(
+                                breedersModel: state.breedersModel,
+                                padding: AppConstants.paddingH16V28,
+                                onBreederTap: onBreederTap,
+                              ),
+                            ),
+                            KeepAliveWidget(
+                              child: BreedersListWidget(
+                                breedersModel: state.breedersModel,
+                                padding: AppConstants.paddingH16V28,
+                                onBreederTap: onBreederTap,
+                              ),
+                            ),
+                          ],
                         ),
-                      );
-                    } else if (state is BreedersSuccess) {
-                      return TabBarView(
-                        children: [
-                          KeepAliveWidget(
-                            child: BreedersListWidget(
-                              breedersModel: state.breedersModel,
-                              padding: AppConstants.paddingH16V28,
-                              onBreederTap: onBreederTap,
-                            ),
-                          ),
-                          KeepAliveWidget(
-                            child: BreedersListWidget(
-                              breedersModel: state.breedersModel,
-                              padding: AppConstants.paddingH16V28,
-                              onBreederTap: onBreederTap,
-                            ),
-                          ),
-                          KeepAliveWidget(
-                            child: BreedersListWidget(
-                              breedersModel: state.breedersModel,
-                              padding: AppConstants.paddingH16V28,
-                              onBreederTap: onBreederTap,
-                            ),
-                          ),
-                        ],
                       );
                     } else if (state is BreedersFail) {
                       return Scaffold(
@@ -129,7 +136,7 @@ class _BreedersPageState extends State<BreedersPage>
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                               Text(
+                              Text(
                                 state.message,
                                 textAlign: TextAlign.center,
                               ),

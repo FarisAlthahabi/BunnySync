@@ -1,6 +1,7 @@
 import 'package:bunny_sync/global/theme/theme_extensions/app_theme_extension/app_theme_extension.dart';
 import 'package:bunny_sync/global/widgets/indicator_info_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class TabHeader extends StatelessWidget {
   const TabHeader({
@@ -25,9 +26,11 @@ class TabHeader extends StatelessWidget {
           Row(
             children: [
               const SizedBox(width: 8),
-              IndicatorInfoWidget(
-                value: indicatorValue,
-                color: context.appThemeExtension.indicatorInfoColor,
+              Skeleton.shade(
+                child: IndicatorInfoWidget(
+                  value: indicatorValue,
+                  color: context.appThemeExtension.indicatorInfoColor,
+                ),
               ),
             ],
           ),
