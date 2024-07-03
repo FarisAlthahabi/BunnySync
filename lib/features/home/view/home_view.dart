@@ -10,7 +10,6 @@ import 'package:bunny_sync/global/theme/components/app_colors.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/animation/indexed_grid_scale_fade_animated_tile.dart';
 import 'package:bunny_sync/global/widgets/bunny_logo.dart';
-import 'package:bunny_sync/global/widgets/images/app_image_widget.dart';
 import 'package:bunny_sync/global/widgets/loading_indicator.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
 import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
@@ -88,13 +87,6 @@ class _HomePageState extends State<HomePage> implements HomeViewCallBacks {
                 ),
               ),
               actions: [
-                AppImageWidget(
-                  url: 'https://picsum.photos/200/300',
-                  width: 40,
-                  height: 40,
-                  fit: BoxFit.cover,
-                  borderRadius: BorderRadius.circular(25),
-                ),
                 IconButton(
                   iconSize: 30,
                   color: AppColors.mainColor,
