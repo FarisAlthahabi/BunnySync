@@ -255,6 +255,7 @@ class _SignInPageState extends State<SignInPage> implements SignInViewCallback {
                               onSubmitted: onFullNameSubmitted,
                               prefixIcon: Assets.icons.profile.svg(),
                               hintText: 'full_name'.i18n,
+                              keyboardType: TextInputType.name,
                               errorText:
                                   state is TextFieldState ? state.error : null,
                             );
@@ -275,6 +276,7 @@ class _SignInPageState extends State<SignInPage> implements SignInViewCallback {
                         focusNode: emailFocusNode,
                         prefixIcon: Assets.icons.mail.svg(),
                         hintText: 'enter_email'.i18n,
+                        keyboardType: TextInputType.emailAddress,
                         errorText: state is TextFieldState ? state.error : null,
                       );
                     },
@@ -292,6 +294,7 @@ class _SignInPageState extends State<SignInPage> implements SignInViewCallback {
                         prefixIcon: Assets.icons.lock.svg(),
                         hintText: 'enter_password'.i18n,
                         isPassword: true,
+                        keyboardType: TextInputType.visiblePassword,
                         errorText: state is TextFieldState ? state.error : null,
                       );
                     },
@@ -323,6 +326,7 @@ class _SignInPageState extends State<SignInPage> implements SignInViewCallback {
                                     prefixIcon: Assets.icons.lock.svg(),
                                     hintText: 'confirm_password'.i18n,
                                     isPassword: true,
+                                    keyboardType: TextInputType.visiblePassword,
                                     errorText: state is TextFieldState
                                         ? state.error
                                         : null,
