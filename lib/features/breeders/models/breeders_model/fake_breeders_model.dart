@@ -1,5 +1,12 @@
 import 'package:bunny_sync/features/breeders/models/breeder_model/breeder_model.dart';
 import 'package:bunny_sync/features/breeders/models/breeders_model/breeders_model.dart';
+import 'package:bunny_sync/features/breeders/models/breeders_status_model/breeder_status_model.dart';
+
+final fakeBreedersStatusModel = BreedersStatusModel(
+  all: fakeBreedersModel.breeders,
+  active: fakeBreedersModel.breeders,
+  inactive: fakeBreedersModel.breeders,
+);
 
 final fakeBreedersModel = BreedersModel(
   draw: 0,
