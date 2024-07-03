@@ -11,24 +11,31 @@ class HttpSignInRepo implements SignInRepo {
     String email,
     String password,
   ) async {
-    final response = await _dioClient.post(
-      '/login',
-      data: {
-        'email': email,
-        'password': password,
-      },
-    );
+    try {
+      final response = await _dioClient.post(
+        '/login',
+        data: {
+          'email': email,
+          'password': password,
+        },
+      );
 
-    final body = response.data as Map<String, dynamic>;
+      final body = response.data as Map<String, dynamic>;
 
-    return ResponseModel<SignInModel>.fromJson(
-      body,
-      (json) {
-        final data = json as Map<String, dynamic>?;
-        if (data == null) throw 'Data is null';
-        return SignInModel.fromJson(data);
-      },
-    );
+      return ResponseModel<SignInModel>.fromJson(
+        body,
+        (json) {
+          final data = json as Map<String, dynamic>?;
+          if (data == null) throw 'Data is null';
+          return SignInModel.fromJson(data);
+        },
+      );
+    } catch (e) {
+      if (e is DioException) {
+        throw e.message ?? e;
+      }
+      rethrow;
+    }
   }
 
   @override

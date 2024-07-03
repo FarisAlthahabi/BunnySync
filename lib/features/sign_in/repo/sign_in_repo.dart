@@ -5,6 +5,7 @@ import 'package:bunny_sync/features/sign_in/models/sign_up_exception/sign_up_exc
 import 'package:bunny_sync/global/dio/dio.dart';
 import 'package:bunny_sync/global/models/response_model/response_model.dart';
 import 'package:bunny_sync/global/repos/repos.dart';
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
 part 'http_sign_in_repo.dart';

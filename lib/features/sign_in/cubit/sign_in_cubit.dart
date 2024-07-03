@@ -93,7 +93,7 @@ class SignInCubit extends Cubit<GeneralSignInState> {
         ),
       );
     } catch (e) {
-      emit(SignInError(Strings.wentWrong.i18n));
+      emit(SignInError(e.toString()));
     }
   }
 

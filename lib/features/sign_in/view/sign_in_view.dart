@@ -305,15 +305,7 @@ class _SignInPageState extends State<SignInPage> implements SignInViewCallback {
                         : Column(
                             children: [
                               const SizedBox(height: 22),
-                              BlocConsumer<SignInCubit, GeneralSignInState>(
-                                listener: (context, state) {
-                                  if (state is SignInError) {
-                                    MainSnackBar.showErrorMessageBar(
-                                      context,
-                                      state.message,
-                                    );
-                                  }
-                                },
+                              BlocBuilder<SignInCubit, GeneralSignInState>(
                                 buildWhen: (previous, current) =>
                                     current is TextFieldState &&
                                     current.type ==
@@ -342,7 +334,15 @@ class _SignInPageState extends State<SignInPage> implements SignInViewCallback {
                   ),
                   SizedBox(
                     width: double.maxFinite,
-                    child: BlocBuilder<SignInCubit, GeneralSignInState>(
+                    child: BlocConsumer<SignInCubit, GeneralSignInState>(
+                      listener: (context, state) {
+                        if (state is SignInError) {
+                          MainSnackBar.showErrorMessageBar(
+                            context,
+                            state.message,
+                          );
+                        }
+                      },
                       builder: (context, state) {
                         var onTap = onMainAction;
                         Widget? child;
