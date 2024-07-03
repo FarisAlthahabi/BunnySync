@@ -302,7 +302,15 @@ class _SignInPageState extends State<SignInPage> implements SignInViewCallback {
                         : Column(
                             children: [
                               const SizedBox(height: 22),
-                              BlocBuilder<SignInCubit, GeneralSignInState>(
+                              BlocConsumer<SignInCubit, GeneralSignInState>(
+                                listener: (context, state) {
+                                  if (state is SignInError) {
+                                    MainSnackBar.showErrorMessageBar(
+                                      context,
+                                      state.message,
+                                    );
+                                  }
+                                },
                                 buildWhen: (previous, current) =>
                                     current is TextFieldState &&
                                     current.type ==
@@ -322,7 +330,9 @@ class _SignInPageState extends State<SignInPage> implements SignInViewCallback {
                                 },
                               ),
                               const SizedBox(height: 25),
-                              const AgreeTermsWidget(),
+                              AgreeTermsWidget(
+                                onChanged: signInCubit.setAgreeToTerms,
+                              ),
                             ],
                           ),
                   ),

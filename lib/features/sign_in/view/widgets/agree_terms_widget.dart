@@ -5,9 +5,11 @@ class AgreeTermsWidget extends StatefulWidget {
   const AgreeTermsWidget({
     super.key,
     this.isChecked = false,
+    this.onChanged,
   });
 
   final bool isChecked;
+  final ValueChanged<bool>? onChanged;
 
   @override
   State<AgreeTermsWidget> createState() => _AgreeTermsWidgetState();
@@ -25,13 +27,14 @@ class _AgreeTermsWidgetState extends State<AgreeTermsWidget> {
         child: Row(
           children: [
             Checkbox(
-              value: widget.isChecked,
+              value: isChecked,
               onChanged: (isChecked) {
                 setState(() {
                   if (isChecked != null) {
                     this.isChecked = isChecked;
                   }
                 });
+                widget.onChanged?.call(isChecked ?? false);
               },
             ),
             Text('i_agree_with_terms'.i18n),

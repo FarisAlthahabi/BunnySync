@@ -16,6 +16,7 @@ class PostSignUpModel {
     String? name,
     String? email,
     String? password,
+    this.agreeToTerms = false,
     this.confirmPassword,
   })  : _name = name,
         _password = password,
@@ -35,6 +36,9 @@ class PostSignUpModel {
 
   @JsonKey(name: 'password')
   final String? _password;
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final bool agreeToTerms;
 
   @JsonKey(name: 'confirm_password', required: true)
   final String? confirmPassword;
@@ -91,11 +95,19 @@ class PostSignUpModel {
     return null;
   }
 
+  String? validateAgreeToTerms() {
+    if (!agreeToTerms) {
+      return 'must_agree_to_terms'.i18n;
+    }
+    return null;
+  }
+
   PostSignUpModel copyWith({
     String? Function()? fullName,
     String? Function()? email,
     String? Function()? password,
     String? Function()? confirmPassword,
+    bool Function()? agreeToTerms,
   }) {
     return PostSignUpModel(
       name: fullName != null ? fullName() : _name,
@@ -103,6 +115,7 @@ class PostSignUpModel {
       password: password != null ? password() : _password,
       confirmPassword:
           confirmPassword != null ? confirmPassword() : this.confirmPassword,
+      agreeToTerms: agreeToTerms != null ? agreeToTerms() : this.agreeToTerms,
     );
   }
 

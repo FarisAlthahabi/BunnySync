@@ -49,6 +49,11 @@ class SignInCubit extends Cubit<GeneralSignInState> {
     emit(TextFieldState(TextFieldType.confirmPassword));
   }
 
+  void setAgreeToTerms(bool agreeToTerms) {
+    _postSignUpModel =
+        _postSignUpModel.copyWith(agreeToTerms: () => agreeToTerms);
+  }
+
   Future<void> signIn({VoidCallback? onSuccess}) async {
     bool shouldReturn = false;
 
@@ -136,6 +141,12 @@ class SignInCubit extends Cubit<GeneralSignInState> {
       return;
     }
 
+    final agreeToTermsError = _postSignUpModel.validateAgreeToTerms();
+    if (agreeToTermsError != null) {
+      emit(SignInError(agreeToTermsError));
+      return;
+    }
+
     emit(SignInLoading());
 
     try {
@@ -175,7 +186,7 @@ class SignInCubit extends Cubit<GeneralSignInState> {
     emit(TextFieldState(TextFieldType.confirmPassword));
   }
 
-  Future<void>logout({VoidCallback? onSuccess}) async{
+  Future<void> logout({VoidCallback? onSuccess}) async {
     emit(SignInLoading());
 
     try {
