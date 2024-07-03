@@ -70,6 +70,24 @@ class HttpSignInRepo implements SignInRepo {
         }
 
         throw signUpException;
+      } else if (e is NotFoundException) {
+        SignUpException signUpException = const SignUpException(errors: {});
+
+        final body = e.response?.data as Map<String, dynamic>;
+
+        final emailErrors =
+            (body['data'] as Map<String, dynamic>)['email'] as List<dynamic>?;
+        if (emailErrors != null && emailErrors.isNotEmpty) {
+          signUpException = signUpException.copyWith(
+            errors: {
+              ...signUpException.errors,
+              TextFieldType.email:
+                  emailErrors.map((e) => e.toString()).toList(),
+            },
+          );
+        }
+
+        throw signUpException;
       }
       rethrow;
     }
