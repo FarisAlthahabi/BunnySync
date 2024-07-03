@@ -80,5 +80,7 @@
   "hex" : "#hex",
   "save" : "Save",
   "logout_success" : "You have logged out successfully",
-  "add_new_type": "Add New Type"
+  "add_new_type": "Add New Type",
+  "try_again" : "Try again",
+  "no_breeders": "There is no breeders"
 }

@@ -153,11 +153,11 @@ class _BreedersPageState extends State<BreedersPage>
                         tabs: [
                           TabModel(
                             title: 'active'.i18n,
-                            indicatorValue: '5',
+                            indicatorValue: state.breedersStatusModel.active.length.toString(),
                           ),
                           TabModel(
                             title: 'inactive'.i18n,
-                            indicatorValue: '5',
+                            indicatorValue: state.breedersStatusModel.inactive.length.toString(),
                           ),
                           TabModel(
                             title: 'all'.i18n,
@@ -182,7 +182,7 @@ class _BreedersPageState extends State<BreedersPage>
                             KeepAliveWidget(
                               child: BreedersListWidget(
                                 controller: child1ScrollController,
-                                breedersModel: state.breedersModel,
+                                breedersModel: state.breedersStatusModel.active,
                                 padding: AppConstants.paddingH16V28,
                                 onBreederTap: onBreederTap,
                               ),
@@ -190,7 +190,7 @@ class _BreedersPageState extends State<BreedersPage>
                             KeepAliveWidget(
                               child: BreedersListWidget(
                                 controller: child2ScrollController,
-                                breedersModel: state.breedersModel,
+                                breedersModel: state.breedersStatusModel.inactive,
                                 padding: AppConstants.paddingH16V28,
                                 onBreederTap: onBreederTap,
                               ),
@@ -198,7 +198,7 @@ class _BreedersPageState extends State<BreedersPage>
                             KeepAliveWidget(
                               child: BreedersListWidget(
                                 controller: child3ScrollController,
-                                breedersModel: state.breedersModel,
+                                breedersModel: state.breedersStatusModel.all,
                                 padding: AppConstants.paddingH16V28,
                                 onBreederTap: onBreederTap,
                               ),
@@ -221,7 +221,7 @@ class _BreedersPageState extends State<BreedersPage>
                               ),
                               TextButton(
                                 onPressed: onTryAgainTap,
-                                child: const Text('Try again'),
+                                child:  Text("try_again".i18n),
                               ),
                             ],
                           ),
