@@ -32,7 +32,7 @@ class BreederDetailsResponseModel {
 
   final String age;
 
-  @JsonKey(name: 'liveKits')
+  @JsonKey(name: 'kitsToDate')
   final int kitsCount;
 
   @JsonKey(name: 'litters')
