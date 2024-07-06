@@ -22,9 +22,12 @@ class CustomAppBar extends StatelessWidget {
     required this.onSearchChanged,
     required this.title,
     required this.tabs,
+    this.searchController,
+    this.onDeleteSearch,
   });
-
+  final TextEditingController? searchController;
   final ValueChanged<String> onSearchChanged;
+  final VoidCallback? onDeleteSearch;
   final String title;
   final List<TabModel> tabs;
 
@@ -48,8 +51,10 @@ class CustomAppBar extends StatelessWidget {
                 height: MediaQuery.of(context).padding.top,
               ),
               SearchTextField(
+                controller: searchController,
                 hintText: 'search'.i18n,
                 onChanged: onSearchChanged,
+                onDeleteText: onDeleteSearch,
               ),
               const SizedBox(height: 12),
               Text(
