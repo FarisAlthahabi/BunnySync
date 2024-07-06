@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/breeders/cubit/breeders_cubit.dart';
-import 'package:bunny_sync/features/breeders/models/breeder_model/breeder_model.dart';
 import 'package:bunny_sync/features/breeders/view/widgets/breeders_list_widget.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
@@ -14,7 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 abstract class BreedersViewCallbacks {
-  void onBreederTap(BreederModel breeder);
+  void onBreederTap(int breederId);
 
   void onTryAgainTap();
 }
@@ -125,9 +124,9 @@ class _BreedersPageState extends State<BreedersPage>
   }
 
   @override
-  void onBreederTap(BreederModel breeder) {
+  void onBreederTap(int breederId) {
     context.router.push(
-      BreederDetailsRoute(breeder: breeder),
+      BreederDetailsRoute(breederId: breederId),
     );
   }
 
@@ -185,6 +184,7 @@ class _BreedersPageState extends State<BreedersPage>
                                 breedersModel: state.breedersStatusModel.active,
                                 padding: AppConstants.paddingH16V28,
                                 onBreederTap: onBreederTap,
+                                onRefresh: breedersCubit.getBreeders,
                               ),
                             ),
                             KeepAliveWidget(
@@ -193,6 +193,7 @@ class _BreedersPageState extends State<BreedersPage>
                                 breedersModel: state.breedersStatusModel.inactive,
                                 padding: AppConstants.paddingH16V28,
                                 onBreederTap: onBreederTap,
+                                onRefresh: breedersCubit.getBreeders,
                               ),
                             ),
                             KeepAliveWidget(
@@ -201,6 +202,7 @@ class _BreedersPageState extends State<BreedersPage>
                                 breedersModel: state.breedersStatusModel.all,
                                 padding: AppConstants.paddingH16V28,
                                 onBreederTap: onBreederTap,
+                                onRefresh: breedersCubit.getBreeders,
                               ),
                             ),
                           ],

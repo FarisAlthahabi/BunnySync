@@ -4,25 +4,18 @@ import 'package:bunny_sync/global/utils/enums/gender_types_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'breeder_model.g.dart';
+part 'breeder_entry_model.g.dart';
 
 @immutable
 @JsonSerializable()
-class BreederModel {
-  const BreederModel({
+class BreederEntryModel {
+  const BreederEntryModel({
     required this.id,
     required this.userId,
     required this.uuid,
     required this.name,
     required this.updatedAt,
     required this.createdAt,
-    this.prefix,
-    this.cage,
-    this.gender,
-    this.color,
-    this.tatto,
-    this.breed,
-    this.categoryBreederId,
     required this.weight,
     required this.litters,
     required this.kits,
@@ -30,13 +23,20 @@ class BreederModel {
     required this.status,
     required this.photo,
     required this.dtRowIndex,
+    this.prefix,
+    this.cage,
+    this.gender,
+    this.color,
+    this.tatto,
+    this.breed,
+    this.categoryBreederId,
   });
 
-  factory BreederModel.fromJsonStr(String str) =>
-      BreederModel.fromJson(jsonDecode(str) as Map<String, dynamic>);
+  factory BreederEntryModel.fromJsonStr(String str) =>
+      BreederEntryModel.fromJson(jsonDecode(str) as Map<String, dynamic>);
 
-  factory BreederModel.fromJson(Map<String, dynamic> json) =>
-      _$BreederModelFromJson(json);
+  factory BreederEntryModel.fromJson(Map<String, dynamic> json) =>
+      _$BreederEntryModelFromJson(json);
 
   final int id;
 
@@ -85,5 +85,6 @@ class BreederModel {
 
   String toJsonStr() => jsonEncode(toJson());
 
-  Map<String, dynamic> toJson() => _$BreederModelToJson(this);
+  Map<String, dynamic> toJson() => _$BreederEntryModelToJson(this);
+
 }

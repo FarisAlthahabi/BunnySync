@@ -11,6 +11,10 @@ import 'package:bunny_sync/global/widgets/custom_app_bar.dart';
 import 'package:bunny_sync/global/widgets/info_properties_widget.dart';
 import 'package:flutter/material.dart';
 
+abstract class LitterDetailsViewCallbacks {
+  void onMoreOptionsTap();
+}
+
 @RoutePage()
 class LitterDetailsView extends StatelessWidget {
   const LitterDetailsView({
@@ -28,11 +32,15 @@ class LitterDetailsView extends StatelessWidget {
   }
 }
 
-class LitterDetailsPage extends StatelessWidget {
+class LitterDetailsPage extends StatelessWidget
+    implements LitterDetailsViewCallbacks {
   const LitterDetailsPage({
     super.key,
     required this.litter,
   });
+
+  @override
+  void onMoreOptionsTap() {}
 
   final LitterModel litter;
 
@@ -46,11 +54,11 @@ class LitterDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  DefaultTabController(
+    return DefaultTabController(
       length: tabs.length,
       child: Scaffold(
-        body: SafeArea(child: 
-        CustomScrollView(
+        body: SafeArea(
+          child: CustomScrollView(
             physics: const NeverScrollableScrollPhysics(),
             slivers: [
               SliverAppBar(
@@ -60,10 +68,13 @@ class LitterDetailsPage extends StatelessWidget {
                   'litter'.i18n,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
-                actions: const [
+                actions: [
                   Padding(
-                    padding: EdgeInsets.only(right: 16),
-                    child: Icon(Icons.more_horiz_outlined),
+                    padding: const EdgeInsets.only(right: 16),
+                    child: IconButton(
+                      onPressed: onMoreOptionsTap,
+                      icon: const Icon(Icons.more_horiz_outlined),
+                    ),
                   ),
                 ],
                 flexibleSpace: FlexibleSpaceBar(
@@ -141,6 +152,7 @@ class LitterDetailsPage extends StatelessWidget {
             ],
           ),
         ),
-      ),);
+      ),
+    );
   }
 }

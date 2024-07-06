@@ -1,4 +1,4 @@
-import 'package:bunny_sync/features/breeders/models/breeder_model/breeder_model.dart';
+import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/models/rabbit_property_model.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
@@ -16,8 +16,8 @@ class BreederTile extends StatelessWidget {
     required this.onTap,
   });
 
-  final BreederModel breeder;
-  final ValueSetter<BreederModel> onTap;
+  final BreederEntryModel breeder;
+  final ValueSetter<int> onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class BreederTile extends StatelessWidget {
 
     return MainTile(
       padding: AppConstants.paddingSB16,
-      onTap: () => onTap(breeder),
+      onTap: () => onTap(breeder.id),
       child: Column(
         children: [
           Row(

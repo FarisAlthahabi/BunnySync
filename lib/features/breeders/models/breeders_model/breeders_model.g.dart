@@ -12,7 +12,7 @@ BreedersModel _$BreedersModelFromJson(Map<String, dynamic> json) =>
       recordsTotal: (json['recordsTotal'] as num).toInt(),
       recordsFiltered: (json['recordsFiltered'] as num).toInt(),
       breeders: (json['data'] as List<dynamic>)
-          .map((e) => BreederModel.fromJson(e as Map<String, dynamic>))
+          .map((e) => BreederEntryModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       input: json['input'] as List<dynamic>,
     );

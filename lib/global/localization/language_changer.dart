@@ -11,7 +11,6 @@ class LanguageChanger {
   factory LanguageChanger() {
     return _instance ??= LanguageChanger._();
   }
-
   LanguageChanger._() {
     _observeChanges();
   }
