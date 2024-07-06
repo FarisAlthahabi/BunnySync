@@ -184,6 +184,7 @@ class _BreedersPageState extends State<BreedersPage>
                                 breedersModel: state.breedersStatusModel.active,
                                 padding: AppConstants.paddingH16V28,
                                 onBreederTap: onBreederTap,
+                                onRefresh: breedersCubit.getBreeders,
                               ),
                             ),
                             KeepAliveWidget(
@@ -192,6 +193,7 @@ class _BreedersPageState extends State<BreedersPage>
                                 breedersModel: state.breedersStatusModel.inactive,
                                 padding: AppConstants.paddingH16V28,
                                 onBreederTap: onBreederTap,
+                                onRefresh: breedersCubit.getBreeders,
                               ),
                             ),
                             KeepAliveWidget(
@@ -200,6 +202,7 @@ class _BreedersPageState extends State<BreedersPage>
                                 breedersModel: state.breedersStatusModel.all,
                                 padding: AppConstants.paddingH16V28,
                                 onBreederTap: onBreederTap,
+                                onRefresh: breedersCubit.getBreeders,
                               ),
                             ),
                           ],
