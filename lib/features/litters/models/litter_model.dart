@@ -1,4 +1,4 @@
-import 'package:bunny_sync/features/breeders/models/breeder_model/breeder_model.dart';
+import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
 import 'package:bunny_sync/global/models/rabbit_property_model.dart';
 
 class LitterModel {
@@ -9,7 +9,7 @@ class LitterModel {
     required this.kids,
   });
 
-  final List<BreederModel> parents;
+  final List<BreederEntryModel> parents;
   final bool buckOrDoe;
   final List<RabbitPropertyModel> properties;
   final List<KidModel> kids;

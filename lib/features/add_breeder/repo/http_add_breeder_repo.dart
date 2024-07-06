@@ -5,7 +5,7 @@ class HttpAddBreederRepo implements AddBreederRepo {
   final DioClient _dioClient = DioClient();
 
   @override
-  Future<ResponseModel<BreederModel>> addBreeder(
+  Future<ResponseModel<BreederEntryModel>> addBreeder(
     PostAddBreederModel postAddBreederModel,
   ) async {
     try {
@@ -16,12 +16,12 @@ class HttpAddBreederRepo implements AddBreederRepo {
 
       final body = response.data as Map<String, dynamic>;
 
-      return ResponseModel<BreederModel>.fromJson(
+      return ResponseModel<BreederEntryModel>.fromJson(
         body,
         (json) {
           final data = json as Map<String, dynamic>?;
           if (data == null) throw 'Data is null';
-          return BreederModel.fromJson(data);
+          return BreederEntryModel.fromJson(data);
         },
       );
     } catch (e) {

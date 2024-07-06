@@ -1,4 +1,4 @@
-import 'package:bunny_sync/features/breeders/models/breeder_model/breeder_model.dart';
+import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
 
 class BreedersStatusModel {
   BreedersStatusModel({
@@ -7,7 +7,7 @@ class BreedersStatusModel {
     required this.inactive,
   });
 
-  final List<BreederModel> all;
-  final List<BreederModel> active;
-  final List<BreederModel> inactive;
+  final List<BreederEntryModel> all;
+  final List<BreederEntryModel> active;
+  final List<BreederEntryModel> inactive;
 }

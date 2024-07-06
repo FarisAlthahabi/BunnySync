@@ -1,4 +1,4 @@
-import 'package:bunny_sync/features/breeders/models/breeder_model/breeder_model.dart';
+import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
 import 'package:bunny_sync/features/breeders/models/breeders_model/breeders_model.dart';
 import 'package:bunny_sync/features/breeders/models/breeders_status_model/breeder_status_model.dart';
 
@@ -13,7 +13,7 @@ final fakeBreedersModel = BreedersModel(
   recordsTotal: 10,
   recordsFiltered: 10,
   breeders: [
-    BreederModel(
+    BreederEntryModel(
       id: 1,
       userId: 1,
       uuid: 'uuid 1',
@@ -30,7 +30,7 @@ final fakeBreedersModel = BreedersModel(
       photo: 'Photo 1',
       dtRowIndex: 1,
     ),
-    BreederModel(
+    BreederEntryModel(
       id: 1,
       userId: 1,
       uuid: 'uuid 1',
@@ -47,7 +47,7 @@ final fakeBreedersModel = BreedersModel(
       photo: 'Photo 1',
       dtRowIndex: 1,
     ),
-    BreederModel(
+    BreederEntryModel(
       id: 1,
       userId: 1,
       uuid: 'uuid 1',

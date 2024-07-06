@@ -10,7 +10,7 @@ class AddBreederLoading extends AddBreederState {}
 class AddBreederSuccess extends AddBreederState {
   AddBreederSuccess(this.breederModel);
 
-  final BreederModel breederModel;
+  final BreederEntryModel breederModel;
 }
 
 class AddBreederFail extends AddBreederState {

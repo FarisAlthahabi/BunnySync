@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:bunny_sync/features/breeders/models/breeder_model/breeder_model.dart';
+import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
 import 'package:bunny_sync/features/breeders/models/breeders_model/fake_breeders_model.dart';
 import 'package:bunny_sync/features/breeders/models/breeders_status_model/breeder_status_model.dart';
 import 'package:bunny_sync/features/breeders/repo/breeders_repo.dart';
@@ -16,9 +16,9 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
 
   final BreedersRepo _breedersRepo;
 
-  List<BreederModel> activeBreeders = [];
-  List<BreederModel> inactiveBreeders = [];
-  List<BreederModel> allBreeders = [];
+  List<BreederEntryModel> activeBreeders = [];
+  List<BreederEntryModel> inactiveBreeders = [];
+  List<BreederEntryModel> allBreeders = [];
 
   late BreedersStatusModel breedersStatusModel;
 

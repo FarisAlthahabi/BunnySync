@@ -1,4 +1,4 @@
-import 'package:bunny_sync/features/breeders/models/breeder_model/breeder_model.dart';
+import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
 import 'package:bunny_sync/features/litters/models/litter_model.dart';
 import 'package:bunny_sync/features/litters/view/widgets/litter_tile.dart';
 import 'package:bunny_sync/global/gen/assets.gen.dart';
@@ -25,7 +25,7 @@ class LittersListWidget extends StatelessWidget {
     final litters = [
       LitterModel(
         parents: [
-          BreederModel(
+          BreederEntryModel(
             age: '10',
             dtRowIndex: 1,
             kits: '',
@@ -47,7 +47,7 @@ class LittersListWidget extends StatelessWidget {
             color: 'Color 1',
             tatto: 'Tatto 1',
           ),
-          BreederModel(
+          BreederEntryModel(
             age: '10',
             dtRowIndex: 1,
             kits: '',
@@ -127,7 +127,7 @@ class LittersListWidget extends StatelessWidget {
       ),
       LitterModel(
         parents: [
-          BreederModel(
+          BreederEntryModel(
             age: '10',
             dtRowIndex: 1,
             kits: '',
@@ -149,7 +149,7 @@ class LittersListWidget extends StatelessWidget {
             color: 'Color 1',
             tatto: 'Tatto 1',
           ),
-          BreederModel(
+          BreederEntryModel(
             age: '10',
             dtRowIndex: 1,
             kits: '',

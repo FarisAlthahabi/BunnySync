@@ -1,4 +1,4 @@
-import 'package:bunny_sync/features/breeders/models/breeder_model/breeder_model.dart';
+import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
 import 'package:bunny_sync/features/breeders/view/widgets/breeder_tile.dart';
 import 'package:bunny_sync/global/localization/translations.i18n.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
@@ -16,8 +16,8 @@ class BreedersListWidget extends StatelessWidget {
   });
 
   final ScrollController? controller;
-  final List<BreederModel> breedersModel;
-  final ValueSetter<BreederModel> onBreederTap;
+  final List<BreederEntryModel> breedersModel;
+  final ValueSetter<int> onBreederTap;
   final EdgeInsetsGeometry padding;
 
   @override

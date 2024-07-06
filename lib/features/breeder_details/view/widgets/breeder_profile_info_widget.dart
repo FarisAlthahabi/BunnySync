@@ -1,4 +1,4 @@
-import 'package:bunny_sync/features/breeders/models/breeder_model/breeder_model.dart';
+import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/widgets/breeder_image_widget.dart';
@@ -10,7 +10,7 @@ class BreederProfileInfoWidget extends StatelessWidget {
     required this.breeder,
   });
 
-  final BreederModel breeder;
+  final BreederEntryModel breeder;
 
   @override
   Widget build(BuildContext context) {
