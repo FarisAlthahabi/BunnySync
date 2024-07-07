@@ -13,7 +13,7 @@ BreederDetailsResponseModel _$BreederDetailsResponseModelFromJson(
           BreederDetailsModel.fromJson(json['breeder'] as Map<String, dynamic>),
       weight: json['weight'] as String,
       age: json['age'] as String,
-      kitsCount: (json['liveKits'] as num).toInt(),
+      kitsCount: (json['kitsToDate'] as num).toInt(),
       littersCount: (json['litters'] as num).toInt(),
     );
 
@@ -23,6 +23,6 @@ Map<String, dynamic> _$BreederDetailsResponseModelToJson(
       'breeder': instance.breeder,
       'weight': instance.weight,
       'age': instance.age,
-      'liveKits': instance.kitsCount,
+      'kitsToDate': instance.kitsCount,
       'litters': instance.littersCount,
     };

@@ -17,7 +17,7 @@ class BreederTile extends StatelessWidget {
   });
 
   final BreederEntryModel breeder;
-  final ValueSetter<int> onTap;
+  final ValueSetter<BreederEntryModel> onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class BreederTile extends StatelessWidget {
 
     return MainTile(
       padding: AppConstants.paddingSB16,
-      onTap: () => onTap(breeder.id),
+      onTap: () => onTap(breeder),
       child: Column(
         children: [
           Row(
