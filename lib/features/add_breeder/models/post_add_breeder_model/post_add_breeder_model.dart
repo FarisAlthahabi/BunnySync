@@ -18,7 +18,6 @@ class PostAddBreederModel {
     String? tatto,
     DateTime? date,
     double? weight,
-    String? breed,
   })  : _name = name,
         _prefix = prefix,
         _cage = cage,
@@ -26,8 +25,7 @@ class PostAddBreederModel {
         _color = color,
         _tatto = tatto,
         _date = date,
-        _weight = weight,
-        _breed = breed;
+        _weight = weight;
 
   factory PostAddBreederModel.fromJsonStr(String str) =>
       PostAddBreederModel.fromJson(jsonDecode(str) as Map<String, dynamic>);
@@ -51,8 +49,6 @@ class PostAddBreederModel {
   final DateTime? _date;
   @JsonKey(name: "weight")
   final double? _weight;
-  @JsonKey(name: "breed")
-  final String? _breed;
 
   Map<String, dynamic> toJson() => _$PostAddBreederModelToJson(this);
 
@@ -83,7 +79,6 @@ class PostAddBreederModel {
       color: color != null ? color() : _color,
       tatto: tatto != null ? tatto() : _tatto,
       date: date != null ? date() : _date,
-      breed: breed != null ? breed() : _breed,
       weight: weight != null ? weight() : _weight,
     );
   }
@@ -114,10 +109,6 @@ class PostAddBreederModel {
 
   String get tatto {
     return _tatto ?? (throw Exception('tatto is null'));
-  }
-
-  String get breed {
-    return _breed ?? (throw Exception('breed is null'));
   }
 
   double get weight {

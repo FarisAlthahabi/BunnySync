@@ -20,11 +20,11 @@ class PedigreeModel {
     required this.gender,
     required this.color,
     required this.tatto,
-    required this.breed,
     required this.createdAt,
     required this.updatedAt,
     required this.images,
     required this.status,
+    this.breed,
   });
 
   factory PedigreeModel.fromJsonStr(String str) =>
@@ -55,7 +55,7 @@ class PedigreeModel {
 
   final String tatto;
 
-  final String breed;
+  final String? breed;
 
   @JsonKey(name: 'created_at')
   final DateTime createdAt;

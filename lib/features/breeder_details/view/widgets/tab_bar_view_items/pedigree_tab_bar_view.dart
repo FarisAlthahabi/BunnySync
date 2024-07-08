@@ -99,7 +99,7 @@ class _PedigreeTabBarViewState extends State<PedigreeTabBarView>
                             ),
                             RabbitPropertyModel(
                               title: 'Breed',
-                              value: item.breed,
+                              value: item.breed ?? 'breed',
                             ),
                             RabbitPropertyModel(
                               title: 'Color',

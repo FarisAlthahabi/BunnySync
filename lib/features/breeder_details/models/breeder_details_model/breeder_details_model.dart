@@ -20,11 +20,11 @@ class BreederDetailsModel {
     required this.gender,
     required this.color,
     required this.tatto,
-    required this.breed,
     required this.updatedAt,
     required this.createdAt,
     required this.status,
     required this.detail,
+    this.breed,
     this.categoryBreederId,
   });
 
@@ -56,7 +56,7 @@ class BreederDetailsModel {
 
   final String tatto;
 
-  final String breed;
+  final String? breed;
 
   @JsonKey(name: 'updated_at')
   final DateTime updatedAt;

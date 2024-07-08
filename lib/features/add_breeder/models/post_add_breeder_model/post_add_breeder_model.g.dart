@@ -17,7 +17,6 @@ PostAddBreederModel _$PostAddBreederModelFromJson(Map<String, dynamic> json) =>
       date:
           json['date'] == null ? null : DateTime.parse(json['date'] as String),
       weight: (json['weight'] as num?)?.toDouble(),
-      breed: json['breed'] as String?,
     );
 
 Map<String, dynamic> _$PostAddBreederModelToJson(
@@ -30,6 +29,5 @@ Map<String, dynamic> _$PostAddBreederModelToJson(
       'color': instance.color,
       'date': instance.date.toIso8601String(),
       'tatto': instance.tatto,
-      'breed': instance.breed,
       'weight': instance.weight,
     };

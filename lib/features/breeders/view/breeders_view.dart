@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/breeders/cubit/breeders_cubit.dart';
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
+import 'package:bunny_sync/features/breeders/view/widgets/breeder_more_options_widget.dart';
 import 'package:bunny_sync/features/breeders/view/widgets/breeders_list_widget.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
@@ -8,6 +9,7 @@ import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/custom_app_bar.dart';
 import 'package:bunny_sync/global/widgets/keep_alive_widget.dart';
+import 'package:bunny_sync/global/widgets/main_show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +17,12 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 abstract class BreedersViewCallbacks {
   void onBreederTap(BreederEntryModel breederEntryModel);
+
+  void onEditBreeder(BreederEntryModel breederEntryModel);
+
+  void onDeleteBreeder();
+
+  void onMoreOptionsTap(BreederEntryModel breederEntryModel);
 
   void onTryAgainTap();
 }
@@ -105,7 +113,7 @@ class _BreedersPageState extends State<BreedersPage>
           isParentScrollingDownward = true;
           isParentScrollingUpward = false;
         } else if (child.position.userScrollDirection ==
-            ScrollDirection.forward &&
+                ScrollDirection.forward &&
             !isParentScrollingUpward) {
           parent.animateTo(
             0,
@@ -132,6 +140,31 @@ class _BreedersPageState extends State<BreedersPage>
   }
 
   @override
+  void onMoreOptionsTap(BreederEntryModel breederEntryModel) {
+    mainShowBottomSheet(
+      context,
+      widget: BreederMoreOptionsWidget(
+        breederEntryModel: breederEntryModel,
+        onEditBreeder: onEditBreeder,
+        onDeleteBreeder: onDeleteBreeder,
+      ),
+    );
+  }
+
+  @override
+  void onDeleteBreeder() {
+    // TODO
+  }
+
+  @override
+  void onEditBreeder(BreederEntryModel breederEntryModel) {
+    Navigator.pop(context);
+    context.router.push(
+      AddBreederRoute(breederEntryModel: breederEntryModel),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
@@ -153,11 +186,15 @@ class _BreedersPageState extends State<BreedersPage>
                         tabs: [
                           TabModel(
                             title: 'active'.i18n,
-                            indicatorValue: state.breedersStatusModel.active.length.toString(),
+                            indicatorValue: state
+                                .breedersStatusModel.active.length
+                                .toString(),
                           ),
                           TabModel(
                             title: 'inactive'.i18n,
-                            indicatorValue: state.breedersStatusModel.inactive.length.toString(),
+                            indicatorValue: state
+                                .breedersStatusModel.inactive.length
+                                .toString(),
                           ),
                           TabModel(
                             title: 'all'.i18n,
@@ -181,6 +218,7 @@ class _BreedersPageState extends State<BreedersPage>
                           children: [
                             KeepAliveWidget(
                               child: BreedersListWidget(
+                                onMoreOptionsTap: onMoreOptionsTap,
                                 controller: child1ScrollController,
                                 breedersModel: state.breedersStatusModel.active,
                                 padding: AppConstants.paddingH16V28,
@@ -190,8 +228,10 @@ class _BreedersPageState extends State<BreedersPage>
                             ),
                             KeepAliveWidget(
                               child: BreedersListWidget(
+                                onMoreOptionsTap: onMoreOptionsTap,
                                 controller: child2ScrollController,
-                                breedersModel: state.breedersStatusModel.inactive,
+                                breedersModel:
+                                    state.breedersStatusModel.inactive,
                                 padding: AppConstants.paddingH16V28,
                                 onBreederTap: onBreederTap,
                                 onRefresh: breedersCubit.getBreeders,
@@ -199,6 +239,7 @@ class _BreedersPageState extends State<BreedersPage>
                             ),
                             KeepAliveWidget(
                               child: BreedersListWidget(
+                                onMoreOptionsTap: onMoreOptionsTap,
                                 controller: child3ScrollController,
                                 breedersModel: state.breedersStatusModel.all,
                                 padding: AppConstants.paddingH16V28,
@@ -224,7 +265,7 @@ class _BreedersPageState extends State<BreedersPage>
                               ),
                               TextButton(
                                 onPressed: onTryAgainTap,
-                                child:  Text("try_again".i18n),
+                                child: Text("try_again".i18n),
                               ),
                             ],
                           ),

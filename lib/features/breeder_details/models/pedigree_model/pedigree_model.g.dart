@@ -18,12 +18,12 @@ PedigreeModel _$PedigreeModelFromJson(Map<String, dynamic> json) =>
       gender: json['gender'] as String,
       color: json['color'] as String,
       tatto: json['tatto'] as String,
-      breed: json['breed'] as String,
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
       images: json['images'] as List<dynamic>,
       status:
           PedigreeStatusModel.fromJson(json['status'] as Map<String, dynamic>),
+      breed: json['breed'] as String?,
     );
 
 Map<String, dynamic> _$PedigreeModelToJson(PedigreeModel instance) =>

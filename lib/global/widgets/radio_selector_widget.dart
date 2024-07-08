@@ -8,7 +8,8 @@ abstract class RadioSelectorItemModel {
   String get displayName;
 }
 
-class RadioSelectorWidget<T extends RadioSelectorItemModel> extends StatefulWidget {
+class RadioSelectorWidget<T extends RadioSelectorItemModel>
+    extends StatefulWidget {
   const RadioSelectorWidget({
     super.key,
     required this.items,

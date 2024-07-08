@@ -26,13 +26,13 @@ class AddBreederCubit extends Cubit<GeneralAddBreederState> {
     );
   }
 
-  void setPrefix(String prefix) {
+  void setPrefix(String? prefix) {
     _postAddBreederModel = _postAddBreederModel.copyWith(
       prefix: () => prefix,
     );
   }
 
-  void setCage(String cage) {
+  void setCage(String? cage) {
     _postAddBreederModel = _postAddBreederModel.copyWith(
       cage: () => cage,
     );
@@ -44,21 +44,24 @@ class AddBreederCubit extends Cubit<GeneralAddBreederState> {
     );
   }
 
-  void setColor(String color) {
+  void setColor(String? color) {
     _postAddBreederModel = _postAddBreederModel.copyWith(
       color: () => color,
     );
   }
 
-  void setTatto(String tatto) {
+  void setTatto(String? tatto) {
     _postAddBreederModel = _postAddBreederModel.copyWith(
       tatto: () => tatto,
     );
   }
 
   void setWeight(String weight) {
+    final RegExp regExp = RegExp(r"[-+]?[0-9]*\.?[0-9]+");
+    final Iterable<Match> matches = regExp.allMatches(weight);
+      final String match = matches.first.group(0)!;
     _postAddBreederModel = _postAddBreederModel.copyWith(
-      weight: () => double.parse(weight),
+      weight: () => double.parse(match),
     );
   }
 
@@ -79,6 +82,25 @@ class AddBreederCubit extends Cubit<GeneralAddBreederState> {
 
     try {
       final response = await _addBreederRepo.addBreeder(_postAddBreederModel);
+      emit(AddBreederSuccess(response.data));
+    } catch (e, s) {
+      addError(e, s);
+      emit(AddBreederFail(e.toString()));
+    }
+  }
+
+  Future<void> updateBreeder(int breederId) async {
+    final nameError = _postAddBreederModel.validateName();
+    if (nameError != null) {
+      emit(BreederNamePostInvalid(nameError));
+      return;
+    }
+
+    emit(AddBreederLoading());
+
+    try {
+      final response =
+          await _addBreederRepo.updateBreeder(breederId, _postAddBreederModel);
       emit(AddBreederSuccess(response.data));
     } catch (e, s) {
       addError(e, s);

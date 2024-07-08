@@ -12,4 +12,8 @@ abstract class AddBreederRepo {
   Future<ResponseModel<BreederEntryModel>> addBreeder(
     PostAddBreederModel postAddBreederModel,
   );
+  Future<ResponseModel<BreederEntryModel>> updateBreeder(
+    int breederId,
+    PostAddBreederModel postAddBreederModel,
+  );
 }

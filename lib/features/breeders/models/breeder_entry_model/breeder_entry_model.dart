@@ -16,13 +16,13 @@ class BreederEntryModel {
     required this.name,
     required this.updatedAt,
     required this.createdAt,
-    required this.weight,
-    required this.litters,
-    required this.kits,
-    required this.age,
-    required this.status,
-    required this.photo,
-    required this.dtRowIndex,
+    this.weight,
+    this.litters,
+    this.kits,
+    this.age,
+    this.status,
+    this.photo,
+    this.dtRowIndex,
     this.prefix,
     this.cage,
     this.gender,
@@ -68,20 +68,20 @@ class BreederEntryModel {
   @JsonKey(name: 'category_breeder_id')
   final int? categoryBreederId;
 
-  final String weight;
+  final String? weight;
 
-  final String litters;
+  final String? litters;
 
-  final String kits;
+  final String? kits;
 
-  final String age;
+  final String? age;
 
-  final String status;
+  final String? status;
 
-  final String photo;
+  final String? photo;
 
   @JsonKey(name: 'DT_RowIndex')
-  final int dtRowIndex;
+  final int? dtRowIndex;
 
   String toJsonStr() => jsonEncode(toJson());
 
