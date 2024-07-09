@@ -45,7 +45,6 @@ class _ProfileTabState extends State<ProfileTab>
     return BlocBuilder<BreederDetailsCubit, GeneralBreederDetailsState>(
       builder: (context, state) {
         if (state is BreederDetailsFetch) {
-          //TODO: Moving this to another place.
           final rabbitProperties = [
             RabbitPropertyModel(
               title: 'litters'.i18n,
@@ -94,7 +93,7 @@ class _ProfileTabState extends State<ProfileTab>
                         itemBuilder: (context, index) {
                           final item =
                               state.breederDetailsResponseModel.breeder;
-                          final rabbitDeatilsProperties = [
+                          final rabbitDetailsProperties = [
                             RabbitPropertyModel(
                               title: 'Status',
                               value: item.status.status,
@@ -131,7 +130,7 @@ class _ProfileTabState extends State<ProfileTab>
                             tileColor = context.cs.onInverseSurface;
                           }
                           return BreederDetailsTile(
-                            rabbitProperty: rabbitDeatilsProperties[index],
+                            rabbitProperty: rabbitDetailsProperties[index],
                             tileColor: tileColor,
                           );
                         },

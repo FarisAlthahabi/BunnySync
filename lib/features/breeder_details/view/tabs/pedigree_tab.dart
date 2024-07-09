@@ -88,7 +88,7 @@ class _PedigreeTabState extends State<PedigreeTab>
                         itemCount: 4,
                         itemBuilder: (context, index) {
                           final item = state.pedigreeModel;
-                          final rabbitDeatilsProperties = [
+                          final rabbitDetailsProperties = [
                             RabbitPropertyModel(
                               title: 'Status',
                               value: item.status.status,
@@ -113,7 +113,7 @@ class _PedigreeTabState extends State<PedigreeTab>
                             tileColor = context.cs.onInverseSurface;
                           }
                           return BreederDetailsTile(
-                            rabbitProperty: rabbitDeatilsProperties[index],
+                            rabbitProperty: rabbitDetailsProperties[index],
                             tileColor: tileColor,
                           );
                         },

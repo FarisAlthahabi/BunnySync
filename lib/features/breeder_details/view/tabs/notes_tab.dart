@@ -92,7 +92,7 @@ class _NotesTabState extends State<NotesTab>
                         itemCount: 2,
                         itemBuilder: (context, index) {
                           final item = state.breederNotes[0];
-                          final rabbitDeatilsProperties = [
+                          final rabbitDetailsProperties = [
                             RabbitPropertyModel(
                               title: 'Title',
                               value: item.title,
@@ -109,7 +109,7 @@ class _NotesTabState extends State<NotesTab>
                             tileColor = context.cs.onInverseSurface;
                           }
                           return BreederDetailsTile(
-                            rabbitProperty: rabbitDeatilsProperties[index],
+                            rabbitProperty: rabbitDetailsProperties[index],
                             tileColor: tileColor,
                           );
                         },
