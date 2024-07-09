@@ -19,4 +19,27 @@ class HttpBreedersRepo implements BreedersRepo {
       rethrow;
     }
   }
+
+  @override
+  Future<BreedersModel> getSearchedBreeders(String input) async {
+    final searchModel = SearchModel(value: input);
+    final searchEntryModel = SearchEntryModel(search: searchModel);
+    final searchBreederRequestModel = SearchBreederRequestModel(
+      searchEntry: [searchEntryModel],
+      searchModel: searchModel,
+    );
+    try {
+      final response = await _dioClient.post(
+        '/breeders/data',
+        data: searchBreederRequestModel.toJson(),
+      );
+      final data = response.data as Map<String, dynamic>;
+      return BreedersModel.fromJson(data);
+    } on Exception catch (e) {
+      if (e is NotFoundException) {
+        throw e.message ?? 'something_went_wrong'.i18n;
+      }
+      rethrow;
+    }
+  }
 }
