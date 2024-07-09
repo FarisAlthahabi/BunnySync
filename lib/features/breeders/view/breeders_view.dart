@@ -11,7 +11,6 @@ import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/custom_app_bar.dart';
 import 'package:bunny_sync/global/widgets/keep_alive_widget.dart';
 import 'package:bunny_sync/global/widgets/loading_indicator.dart';
-import 'package:bunny_sync/global/widgets/search_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -172,51 +171,42 @@ class _BreedersPageState extends State<BreedersPage>
             slivers: [
               BlocBuilder<BreedersCubit, GeneralBreedersState>(
                 builder: (context, state) {
-                  if (state is BreedersFetch) {
-                    return Skeletonizer.sliver(
-                      enabled: state is BreedersLoading,
-                      child: CustomAppBar(
-                        searchController: searchController,
-                        onSearchChanged: onSearchChanged,
-                        onDeleteSearch: searchController.text.isNotEmpty
-                            ? onDeleteSearch
+                  var title = 'breeders'.i18n;
+                  var tabs = <TabModel>[];
+
+                  if (state is BreedersState) {
+                    tabs = [
+                      TabModel(
+                        title: 'active'.i18n,
+                        indicatorValue: state is BreedersFetch
+                            ? state.breedersStatusModel.active.length.toString()
                             : null,
-                        title: 'breeders'.i18n,
-                        tabs: [
-                          TabModel(
-                            title: 'active'.i18n,
-                            indicatorValue: state
-                                .breedersStatusModel.active.length
-                                .toString(),
-                          ),
-                          TabModel(
-                            title: 'inactive'.i18n,
-                            indicatorValue: state
-                                .breedersStatusModel.inactive.length
-                                .toString(),
-                          ),
-                          TabModel(
-                            title: 'all'.i18n,
-                          ),
-                        ],
                       ),
-                    );
+                      TabModel(
+                        title: 'inactive'.i18n,
+                        indicatorValue: state is BreedersFetch
+                            ? state.breedersStatusModel.inactive.length
+                                .toString()
+                            : null,
+                      ),
+                      TabModel(
+                        title: 'all'.i18n,
+                      ),
+                    ];
+                  } else if (state is SearchBreederState) {
+                    title = 'found_breeders'.i18n;
                   }
-                  return SliverToBoxAdapter(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: AppConstants.padding16,
-                          child: SearchTextField(
-                            controller: searchController,
-                            hintText: 'search'.i18n,
-                            onChanged: onSearchChanged,
-                            onDeleteText: searchController.text.isNotEmpty
-                                ? onDeleteSearch
-                                : null,
-                          ),
-                        ),
-                      ],
+
+                  return Skeletonizer.sliver(
+                    enabled: state is BreedersLoading,
+                    child: CustomAppBar(
+                      searchController: searchController,
+                      onSearchChanged: onSearchChanged,
+                      onDeleteSearch: searchController.text.isNotEmpty
+                          ? onDeleteSearch
+                          : null,
+                      title: title,
+                      tabs: tabs,
                     ),
                   );
                 },
@@ -305,7 +295,10 @@ class _BreedersPageState extends State<BreedersPage>
                       );
                     } else if (state is SearchBreederFail) {
                       return Center(
-                        child: Text(state.message, style: context.tt.bodyLarge),
+                        child: Text(
+                          state.message,
+                          style: context.tt.bodyLarge,
+                        ),
                       );
                     }
                     return const SizedBox.shrink();
