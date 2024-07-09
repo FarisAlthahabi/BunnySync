@@ -106,14 +106,11 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
                       SliverFillRemaining(
                         child: TabBarView(
                           children: [
-                            ProfileTabBarView(breederId: widget.breederEntryModel.id),
-                            ProfileTabBarView(breederId: widget.breederEntryModel.id),
-                            PedigreeTabBarView(breederId: widget.breederEntryModel.id),
-                            NotesTabBarView(breederId: widget.breederEntryModel.id),
-                            ProfileTabBarView(breederId: widget.breederEntryModel.id),
                             ProfileTab(breederId: widget.breederEntryModel.id),
+                            Center(child: Text('not_implemented'.i18n)),
                             PedigreeTab(breederId: widget.breederEntryModel.id),
                             NotesTab(breederId: widget.breederEntryModel.id),
+                            Center(child: Text('not_implemented'.i18n)),
                           ],
                         ),
                       ),
