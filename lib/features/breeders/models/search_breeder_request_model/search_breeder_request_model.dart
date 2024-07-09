@@ -9,12 +9,12 @@ import 'package:meta/meta.dart';
 
 part 'search_breeder_request_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 @immutable
 class SearchBreederRequestModel {
   const SearchBreederRequestModel({
     required this.searchEntry,
-    this.searchModel = constSearchModel,
+    required this.searchModel,
     this.draw = 1,
     this.order = orders,
     this.start = "0",

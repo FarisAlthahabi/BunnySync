@@ -8,18 +8,18 @@ part of 'search_entry_model.dart';
 
 SearchEntryModel _$SearchEntryModelFromJson(Map<String, dynamic> json) =>
     SearchEntryModel(
+      search: SearchModel.fromJson(json['search'] as Map<String, dynamic>),
       data: json['data'] as String? ?? 'name',
       name: json['name'] as String? ?? 'Nux',
       searchable: json['searchable'] as String? ?? 'true',
       orderable: json['orderable'] as String? ?? 'true',
-      search: SearchModel.fromJson(json['search'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$SearchEntryModelToJson(SearchEntryModel instance) =>
     <String, dynamic>{
+      'search': instance.search.toJson(),
       'data': instance.data,
       'name': instance.name,
       'searchable': instance.searchable,
       'orderable': instance.orderable,
-      'search': instance.search,
     };

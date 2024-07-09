@@ -22,12 +22,11 @@ class HttpBreedersRepo implements BreedersRepo {
 
   @override
   Future<BreedersModel> getSearchedBreeders(String input) async {
-    final SearchModel searchModel = SearchModel(value: input);
-    final searchEntryModel =
-        SearchEntryModel(search: searchModel);
-    final searchBreederRequestModel =
-        SearchBreederRequestModel(
+    final searchModel = SearchModel(value: input);
+    final searchEntryModel = SearchEntryModel(search: searchModel);
+    final searchBreederRequestModel = SearchBreederRequestModel(
       searchEntry: [searchEntryModel],
+      searchModel: searchModel,
     );
     try {
       final response = await _dioClient.post(

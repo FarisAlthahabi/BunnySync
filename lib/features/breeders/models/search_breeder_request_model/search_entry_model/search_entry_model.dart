@@ -6,15 +6,15 @@ import 'package:meta/meta.dart';
 
 part 'search_entry_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 @immutable
 class SearchEntryModel {
   const SearchEntryModel({
+    required this.search,
     this.data = "name",
     this.name = "Nux",
     this.searchable = "true",
     this.orderable = "true",
-    required this.search,
   });
 
   factory SearchEntryModel.fromJson(Map<String, dynamic> json) =>
@@ -22,6 +22,8 @@ class SearchEntryModel {
 
   factory SearchEntryModel.fromJsonStr(String str) =>
       SearchEntryModel.fromJson(jsonDecode(str) as Map<String, dynamic>);
+
+  final SearchModel search;
 
   @JsonKey(defaultValue: "name")
   final String data;
@@ -34,8 +36,6 @@ class SearchEntryModel {
 
   @JsonKey(defaultValue: "true")
   final String orderable;
-
-  final SearchModel search;
 
   String toJsonStr() => jsonEncode(toJson());
 
