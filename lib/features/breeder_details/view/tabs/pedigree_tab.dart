@@ -9,20 +9,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-abstract class PedigreeTabBarViewCallbacks {
+abstract class PedigreeTabCallbacks {
   void onTryAgainTap();
 }
 
-class PedigreeTabBarView extends StatefulWidget {
-  const PedigreeTabBarView({super.key, required this.breederId});
+class PedigreeTab extends StatefulWidget {
+  const PedigreeTab({super.key, required this.breederId});
   final int breederId;
 
   @override
-  State<PedigreeTabBarView> createState() => _PedigreeTabBarViewState();
+  State<PedigreeTab> createState() => _PedigreeTabState();
 }
 
-class _PedigreeTabBarViewState extends State<PedigreeTabBarView>
-    implements PedigreeTabBarViewCallbacks {
+class _PedigreeTabState extends State<PedigreeTab>
+    implements PedigreeTabCallbacks {
   late final BreederDetailsCubit breederDetailsCubit = context.read();
 
   @override

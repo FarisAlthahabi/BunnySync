@@ -1,10 +1,10 @@
 import 'package:auto_route/annotations.dart';
 import 'package:bunny_sync/features/breeder_details/cubit/breeder_details_cubit.dart';
+import 'package:bunny_sync/features/breeder_details/view/tabs/notes_tab.dart';
+import 'package:bunny_sync/features/breeder_details/view/tabs/pedigree_tab.dart';
+import 'package:bunny_sync/features/breeder_details/view/tabs/profile_tab.dart';
 import 'package:bunny_sync/features/breeder_details/view/widgets/breeder_profile_info_widget.dart';
 import 'package:bunny_sync/features/breeder_details/view/widgets/details_tab_bar.dart';
-import 'package:bunny_sync/features/breeder_details/view/widgets/tab_bar_view_items/notes_tab_bar_view.dart';
-import 'package:bunny_sync/features/breeder_details/view/widgets/tab_bar_view_items/pedigree_tab_bar_view.dart';
-import 'package:bunny_sync/features/breeder_details/view/widgets/tab_bar_view_items/profile_tab_bar_view.dart';
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
@@ -111,6 +111,9 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
                             PedigreeTabBarView(breederId: widget.breederEntryModel.id),
                             NotesTabBarView(breederId: widget.breederEntryModel.id),
                             ProfileTabBarView(breederId: widget.breederEntryModel.id),
+                            ProfileTab(breederId: widget.breederEntryModel.id),
+                            PedigreeTab(breederId: widget.breederEntryModel.id),
+                            NotesTab(breederId: widget.breederEntryModel.id),
                           ],
                         ),
                       ),

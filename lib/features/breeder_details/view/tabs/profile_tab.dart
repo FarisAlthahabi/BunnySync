@@ -9,12 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-abstract class ProfileTabBarViewCallbacks {
+abstract class ProfileTabCallbacks {
   void onTryAgainTap();
 }
 
-class ProfileTabBarView extends StatefulWidget {
-  const ProfileTabBarView({
+class ProfileTab extends StatefulWidget {
+  const ProfileTab({
     super.key,
     required this.breederId,
   });
@@ -22,11 +22,11 @@ class ProfileTabBarView extends StatefulWidget {
   final int breederId;
 
   @override
-  State<ProfileTabBarView> createState() => _ProfileTabBarViewState();
+  State<ProfileTab> createState() => _ProfileTabState();
 }
 
-class _ProfileTabBarViewState extends State<ProfileTabBarView>
-    implements ProfileTabBarViewCallbacks {
+class _ProfileTabState extends State<ProfileTab>
+    implements ProfileTabCallbacks {
   late final BreederDetailsCubit breederDetailsCubit = context.read();
 
   @override
