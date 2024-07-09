@@ -13,12 +13,12 @@ part 'search_breeder_request_model.g.dart';
 @immutable
 class SearchBreederRequestModel {
   const SearchBreederRequestModel({
-    this.draw = 1,
     required this.searchEntry,
+    this.searchModel = constSearchModel,
+    this.draw = 1,
     this.order = orders,
     this.start = "0",
     this.length = "10",
-    this.searchModel = constSearchModel,
   });
   factory SearchBreederRequestModel.fromJson(Map<String, dynamic> json) =>
       _$SearchBreederRequestModelFromJson(json);
@@ -28,11 +28,13 @@ class SearchBreederRequestModel {
         jsonDecode(str) as Map<String, dynamic>,
       );
 
-  @JsonKey(defaultValue: 1)
-  final int draw;
-
   @JsonKey(name: 'columns', toJson: SearchEntryModel.toJsonList)
   final List<SearchEntryModel> searchEntry;
+
+  final SearchModel searchModel;
+
+  @JsonKey(defaultValue: 1)
+  final int draw;
 
   @JsonKey(toJson: OrderModel.toJsonList)
   final List<OrderModel> order;
@@ -42,8 +44,6 @@ class SearchBreederRequestModel {
 
   @JsonKey(defaultValue: '10')
   final String length;
-
-  final SearchModel searchModel;
 
   String toJsonStr() => jsonEncode(toJson());
 
