@@ -13,13 +13,14 @@ class BreedersListWidget extends StatelessWidget {
     required this.onBreederTap,
     required this.breeders,
     this.padding = AppConstants.padding16,
+    this.onRefresh,
     this.controller,
   });
 
   final List<BreederEntryModel> breeders;
   final ValueSetter<int> onBreederTap;
-  final AsyncCallback onRefresh;
   final EdgeInsetsGeometry padding;
+  final AsyncCallback? onRefresh;
   final ScrollController? controller;
 
   @override
