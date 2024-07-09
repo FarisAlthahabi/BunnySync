@@ -57,13 +57,13 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
     }
   }
 
-  Future<void> getSearchedBreeders(String breederName) async {
+  Future<void> getSearchedBreeders(String input) async {
     try {
-      if (breederName.isEmpty) {
+      if (input.isEmpty) {
         emit(BreedersSuccess(initailBreeders));
       } else {
         emit(SearchBreederLoading());
-        final response = await _breedersRepo.getSearchedBreeders(breederName);
+        final response = await _breedersRepo.getSearchedBreeders(input);
         searchedBreeders = response.breeders;
         if (searchedBreeders.isEmpty) {
           emit(SearchBreederNotFound(Strings.breederNotFound));

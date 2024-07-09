@@ -21,11 +21,11 @@ class HttpBreedersRepo implements BreedersRepo {
   }
 
   @override
-  Future<BreedersModel> getSearchedBreeders(String breederName) async {
-    final SearchModel searchModel = SearchModel(value: breederName);
-    final SearchEntryModel searchEntryModel =
+  Future<BreedersModel> getSearchedBreeders(String input) async {
+    final SearchModel searchModel = SearchModel(value: input);
+    final searchEntryModel =
         SearchEntryModel(search: searchModel);
-    final SearchBreederRequestModel searchBreederRequestModel =
+    final searchBreederRequestModel =
         SearchBreederRequestModel(
       searchEntry: [searchEntryModel],
     );
