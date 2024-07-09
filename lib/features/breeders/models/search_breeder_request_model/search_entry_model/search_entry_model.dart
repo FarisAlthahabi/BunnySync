@@ -40,4 +40,12 @@ class SearchEntryModel {
   String toJsonStr() => jsonEncode(toJson());
 
   Map<String, dynamic> toJson() => _$SearchEntryModelToJson(this);
+
+  static List<Map<String, dynamic>> toJsonList(List<SearchEntryModel> list) {
+    final List<Map<String, dynamic>> result = [];
+    for (final item in list) {
+      result.add(item.toJson());
+    }
+    return result;
+  }
 }

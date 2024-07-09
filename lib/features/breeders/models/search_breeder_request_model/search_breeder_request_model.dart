@@ -31,9 +31,10 @@ class SearchBreederRequestModel {
   @JsonKey(defaultValue: 1)
   final int draw;
 
-  @JsonKey(name: 'columns')
+  @JsonKey(name: 'columns', toJson: SearchEntryModel.toJsonList)
   final List<SearchEntryModel> searchEntry;
 
+  @JsonKey(toJson: OrderModel.toJsonList)
   final List<OrderModel> order;
 
   @JsonKey(defaultValue: '0')

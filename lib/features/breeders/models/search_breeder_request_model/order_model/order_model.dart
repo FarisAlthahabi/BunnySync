@@ -28,4 +28,12 @@ class OrderModel {
   String toJsonStr() => jsonEncode(toJson());
 
   Map<String, dynamic> toJson() => _$OrderModelToJson(this);
+
+  static List<Map<String, dynamic>> toJsonList(List<OrderModel> list) {
+    final List<Map<String, dynamic>> result = [];
+    for (final item in list) {
+      result.add(item.toJson());
+    }
+    return result;
+  }
 }

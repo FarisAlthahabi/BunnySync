@@ -28,8 +28,8 @@ Map<String, dynamic> _$SearchBreederRequestModelToJson(
         SearchBreederRequestModel instance) =>
     <String, dynamic>{
       'draw': instance.draw,
-      'columns': instance.searchEntry,
-      'order': instance.order,
+      'columns': SearchEntryModel.toJsonList(instance.searchEntry),
+      'order': OrderModel.toJsonList(instance.order),
       'start': instance.start,
       'length': instance.length,
       'searchModel': instance.searchModel,
