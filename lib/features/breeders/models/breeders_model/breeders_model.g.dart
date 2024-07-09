@@ -14,7 +14,6 @@ BreedersModel _$BreedersModelFromJson(Map<String, dynamic> json) =>
       breeders: (json['data'] as List<dynamic>)
           .map((e) => BreederEntryModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      input: json['input'] as List<dynamic>,
     );
 
 Map<String, dynamic> _$BreedersModelToJson(BreedersModel instance) =>
@@ -23,5 +22,4 @@ Map<String, dynamic> _$BreedersModelToJson(BreedersModel instance) =>
       'recordsTotal': instance.recordsTotal,
       'recordsFiltered': instance.recordsFiltered,
       'data': instance.breeders,
-      'input': instance.input,
     };

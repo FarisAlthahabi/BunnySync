@@ -14,7 +14,6 @@ class BreedersModel {
     required this.recordsTotal,
     required this.recordsFiltered,
     required this.breeders,
-    required this.input,
   });
 
   factory BreedersModel.fromJson(Map<String, dynamic> json) =>
@@ -31,8 +30,6 @@ class BreedersModel {
 
   @JsonKey(name : 'data')
   final List<BreederEntryModel> breeders;
-
-  final List<dynamic> input;
 
   String toJsonStr() => jsonEncode(toJson());
 
