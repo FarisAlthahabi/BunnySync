@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/breeders/cubit/breeders_cubit.dart';
+import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
 import 'package:bunny_sync/features/breeders/view/widgets/breeders_list_widget.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
@@ -17,7 +18,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 abstract class BreedersViewCallbacks {
-  void onBreederTap(int breederId);
+  void onBreederTap(BreederEntryModel breederEntryModel);
 
   void onTryAgainTap();
 
@@ -152,9 +153,9 @@ class _BreedersPageState extends State<BreedersPage>
   }
 
   @override
-  void onBreederTap(int breederId) {
+  void onBreederTap(BreederEntryModel breederEntryModel) {
     context.router.push(
-      BreederDetailsRoute(breederId: breederId),
+      BreederDetailsRoute(breederEntryModel: breederEntryModel),
     );
   }
 

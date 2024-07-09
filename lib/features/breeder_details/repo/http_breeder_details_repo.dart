@@ -29,4 +29,51 @@ class HttpBreederDetailsRepo implements BreederDetailsRepo {
       rethrow;
     }
   }
+
+  @override
+  Future<ResponseModel<PedigreeModel>> getBreederPedigree(int id) async {
+    try {
+      final response = await _dioClient.get(
+        '/breeders/$id/pedigree',
+      );
+      final body = response.data as Map<String, dynamic>;
+
+      return ResponseModel<PedigreeModel>.fromJson(
+        body,
+        (json) {
+          final data = json as Map<String, dynamic>?;
+          if (data == null) throw 'Data is null';
+          return PedigreeModel.fromJson(
+            data["pedigree"] as Map<String, dynamic>,
+          );
+        },
+      );
+    } on Exception catch (e) {
+      if (e is NotFoundException) {
+        throw e.message ?? 'something_went_wrong'.i18n;
+      }
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<BreederNoteModel>> getBreederNotes(int id) async {
+    try {
+      final response = await _dioClient.post(
+        '/breeders/note/$id/breeder-data',
+      );
+      final data = response.data as Map<String, dynamic>;
+      final notes = data['data'] as List;
+      return List.generate(
+        notes.length,
+        (index) =>
+            BreederNoteModel.fromJson(notes[index] as Map<String, dynamic>),
+      );
+    } on Exception catch (e) {
+      if (e is NotFoundException) {
+        throw e.message ?? 'something_went_wrong'.i18n;
+      }
+      rethrow;
+    }
+  }
 }

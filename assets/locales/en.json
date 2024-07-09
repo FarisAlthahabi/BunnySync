@@ -84,5 +84,6 @@
   "try_again": "Try again",
   "no_breeders": "There is no breeders",
   "must_agree_to_terms": "You must agree to terms and conditions",
-  "found_breeders": "Found Breeders"
+  "found_breeders": "Found Breeders",
+  "not_implemented": "Not implemented yet"
 }

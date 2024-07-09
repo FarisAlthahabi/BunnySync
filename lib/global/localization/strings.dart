@@ -17,4 +17,5 @@ abstract class Strings {
   static const passwordsNotMatch = "passwords don't match";
   static const nameEmpty = "Name can't be empty";
   static const breederNotFound = "breeder is not found";
+  static const notesEmpty = "There is no notes";
 }
