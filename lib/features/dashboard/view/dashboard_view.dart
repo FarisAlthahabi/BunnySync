@@ -9,6 +9,7 @@ import 'package:bunny_sync/global/repos/repos.dart';
 import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
+import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:bunny_sync/global/widgets/main_show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -89,9 +90,12 @@ class _DashboardPageState extends State<DashboardPage>
   void onAddTap() {
     mainShowBottomSheet(
       context,
-      widget: AddNewTypeWidget(
-        onBreederTap: onBreederTap,
-        onLitterTap: onLittertap,
+      widget: BottomSheetWidget(
+        title: "add_new_type".i18n,
+        child: AddNewTypeWidget(
+          onBreederTap: onBreederTap,
+          onLitterTap: onLittertap,
+        ),
       ),
     );
   }

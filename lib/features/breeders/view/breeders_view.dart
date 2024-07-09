@@ -10,6 +10,7 @@ import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
+import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:bunny_sync/global/widgets/custom_app_bar.dart';
 import 'package:bunny_sync/global/widgets/keep_alive_widget.dart';
 import 'package:bunny_sync/global/widgets/loading_indicator.dart';
@@ -171,10 +172,13 @@ class _BreedersPageState extends State<BreedersPage>
   void onMoreOptionsTap(BreederEntryModel breederEntryModel) {
     mainShowBottomSheet(
       context,
-      widget: BreederMoreOptionsWidget(
-        breederEntryModel: breederEntryModel,
-        onEditBreeder: onEditBreeder,
-        onDeleteBreeder: onDeleteBreeder,
+      widget: BottomSheetWidget(
+        title: 'breeder_options'.i18n,
+        child: BreederMoreOptionsWidget(
+          breederEntryModel: breederEntryModel,
+          onEditBreeder: onEditBreeder,
+          onDeleteBreeder: onDeleteBreeder,
+        ),
       ),
     );
   }
@@ -324,6 +328,7 @@ class _BreedersPageState extends State<BreedersPage>
                           breeders: state.searchedBreeders,
                           padding: AppConstants.paddingH16V28,
                           onBreederTap: onBreederTap,
+                          onMoreOptionsTap: onMoreOptionsTap,
                         ),
                       );
                     } else if (state is SearchBreederNotFound) {
