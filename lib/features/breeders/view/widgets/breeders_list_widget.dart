@@ -11,13 +11,12 @@ class BreedersListWidget extends StatelessWidget {
   const BreedersListWidget({
     super.key,
     required this.onBreederTap,
-    required this.breedersModel,
-    required this.onRefresh,
+    required this.breeders,
     this.padding = AppConstants.padding16,
     this.controller,
   });
 
-  final List<BreederEntryModel> breedersModel;
+  final List<BreederEntryModel> breeders;
   final ValueSetter<int> onBreederTap;
   final AsyncCallback onRefresh;
   final EdgeInsetsGeometry padding;
@@ -25,28 +24,32 @@ class BreedersListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (breedersModel.isNotEmpty) {
-      return AnimationLimiter(
-        child: RefreshIndicator(
-          onRefresh: onRefresh,
-          child: ListView.separated(
-            controller: controller,
-            shrinkWrap: true,
-            padding: padding,
-            itemCount: breedersModel.length,
-            itemBuilder: (context, index) {
-              return IndexedListSlideFadeAnimatedTile(
-                index: index,
-                child: BreederTile(
-                  breeder: breedersModel[index],
-                  onTap: onBreederTap,
-                ),
-              );
-            },
-            separatorBuilder: (context, index) => const SizedBox(height: 16),
-          ),
-        ),
+    if (breeders.isNotEmpty) {
+      final onRefresh = this.onRefresh;
+      Widget child = ListView.separated(
+        controller: controller,
+        shrinkWrap: true,
+        padding: padding,
+        itemCount: breeders.length,
+        itemBuilder: (context, index) {
+          return IndexedListSlideFadeAnimatedTile(
+            index: index,
+            child: BreederTile(
+              breeder: breeders[index],
+              onTap: onBreederTap,
+            ),
+          );
+        },
+        separatorBuilder: (context, index) => const SizedBox(height: 16),
       );
+
+      if (onRefresh != null) {
+        child = RefreshIndicator(
+          onRefresh: onRefresh,
+          child: child,
+        );
+      }
+      return AnimationLimiter(child: child);
     } else {
       return Scaffold(
         body: Center(

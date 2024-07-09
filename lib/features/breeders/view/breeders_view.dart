@@ -222,7 +222,7 @@ class _BreedersPageState extends State<BreedersPage>
                             KeepAliveWidget(
                               child: BreedersListWidget(
                                 controller: child1ScrollController,
-                                breedersModel: state.breedersStatusModel.active,
+                                breeders: state.breedersStatusModel.active,
                                 padding: AppConstants.paddingH16V28,
                                 onBreederTap: onBreederTap,
                                 onRefresh: breedersCubit.getBreeders,
@@ -231,8 +231,7 @@ class _BreedersPageState extends State<BreedersPage>
                             KeepAliveWidget(
                               child: BreedersListWidget(
                                 controller: child2ScrollController,
-                                breedersModel:
-                                    state.breedersStatusModel.inactive,
+                                breeders: state.breedersStatusModel.inactive,
                                 padding: AppConstants.paddingH16V28,
                                 onBreederTap: onBreederTap,
                                 onRefresh: breedersCubit.getBreeders,
@@ -241,7 +240,7 @@ class _BreedersPageState extends State<BreedersPage>
                             KeepAliveWidget(
                               child: BreedersListWidget(
                                 controller: child3ScrollController,
-                                breedersModel: state.breedersStatusModel.all,
+                                breeders: state.breedersStatusModel.all,
                                 padding: AppConstants.paddingH16V28,
                                 onBreederTap: onBreederTap,
                                 onRefresh: breedersCubit.getBreeders,
@@ -281,7 +280,7 @@ class _BreedersPageState extends State<BreedersPage>
                       return KeepAliveWidget(
                         child: BreedersListWidget(
                           controller: child3ScrollController,
-                          breedersModel: state.searchedBreeders,
+                          breeders: state.searchedBreeders,
                           padding: AppConstants.paddingH16V28,
                           onBreederTap: onBreederTap,
                         ),
