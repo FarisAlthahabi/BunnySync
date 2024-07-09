@@ -9,54 +9,50 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-abstract class NotesTabBarViewCallbacks {
+abstract class PedigreeTabCallbacks {
   void onTryAgainTap();
 }
 
-class NotesTabBarView extends StatefulWidget {
-  const NotesTabBarView({
-    super.key,
-    required this.breederId,
-  });
-
+class PedigreeTab extends StatefulWidget {
+  const PedigreeTab({super.key, required this.breederId});
   final int breederId;
 
   @override
-  State<NotesTabBarView> createState() => _NotesTabBarViewState();
+  State<PedigreeTab> createState() => _PedigreeTabState();
 }
 
-class _NotesTabBarViewState extends State<NotesTabBarView>
-    implements NotesTabBarViewCallbacks {
+class _PedigreeTabState extends State<PedigreeTab>
+    implements PedigreeTabCallbacks {
   late final BreederDetailsCubit breederDetailsCubit = context.read();
 
   @override
   void initState() {
-    breederDetailsCubit.getBreederNotes(widget.breederId);
+    breederDetailsCubit.getBreederPedigree(widget.breederId);
     super.initState();
   }
 
   @override
   void onTryAgainTap() {
-    breederDetailsCubit.getBreederNotes(widget.breederId);
+    breederDetailsCubit.getBreederPedigree(widget.breederId);
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BreederDetailsCubit, GeneralBreederDetailsState>(
       builder: (context, state) {
-        if (state is BreederNotesFetch) {
+        if (state is BreederPedigreeFetch) {
           final rabbitProperties = [
             RabbitPropertyModel(
-              title: 'title'.i18n,
-              value: state.breederNotes[0].title,
+              title: 'cage'.i18n,
+              value: state.pedigreeModel.cage,
             ),
             RabbitPropertyModel(
-              title: 'note'.i18n,
-              value: state.breederNotes[0].note,
+              title: 'color'.i18n,
+              value: state.pedigreeModel.color,
             ),
           ];
           return Skeletonizer(
-            enabled: state is BreederNotesLoading,
+            enabled: state is BreederPedigreeLoading,
             child: SingleChildScrollView(
               child: Padding(
                 padding: AppConstants.padding24,
@@ -89,17 +85,25 @@ class _NotesTabBarViewState extends State<NotesTabBarView>
                       child: ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: 2,
+                        itemCount: 4,
                         itemBuilder: (context, index) {
-                          final item = state.breederNotes[0];
-                          final rabbitDeatilsProperties = [
+                          final item = state.pedigreeModel;
+                          final rabbitDetailsProperties = [
                             RabbitPropertyModel(
-                              title: 'Title',
-                              value: item.title,
+                              title: 'Status',
+                              value: item.status.status,
                             ),
                             RabbitPropertyModel(
-                              title: 'Note',
-                              value: item.note,
+                              title: 'Cage',
+                              value: item.cage,
+                            ),
+                            RabbitPropertyModel(
+                              title: 'Breed',
+                              value: item.breed ?? 'breed',
+                            ),
+                            RabbitPropertyModel(
+                              title: 'Color',
+                              value: item.color,
                             ),
                           ];
                           Color tileColor;
@@ -109,7 +113,7 @@ class _NotesTabBarViewState extends State<NotesTabBarView>
                             tileColor = context.cs.onInverseSurface;
                           }
                           return BreederDetailsTile(
-                            rabbitProperty: rabbitDeatilsProperties[index],
+                            rabbitProperty: rabbitDetailsProperties[index],
                             tileColor: tileColor,
                           );
                         },
@@ -120,14 +124,8 @@ class _NotesTabBarViewState extends State<NotesTabBarView>
               ),
             ),
           );
-        } else if (state is BreederNotesEmpty) {
-          return Center(
-            child: Text(
-              state.message,
-              style: context.tt.bodyLarge,
-            ),
-          );
-        } else if (state is BreederNotesFail) {
+        }
+        else if (state is BreederPedigreeFail) {
           return Scaffold(
             body: Center(
               child: Column(

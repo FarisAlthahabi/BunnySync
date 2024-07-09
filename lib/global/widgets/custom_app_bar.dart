@@ -22,16 +22,20 @@ class CustomAppBar extends StatelessWidget {
     required this.onSearchChanged,
     required this.title,
     required this.tabs,
+    this.searchController,
+    this.onDeleteSearch,
   });
 
+  final TextEditingController? searchController;
   final ValueChanged<String> onSearchChanged;
+  final VoidCallback? onDeleteSearch;
   final String title;
   final List<TabModel> tabs;
 
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
-      expandedHeight: 180,
+      expandedHeight: tabs.isNotEmpty ? 180 : 155,
       automaticallyImplyLeading: false,
       elevation: 0,
       scrolledUnderElevation: 0,
@@ -48,8 +52,10 @@ class CustomAppBar extends StatelessWidget {
                 height: MediaQuery.of(context).padding.top,
               ),
               SearchTextField(
+                controller: searchController,
                 hintText: 'search'.i18n,
                 onChanged: onSearchChanged,
+                onDeleteText: onDeleteSearch,
               ),
               const SizedBox(height: 12),
               Text(
@@ -61,25 +67,27 @@ class CustomAppBar extends StatelessWidget {
           ),
         ),
       ),
-      bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(48),
-        child: Container(
-          color: context.cs.surface,
-          padding: AppConstants.paddingH16,
-          child: Skeleton.shade(
-            child: TabBar(
-              tabs: tabs
-                  .map(
-                    (tab) => TabHeader(
-                      text: tab.title,
-                      indicatorValue: tab.indicatorValue,
-                    ),
-                  )
-                  .toList(),
-            ),
-          ),
-        ),
-      ),
+      bottom: tabs.isNotEmpty
+          ? PreferredSize(
+              preferredSize: const Size.fromHeight(48),
+              child: Container(
+                color: context.cs.surface,
+                padding: AppConstants.paddingH16,
+                child: Skeleton.shade(
+                  child: TabBar(
+                    tabs: tabs
+                        .map(
+                          (tab) => TabHeader(
+                            text: tab.title,
+                            indicatorValue: tab.indicatorValue,
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
+              ),
+            )
+          : null,
     );
   }
 }

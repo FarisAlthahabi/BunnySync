@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/breeders/cubit/breeders_cubit.dart';
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
@@ -6,9 +8,11 @@ import 'package:bunny_sync/features/breeders/view/widgets/breeders_list_widget.d
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/router/router.dart';
+import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/custom_app_bar.dart';
 import 'package:bunny_sync/global/widgets/keep_alive_widget.dart';
+import 'package:bunny_sync/global/widgets/loading_indicator.dart';
 import 'package:bunny_sync/global/widgets/main_show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -25,6 +29,10 @@ abstract class BreedersViewCallbacks {
   void onMoreOptionsTap(BreederEntryModel breederEntryModel);
 
   void onTryAgainTap();
+
+  void onSearchChanged(String value);
+
+  void onDeleteSearch();
 }
 
 @RoutePage()
@@ -56,6 +64,11 @@ class _BreedersPageState extends State<BreedersPage>
   final child2ScrollController = ScrollController();
   final child3ScrollController = ScrollController();
 
+  final TextEditingController searchController = TextEditingController();
+  final FocusNode searchFocusNode = FocusNode();
+
+  Timer? _debounce;
+
   bool isParentScrollingDownward = false;
   bool isParentScrollingUpward = false;
 
@@ -64,7 +77,6 @@ class _BreedersPageState extends State<BreedersPage>
     super.initState();
 
     breedersCubit.getBreeders();
-
     child1ScrollController.addListener(
       createScrollListener(
         parent: parentScrollController,
@@ -93,6 +105,8 @@ class _BreedersPageState extends State<BreedersPage>
     child1ScrollController.dispose();
     child2ScrollController.dispose();
     child3ScrollController.dispose();
+    searchController.dispose();
+    _debounce?.cancel();
 
     super.dispose();
   }
@@ -125,6 +139,20 @@ class _BreedersPageState extends State<BreedersPage>
         }
       });
     };
+  }
+
+  @override
+  void onSearchChanged(String value) {
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(AppConstants.duration400ms, () {
+      breedersCubit.getSearchedBreeders(value);
+    });
+  }
+
+  @override
+  void onDeleteSearch() {
+    searchController.clear();
+    breedersCubit.getSearchedBreeders('');
   }
 
   @override
@@ -177,34 +205,46 @@ class _BreedersPageState extends State<BreedersPage>
             slivers: [
               BlocBuilder<BreedersCubit, GeneralBreedersState>(
                 builder: (context, state) {
-                  if (state is BreedersFetch) {
-                    return Skeletonizer.sliver(
-                      enabled: state is BreedersLoading,
-                      child: CustomAppBar(
-                        onSearchChanged: (value) {},
-                        title: 'breeders'.i18n,
-                        tabs: [
-                          TabModel(
-                            title: 'active'.i18n,
-                            indicatorValue: state
+                  var title = 'breeders'.i18n;
+                  var tabs = <TabModel>[];
+
+                  if (state is BreedersState) {
+                    tabs = [
+                      TabModel(
+                        title: 'active'.i18n,
+                        indicatorValue: state is BreedersFetch
+                            ? state
                                 .breedersStatusModel.active.length
-                                .toString(),
-                          ),
-                          TabModel(
-                            title: 'inactive'.i18n,
-                            indicatorValue: state
-                                .breedersStatusModel.inactive.length
-                                .toString(),
-                          ),
-                          TabModel(
-                            title: 'all'.i18n,
-                          ),
-                        ],
+                                .toString()
+                            : null,
                       ),
-                    );
+                      TabModel(
+                        title: 'inactive'.i18n,
+                        indicatorValue: state is BreedersFetch
+                            ? state
+                                .breedersStatusModel.inactive.length
+                                .toString()
+                            : null,
+                      ),
+                      TabModel(
+                        title: 'all'.i18n,
+                      ),
+                    ];
+                  } else if (state is SearchBreederState) {
+                    title = 'found_breeders'.i18n;
                   }
-                  return const SliverToBoxAdapter(
-                    child: SizedBox(),
+
+                  return Skeletonizer.sliver(
+                    enabled: state is BreedersLoading,
+                    child: CustomAppBar(
+                      searchController: searchController,
+                      onSearchChanged: onSearchChanged,
+                      onDeleteSearch: searchController.text.isNotEmpty
+                          ? onDeleteSearch
+                          : null,
+                      title: title,
+                      tabs: tabs,
+                    ),
                   );
                 },
               ),
@@ -220,7 +260,7 @@ class _BreedersPageState extends State<BreedersPage>
                               child: BreedersListWidget(
                                 onMoreOptionsTap: onMoreOptionsTap,
                                 controller: child1ScrollController,
-                                breedersModel: state.breedersStatusModel.active,
+                                breeders: state.breedersStatusModel.active,
                                 padding: AppConstants.paddingH16V28,
                                 onBreederTap: onBreederTap,
                                 onRefresh: breedersCubit.getBreeders,
@@ -230,7 +270,7 @@ class _BreedersPageState extends State<BreedersPage>
                               child: BreedersListWidget(
                                 onMoreOptionsTap: onMoreOptionsTap,
                                 controller: child2ScrollController,
-                                breedersModel:
+                                breeders:
                                     state.breedersStatusModel.inactive,
                                 padding: AppConstants.paddingH16V28,
                                 onBreederTap: onBreederTap,
@@ -241,7 +281,7 @@ class _BreedersPageState extends State<BreedersPage>
                               child: BreedersListWidget(
                                 onMoreOptionsTap: onMoreOptionsTap,
                                 controller: child3ScrollController,
-                                breedersModel: state.breedersStatusModel.all,
+                                breeders: state.breedersStatusModel.all,
                                 padding: AppConstants.paddingH16V28,
                                 onBreederTap: onBreederTap,
                                 onRefresh: breedersCubit.getBreeders,
@@ -271,16 +311,37 @@ class _BreedersPageState extends State<BreedersPage>
                           ),
                         ),
                       );
-                    } else {
-                      return const Scaffold(
-                        body: Center(
-                          child: Text(
-                            'An error has been occoured',
-                            textAlign: TextAlign.center,
-                          ),
+                    } else if (state is SearchBreederLoading) {
+                      return const Center(
+                        child: LoadingIndicator(
+                          color: AppColors.mainColor,
+                        ),
+                      );
+                    } else if (state is SearchBreederSuccess) {
+                      return KeepAliveWidget(
+                        child: BreedersListWidget(
+                          controller: child3ScrollController,
+                          breeders: state.searchedBreeders,
+                          padding: AppConstants.paddingH16V28,
+                          onBreederTap: onBreederTap,
+                        ),
+                      );
+                    } else if (state is SearchBreederNotFound) {
+                      return Center(
+                        child: Text(
+                          state.message,
+                          style: context.tt.bodyLarge,
+                        ),
+                      );
+                    } else if (state is SearchBreederFail) {
+                      return Center(
+                        child: Text(
+                          state.message,
+                          style: context.tt.bodyLarge,
                         ),
                       );
                     }
+                    return const SizedBox.shrink();
                   },
                 ),
               ),

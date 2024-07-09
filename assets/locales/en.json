@@ -84,6 +84,9 @@
   "try_again": "Try again",
   "no_breeders": "There is no breeders",
   "must_agree_to_terms": "You must agree to terms and conditions",
+  "found_breeders": "Found Breeders",
+  "not_implemented": "Not implemented yet"
+  "must_agree_to_terms": "You must agree to terms and conditions",
   "breeder_updated" : "Breeder  is updated successfully",
   "breeder_added" : "Breeder  is added successfully",
   "breeder_options" : "Breeder Options",

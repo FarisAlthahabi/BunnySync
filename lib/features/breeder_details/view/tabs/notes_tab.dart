@@ -9,50 +9,54 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-abstract class PedigreeTabBarViewCallbacks {
+abstract class NotesTabCallbacks {
   void onTryAgainTap();
 }
 
-class PedigreeTabBarView extends StatefulWidget {
-  const PedigreeTabBarView({super.key, required this.breederId});
+class NotesTab extends StatefulWidget {
+  const NotesTab({
+    super.key,
+    required this.breederId,
+  });
+
   final int breederId;
 
   @override
-  State<PedigreeTabBarView> createState() => _PedigreeTabBarViewState();
+  State<NotesTab> createState() => _NotesTabState();
 }
 
-class _PedigreeTabBarViewState extends State<PedigreeTabBarView>
-    implements PedigreeTabBarViewCallbacks {
+class _NotesTabState extends State<NotesTab>
+    implements NotesTabCallbacks {
   late final BreederDetailsCubit breederDetailsCubit = context.read();
 
   @override
   void initState() {
-    breederDetailsCubit.getBreederPedigree(widget.breederId);
+    breederDetailsCubit.getBreederNotes(widget.breederId);
     super.initState();
   }
 
   @override
   void onTryAgainTap() {
-    breederDetailsCubit.getBreederPedigree(widget.breederId);
+    breederDetailsCubit.getBreederNotes(widget.breederId);
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BreederDetailsCubit, GeneralBreederDetailsState>(
       builder: (context, state) {
-        if (state is BreederPedigreeFetch) {
+        if (state is BreederNotesFetch) {
           final rabbitProperties = [
             RabbitPropertyModel(
-              title: 'cage'.i18n,
-              value: state.pedigreeModel.cage,
+              title: 'title'.i18n,
+              value: state.breederNotes[0].title,
             ),
             RabbitPropertyModel(
-              title: 'color'.i18n,
-              value: state.pedigreeModel.color,
+              title: 'note'.i18n,
+              value: state.breederNotes[0].note,
             ),
           ];
           return Skeletonizer(
-            enabled: state is BreederPedigreeLoading,
+            enabled: state is BreederNotesLoading,
             child: SingleChildScrollView(
               child: Padding(
                 padding: AppConstants.padding24,
@@ -85,25 +89,17 @@ class _PedigreeTabBarViewState extends State<PedigreeTabBarView>
                       child: ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: 4,
+                        itemCount: 2,
                         itemBuilder: (context, index) {
-                          final item = state.pedigreeModel;
-                          final rabbitDeatilsProperties = [
+                          final item = state.breederNotes[0];
+                          final rabbitDetailsProperties = [
                             RabbitPropertyModel(
-                              title: 'Status',
-                              value: item.status.status,
+                              title: 'Title',
+                              value: item.title,
                             ),
                             RabbitPropertyModel(
-                              title: 'Cage',
-                              value: item.cage,
-                            ),
-                            RabbitPropertyModel(
-                              title: 'Breed',
-                              value: item.breed ?? 'breed',
-                            ),
-                            RabbitPropertyModel(
-                              title: 'Color',
-                              value: item.color,
+                              title: 'Note',
+                              value: item.note,
                             ),
                           ];
                           Color tileColor;
@@ -113,7 +109,7 @@ class _PedigreeTabBarViewState extends State<PedigreeTabBarView>
                             tileColor = context.cs.onInverseSurface;
                           }
                           return BreederDetailsTile(
-                            rabbitProperty: rabbitDeatilsProperties[index],
+                            rabbitProperty: rabbitDetailsProperties[index],
                             tileColor: tileColor,
                           );
                         },
@@ -124,8 +120,14 @@ class _PedigreeTabBarViewState extends State<PedigreeTabBarView>
               ),
             ),
           );
-        }
-        else if (state is BreederPedigreeFail) {
+        } else if (state is BreederNotesEmpty) {
+          return Center(
+            child: Text(
+              state.message,
+              style: context.tt.bodyLarge,
+            ),
+          );
+        } else if (state is BreederNotesFail) {
           return Scaffold(
             body: Center(
               child: Column(
