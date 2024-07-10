@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/add_breeder/cubit/add_breeder_cubit.dart';
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
+import 'package:bunny_sync/features/main_navigation/cubit/main_navigation_cubit.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
@@ -85,6 +86,8 @@ class AddBreederPage extends StatefulWidget {
 
 class _AddBreederPageState extends State<AddBreederPage>
     implements AddBreederViewCallBack {
+  late final MainNavigationCubit mainNavigationCubit = context.read();
+
   late final AddBreederCubit addBreederCubit = context.read();
 
   DateTime selectedDate = DateTime.now();
@@ -105,6 +108,7 @@ class _AddBreederPageState extends State<AddBreederPage>
   void initState() {
     final breederEntryModel = widget.breederEntryModel;
     if (breederEntryModel != null) {
+      addBreederCubit.breeder = breederEntryModel;
       addBreederCubit.setName(breederEntryModel.name);
       addBreederCubit.setPrefix(breederEntryModel.prefix);
       addBreederCubit.setCage(breederEntryModel.cage);
@@ -365,6 +369,7 @@ class _AddBreederPageState extends State<AddBreederPage>
                             state.message,
                           );
                         } else if (state is AddBreederSuccess) {
+                          mainNavigationCubit.updateBreeder(state.breederModel);
                           MainSnackBar.showSuccessMessageBar(
                             context,
                             widget.breederEntryModel != null

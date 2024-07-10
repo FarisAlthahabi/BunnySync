@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bunny_sync/global/utils/enums/gender_types_enum.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -8,7 +9,7 @@ part 'breeder_entry_model.g.dart';
 
 @immutable
 @JsonSerializable()
-class BreederEntryModel {
+class BreederEntryModel extends Equatable {
   const BreederEntryModel({
     required this.id,
     required this.userId,
@@ -87,4 +88,31 @@ class BreederEntryModel {
 
   Map<String, dynamic> toJson() => _$BreederEntryModelToJson(this);
 
+  BreederEntryModel merge(BreederEntryModel? model) {
+    return BreederEntryModel(
+      id: model?.id ?? id,
+      userId: model?.userId ?? userId,
+      uuid: model?.uuid ?? uuid,
+      name: model?.name ?? name,
+      updatedAt: model?.updatedAt ?? updatedAt,
+      createdAt: model?.createdAt ?? createdAt,
+      weight: model?.weight ?? weight,
+      litters: model?.litters ?? litters,
+      kits: model?.kits ?? kits,
+      age: model?.age ?? age,
+      status: model?.status ?? status,
+      photo: model?.photo ?? photo,
+      dtRowIndex: model?.dtRowIndex ?? dtRowIndex,
+      prefix: model?.prefix ?? prefix,
+      cage: model?.cage ?? cage,
+      gender: model?.gender ?? gender,
+      color: model?.color ?? color,
+      tatto: model?.tatto ?? tatto,
+      breed: model?.breed ?? breed,
+      categoryBreederId: model?.categoryBreederId ?? categoryBreederId,
+    );
+  }
+
+  @override
+  List<Object?> get props => [id];
 }

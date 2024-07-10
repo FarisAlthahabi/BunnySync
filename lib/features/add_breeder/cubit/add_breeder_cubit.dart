@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:bunny_sync/features/add_breeder/models/post_add_breeder_model/post_add_breeder_model.dart';
 import 'package:bunny_sync/features/add_breeder/repo/add_breeder_repo.dart';
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
+import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/utils/enums/gender_types_enum.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
@@ -17,6 +18,8 @@ class AddBreederCubit extends Cubit<GeneralAddBreederState> {
   AddBreederCubit(this._addBreederRepo) : super(AddBreederInitial());
 
   final AddBreederRepo _addBreederRepo;
+
+  BreederEntryModel? breeder;
 
   PostAddBreederModel _postAddBreederModel = const PostAddBreederModel();
 
@@ -103,7 +106,14 @@ class AddBreederCubit extends Cubit<GeneralAddBreederState> {
     try {
       final response =
           await _addBreederRepo.updateBreeder(breederId, _postAddBreederModel);
-      emit(AddBreederSuccess(response.data));
+
+      final breeder = this.breeder?.merge(response.data);
+
+      if (breeder == null) {
+        emit(AddBreederFail('failed_to_update_breeder'.i18n));
+        return;
+      }
+      emit(AddBreederSuccess(breeder));
     } catch (e, s) {
       addError(e, s);
       emit(AddBreederFail(e.toString()));

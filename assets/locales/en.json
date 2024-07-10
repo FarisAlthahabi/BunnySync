@@ -91,5 +91,6 @@
   "breeder_options": "Breeder Options",
   "edit": "Edit",
   "delete": "Delete",
-  "edit_breeder": "Edit Breeder"
+  "edit_breeder": "Edit Breeder",
+  "failed_to_update_breeder": "Failed to update breeder"
 }
