@@ -24,10 +24,10 @@ class BreederTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final rabbitProperties = [
-      RabbitPropertyModel(title: 'litters'.i18n, value: breeder.litters!),
-      RabbitPropertyModel(title: 'kits'.i18n, value: breeder.kits!),
-      RabbitPropertyModel(title: 'age'.i18n, value: breeder.age!),
-      RabbitPropertyModel(title: 'weight'.i18n, value: breeder.weight!),
+      RabbitPropertyModel(title: 'litters'.i18n, value: breeder.litters ?? '-'),
+      RabbitPropertyModel(title: 'kits'.i18n, value: breeder.kits ?? '-'),
+      RabbitPropertyModel(title: 'age'.i18n, value: breeder.age ?? '-'),
+      RabbitPropertyModel(title: 'weight'.i18n, value: breeder.weight ?? '-'),
     ];
 
     return MainTile(
