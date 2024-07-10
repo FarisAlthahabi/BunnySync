@@ -369,12 +369,17 @@ class _AddBreederPageState extends State<AddBreederPage>
                             state.message,
                           );
                         } else if (state is AddBreederSuccess) {
+                          mainNavigationCubit.addBreeder(state.breederModel);
+                          MainSnackBar.showSuccessMessageBar(
+                            context,
+                            "breeder_added".i18n,
+                          );
+                          context.router.maybePop();
+                        } else if (state is UpdateBreederSuccess) {
                           mainNavigationCubit.updateBreeder(state.breederModel);
                           MainSnackBar.showSuccessMessageBar(
                             context,
-                            widget.breederEntryModel != null
-                                ? "breeder_updated".i18n
-                                : "breeder_added".i18n,
+                            "breeder_updated".i18n,
                           );
                           context.router.maybePop();
                         } else if (state is AddBreederFail) {

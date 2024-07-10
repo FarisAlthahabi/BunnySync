@@ -113,7 +113,7 @@ class AddBreederCubit extends Cubit<GeneralAddBreederState> {
         emit(AddBreederFail('failed_to_update_breeder'.i18n));
         return;
       }
-      emit(AddBreederSuccess(breeder));
+      emit(UpdateBreederSuccess(breeder));
     } catch (e, s) {
       addError(e, s);
       emit(AddBreederFail(e.toString()));
