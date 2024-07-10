@@ -92,5 +92,7 @@
   "edit": "Edit",
   "delete": "Delete",
   "edit_breeder": "Edit Breeder",
-  "failed_to_update_breeder": "Failed to update breeder"
+  "failed_to_update_breeder": "Failed to update breeder",
+  "are_you_sure_to_delete_breeder": "Are you sure to delete breeder?",
+  "breeder_deleted": "Breeder is deleted successfully"
 }

@@ -118,4 +118,27 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
       emit(BreedersSuccess(breedersStatusModel));
     }
   }
+
+  void deleteBreederLocally(int breederId) {
+    activeBreeders =
+        activeBreeders.where((element) => element.id != breederId).toList();
+    inactiveBreeders =
+        inactiveBreeders.where((element) => element.id != breederId).toList();
+    allBreeders =
+        allBreeders.where((element) => element.id != breederId).toList();
+    breedersStatusModel = BreedersStatusModel(
+      all: allBreeders,
+      active: activeBreeders,
+      inactive: inactiveBreeders,
+    );
+
+    searchedBreeders =
+        searchedBreeders.where((element) => element.id != breederId).toList();
+
+    if (state is SearchBreederSuccess) {
+      emit(SearchBreederSuccess(searchedBreeders));
+    } else {
+      emit(BreedersSuccess(breedersStatusModel));
+    }
+  }
 }

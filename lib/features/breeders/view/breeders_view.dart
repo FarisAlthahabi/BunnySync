@@ -6,6 +6,7 @@ import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_
 import 'package:bunny_sync/features/breeders/view/widgets/breeder_more_options_widget.dart';
 import 'package:bunny_sync/features/breeders/view/widgets/breeders_list_widget.dart';
 import 'package:bunny_sync/features/main_navigation/cubit/main_navigation_cubit.dart';
+import 'package:bunny_sync/global/blocs/delete_breeder_cubit/delete_breeder_cubit.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/router/router.dart';
@@ -16,6 +17,7 @@ import 'package:bunny_sync/global/widgets/custom_app_bar.dart';
 import 'package:bunny_sync/global/widgets/keep_alive_widget.dart';
 import 'package:bunny_sync/global/widgets/loading_indicator.dart';
 import 'package:bunny_sync/global/widgets/main_show_bottom_sheet.dart';
+import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,7 +28,7 @@ abstract class BreedersViewCallbacks {
 
   void onEditBreeder(BreederEntryModel breederEntryModel);
 
-  void onDeleteBreeder();
+  void onDeleteBreeder(BreederEntryModel breederEntryModel);
 
   void onMoreOptionsTap(BreederEntryModel breederEntryModel);
 
@@ -43,8 +45,15 @@ class BreedersView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => get<BreedersCubit>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<BreedersCubit>(
+          create: (context) => get<BreedersCubit>(),
+        ),
+        BlocProvider<DeleteBreederCubit>(
+          create: (context) => get<DeleteBreederCubit>(),
+        ),
+      ],
       child: const BreedersPage(),
     );
   }
@@ -59,6 +68,8 @@ class BreedersPage extends StatefulWidget {
 
 class _BreedersPageState extends State<BreedersPage>
     implements BreedersViewCallbacks {
+  late final DeleteBreederCubit deleteBreederCubit = context.read();
+
   late final BreedersCubit breedersCubit = context.read();
 
   final parentScrollController = ScrollController();
@@ -185,8 +196,26 @@ class _BreedersPageState extends State<BreedersPage>
   }
 
   @override
-  void onDeleteBreeder() {
-    // TODO
+  void onDeleteBreeder(BreederEntryModel breederEntryModel) {
+    context.router.popForced();
+    mainShowBottomSheet(
+      context,
+      widget: BottomSheetWidget(
+        title: 'are_you_sure_to_delete_breeder'.i18n,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextButton(
+              onPressed: () {
+                context.router.popForced();
+                deleteBreederCubit.deleteBreeder(breederEntryModel);
+              },
+              child: Text('yes'.i18n),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -201,12 +230,27 @@ class _BreedersPageState extends State<BreedersPage>
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<MainNavigationCubit, MainNavigationState>(
-      listener: (context, state) {
-        if (state is BreederUpdated) {
-          breedersCubit.updateBreeder(state.breederEntryModel);
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<MainNavigationCubit, MainNavigationState>(
+          listener: (context, state) {
+            if (state is BreederUpdated) {
+              breedersCubit.updateBreeder(state.breederEntryModel);
+            }
+          },
+        ),
+        BlocListener<DeleteBreederCubit, GeneralDeleteBreederState>(
+          listener: (context, state) {
+            if (state is DeleteBreederSuccess) {
+              breedersCubit.deleteBreederLocally(state.breeder.id);
+              MainSnackBar.showSuccessMessageBar(
+                context,
+                'breeder_deleted'.i18n,
+              );
+            }
+          },
+        ),
+      ],
       child: DefaultTabController(
         length: 3,
         child: Scaffold(

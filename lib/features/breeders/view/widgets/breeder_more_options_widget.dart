@@ -11,7 +11,7 @@ class BreederMoreOptionsWidget extends StatelessWidget {
   });
 
   final ValueSetter<BreederEntryModel> onEditBreeder;
-  final VoidCallback onDeleteBreeder;
+  final ValueSetter<BreederEntryModel> onDeleteBreeder;
   final BreederEntryModel breederEntryModel;
 
   @override
@@ -30,7 +30,7 @@ class BreederMoreOptionsWidget extends StatelessWidget {
           ),
         ),
         TextButton(
-          onPressed: onDeleteBreeder,
+          onPressed: () => onDeleteBreeder(breederEntryModel),
           style: TextButton.styleFrom(
             alignment: AlignmentDirectional.centerStart,
           ),
