@@ -8,14 +8,16 @@ class SearchTextField extends StatelessWidget {
     super.key,
     this.hintText,
     this.onChanged,
-    this.controller,
     this.onDeleteText,
+    this.controller,
+    this.focusNode,
   });
 
   final String? hintText;
   final ValueChanged<String>? onChanged;
   final VoidCallback? onDeleteText;
   final TextEditingController? controller;
+  final FocusNode? focusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +25,7 @@ class SearchTextField extends StatelessWidget {
       children: [
         TextFormField(
           controller: controller,
+          focusNode: focusNode,
           onChanged: onChanged,
           decoration: InputDecoration(
             hintText: hintText,

@@ -165,6 +165,7 @@ class _BreedersPageState extends State<BreedersPage>
   @override
   void onDeleteSearch() {
     searchController.clear();
+    searchFocusNode.unfocus();
     breedersCubit.getSearchedBreeders('');
   }
 
@@ -295,6 +296,7 @@ class _BreedersPageState extends State<BreedersPage>
                       enabled: state is BreedersLoading,
                       child: CustomAppBar(
                         searchController: searchController,
+                        searchFocusNode: searchFocusNode,
                         onSearchChanged: onSearchChanged,
                         onDeleteSearch: searchController.text.isNotEmpty
                             ? onDeleteSearch

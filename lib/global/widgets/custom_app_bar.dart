@@ -23,14 +23,16 @@ class CustomAppBar extends StatelessWidget {
     required this.title,
     required this.tabs,
     this.searchController,
+    this.searchFocusNode,
     this.onDeleteSearch,
   });
 
-  final TextEditingController? searchController;
   final ValueChanged<String> onSearchChanged;
-  final VoidCallback? onDeleteSearch;
   final String title;
   final List<TabModel> tabs;
+  final TextEditingController? searchController;
+  final FocusNode? searchFocusNode;
+  final VoidCallback? onDeleteSearch;
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +55,7 @@ class CustomAppBar extends StatelessWidget {
               ),
               SearchTextField(
                 controller: searchController,
+                focusNode: searchFocusNode,
                 hintText: 'search'.i18n,
                 onChanged: onSearchChanged,
                 onDeleteText: onDeleteSearch,
