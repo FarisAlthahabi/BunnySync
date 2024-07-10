@@ -85,9 +85,9 @@ class AddBreederPage extends StatefulWidget {
 
 class _AddBreederPageState extends State<AddBreederPage>
     implements AddBreederViewCallBack {
-  DateTime selectedDate = DateTime.now();
-
   late final AddBreederCubit addBreederCubit = context.read();
+
+  DateTime selectedDate = DateTime.now();
 
   final nameFocusNode = FocusNode();
 
