@@ -56,12 +56,14 @@ class AddBreederCubit extends Cubit<GeneralAddBreederState> {
     );
   }
 
-  void setWeight(String weight) {
-    final RegExp regExp = RegExp(r"[-+]?[0-9]*\.?[0-9]+");
-    final Iterable<Match> matches = regExp.allMatches(weight);
-      final String match = matches.first.group(0)!;
+  void setWeight(String? weight) {
+    if (weight == null) {
+      return;
+    }
+
+    final firstPart = weight.split(' ')[0];
     _postAddBreederModel = _postAddBreederModel.copyWith(
-      weight: () => double.parse(match),
+      weight: () => double.tryParse(firstPart),
     );
   }
 

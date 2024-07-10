@@ -77,6 +77,8 @@ class AddBreederPage extends StatefulWidget {
 
   final BreederEntryModel? breederEntryModel;
 
+  bool get isEdit => breederEntryModel != null;
+
   @override
   State<AddBreederPage> createState() => _AddBreederPageState();
 }
@@ -98,6 +100,23 @@ class _AddBreederPageState extends State<AddBreederPage>
   final tattoFocusNode = FocusNode();
 
   final weightFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    final breederEntryModel = widget.breederEntryModel;
+    if (breederEntryModel != null) {
+      addBreederCubit.setName(breederEntryModel.name);
+      addBreederCubit.setPrefix(breederEntryModel.prefix);
+      addBreederCubit.setCage(breederEntryModel.cage);
+      addBreederCubit.setColor(breederEntryModel.color);
+      addBreederCubit.setGender(breederEntryModel.gender!);
+      addBreederCubit.setTatto(breederEntryModel.tatto);
+      addBreederCubit.setWeight(breederEntryModel.weight);
+      addBreederCubit.setDate(breederEntryModel.updatedAt);
+    }
+
+    super.initState();
+  }
 
   @override
   void onCageChanged(String cage) {
@@ -158,22 +177,6 @@ class _AddBreederPageState extends State<AddBreederPage>
   void onWeightSubmitted(String weight) {}
 
   @override
-  void initState() {
-    if (widget.breederEntryModel != null) {
-      addBreederCubit.setName(widget.breederEntryModel!.name);
-      addBreederCubit.setPrefix(widget.breederEntryModel!.prefix);
-      addBreederCubit.setCage(widget.breederEntryModel!.cage);
-      addBreederCubit.setColor(widget.breederEntryModel!.color);
-      addBreederCubit.setGender(widget.breederEntryModel!.gender!);
-      addBreederCubit.setTatto(widget.breederEntryModel!.tatto);
-      addBreederCubit.setWeight(widget.breederEntryModel!.weight!);
-      addBreederCubit.setDate(widget.breederEntryModel!.updatedAt);
-    }
-
-    super.initState();
-  }
-
-  @override
   void onDatePicked(DateTime date, List<int> numbers) {
     setState(() {
       selectedDate = date;
@@ -196,15 +199,14 @@ class _AddBreederPageState extends State<AddBreederPage>
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MainAppBar(
-        title: Text('new_breeder'.i18n),
+        title: Text(
+          widget.breederEntryModel != null
+              ? 'edit_breeder'.i18n
+              : 'new_breeder'.i18n,
+        ),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -270,6 +272,7 @@ class _AddBreederPageState extends State<AddBreederPage>
                         ),
                         RadioSelectorWidget<GenderTypes>(
                           items: GenderTypes.values,
+                          selected: widget.breederEntryModel?.gender,
                           onSelected: onGenderSelected,
                         ),
                       ],
@@ -323,7 +326,7 @@ class _AddBreederPageState extends State<AddBreederPage>
                       child: SizedBox(
                         width: 0.7.sw,
                         child: DatePickerWidget(
-                          initialDate: widget.breederEntryModel?.updatedAt ?? DateTime.now(),
+                          initialDate: widget.breederEntryModel?.updatedAt,
                           looping: true,
                           dateFormat: "dd/MMM/yyyy",
                           onChange: onDatePicked,

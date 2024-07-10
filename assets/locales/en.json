@@ -86,9 +86,10 @@
   "must_agree_to_terms": "You must agree to terms and conditions",
   "found_breeders": "Found Breeders",
   "not_implemented": "Not implemented yet",
-  "breeder_updated" : "Breeder  is updated successfully",
-  "breeder_added" : "Breeder  is added successfully",
-  "breeder_options" : "Breeder Options",
-  "edit" : "Edit",
-  "delete" : "Delete"
+  "breeder_updated": "Breeder  is updated successfully",
+  "breeder_added": "Breeder  is added successfully",
+  "breeder_options": "Breeder Options",
+  "edit": "Edit",
+  "delete": "Delete",
+  "edit_breeder": "Edit Breeder"
 }

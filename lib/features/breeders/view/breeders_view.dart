@@ -192,7 +192,9 @@ class _BreedersPageState extends State<BreedersPage>
   void onEditBreeder(BreederEntryModel breederEntryModel) {
     Navigator.pop(context);
     context.router.push(
-      AddBreederRoute(breederEntryModel: breederEntryModel),
+      AddBreederRoute(
+        breederEntryModel: breederEntryModel,
+      ),
     );
   }
 
@@ -217,16 +219,13 @@ class _BreedersPageState extends State<BreedersPage>
                       TabModel(
                         title: 'active'.i18n,
                         indicatorValue: state is BreedersFetch
-                            ? state
-                                .breedersStatusModel.active.length
-                                .toString()
+                            ? state.breedersStatusModel.active.length.toString()
                             : null,
                       ),
                       TabModel(
                         title: 'inactive'.i18n,
                         indicatorValue: state is BreedersFetch
-                            ? state
-                                .breedersStatusModel.inactive.length
+                            ? state.breedersStatusModel.inactive.length
                                 .toString()
                             : null,
                       ),
@@ -274,8 +273,7 @@ class _BreedersPageState extends State<BreedersPage>
                               child: BreedersListWidget(
                                 onMoreOptionsTap: onMoreOptionsTap,
                                 controller: child2ScrollController,
-                                breeders:
-                                    state.breedersStatusModel.inactive,
+                                breeders: state.breedersStatusModel.inactive,
                                 padding: AppConstants.paddingH16V28,
                                 onBreederTap: onBreederTap,
                                 onRefresh: breedersCubit.getBreeders,
