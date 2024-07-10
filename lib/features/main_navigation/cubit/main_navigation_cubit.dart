@@ -9,6 +9,10 @@ part 'main_navigation_state.dart';
 class MainNavigationCubit extends Cubit<MainNavigationState> {
   MainNavigationCubit() : super(MainNavigationInitial());
 
+  void addBreeder(BreederEntryModel breederEntryModel) {
+    emit(BreederAdded(breederEntryModel));
+  }
+
   void updateBreeder(BreederEntryModel breederEntryModel) {
     emit(BreederUpdated(breederEntryModel));
   }

@@ -234,7 +234,9 @@ class _BreedersPageState extends State<BreedersPage>
       listeners: [
         BlocListener<MainNavigationCubit, MainNavigationState>(
           listener: (context, state) {
-            if (state is BreederUpdated) {
+            if (state is BreederAdded) {
+              breedersCubit.addBreeder(state.breederEntryModel);
+            } else if (state is BreederUpdated) {
               breedersCubit.updateBreeder(state.breederEntryModel);
             }
           },
