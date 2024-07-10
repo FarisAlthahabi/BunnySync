@@ -35,6 +35,9 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
     emit(BreedersLoading(fakeBreedersStatusModel));
     try {
       final response = await _breedersRepo.getBreeders();
+
+      activeBreeders = [];
+      inactiveBreeders = [];
       allBreeders = response.breeders;
       for (final element in allBreeders) {
         if (element.status == 'active') {
@@ -60,6 +63,7 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
   Future<void> getSearchedBreeders(String input) async {
     try {
       if (input.isEmpty) {
+        searchedBreeders = [];
         emit(BreedersSuccess(initailBreeders));
       } else {
         emit(SearchBreederLoading());
