@@ -99,7 +99,7 @@ class _PedigreeTabState extends State<PedigreeTab>
                             ),
                             RabbitPropertyModel(
                               title: 'Breed',
-                              value: item.breed,
+                              value: item.breed ?? 'breed',
                             ),
                             RabbitPropertyModel(
                               title: 'Color',

@@ -15,10 +15,12 @@ class BreedersListWidget extends StatelessWidget {
     this.padding = AppConstants.padding16,
     this.onRefresh,
     this.controller,
+    required this.onMoreOptionsTap,
   });
 
   final List<BreederEntryModel> breeders;
   final ValueSetter<BreederEntryModel> onBreederTap;
+  final ValueSetter<BreederEntryModel> onMoreOptionsTap;
   final EdgeInsetsGeometry padding;
   final AsyncCallback? onRefresh;
   final ScrollController? controller;
@@ -36,7 +38,8 @@ class BreedersListWidget extends StatelessWidget {
           return IndexedListSlideFadeAnimatedTile(
             index: index,
             child: BreederTile(
-              breeder: breeders[index],
+              onMoreOptionsTap: onMoreOptionsTap,
+                  breeder: breeders[index],
               onTap: onBreederTap,
             ),
           );

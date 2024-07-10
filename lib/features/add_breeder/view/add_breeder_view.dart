@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/add_breeder/cubit/add_breeder_cubit.dart';
+import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
+import 'package:bunny_sync/features/main_navigation/cubit/main_navigation_cubit.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
@@ -50,19 +52,33 @@ abstract class AddBreederViewCallBack {
 
 @RoutePage()
 class AddBreederView extends StatelessWidget {
-  const AddBreederView({super.key});
+  const AddBreederView({
+    super.key,
+    this.breederEntryModel,
+  });
+
+  final BreederEntryModel? breederEntryModel;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => get<AddBreederCubit>(),
-      child: const AddBreederPage(),
+      child: AddBreederPage(
+        breederEntryModel: breederEntryModel,
+      ),
     );
   }
 }
 
 class AddBreederPage extends StatefulWidget {
-  const AddBreederPage({super.key});
+  const AddBreederPage({
+    super.key,
+    this.breederEntryModel,
+  });
+
+  final BreederEntryModel? breederEntryModel;
+
+  bool get isEdit => breederEntryModel != null;
 
   @override
   State<AddBreederPage> createState() => _AddBreederPageState();
@@ -70,9 +86,11 @@ class AddBreederPage extends StatefulWidget {
 
 class _AddBreederPageState extends State<AddBreederPage>
     implements AddBreederViewCallBack {
-  DateTime selectedDate = DateTime.now();
+  late final MainNavigationCubit mainNavigationCubit = context.read();
 
   late final AddBreederCubit addBreederCubit = context.read();
+
+  DateTime selectedDate = DateTime.now();
 
   final nameFocusNode = FocusNode();
 
@@ -85,6 +103,24 @@ class _AddBreederPageState extends State<AddBreederPage>
   final tattoFocusNode = FocusNode();
 
   final weightFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    final breederEntryModel = widget.breederEntryModel;
+    if (breederEntryModel != null) {
+      addBreederCubit.breeder = breederEntryModel;
+      addBreederCubit.setName(breederEntryModel.name);
+      addBreederCubit.setPrefix(breederEntryModel.prefix);
+      addBreederCubit.setCage(breederEntryModel.cage);
+      addBreederCubit.setColor(breederEntryModel.color);
+      addBreederCubit.setGender(breederEntryModel.gender!);
+      addBreederCubit.setTatto(breederEntryModel.tatto);
+      addBreederCubit.setWeight(breederEntryModel.weight);
+      addBreederCubit.setDate(breederEntryModel.updatedAt);
+    }
+
+    super.initState();
+  }
 
   @override
   void onCageChanged(String cage) {
@@ -145,11 +181,6 @@ class _AddBreederPageState extends State<AddBreederPage>
   void onWeightSubmitted(String weight) {}
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   void onDatePicked(DateTime date, List<int> numbers) {
     setState(() {
       selectedDate = date;
@@ -164,20 +195,22 @@ class _AddBreederPageState extends State<AddBreederPage>
 
   @override
   void onSave() {
-    addBreederCubit.addBreeder();
-  }
-
-  @override
-  @override
-  void dispose() {
-    super.dispose();
+    if (widget.breederEntryModel == null) {
+      addBreederCubit.addBreeder();
+    } else {
+      addBreederCubit.updateBreeder(widget.breederEntryModel!.id);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MainAppBar(
-        title: Text('new_breeder'.i18n),
+        title: Text(
+          widget.breederEntryModel != null
+              ? 'edit_breeder'.i18n
+              : 'new_breeder'.i18n,
+        ),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -193,6 +226,7 @@ class _AddBreederPageState extends State<AddBreederPage>
                       height: 30,
                     ),
                     MainTextField(
+                      initialValue: widget.breederEntryModel?.name,
                       onSubmitted: onNameSubmitted,
                       onChanged: onNameChanged,
                       focusNode: nameFocusNode,
@@ -203,6 +237,7 @@ class _AddBreederPageState extends State<AddBreederPage>
                       height: 25,
                     ),
                     MainTextField(
+                      initialValue: widget.breederEntryModel?.prefix,
                       onSubmitted: onPrefixSubmitted,
                       onChanged: onPrefixChanged,
                       focusNode: prefixFocusNode,
@@ -213,6 +248,7 @@ class _AddBreederPageState extends State<AddBreederPage>
                       height: 25,
                     ),
                     MainTextField(
+                      initialValue: widget.breederEntryModel?.cage,
                       onSubmitted: onCageSubmitted,
                       onChanged: onCageChanged,
                       focusNode: cageFocusNode,
@@ -240,6 +276,7 @@ class _AddBreederPageState extends State<AddBreederPage>
                         ),
                         RadioSelectorWidget<GenderTypes>(
                           items: GenderTypes.values,
+                          selected: widget.breederEntryModel?.gender,
                           onSelected: onGenderSelected,
                         ),
                       ],
@@ -248,6 +285,7 @@ class _AddBreederPageState extends State<AddBreederPage>
                       height: 25,
                     ),
                     MainTextField(
+                      initialValue: widget.breederEntryModel?.color,
                       onSubmitted: onColorSubmitted,
                       onChanged: onColorChanged,
                       focusNode: colorFocusNode,
@@ -258,6 +296,7 @@ class _AddBreederPageState extends State<AddBreederPage>
                       height: 25,
                     ),
                     MainTextField(
+                      initialValue: widget.breederEntryModel?.tatto,
                       onSubmitted: onTattoSubmitted,
                       onChanged: onTattoChanged,
                       focusNode: tattoFocusNode,
@@ -268,6 +307,7 @@ class _AddBreederPageState extends State<AddBreederPage>
                       height: 25,
                     ),
                     MainTextField(
+                      initialValue: widget.breederEntryModel?.weight,
                       onSubmitted: onWeightSubmitted,
                       onChanged: onWeightChanged,
                       focusNode: weightFocusNode,
@@ -290,7 +330,7 @@ class _AddBreederPageState extends State<AddBreederPage>
                       child: SizedBox(
                         width: 0.7.sw,
                         child: DatePickerWidget(
-                          initialDate: DateTime.now(),
+                          initialDate: widget.breederEntryModel?.updatedAt,
                           looping: true,
                           dateFormat: "dd/MMM/yyyy",
                           onChange: onDatePicked,
@@ -329,9 +369,17 @@ class _AddBreederPageState extends State<AddBreederPage>
                             state.message,
                           );
                         } else if (state is AddBreederSuccess) {
+                          mainNavigationCubit.addBreeder(state.breederModel);
                           MainSnackBar.showSuccessMessageBar(
                             context,
                             "breeder_added".i18n,
+                          );
+                          context.router.maybePop();
+                        } else if (state is UpdateBreederSuccess) {
+                          mainNavigationCubit.updateBreeder(state.breederModel);
+                          MainSnackBar.showSuccessMessageBar(
+                            context,
+                            "breeder_updated".i18n,
                           );
                           context.router.maybePop();
                         } else if (state is AddBreederFail) {

@@ -108,7 +108,7 @@ class _ProfileTabState extends State<ProfileTab>
                             ),
                             RabbitPropertyModel(
                               title: 'Breed',
-                              value: item.breed,
+                              value: item.breed ?? 'breed',
                             ),
                             RabbitPropertyModel(
                               title: 'Color',

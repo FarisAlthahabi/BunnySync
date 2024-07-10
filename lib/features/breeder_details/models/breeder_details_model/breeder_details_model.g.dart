@@ -17,11 +17,11 @@ BreederDetailsModel _$BreederDetailsModelFromJson(Map<String, dynamic> json) =>
       gender: $enumDecode(_$GenderTypesEnumMap, json['gender']),
       color: json['color'] as String,
       tatto: json['tatto'] as String,
-      breed: json['breed'] as String,
       updatedAt: DateTime.parse(json['updated_at'] as String),
       createdAt: DateTime.parse(json['created_at'] as String),
       status: StatusModel.fromJson(json['status'] as Map<String, dynamic>),
       detail: DetailModel.fromJson(json['detail'] as Map<String, dynamic>),
+      breed: json['breed'] as String?,
       categoryBreederId: (json['category_breeder_id'] as num?)?.toInt(),
     );
 

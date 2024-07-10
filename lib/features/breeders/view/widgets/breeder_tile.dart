@@ -14,18 +14,20 @@ class BreederTile extends StatelessWidget {
     super.key,
     required this.breeder,
     required this.onTap,
+    required this.onMoreOptionsTap,
   });
 
   final BreederEntryModel breeder;
   final ValueSetter<BreederEntryModel> onTap;
+  final ValueChanged<BreederEntryModel> onMoreOptionsTap;
 
   @override
   Widget build(BuildContext context) {
     final rabbitProperties = [
-      RabbitPropertyModel(title: 'litters'.i18n, value: breeder.litters),
-      RabbitPropertyModel(title: 'kits'.i18n, value: breeder.kits),
-      RabbitPropertyModel(title: 'age'.i18n, value: breeder.age),
-      RabbitPropertyModel(title: 'weight'.i18n, value: breeder.weight),
+      RabbitPropertyModel(title: 'litters'.i18n, value: breeder.litters ?? '-'),
+      RabbitPropertyModel(title: 'kits'.i18n, value: breeder.kits ?? '-'),
+      RabbitPropertyModel(title: 'age'.i18n, value: breeder.age ?? '-'),
+      RabbitPropertyModel(title: 'weight'.i18n, value: breeder.weight ?? '-'),
     ];
 
     return MainTile(
@@ -66,7 +68,9 @@ class BreederTile extends StatelessWidget {
               const Spacer(),
               const SizedBox(width: 3),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  onMoreOptionsTap(breeder);
+                },
                 style: TextButton.styleFrom(
                   padding: AppConstants.padding4,
                   minimumSize: Size.zero,

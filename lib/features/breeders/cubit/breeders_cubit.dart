@@ -35,6 +35,9 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
     emit(BreedersLoading(fakeBreedersStatusModel));
     try {
       final response = await _breedersRepo.getBreeders();
+
+      activeBreeders = [];
+      inactiveBreeders = [];
       allBreeders = response.breeders;
       for (final element in allBreeders) {
         if (element.status == 'active') {
@@ -60,6 +63,7 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
   Future<void> getSearchedBreeders(String input) async {
     try {
       if (input.isEmpty) {
+        searchedBreeders = [];
         emit(BreedersSuccess(initailBreeders));
       } else {
         emit(SearchBreederLoading());
@@ -74,6 +78,87 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
     } catch (e, s) {
       addError(e, s);
       emit(SearchBreederFail(e.toString()));
+    }
+  }
+
+  void addBreeder(BreederEntryModel breederEntryModel) {
+    activeBreeders.add(breederEntryModel);
+    allBreeders.add(breederEntryModel);
+    breedersStatusModel = BreedersStatusModel(
+      all: allBreeders,
+      active: activeBreeders,
+      inactive: inactiveBreeders,
+    );
+
+    if (state is SearchBreederSuccess) {
+      emit(SearchBreederSuccess(searchedBreeders));
+    } else {
+      emit(BreedersSuccess(breedersStatusModel));
+    }
+  }
+
+  void updateBreeder(BreederEntryModel breederEntryModel) {
+    activeBreeders = activeBreeders.map((e) {
+      if (e.id == breederEntryModel.id) {
+        return breederEntryModel;
+      }
+      return e;
+    }).toList();
+
+    inactiveBreeders = inactiveBreeders.map((e) {
+      if (e.id == breederEntryModel.id) {
+        return breederEntryModel;
+      }
+      return e;
+    }).toList();
+
+    allBreeders = allBreeders.map((e) {
+      if (e.id == breederEntryModel.id) {
+        return breederEntryModel;
+      }
+      return e;
+    }).toList();
+
+    breedersStatusModel = BreedersStatusModel(
+      all: allBreeders,
+      active: activeBreeders,
+      inactive: inactiveBreeders,
+    );
+
+    searchedBreeders = searchedBreeders.map((e) {
+      if (e.id == breederEntryModel.id) {
+        return breederEntryModel;
+      }
+      return e;
+    }).toList();
+
+    if (state is SearchBreederSuccess) {
+      emit(SearchBreederSuccess(searchedBreeders));
+    } else if (state is BreedersSuccess) {
+      emit(BreedersSuccess(breedersStatusModel));
+    }
+  }
+
+  void deleteBreederLocally(int breederId) {
+    activeBreeders =
+        activeBreeders.where((element) => element.id != breederId).toList();
+    inactiveBreeders =
+        inactiveBreeders.where((element) => element.id != breederId).toList();
+    allBreeders =
+        allBreeders.where((element) => element.id != breederId).toList();
+    breedersStatusModel = BreedersStatusModel(
+      all: allBreeders,
+      active: activeBreeders,
+      inactive: inactiveBreeders,
+    );
+
+    searchedBreeders =
+        searchedBreeders.where((element) => element.id != breederId).toList();
+
+    if (state is SearchBreederSuccess) {
+      emit(SearchBreederSuccess(searchedBreeders));
+    } else {
+      emit(BreedersSuccess(breedersStatusModel));
     }
   }
 }

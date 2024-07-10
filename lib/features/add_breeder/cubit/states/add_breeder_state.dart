@@ -13,6 +13,12 @@ class AddBreederSuccess extends AddBreederState {
   final BreederEntryModel breederModel;
 }
 
+class UpdateBreederSuccess extends AddBreederState {
+  UpdateBreederSuccess(this.breederModel);
+
+  final BreederEntryModel breederModel;
+}
+
 class AddBreederFail extends AddBreederState {
   AddBreederFail(this.message);
 

@@ -14,6 +14,7 @@ class MainTextField extends StatefulWidget {
     this.suffixIcon,
     this.labelText,
     this.keyboardType,
+    this.initialValue,
   });
 
   final String hintText;
@@ -26,6 +27,7 @@ class MainTextField extends StatefulWidget {
   final Widget? suffixIcon;
   final String? labelText;
   final TextInputType? keyboardType;
+  final String? initialValue;
 
   @override
   State<MainTextField> createState() => _MainTextFieldState();
@@ -57,8 +59,9 @@ class _MainTextFieldState extends State<MainTextField> {
               ),
             ],
           ),
-        TextField(
-          onSubmitted: widget.onSubmitted,
+        TextFormField(
+          initialValue: widget.initialValue,
+          onFieldSubmitted: widget.onSubmitted,
           onChanged: widget.onChanged,
           obscureText: isObscure,
           focusNode: widget.focusNode,

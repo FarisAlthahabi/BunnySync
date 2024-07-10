@@ -85,5 +85,14 @@
   "no_breeders": "There is no breeders",
   "must_agree_to_terms": "You must agree to terms and conditions",
   "found_breeders": "Found Breeders",
-  "not_implemented": "Not implemented yet"
+  "not_implemented": "Not implemented yet",
+  "breeder_updated": "Breeder  is updated successfully",
+  "breeder_added": "Breeder  is added successfully",
+  "breeder_options": "Breeder Options",
+  "edit": "Edit",
+  "delete": "Delete",
+  "edit_breeder": "Edit Breeder",
+  "failed_to_update_breeder": "Failed to update breeder",
+  "are_you_sure_to_delete_breeder": "Are you sure to delete breeder?",
+  "breeder_deleted": "Breeder is deleted successfully"
 }
