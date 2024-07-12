@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:bunny_sync/features/add_litter/model/add_litter_model/add_litter_model.dart';
 import 'package:bunny_sync/features/add_litter/repo/add_litter_repo.dart';
+import 'package:bunny_sync/global/models/models.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
@@ -82,6 +83,17 @@ class AddLitterCubit extends Cubit<GeneralAddLitterState> {
     _addLitterModel = _addLitterModel.copyWith(
       type: () => type,
     );
+  }
+
+  Future<void> addLitter() async {
+    emit(AddLitterLoading());
+    try {
+      final response = await _addLitterRepo.addLitter(_addLitterModel);
+      emit(AddLitterSuccess(response));
+    } catch (e, s) {
+      addError(e, s);
+     // emit(AddLitterFail(e.toString()));
+    }
   }
 
 
