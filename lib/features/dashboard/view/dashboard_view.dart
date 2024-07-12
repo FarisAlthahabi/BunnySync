@@ -57,7 +57,7 @@ class _DashboardPageState extends State<DashboardPage>
   late final UserRepo userRepo = context.read();
 
   int currentIndex = 0;
-  
+
   @override
   void onBottomTab(
     int previousIndex,
@@ -74,7 +74,7 @@ class _DashboardPageState extends State<DashboardPage>
   void onBreederTap() {
     Navigator.pop(context);
     context.router.push(
-       AddBreederRoute(),
+      AddBreederRoute(),
     );
   }
 
@@ -82,7 +82,7 @@ class _DashboardPageState extends State<DashboardPage>
   void onLittertap() {
     Navigator.pop(context);
     context.router.push(
-       AddBreederRoute(),
+      AddBreederRoute(),
     );
   }
 
