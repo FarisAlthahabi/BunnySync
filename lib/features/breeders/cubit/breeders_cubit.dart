@@ -1,9 +1,12 @@
 import 'package:bloc/bloc.dart';
+import 'package:bunny_sync/features/add_litter/model/add_litter_model/add_litter_model.dart';
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
+import 'package:bunny_sync/features/breeders/models/breeders_gender_model/breeders_gender_model.dart';
 import 'package:bunny_sync/features/breeders/models/breeders_model/fake_breeders_model.dart';
 import 'package:bunny_sync/features/breeders/models/breeders_status_model/breeder_status_model.dart';
 import 'package:bunny_sync/features/breeders/repo/breeders_repo.dart';
 import 'package:bunny_sync/global/localization/strings.dart';
+import 'package:bunny_sync/global/utils/enums/gender_types_enum.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
@@ -25,11 +28,39 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
 
   List<BreederEntryModel> allBreeders = [];
 
+  List<BreederEntryModel> maleBreeders = [];
+
+  List<BreederEntryModel> femaleBreeders = [];
+
   List<BreederEntryModel> searchedBreeders = [];
+
+  List<String> maleBreedersNames = [];
+
+  List<String> femaleBreedersNames = [];
 
   late BreedersStatusModel breedersStatusModel;
 
+  late BreedersGenderModel breedersGenderModel;
+
   late BreedersStatusModel initailBreeders;
+
+  late BreederEntryModel breederEntryModel;
+
+  late int? littersCount;
+
+  late int? kitsCount;
+
+  // void setLittersCount(int? littersCount) {
+  //   breederEntryModel = breederEntryModel.copyWith(
+  //     littersCount: () => littersCount,
+  //   );
+  // }
+
+  // void setkitsCount(int? kitsCount) {
+  //   breederEntryModel = breederEntryModel.copyWith(
+  //     kitsCount: () => kitsCount,
+  //   );
+  // }
 
   Future<void> getBreeders() async {
     emit(BreedersLoading(fakeBreedersStatusModel));
@@ -139,6 +170,80 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
     }
   }
 
+  void addLitter(AddLitterModel addLitterModel) {
+    activeBreeders = activeBreeders.map((e) {
+      breederEntryModel = e;
+      if (e.id == addLitterModel.maleBreederId ||
+          e.id == addLitterModel.femaleBreederId) {
+        littersCount = e.litters;
+        kitsCount = e.kits;
+        // setLittersCount(littersCount = littersCount! + 1);
+        // setkitsCount(
+        //   kitsCount =
+        //       kitsCount! + addLitterModel.liveKits + addLitterModel.liveKits,
+        // );
+      }
+      return breederEntryModel;
+    }).toList();
+
+    inactiveBreeders = inactiveBreeders.map((e) {
+      breederEntryModel = e;
+      if (e.id == addLitterModel.maleBreederId ||
+          e.id == addLitterModel.femaleBreederId) {
+        littersCount = e.litters;
+        kitsCount = e.kits;
+        // setLittersCount(littersCount = littersCount! + 1);
+        // setkitsCount(
+        //   kitsCount =
+        //       kitsCount! + addLitterModel.liveKits + addLitterModel.liveKits,
+        // );
+      }
+      return breederEntryModel;
+    }).toList();
+
+    allBreeders = allBreeders.map((e) {
+      breederEntryModel = e;
+      if (e.id == addLitterModel.maleBreederId ||
+          e.id == addLitterModel.femaleBreederId) {
+        littersCount = e.litters;
+        kitsCount = e.kits;
+        // setLittersCount(littersCount = littersCount! + 1);
+        // setkitsCount(
+        //   kitsCount =
+        //       kitsCount! + addLitterModel.liveKits + addLitterModel.liveKits,
+        // );
+      }
+      return breederEntryModel;
+    }).toList();
+
+    breedersStatusModel = BreedersStatusModel(
+      all: allBreeders,
+      active: activeBreeders,
+      inactive: inactiveBreeders,
+    );
+
+    searchedBreeders = searchedBreeders.map((e) {
+      breederEntryModel = e;
+      if (e.id == addLitterModel.maleBreederId ||
+          e.id == addLitterModel.femaleBreederId) {
+        littersCount = e.litters;
+        kitsCount = e.kits;
+        // setLittersCount(littersCount = littersCount! + 1);
+        // setkitsCount(
+        //   kitsCount =
+        //       kitsCount! + addLitterModel.liveKits + addLitterModel.liveKits,
+        // );
+      }
+      return breederEntryModel;
+    }).toList();
+
+    if (state is SearchBreederSuccess) {
+      emit(SearchBreederSuccess(searchedBreeders));
+    } else if (state is BreedersSuccess) {
+      emit(BreedersSuccess(breedersStatusModel));
+    }
+  }
+
   void deleteBreederLocally(int breederId) {
     activeBreeders =
         activeBreeders.where((element) => element.id != breederId).toList();
@@ -159,6 +264,39 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
       emit(SearchBreederSuccess(searchedBreeders));
     } else {
       emit(BreedersSuccess(breedersStatusModel));
+    }
+  }
+
+  Future<void> getBreedersByGender() async {
+    emit(BreedersLoading(fakeBreedersStatusModel));
+    try {
+      final response = await _breedersRepo.getBreeders();
+
+      maleBreeders = [];
+      femaleBreeders = [];
+      femaleBreedersNames = [];
+      maleBreedersNames = [];
+      allBreeders = response.breeders;
+      for (final element in allBreeders) {
+        if (element.gender == GenderTypes.male) {
+          maleBreedersNames.add(element.name);
+          maleBreeders.add(element);
+        } else if (element.gender == GenderTypes.female) {
+          femaleBreedersNames.add(element.name);
+          femaleBreeders.add(element);
+        }
+      }
+      breedersGenderModel = BreedersGenderModel(
+        maleBreedersNames: maleBreedersNames,
+        maleBreeders: maleBreeders,
+        femaleBreedersNames: femaleBreedersNames,
+        femaleBreeders: femaleBreeders,
+      );
+
+      emit(BreedersByGenderSuccess(breedersGenderModel));
+    } catch (e, s) {
+      addError(e, s);
+      emit(BreedersFail(e.toString()));
     }
   }
 }

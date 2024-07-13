@@ -28,8 +28,8 @@ class LittersListWidget extends StatelessWidget {
           BreederEntryModel(
             age: '10',
             dtRowIndex: 1,
-            kits: '',
-            litters: '',
+            kits: 10,
+            litters: 10,
             photo: '',
             status: 'Active',
             weight: '10.2',
@@ -50,8 +50,8 @@ class LittersListWidget extends StatelessWidget {
           BreederEntryModel(
             age: '10',
             dtRowIndex: 1,
-            kits: '',
-            litters: '',
+            kits: 10,
+            litters: 10,
             photo: '',
             status: 'Active',
             weight: '10.2',
@@ -130,8 +130,8 @@ class LittersListWidget extends StatelessWidget {
           BreederEntryModel(
             age: '10',
             dtRowIndex: 1,
-            kits: '',
-            litters: '',
+            kits: 10,
+            litters: 10,
             photo: '',
             status: 'Active',
             weight: '10.2',
@@ -152,8 +152,8 @@ class LittersListWidget extends StatelessWidget {
           BreederEntryModel(
             age: '10',
             dtRowIndex: 1,
-            kits: '',
-            litters: '',
+            kits: 10,
+            litters: 10,
             photo: '',
             status: 'Active',
             weight: '10.2',

@@ -94,5 +94,9 @@
   "edit_breeder": "Edit Breeder",
   "failed_to_update_breeder": "Failed to update breeder",
   "are_you_sure_to_delete_breeder": "Are you sure to delete breeder?",
-  "breeder_deleted": "Breeder is deleted successfully"
+  "breeder_deleted": "Breeder is deleted successfully",
+  "new_litter" : "New Litter",
+  "litter_added" : "Litter is added successfully",
+  "set_breed_date" : "Set breed date",
+  "set_born_date" : "Set born date"
 }

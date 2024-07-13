@@ -26,6 +26,12 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    AddLitterRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AddLitterView(),
+      );
+    },
     AuthenticationRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -156,6 +162,20 @@ class AddBreederRouteArgs {
   String toString() {
     return 'AddBreederRouteArgs{key: $key, breederEntryModel: $breederEntryModel}';
   }
+}
+
+/// generated route for
+/// [AddLitterView]
+class AddLitterRoute extends PageRouteInfo<void> {
+  const AddLitterRoute({List<PageRouteInfo>? children})
+      : super(
+          AddLitterRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AddLitterRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for

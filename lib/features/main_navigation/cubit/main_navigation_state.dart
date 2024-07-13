@@ -16,3 +16,9 @@ final class BreederUpdated extends MainNavigationState {
 
   final BreederEntryModel breederEntryModel;
 }
+
+final class LitterAdded extends MainNavigationState {
+  LitterAdded(this.addLitterModel);
+
+  final AddLitterModel addLitterModel;
+}

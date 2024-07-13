@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:bunny_sync/features/add_litter/model/add_litter_model/add_litter_model.dart';
 import 'package:bunny_sync/features/add_litter/repo/add_litter_repo.dart';
-import 'package:bunny_sync/global/models/models.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
@@ -15,7 +14,7 @@ class AddLitterCubit extends Cubit<GeneralAddLitterState> {
 
   final AddLitterRepo _addLitterRepo;
 
-   AddLitterModel _addLitterModel = const AddLitterModel();
+  AddLitterModel _addLitterModel = const AddLitterModel();
 
   void setLitterId(String litterId) {
     _addLitterModel = _addLitterModel.copyWith(
@@ -23,31 +22,29 @@ class AddLitterCubit extends Cubit<GeneralAddLitterState> {
     );
   }
 
-  void setPrefix(String? prefix) {
+  void setPrefix(String prefix) {
     _addLitterModel = _addLitterModel.copyWith(
       prefix: () => prefix,
     );
   }
 
-  void setCage(String? cage) {
+  void setCage(String cage) {
     _addLitterModel = _addLitterModel.copyWith(
       cage: () => cage,
     );
   }
 
-
-  void setBreed(String? breed) {
+  void setBreed(String breed) {
     _addLitterModel = _addLitterModel.copyWith(
       breed: () => breed,
     );
   }
 
-  void setMaleBreederId(int? maleBreederId) {
+  void setMaleBreederId(String maleBreederId) {
     _addLitterModel = _addLitterModel.copyWith(
-      maleBreederId: () => maleBreederId,
+      maleBreederId: () => int.tryParse(maleBreederId),
     );
   }
-
 
   void setBreedDate(DateTime breedDate) {
     _addLitterModel = _addLitterModel.copyWith(
@@ -61,40 +58,51 @@ class AddLitterCubit extends Cubit<GeneralAddLitterState> {
     );
   }
 
-  void setLiveKits(int liveKits) {
+  void setLiveKits(String liveKits) {
     _addLitterModel = _addLitterModel.copyWith(
-      liveKits: () => liveKits,
+      liveKits: () => int.tryParse(liveKits),
+    );
+    
+  }
+
+  void setDeadKits(String deadKits) {
+    _addLitterModel = _addLitterModel.copyWith(
+      deadKits: () => int.tryParse(deadKits),
     );
   }
 
-  void setDeadKits(int deadKits) {
+  void setFemaleBreederId(String femaleBreederId) {
     _addLitterModel = _addLitterModel.copyWith(
-      deadKits: () => deadKits,
+      femaleBreederId: () => int.tryParse(femaleBreederId),
     );
   }
 
-  void setFemaleBreederId(int femaleBreederId) {
-    _addLitterModel = _addLitterModel.copyWith(
-      femaleBreederId: () => femaleBreederId,
-    );
-  }
+  //! if type is not manually , the litter will not be added  
 
   void setType(String type) {
     _addLitterModel = _addLitterModel.copyWith(
-      type: () => type,
+      type: () => 'manually',
     );
   }
 
   Future<void> addLitter() async {
     emit(AddLitterLoading());
     try {
+      if(_addLitterModel.liveKits < 1 ){
+      throw Exception("Live kits count can't be less than 1");
+    }
+    if(_addLitterModel.liveKits + _addLitterModel.deadKits > 25 ){
+      throw Exception("Total kits count can't be more than 25");
+    }
       final response = await _addLitterRepo.addLitter(_addLitterModel);
-      emit(AddLitterSuccess(response));
+      if (response.success) {
+        emit(AddLitterSuccess(_addLitterModel));
+      } else {
+        emit(AddLitterFail(response.message));
+      }
     } catch (e, s) {
       addError(e, s);
-     // emit(AddLitterFail(e.toString()));
+      emit(AddLitterFail(e.toString()));
     }
   }
-
-
 }

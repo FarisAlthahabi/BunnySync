@@ -240,6 +240,9 @@ class _BreedersPageState extends State<BreedersPage>
             } else if (state is BreederUpdated) {
               breedersCubit.updateBreeder(state.breederEntryModel);
             }
+            else if (state is LitterAdded) {
+              breedersCubit.addLitter(state.addLitterModel);
+            }
           },
         ),
         BlocListener<DeleteBreederCubit, GeneralDeleteBreederState>(

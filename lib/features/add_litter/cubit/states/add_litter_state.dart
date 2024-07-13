@@ -8,9 +8,9 @@ class AddLitterInitial extends AddLitterState {}
 class AddLitterLoading extends AddLitterState {}
 
 class AddLitterSuccess extends AddLitterState {
-  AddLitterSuccess(this.response);
+  AddLitterSuccess(this.addLitterModel);
 
-  final ResponseModel<List<dynamic>> response;
+  final AddLitterModel addLitterModel;
 }
 
 class AddLitterFail extends AddLitterState {

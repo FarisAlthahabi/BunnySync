@@ -71,9 +71,9 @@ class BreederEntryModel extends Equatable {
 
   final String? weight;
 
-  final String? litters;
+  final int? litters;
 
-  final String? kits;
+  final int? kits;
 
   final String? age;
 

@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/add_breeder/view/add_breeder_view.dart';
+import 'package:bunny_sync/features/add_litter/view/add_litter_view.dart';
 import 'package:bunny_sync/features/authentication/view/authentication_view.dart';
 import 'package:bunny_sync/features/breeder_details/view/breeder_details_view.dart';
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
@@ -76,6 +77,9 @@ class AppRouter extends _$AppRouter {
                 ),
                 AutoRoute(
                   page: AddBreederRoute.page,
+                ),
+                AutoRoute(
+                  page: AddLitterRoute.page,
                 ),
               ],
             ),

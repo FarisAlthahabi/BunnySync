@@ -19,6 +19,12 @@ class BreedersSuccess extends BreedersFetch {
   BreedersSuccess(super.breedersStatusModel);
 }
 
+class BreedersByGenderSuccess extends BreedersState {
+  BreedersByGenderSuccess(this.breedersGenderModel);
+
+  final BreedersGenderModel breedersGenderModel;
+}
+
 class BreedersFail extends BreedersState {
   BreedersFail(this.message);
 

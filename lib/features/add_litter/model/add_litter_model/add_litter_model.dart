@@ -73,25 +73,20 @@ class AddLitterModel {
       liveKits: liveKits != null ? liveKits() : _liveKits,
       deadKits: deadKits != null ? deadKits() : _deadKits,
       maleBreederId: maleBreederId != null ? maleBreederId() : _maleBreederId,
-      femaleBreederId: femaleBreederId != null ? femaleBreederId() : _femaleBreederId,
+      femaleBreederId:
+          femaleBreederId != null ? femaleBreederId() : _femaleBreederId,
       litterId: litterId != null ? litterId() : _litterId,
     );
   }
 
-  String get type {
-    return _type ?? (throw Exception('Type is null'));
+  @JsonKey(name: 'male')
+  int get maleBreederId {
+    return _maleBreederId ?? (throw Exception('Male breeder id is null'));
   }
 
-  String get cage {
-    return _cage ?? (throw Exception('Cage is null'));
-  }
-
-  String get prefix {
-    return _prefix ?? (throw Exception('Prefix is null'));
-  }
-
-  String get breed {
-    return _breed ?? (throw Exception('Breed is null'));
+  @JsonKey(name: 'female')
+  int get femaleBreederId {
+    return _femaleBreederId ?? (throw Exception('Female breeder id is null'));
   }
 
   @JsonKey(name: 'litter_id')
@@ -99,24 +94,30 @@ class AddLitterModel {
     return _litterId ?? (throw Exception('Litter id is null'));
   }
 
+  String get type {
+    return _type ?? (throw Exception('Type is null'));
+  }
+
+  String get prefix {
+    return _prefix ?? (throw Exception('Prefix is null'));
+  }
+
+  String get cage {
+    return _cage ?? (throw Exception('Cage is null'));
+  }
+
+  String get breed {
+    return _breed ?? (throw Exception('Breed is null'));
+  }
+
   @JsonKey(name: 'live_kits')
   int get liveKits {
-    return _liveKits ?? (throw Exception('Live kits is null'));
+    return _liveKits ?? (throw Exception('Live kits count is null'));
   }
 
   @JsonKey(name: 'dead_kits')
   int get deadKits {
-    return _deadKits ?? (throw Exception('Dead kits is null'));
-  }
-
-  @JsonKey(name: 'female')
-  int get maleBreederId {
-    return _maleBreederId ?? (throw Exception('Male breeder id is null'));
-  }
-
-  @JsonKey(name: 'male')
-  int get femaleBreederId {
-    return _femaleBreederId ?? (throw Exception('Female breeder id is null'));
+    return _deadKits ?? (throw Exception('Dead kits count is null'));
   }
 
   @JsonKey(name: 'breed_date')
