@@ -30,7 +30,7 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
 
   late BreedersGenderModel breedersGenderModel;
 
-  late BreedersStatusModel initailBreeders;
+  late BreedersStatusModel initialBreeders;
 
   List<BreederEntryModel> get activeBreeders =>
       allBreeders.where((element) => element.isActive).toList();
@@ -46,18 +46,6 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
       .where((element) => element.gender == GenderTypes.female)
       .toList();
 
-  // void setLittersCount(int? littersCount) {
-  //   breederEntryModel = breederEntryModel.copyWith(
-  //     littersCount: () => littersCount,
-  //   );
-  // }
-
-  // void setkitsCount(int? kitsCount) {
-  //   breederEntryModel = breederEntryModel.copyWith(
-  //     kitsCount: () => kitsCount,
-  //   );
-  // }
-
   Future<void> getBreeders() async {
     emit(BreedersLoading(fakeBreedersStatusModel));
     try {
@@ -70,7 +58,7 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
         active: activeBreeders,
         inactive: inactiveBreeders,
       );
-      initailBreeders = breedersStatusModel;
+      initialBreeders = breedersStatusModel;
       emit(BreedersSuccess(breedersStatusModel));
     } catch (e, s) {
       addError(e, s);
@@ -82,7 +70,7 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
     try {
       if (input.isEmpty) {
         searchedBreeders = [];
-        emit(BreedersSuccess(initailBreeders));
+        emit(BreedersSuccess(initialBreeders));
       } else {
         emit(SearchBreederLoading());
         final response = await _breedersRepo.getSearchedBreeders(input);
