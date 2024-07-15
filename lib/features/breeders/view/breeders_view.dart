@@ -9,6 +9,7 @@ import 'package:bunny_sync/features/main_navigation/cubit/main_navigation_cubit.
 import 'package:bunny_sync/global/blocs/delete_breeder_cubit/delete_breeder_cubit.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
+import 'package:bunny_sync/global/mixins/create_scroll_listener_mixin.dart';
 import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
@@ -19,7 +20,6 @@ import 'package:bunny_sync/global/widgets/loading_indicator.dart';
 import 'package:bunny_sync/global/widgets/main_show_bottom_sheet.dart';
 import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -67,6 +67,7 @@ class BreedersPage extends StatefulWidget {
 }
 
 class _BreedersPageState extends State<BreedersPage>
+    with CreateScrollListenerMixin
     implements BreedersViewCallbacks {
   late final DeleteBreederCubit deleteBreederCubit = context.read();
 
@@ -81,9 +82,6 @@ class _BreedersPageState extends State<BreedersPage>
   final FocusNode searchFocusNode = FocusNode();
 
   Timer? _debounce;
-
-  bool isParentScrollingDownward = false;
-  bool isParentScrollingUpward = false;
 
   @override
   void initState() {
@@ -122,36 +120,6 @@ class _BreedersPageState extends State<BreedersPage>
     _debounce?.cancel();
 
     super.dispose();
-  }
-
-  VoidCallback createScrollListener({
-    required ScrollController parent,
-    required ScrollController child,
-  }) {
-    return () {
-      child.addListener(() {
-        if (child.position.userScrollDirection == ScrollDirection.reverse &&
-            !isParentScrollingDownward) {
-          parent.animateTo(
-            200,
-            duration: const Duration(milliseconds: 200),
-            curve: Curves.easeIn,
-          );
-          isParentScrollingDownward = true;
-          isParentScrollingUpward = false;
-        } else if (child.position.userScrollDirection ==
-                ScrollDirection.forward &&
-            !isParentScrollingUpward) {
-          parent.animateTo(
-            0,
-            duration: const Duration(milliseconds: 200),
-            curve: Curves.easeIn,
-          );
-          isParentScrollingUpward = true;
-          isParentScrollingDownward = false;
-        }
-      });
-    };
   }
 
   @override
@@ -241,9 +209,9 @@ class _BreedersPageState extends State<BreedersPage>
               breedersCubit.updateBreeder(state.breederEntryModel);
             } else if (state is BreederDeleted) {
               breedersCubit.deleteBreeder(state.breederEntryModel.id);
-            }
-            else if (state is LitterAdded) {
-              breedersCubit.addLitter(state.addLitterModel);
+            } else if (state is LitterAdded) {
+              //TODO: Implement this
+              // breedersCubit.addLitter(state.addLitterModel);
             }
           },
         ),

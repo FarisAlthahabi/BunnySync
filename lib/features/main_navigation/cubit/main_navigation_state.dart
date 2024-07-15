@@ -24,7 +24,5 @@ final class BreederDeleted extends MainNavigationState {
 }
 
 final class LitterAdded extends MainNavigationState {
-  LitterAdded(this.addLitterModel);
-
-  final AddLitterModel addLitterModel;
+  LitterAdded();
 }

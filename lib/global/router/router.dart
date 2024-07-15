@@ -78,6 +78,9 @@ class AppRouter extends _$AppRouter {
                 AutoRoute(
                   page: AddBreederRoute.page,
                 ),
+                AutoRoute(
+                  page: AddLitterRoute.page,
+                ),
               ],
             ),
           ],

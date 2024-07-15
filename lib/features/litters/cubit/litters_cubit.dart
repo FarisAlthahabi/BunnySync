@@ -35,7 +35,7 @@ class LittersCubit extends Cubit<GeneralLittersState> {
     try {
       final response = await _littersRepo.getLitters();
       if (response.litters.isEmpty) {
-        emit(LittersEmpty("littersEmpty".i18n));
+        emit(LittersEmpty("litters_empty".i18n));
         return;
       }
 
@@ -52,6 +52,21 @@ class LittersCubit extends Cubit<GeneralLittersState> {
     } catch (e, s) {
       addError(e, s);
       emit(LittersFail(e.toString()));
+    }
+  }
+
+  void addLitter(LitterEntryModel litterEntryModel) {
+    allLitters.add(litterEntryModel);
+
+    littersStatusModel = LittersStatusModel(
+      all: allLitters,
+      active: activeLitters,
+      inactive: inactiveLitters,
+    );
+
+    //TODO: Updating for search state
+    if (state is LittersSuccess) {
+      emit(LittersSuccess(littersStatusModel));
     }
   }
 }

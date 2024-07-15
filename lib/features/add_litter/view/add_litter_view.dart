@@ -556,7 +556,7 @@ class _AddLitterPageState extends State<AddLitterPage>
                             listener: (context, state) {
                               if (state is AddLitterSuccess) {
                                 mainNavigationCubit
-                                    .addLitter(state.addLitterModel);
+                                    .addLitter();
                                 MainSnackBar.showSuccessMessageBar(
                                   context,
                                   "litter_added".i18n,

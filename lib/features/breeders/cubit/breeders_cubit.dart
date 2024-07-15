@@ -88,8 +88,8 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
   }
 
   void addBreeder(BreederEntryModel breederEntryModel) {
-    activeBreeders.add(breederEntryModel);
     allBreeders.add(breederEntryModel);
+
     breedersStatusModel = BreedersStatusModel(
       all: allBreeders,
       active: activeBreeders,
@@ -132,6 +132,36 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
   }
 
   void addLitter(AddLitterModel addLitterModel) {
+    allBreeders = allBreeders.map((e) {
+      if (e.id == addLitterModel.femaleBreederId ||
+          e.id == addLitterModel.maleBreederId) {
+        final litters = num.tryParse(e.litters ?? '');
+
+        return e.copyWith(
+          litters: litters != null ? (litters + 1).toString() : '1',
+        );
+      }
+      return e;
+    }).toList();
+
+    breedersStatusModel = BreedersStatusModel(
+      all: allBreeders,
+      active: activeBreeders,
+      inactive: inactiveBreeders,
+    );
+
+    searchedBreeders = searchedBreeders.map((e) {
+      if (e.id == addLitterModel.femaleBreederId ||
+          e.id == addLitterModel.maleBreederId) {
+        final litters = num.tryParse(e.litters ?? '');
+
+        return e.copyWith(
+          litters: litters != null ? (litters + 1).toString() : '1',
+        );
+      }
+      return e;
+    }).toList();
+
     if (state is SearchBreederSuccess) {
       emit(SearchBreederSuccess(searchedBreeders));
     } else if (state is BreedersSuccess) {

@@ -8,9 +8,7 @@ class AddLitterInitial extends AddLitterState {}
 class AddLitterLoading extends AddLitterState {}
 
 class AddLitterSuccess extends AddLitterState {
-  AddLitterSuccess(this.addLitterModel);
-
-  final AddLitterModel addLitterModel;
+  AddLitterSuccess();
 }
 
 class AddLitterFail extends AddLitterState {

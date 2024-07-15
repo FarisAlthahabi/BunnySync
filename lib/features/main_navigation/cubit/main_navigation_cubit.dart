@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:bunny_sync/features/add_litter/model/add_litter_model/add_litter_model.dart';
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
@@ -22,7 +21,7 @@ class MainNavigationCubit extends Cubit<MainNavigationState> {
     emit(BreederDeleted(breederEntryModel));
   }
 
-  void addLitter(AddLitterModel addLitterModel) {
-    emit(LitterAdded(addLitterModel));
+  void addLitter() {
+    emit(LitterAdded());
   }
 }

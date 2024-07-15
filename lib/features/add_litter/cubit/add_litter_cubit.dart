@@ -105,7 +105,7 @@ class AddLitterCubit extends Cubit<GeneralAddLitterState> {
 
       final response = await _addLitterRepo.addLitter(_addLitterModel);
       if (response.success) {
-        emit(AddLitterSuccess(_addLitterModel));
+        emit(AddLitterSuccess());
       } else {
         emit(AddLitterFail(response.message));
       }
