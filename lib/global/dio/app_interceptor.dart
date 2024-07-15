@@ -1,3 +1,4 @@
+import 'package:bunny_sync/features/authentication/bloc/authentication_bloc.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/dio/dio.dart';
 import 'package:bunny_sync/global/repos/repos.dart';
@@ -48,6 +49,8 @@ class AppInterceptor extends Interceptor {
                   {})['message'] as String?,
             );
           case 401:
+            //TODO: We should handle this in a different way.
+            get<AuthenticationBloc>().add(SignOutRequested());
             throw UnauthorizedException(err.requestOptions);
           case 403:
             throw AccessForbiddenException(err.requestOptions);
