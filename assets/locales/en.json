@@ -94,5 +94,21 @@
   "edit_breeder": "Edit Breeder",
   "failed_to_update_breeder": "Failed to update breeder",
   "are_you_sure_to_delete_breeder": "Are you sure to delete breeder?",
-  "breeder_deleted": "Breeder is deleted successfully"
+  "breeder_deleted": "Breeder is deleted successfully",
+  "dataIsNull": "the data can't be null",
+  "email": "Email",
+  "password": "Password",
+  "went_wrong": "Something went wrong, please try again.",
+  "went_wrong_swipe": "Something went wrong, please try again by swiping down.",
+  "data_is_null": "the 'data' can't be null",
+  "could_not_open_link": "Could not open the link",
+  "email_empty": "Email can't be empty",
+  "email_invalid": "Email is invalid",
+  "password_empty": "Password can't be empty",
+  "password_8_chars": "Password should be at least 8 characters",
+  "confirm_password_empty": "Confirm password can't be empty",
+  "passwords_not_match": "passwords don't match",
+  "name_empty": "Name can't be empty",
+  "breeder_not_found": "breeder is not found",
+  "notes_empty": "There is no notes"
 }

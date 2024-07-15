@@ -3,7 +3,7 @@ import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_
 import 'package:bunny_sync/features/breeders/models/breeders_model/fake_breeders_model.dart';
 import 'package:bunny_sync/features/breeders/models/breeders_status_model/breeder_status_model.dart';
 import 'package:bunny_sync/features/breeders/repo/breeders_repo.dart';
-import 'package:bunny_sync/global/localization/strings.dart';
+import 'package:bunny_sync/global/localization/translations.i18n.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
@@ -70,7 +70,7 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
         final response = await _breedersRepo.getSearchedBreeders(input);
         searchedBreeders = response.breeders;
         if (searchedBreeders.isEmpty) {
-          emit(SearchBreederNotFound(Strings.breederNotFound));
+          emit(SearchBreederNotFound('breeder_not_found'.i18n));
         } else {
           emit(SearchBreederSuccess(searchedBreeders));
         }

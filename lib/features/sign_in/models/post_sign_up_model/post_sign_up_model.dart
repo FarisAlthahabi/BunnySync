@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:bunny_sync/global/extensions/string_x.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
-import 'package:bunny_sync/global/localization/strings.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
@@ -54,11 +53,11 @@ class PostSignUpModel {
 
   String? validateEmail() {
     if (_email.isNullOrEmpty) {
-      return Strings.emailEmpty;
+      return 'email_empty'.i18n;
     }
 
     if (_email != null && !EmailValidator.validate(_email)) {
-      return Strings.emailInvalid;
+      return 'email_invalid'.i18n;
     }
 
     return null;
@@ -66,12 +65,12 @@ class PostSignUpModel {
 
   String? validatePassword() {
     if (_password.isNullOrEmpty) {
-      return Strings.passwordEmpty;
+      return 'password_empty'.i18n;
     }
 
     final length = _password?.length;
     if (length != null && length < 8) {
-      return Strings.password8Chars;
+      return 'password_8_chars'.i18n;
     }
 
     return null;
@@ -81,7 +80,7 @@ class PostSignUpModel {
     final password = _password;
 
     if (confirmPassword.isNullOrEmpty) {
-      return Strings.confirmPasswordEmpty;
+      return 'confirm_password_empty'.i18n;
     }
 
     if (password.isNullOrEmpty) {
@@ -89,7 +88,7 @@ class PostSignUpModel {
     }
 
     if (password != confirmPassword) {
-      return Strings.passwordsNotMatch;
+      return 'password_not_match'.i18n;
     }
 
     return null;

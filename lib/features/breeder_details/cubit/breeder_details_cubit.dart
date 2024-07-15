@@ -6,7 +6,7 @@ import 'package:bunny_sync/features/breeder_details/models/breeder_note_model/br
 import 'package:bunny_sync/features/breeder_details/models/pedigree_model/pedigree_fake_model.dart';
 import 'package:bunny_sync/features/breeder_details/models/pedigree_model/pedigree_model.dart';
 import 'package:bunny_sync/features/breeder_details/repo/breeder_details_repo.dart';
-import 'package:bunny_sync/global/localization/strings.dart';
+import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
@@ -56,7 +56,7 @@ class BreederDetailsCubit extends Cubit<GeneralBreederDetailsState> {
     try {
       final response = await _breederDetailsRepo.getBreederNotes(breederId);
       if (response.isEmpty) {
-        emit(BreederNotesEmpty(Strings.notesEmpty));
+        emit(BreederNotesEmpty('notes_empty'.i18n));
       } else {
         emit(BreederNotesSuccess(response));
       }

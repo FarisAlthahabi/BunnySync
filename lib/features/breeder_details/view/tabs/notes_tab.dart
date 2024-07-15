@@ -31,8 +31,9 @@ class _NotesTabState extends State<NotesTab>
 
   @override
   void initState() {
-    breederDetailsCubit.getBreederNotes(widget.breederId);
     super.initState();
+
+    breederDetailsCubit.getBreederNotes(widget.breederId);
   }
 
   @override

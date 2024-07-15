@@ -4,8 +4,7 @@ import 'package:bunny_sync/features/sign_in/models/post_sign_up_model/post_sign_
 import 'package:bunny_sync/features/sign_in/models/sign_in_model/sign_in_model.dart';
 import 'package:bunny_sync/features/sign_in/models/sign_up_exception/sign_up_exception.dart';
 import 'package:bunny_sync/features/sign_in/repo/sign_in_repo.dart';
-import 'package:bunny_sync/global/localization/localization.dart';
-import 'package:bunny_sync/global/localization/strings.dart';
+import 'package:bunny_sync/global/localization/translations.i18n.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
@@ -171,7 +170,7 @@ class SignInCubit extends Cubit<GeneralSignInState> {
           );
         }
       } else {
-        emit(SignInError(Strings.wentWrong.i18n));
+        emit(SignInError('went_wrong'.i18n));
       }
     }
   }
@@ -196,7 +195,7 @@ class SignInCubit extends Cubit<GeneralSignInState> {
         SignOutRequested(),
       );
     } catch (e) {
-      emit(SignInError(Strings.wentWrong.i18n));
+      emit(SignInError('went_wrong'.i18n));
     }
   }
 }
