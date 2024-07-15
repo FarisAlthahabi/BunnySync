@@ -18,6 +18,10 @@ class MainNavigationCubit extends Cubit<MainNavigationState> {
     emit(BreederUpdated(breederEntryModel));
   }
 
+  void deleteBreeder(BreederEntryModel breederEntryModel) {
+    emit(BreederDeleted(breederEntryModel));
+  }
+
   void addLitter(AddLitterModel addLitterModel) {
     emit(LitterAdded(addLitterModel));
   }

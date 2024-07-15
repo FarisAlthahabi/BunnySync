@@ -31,8 +31,9 @@ class _NotesTabState extends State<NotesTab>
 
   @override
   void initState() {
-    breederDetailsCubit.getBreederNotes(widget.breederId);
     super.initState();
+
+    breederDetailsCubit.getBreederNotes(widget.breederId);
   }
 
   @override
@@ -43,6 +44,7 @@ class _NotesTabState extends State<NotesTab>
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BreederDetailsCubit, GeneralBreederDetailsState>(
+      buildWhen: (prev, curr) => curr is BreederNotesState,
       builder: (context, state) {
         if (state is BreederNotesFetch) {
           final rabbitProperties = [

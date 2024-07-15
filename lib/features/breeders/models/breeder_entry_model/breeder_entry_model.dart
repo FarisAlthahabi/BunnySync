@@ -17,6 +17,7 @@ class BreederEntryModel extends Equatable {
     required this.name,
     required this.updatedAt,
     required this.createdAt,
+    required this.gender,
     this.weight,
     this.litters,
     this.kits,
@@ -26,7 +27,6 @@ class BreederEntryModel extends Equatable {
     this.dtRowIndex,
     this.prefix,
     this.cage,
-    this.gender,
     this.color,
     this.tatto,
     this.breed,
@@ -58,7 +58,7 @@ class BreederEntryModel extends Equatable {
 
   final String? cage;
 
-  final GenderTypes? gender;
+  final GenderTypes gender;
 
   final String? color;
 

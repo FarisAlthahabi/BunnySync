@@ -42,9 +42,9 @@ class BreederTile extends StatelessWidget {
                 padding: AppConstants.paddingT16,
                 child: Row(
                   children: [
-                    const Skeleton.shade(
+                    Skeleton.shade(
                       child: BreederImageWidget(
-                        maleOrFemale: true,
+                        gender: breeder.gender,
                       ),
                     ),
                     const SizedBox(width: 20),

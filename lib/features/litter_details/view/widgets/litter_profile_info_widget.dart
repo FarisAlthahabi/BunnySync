@@ -18,7 +18,7 @@ class LitterProfileInfoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: paddingTop ?? 0 ),
+      padding: EdgeInsets.only(top: paddingTop ?? 0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -29,7 +29,6 @@ class LitterProfileInfoWidget extends StatelessWidget {
           Column(
             children: [
               const BreederImageWidget(
-                maleOrFemale: true,
                 size: 50,
               ),
               const SizedBox(
@@ -58,7 +57,6 @@ class LitterProfileInfoWidget extends StatelessWidget {
           Column(
             children: [
               const BreederImageWidget(
-                maleOrFemale: false,
                 size: 50,
               ),
               const SizedBox(
