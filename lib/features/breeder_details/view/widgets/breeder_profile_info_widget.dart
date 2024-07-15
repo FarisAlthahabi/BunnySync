@@ -14,8 +14,6 @@ class BreederProfileInfoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final gender = breeder.gender;
-
     return Column(
       children: [
         const SizedBox(
@@ -25,9 +23,9 @@ class BreederProfileInfoWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const BreederImageWidget(
+            BreederImageWidget(
               size: 100,
-              maleOrFemale: true,
+              gender: breeder.gender,
             ),
             const SizedBox(width: 25),
             Column(
@@ -43,15 +41,14 @@ class BreederProfileInfoWidget extends StatelessWidget {
                   style: context.tt.bodyMedium,
                 ),
                 const SizedBox(height: 10),
-                if (gender != null)
                 Row(
                   children: [
-                    gender.genderIcon,
+                    breeder.gender.genderIcon,
                     const SizedBox(
                       width: 5,
                     ),
                     Text(
-                      gender.name,
+                      breeder.gender.name,
                       style: context.tt.bodyMedium,
                     ),
                   ],

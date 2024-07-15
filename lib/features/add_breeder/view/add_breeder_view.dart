@@ -113,7 +113,7 @@ class _AddBreederPageState extends State<AddBreederPage>
       addBreederCubit.setPrefix(breederEntryModel.prefix);
       addBreederCubit.setCage(breederEntryModel.cage);
       addBreederCubit.setColor(breederEntryModel.color);
-      addBreederCubit.setGender(breederEntryModel.gender!);
+      addBreederCubit.setGender(breederEntryModel.gender);
       addBreederCubit.setTatto(breederEntryModel.tatto);
       addBreederCubit.setWeight(breederEntryModel.weight);
       addBreederCubit.setDate(breederEntryModel.updatedAt);

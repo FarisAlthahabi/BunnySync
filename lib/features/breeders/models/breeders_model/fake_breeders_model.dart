@@ -1,6 +1,7 @@
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
 import 'package:bunny_sync/features/breeders/models/breeders_model/breeders_model.dart';
 import 'package:bunny_sync/features/breeders/models/breeders_status_model/breeder_status_model.dart';
+import 'package:bunny_sync/global/utils/enums/gender_types_enum.dart';
 
 final fakeBreedersStatusModel = BreedersStatusModel(
   all: fakeBreedersModel.breeders,
@@ -29,6 +30,7 @@ final fakeBreedersModel = BreedersModel(
       status: 'Status 1',
       photo: 'Photo 1',
       dtRowIndex: 1,
+      gender: GenderTypes.male,
     ),
     BreederEntryModel(
       id: 24,
@@ -46,6 +48,7 @@ final fakeBreedersModel = BreedersModel(
       status: 'Status 1',
       photo: 'Photo 1',
       dtRowIndex: 1,
+      gender: GenderTypes.male,
     ),
     BreederEntryModel(
       id: 24,
@@ -63,6 +66,7 @@ final fakeBreedersModel = BreedersModel(
       status: 'Status 1',
       photo: 'Photo 1',
       dtRowIndex: 1,
+      gender: GenderTypes.male,
     ),
   ],
 );
