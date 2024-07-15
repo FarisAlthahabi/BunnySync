@@ -15,9 +15,13 @@ BreederEntryModel _$BreederEntryModelFromJson(Map<String, dynamic> json) =>
       updatedAt: DateTime.parse(json['updated_at'] as String),
       createdAt: DateTime.parse(json['created_at'] as String),
       gender: $enumDecode(_$GenderTypesEnumMap, json['gender']),
+      isActive: JsonUtils.readValue(json, 'isActive') == null
+          ? true
+          : BreederEntryModel.isActiveFromJson(
+              JsonUtils.readValue(json, 'isActive') as Map<String, dynamic>),
       weight: json['weight'] as String?,
-      litters: (json['litters'] as num?)?.toInt(),
-      kits: (json['kits'] as num?)?.toInt(),
+      litters: json['litters'] as String?,
+      kits: json['kits'] as String?,
       age: json['age'] as String?,
       status: json['status'] as String?,
       photo: json['photo'] as String?,
@@ -38,9 +42,10 @@ Map<String, dynamic> _$BreederEntryModelToJson(BreederEntryModel instance) =>
       'name': instance.name,
       'updated_at': instance.updatedAt.toIso8601String(),
       'created_at': instance.createdAt.toIso8601String(),
+      'gender': _$GenderTypesEnumMap[instance.gender]!,
+      'isActive': instance.isActive,
       'prefix': instance.prefix,
       'cage': instance.cage,
-      'gender': _$GenderTypesEnumMap[instance.gender]!,
       'color': instance.color,
       'tatto': instance.tatto,
       'breed': instance.breed,
