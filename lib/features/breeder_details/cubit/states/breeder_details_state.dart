@@ -6,17 +6,21 @@ abstract class BreederDetailsState extends GeneralBreederDetailsState {}
 class BreederDetailsInitial extends BreederDetailsState {}
 
 class BreederDetailsFetch extends BreederDetailsState {
-BreederDetailsFetch(this.breederDetailsResponseModel);
+  BreederDetailsFetch(this.breederEntryModel);
 
-  final BreederDetailsResponseModel breederDetailsResponseModel;
+  final BreederEntryModel breederEntryModel;
 }
 
 class BreederDetailsLoading extends BreederDetailsFetch {
-  BreederDetailsLoading(super.breederDetailsResponseModel);
+  BreederDetailsLoading(
+    super.breederDetailsResponseModel,
+  );
 }
 
 class BreederDetailsSuccess extends BreederDetailsFetch {
-  BreederDetailsSuccess(super.breederDetailsResponseModel);
+  BreederDetailsSuccess(
+    super.breederDetailsResponseModel,
+  );
 }
 
 class BreederDetailsFail extends BreederDetailsState {

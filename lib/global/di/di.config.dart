@@ -9,36 +9,44 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:bunny_sync/features/add_breeder/cubit/add_breeder_cubit.dart'
-    as _i15;
+    as _i17;
 import 'package:bunny_sync/features/add_breeder/repo/add_breeder_repo.dart'
     as _i3;
-import 'package:bunny_sync/features/authentication/bloc/authentication_bloc.dart'
-    as _i16;
-import 'package:bunny_sync/features/breeder_details/cubit/breeder_details_cubit.dart'
+import 'package:bunny_sync/features/add_litter/cubit/add_litter_cubit.dart'
     as _i18;
-import 'package:bunny_sync/features/breeder_details/repo/breeder_details_repo.dart'
+import 'package:bunny_sync/features/add_litter/repo/add_litter_repo.dart'
     as _i4;
-import 'package:bunny_sync/features/breeders/cubit/breeders_cubit.dart' as _i19;
-import 'package:bunny_sync/features/breeders/repo/breeders_repo.dart' as _i5;
+import 'package:bunny_sync/features/authentication/bloc/authentication_bloc.dart'
+    as _i19;
+import 'package:bunny_sync/features/breeder_details/cubit/breeder_details_cubit.dart'
+    as _i21;
+import 'package:bunny_sync/features/breeder_details/repo/breeder_details_repo.dart'
+    as _i5;
+import 'package:bunny_sync/features/breeders/cubit/breeders_cubit.dart' as _i23;
+import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart'
+    as _i22;
+import 'package:bunny_sync/features/breeders/repo/breeders_repo.dart' as _i6;
 import 'package:bunny_sync/features/dashboard/cubit/dashboard_cubit.dart'
-    as _i6;
-import 'package:bunny_sync/features/main_navigation/cubit/main_navigation_cubit.dart'
-    as _i11;
-import 'package:bunny_sync/features/sign_in/cubit/sign_in_cubit.dart' as _i21;
-import 'package:bunny_sync/features/sign_in/repo/sign_in_repo.dart' as _i13;
-import 'package:bunny_sync/global/blocs/delete_breeder_cubit/delete_breeder_cubit.dart'
-    as _i20;
-import 'package:bunny_sync/global/blocs/permissions_cubit/permissions_cubit.dart'
-    as _i12;
-import 'package:bunny_sync/global/di/modules/app_module.dart' as _i22;
-import 'package:bunny_sync/global/dio/dio_client.dart' as _i8;
-import 'package:bunny_sync/global/localization/cubit/localization_cubit.dart'
-    as _i10;
-import 'package:bunny_sync/global/localization/language_changer.dart' as _i9;
-import 'package:bunny_sync/global/repos/delete_breeder_repo/delete_breeder_repo.dart'
     as _i7;
-import 'package:bunny_sync/global/repos/repos.dart' as _i17;
-import 'package:bunny_sync/global/repos/user_repo.dart' as _i14;
+import 'package:bunny_sync/features/litters/cubit/litters_cubit.dart' as _i25;
+import 'package:bunny_sync/features/litters/repo/litters_repo.dart' as _i11;
+import 'package:bunny_sync/features/main_navigation/cubit/main_navigation_cubit.dart'
+    as _i13;
+import 'package:bunny_sync/features/sign_in/cubit/sign_in_cubit.dart' as _i26;
+import 'package:bunny_sync/features/sign_in/repo/sign_in_repo.dart' as _i15;
+import 'package:bunny_sync/global/blocs/delete_breeder_cubit/delete_breeder_cubit.dart'
+    as _i24;
+import 'package:bunny_sync/global/blocs/permissions_cubit/permissions_cubit.dart'
+    as _i14;
+import 'package:bunny_sync/global/di/modules/app_module.dart' as _i27;
+import 'package:bunny_sync/global/dio/dio_client.dart' as _i9;
+import 'package:bunny_sync/global/localization/cubit/localization_cubit.dart'
+    as _i12;
+import 'package:bunny_sync/global/localization/language_changer.dart' as _i10;
+import 'package:bunny_sync/global/repos/delete_breeder_repo/delete_breeder_repo.dart'
+    as _i8;
+import 'package:bunny_sync/global/repos/repos.dart' as _i20;
+import 'package:bunny_sync/global/repos/user_repo.dart' as _i16;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 
@@ -55,47 +63,59 @@ extension GetItInjectableX on _i1.GetIt {
     );
     final appModule = _$AppModule();
     gh.factory<_i3.AddBreederRepo>(() => _i3.HttpAddBreederRepo());
-    gh.factory<_i4.BreederDetailsRepo>(() => _i4.HttpBreederDetailsRepo());
-    gh.factory<_i5.BreedersRepo>(() => _i5.HttpBreedersRepo());
-    gh.factory<_i6.DashboardCubit>(() => _i6.DashboardCubit());
-    gh.factory<_i7.DeleteBreederRepo>(() => _i7.HttpDeleteBreederRepo());
-    gh.singleton<_i8.DioClient>(() => _i8.DioClient());
-    await gh.singletonAsync<_i9.LanguageChanger>(
+    gh.factory<_i4.AddLitterRepo>(() => _i4.HttpAddLitterRepo());
+    gh.factory<_i5.BreederDetailsRepo>(() => _i5.HttpBreederDetailsRepo());
+    gh.factory<_i6.BreedersRepo>(() => _i6.HttpBreedersRepo());
+    gh.factory<_i7.DashboardCubit>(() => _i7.DashboardCubit());
+    gh.factory<_i8.DeleteBreederRepo>(() => _i8.HttpDeleteBreederRepo());
+    gh.singleton<_i9.DioClient>(() => _i9.DioClient());
+    await gh.singletonAsync<_i10.LanguageChanger>(
       () {
-        final i = _i9.LanguageChanger();
+        final i = _i10.LanguageChanger();
         return i.init().then((_) => i);
       },
       preResolve: true,
     );
-    gh.factory<_i10.LocalizationCubit>(() => _i10.LocalizationCubit());
-    gh.factory<_i11.MainNavigationCubit>(() => _i11.MainNavigationCubit());
-    gh.factory<_i12.PermissionsCubit>(() => _i12.PermissionsCubit());
-    gh.factory<_i13.SignInRepo>(() => _i13.HttpSignInRepo());
-    await gh.singletonAsync<_i14.UserRepo>(
+    gh.factory<_i11.LittersRepo>(() => _i11.HttpLittersRepo());
+    gh.factory<_i12.LocalizationCubit>(() => _i12.LocalizationCubit());
+    gh.factory<_i13.MainNavigationCubit>(() => _i13.MainNavigationCubit());
+    gh.factory<_i14.PermissionsCubit>(() => _i14.PermissionsCubit());
+    gh.factory<_i15.SignInRepo>(() => _i15.HttpSignInRepo());
+    await gh.singletonAsync<_i16.UserRepo>(
       () {
-        final i = _i14.UserRepo();
+        final i = _i16.UserRepo();
         return i.init().then((_) => i);
       },
       preResolve: true,
     );
     gh.singletonAsync<bool>(() => appModule.disablePrintOnRelease());
     gh.singleton<double>(() => appModule.translations());
-    gh.factory<_i15.AddBreederCubit>(
-        () => _i15.AddBreederCubit(gh<_i3.AddBreederRepo>()));
-    gh.singleton<_i16.AuthenticationBloc>(
-        () => _i16.AuthenticationBloc(gh<_i17.UserRepo>()));
-    gh.factory<_i18.BreederDetailsCubit>(
-        () => _i18.BreederDetailsCubit(gh<_i4.BreederDetailsRepo>()));
-    gh.factory<_i19.BreedersCubit>(
-        () => _i19.BreedersCubit(gh<_i5.BreedersRepo>()));
-    gh.factory<_i20.DeleteBreederCubit>(
-        () => _i20.DeleteBreederCubit(gh<_i7.DeleteBreederRepo>()));
-    gh.factory<_i21.SignInCubit>(() => _i21.SignInCubit(
-          gh<_i13.SignInRepo>(),
-          gh<_i16.AuthenticationBloc>(),
+    gh.factory<_i17.AddBreederCubit>(
+        () => _i17.AddBreederCubit(gh<_i3.AddBreederRepo>()));
+    gh.factory<_i18.AddLitterCubit>(
+        () => _i18.AddLitterCubit(gh<_i4.AddLitterRepo>()));
+    gh.singleton<_i19.AuthenticationBloc>(
+        () => _i19.AuthenticationBloc(gh<_i20.UserRepo>()));
+    gh.factoryParam<_i21.BreederDetailsCubit, _i22.BreederEntryModel, dynamic>((
+      breeder,
+      _,
+    ) =>
+        _i21.BreederDetailsCubit(
+          gh<_i5.BreederDetailsRepo>(),
+          breeder,
+        ));
+    gh.factory<_i23.BreedersCubit>(
+        () => _i23.BreedersCubit(gh<_i6.BreedersRepo>()));
+    gh.factory<_i24.DeleteBreederCubit>(
+        () => _i24.DeleteBreederCubit(gh<_i8.DeleteBreederRepo>()));
+    gh.factory<_i25.LittersCubit>(
+        () => _i25.LittersCubit(gh<_i11.LittersRepo>()));
+    gh.factory<_i26.SignInCubit>(() => _i26.SignInCubit(
+          gh<_i15.SignInRepo>(),
+          gh<_i19.AuthenticationBloc>(),
         ));
     return this;
   }
 }
 
-class _$AppModule extends _i22.AppModule {}
+class _$AppModule extends _i27.AppModule {}

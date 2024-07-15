@@ -31,20 +31,22 @@ class _ProfileTabState extends State<ProfileTab>
 
   @override
   void initState() {
-    breederDetailsCubit.getBreederDetails(widget.breederId);
     super.initState();
+
+    breederDetailsCubit.getBreederProfile();
   }
 
-   @override
+  @override
   void onTryAgainTap() {
-    breederDetailsCubit.getBreederDetails(widget.breederId);
+    breederDetailsCubit.getBreederProfile();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BreederDetailsCubit, GeneralBreederDetailsState>(
+      buildWhen: (prev, curr) => curr is BreederProfileState,
       builder: (context, state) {
-        if (state is BreederDetailsFetch) {
+        if (state is BreederProfileFetch) {
           final rabbitProperties = [
             RabbitPropertyModel(
               title: 'litters'.i18n,
@@ -56,7 +58,7 @@ class _ProfileTabState extends State<ProfileTab>
             ),
           ];
           return Skeletonizer(
-            enabled: state is BreederDetailsLoading,
+            enabled: state is BreederProfileLoading,
             child: SingleChildScrollView(
               child: Padding(
                 padding: AppConstants.padding24,
@@ -141,7 +143,7 @@ class _ProfileTabState extends State<ProfileTab>
               ),
             ),
           );
-        } else if (state is BreederDetailsFail) {
+        } else if (state is BreederProfileFail) {
           return Scaffold(
             body: Center(
               child: Column(

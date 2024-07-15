@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:bunny_sync/global/localization/strings.dart';
+import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
@@ -54,7 +54,7 @@ class PostAddBreederModel {
 
   String? validateName() {
     if (_name == null || _name.isEmpty) {
-      return Strings.nameEmpty;
+      return 'name_empty'.i18n;
     }
     return null;
   }

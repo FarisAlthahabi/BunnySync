@@ -25,7 +25,7 @@ abstract class DashboardViewCallback {
 
   void onBreederTap();
 
-  void onLittertap();
+  void onLitterTap();
 }
 
 @RoutePage()
@@ -57,7 +57,7 @@ class _DashboardPageState extends State<DashboardPage>
   late final UserRepo userRepo = context.read();
 
   int currentIndex = 0;
-  
+
   @override
   void onBottomTab(
     int previousIndex,
@@ -74,15 +74,15 @@ class _DashboardPageState extends State<DashboardPage>
   void onBreederTap() {
     Navigator.pop(context);
     context.router.push(
-       AddBreederRoute(),
+      AddBreederRoute(),
     );
   }
 
   @override
-  void onLittertap() {
+  void onLitterTap() {
     Navigator.pop(context);
     context.router.push(
-       AddBreederRoute(),
+      const AddLitterRoute(),
     );
   }
 
@@ -94,7 +94,7 @@ class _DashboardPageState extends State<DashboardPage>
         title: "add_new_type".i18n,
         child: AddNewTypeWidget(
           onBreederTap: onBreederTap,
-          onLitterTap: onLittertap,
+          onLitterTap: onLitterTap,
         ),
       ),
     );

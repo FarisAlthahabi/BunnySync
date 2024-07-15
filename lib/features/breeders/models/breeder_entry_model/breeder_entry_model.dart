@@ -1,6 +1,9 @@
 import 'dart:convert';
 
+import 'package:bunny_sync/global/utils/bunny_sync_json_utils.dart';
 import 'package:bunny_sync/global/utils/enums/gender_types_enum.dart';
+import 'package:bunny_sync/global/utils/json_converters/string_converter.dart';
+import 'package:bunny_sync/global/utils/json_utils.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -17,6 +20,8 @@ class BreederEntryModel extends Equatable {
     required this.name,
     required this.updatedAt,
     required this.createdAt,
+    required this.gender,
+    required this.isActive,
     this.weight,
     this.litters,
     this.kits,
@@ -26,7 +31,6 @@ class BreederEntryModel extends Equatable {
     this.dtRowIndex,
     this.prefix,
     this.cage,
-    this.gender,
     this.color,
     this.tatto,
     this.breed,
@@ -54,11 +58,17 @@ class BreederEntryModel extends Equatable {
   @JsonKey(name: 'created_at')
   final DateTime createdAt;
 
+  final GenderTypes gender;
+
+  @JsonKey(
+    fromJson: BunnySyncJsonUtils.isActiveFromJson,
+    readValue: JsonUtils.readValue,
+  )
+  final bool isActive;
+
   final String? prefix;
 
   final String? cage;
-
-  final GenderTypes? gender;
 
   final String? color;
 
@@ -71,8 +81,10 @@ class BreederEntryModel extends Equatable {
 
   final String? weight;
 
+  @StringConverter()
   final String? litters;
 
+  @StringConverter()
   final String? kits;
 
   final String? age;
@@ -96,6 +108,7 @@ class BreederEntryModel extends Equatable {
       name: model?.name ?? name,
       updatedAt: model?.updatedAt ?? updatedAt,
       createdAt: model?.createdAt ?? createdAt,
+      isActive: model?.isActive ?? isActive,
       weight: model?.weight ?? weight,
       litters: model?.litters ?? litters,
       kits: model?.kits ?? kits,
@@ -110,6 +123,54 @@ class BreederEntryModel extends Equatable {
       tatto: model?.tatto ?? tatto,
       breed: model?.breed ?? breed,
       categoryBreederId: model?.categoryBreederId ?? categoryBreederId,
+    );
+  }
+
+  BreederEntryModel copyWith({
+    int? id,
+    int? userId,
+    String? uuid,
+    String? name,
+    DateTime? updatedAt,
+    DateTime? createdAt,
+    bool? isActive,
+    String? weight,
+    String? litters,
+    String? kits,
+    String? age,
+    String? status,
+    String? photo,
+    int? dtRowIndex,
+    String? prefix,
+    GenderTypes? gender,
+    String? color,
+    String? tatto,
+    String? breed,
+    int? categoryBreederId,
+    String? cage,
+  }) {
+    return BreederEntryModel(
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      uuid: uuid ?? this.uuid,
+      name: name ?? this.name,
+      updatedAt: updatedAt ?? this.updatedAt,
+      createdAt: createdAt ?? this.createdAt,
+      isActive: isActive ?? this.isActive,
+      weight: weight ?? this.weight,
+      litters: litters ?? this.litters,
+      kits: kits ?? this.kits,
+      age: age ?? this.age,
+      status: status ?? this.status,
+      photo: photo ?? this.photo,
+      dtRowIndex: dtRowIndex ?? this.dtRowIndex,
+      prefix: prefix ?? this.prefix,
+      cage: cage ?? this.cage,
+      gender: gender ?? this.gender,
+      color: color ?? this.color,
+      tatto: tatto ?? this.tatto,
+      breed: breed ?? this.breed,
+      categoryBreederId: categoryBreederId ?? this.categoryBreederId,
     );
   }
 

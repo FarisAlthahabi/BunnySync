@@ -1,30 +1,34 @@
 import 'package:bunny_sync/global/gen/assets.gen.dart';
-import 'package:bunny_sync/global/theme/theme_extensions/app_theme_extension/app_theme_extension.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
+import 'package:bunny_sync/global/utils/enums/gender_types_enum.dart';
 import 'package:bunny_sync/global/widgets/images/app_local_image_widget.dart';
 import 'package:flutter/material.dart';
 
 class BreederImageWidget extends StatelessWidget {
   const BreederImageWidget({
     super.key,
-    required this.maleOrFemale,
     this.size = 70,
+    this.gender,
   });
 
-  final bool maleOrFemale;
   final double size;
+  final GenderTypes? gender;
 
   @override
   Widget build(BuildContext context) {
+    final gender = this.gender;
+
     return AppLocalImageWidget(
       url: Assets.icons.logo.path,
       width: size,
       height: size,
       fit: BoxFit.cover,
-      border: Border.all(
-        width: 4.5,
-        color: maleOrFemale? context.appThemeExtension.maleColor : context.appThemeExtension.femaleColor,
-      ),
+      border: gender != null
+          ? Border.all(
+              width: 4.5,
+              color: gender.color(context),
+            )
+          : null,
       borderRadius: AppConstants.circularBorderRadius,
     );
   }

@@ -1,9 +1,12 @@
 import 'package:bunny_sync/features/litter_details/view/widgets/litter_profile_info_widget.dart';
-import 'package:bunny_sync/features/litters/models/litter_model.dart';
+import 'package:bunny_sync/features/litters/models/litter_entry_model/litter_entry_model.dart';
+import 'package:bunny_sync/global/localization/localization.dart';
+import 'package:bunny_sync/global/models/rabbit_property_model.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/info_properties_widget.dart';
 import 'package:bunny_sync/global/widgets/main_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class LitterTile extends StatelessWidget {
   const LitterTile({
@@ -12,11 +15,39 @@ class LitterTile extends StatelessWidget {
     required this.onTap,
   });
 
-  final LitterModel litter;
-  final ValueSetter<LitterModel> onTap;
+  final LitterEntryModel litter;
+  final ValueSetter<LitterEntryModel> onTap;
 
   @override
   Widget build(BuildContext context) {
+    final properties = [
+      RabbitPropertyModel(
+        title: 'total'.i18n,
+        //TODO: Not sure about this
+        value: litter.live.toString(),
+      ),
+      RabbitPropertyModel(
+        title: 'kits'.i18n,
+        value: litter.kits.toString(),
+      ),
+      RabbitPropertyModel(
+        title: 'age'.i18n,
+        value: litter.age,
+      ),
+      RabbitPropertyModel(
+        title: 'average'.i18n,
+        //TODO: Not sure about this
+        value: 'average'.i18n,
+      ),
+      RabbitPropertyModel(
+        title: 'born'.i18n,
+        value: litter.born,
+      ),
+      RabbitPropertyModel(
+        title: 'died'.i18n,
+        value: litter.dead.toString(),
+      ),
+    ];
     return MainTile(
       onTap: () => onTap(litter),
       child: Column(
@@ -47,7 +78,7 @@ class LitterTile extends StatelessWidget {
               ),
               Expanded(
                 flex: 70,
-                child: Divider(),
+                child: Skeleton.shade(child: Divider()),
               ),
               Spacer(
                 flex: 15,
@@ -56,7 +87,7 @@ class LitterTile extends StatelessWidget {
           ),
           const SizedBox(height: 24),
           InfoPropertiesWidget(
-            properties: litter.properties.sublist(0, 5),
+            properties: properties.sublist(0, 5),
             propertyStructures: [
               PropertyStructure(
                 mainAxisCellCount: 1.6,

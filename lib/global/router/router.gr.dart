@@ -26,6 +26,12 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    AddLitterRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AddLitterView(),
+      );
+    },
     AuthenticationRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -159,6 +165,20 @@ class AddBreederRouteArgs {
 }
 
 /// generated route for
+/// [AddLitterView]
+class AddLitterRoute extends PageRouteInfo<void> {
+  const AddLitterRoute({List<PageRouteInfo>? children})
+      : super(
+          AddLitterRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AddLitterRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [AuthenticationView]
 class AuthenticationRoute extends PageRouteInfo<void> {
   const AuthenticationRoute({List<PageRouteInfo>? children})
@@ -285,7 +305,7 @@ class IntroRoute extends PageRouteInfo<void> {
 class LitterDetailsRoute extends PageRouteInfo<LitterDetailsRouteArgs> {
   LitterDetailsRoute({
     Key? key,
-    required LitterModel litter,
+    required LitterEntryModel litter,
     List<PageRouteInfo>? children,
   }) : super(
           LitterDetailsRoute.name,
@@ -310,7 +330,7 @@ class LitterDetailsRouteArgs {
 
   final Key? key;
 
-  final LitterModel litter;
+  final LitterEntryModel litter;
 
   @override
   String toString() {

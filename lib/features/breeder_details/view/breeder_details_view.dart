@@ -1,4 +1,4 @@
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/breeder_details/cubit/breeder_details_cubit.dart';
 import 'package:bunny_sync/features/breeder_details/view/tabs/notes_tab.dart';
 import 'package:bunny_sync/features/breeder_details/view/tabs/pedigree_tab.dart';
@@ -6,27 +6,50 @@ import 'package:bunny_sync/features/breeder_details/view/tabs/profile_tab.dart';
 import 'package:bunny_sync/features/breeder_details/view/widgets/breeder_profile_info_widget.dart';
 import 'package:bunny_sync/features/breeder_details/view/widgets/details_tab_bar.dart';
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
+import 'package:bunny_sync/features/breeders/view/widgets/breeder_more_options_widget.dart';
+import 'package:bunny_sync/features/main_navigation/cubit/main_navigation_cubit.dart';
+import 'package:bunny_sync/global/blocs/delete_breeder_cubit/delete_breeder_cubit.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
+import 'package:bunny_sync/global/router/router.dart';
+import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:bunny_sync/global/widgets/custom_app_bar.dart';
+import 'package:bunny_sync/global/widgets/main_show_bottom_sheet.dart';
+import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 abstract class BreederDetailsViewCallbacks {
-  void onMoreOptionsTap();
+  void onMoreOptionsTap(BreederEntryModel breederEntryModel);
+
+  void onEditBreeder(BreederEntryModel breederEntryModel);
+
+  void onDeleteBreeder(BreederEntryModel breederEntryModel);
 }
 
 @RoutePage()
 class BreederDetailsView extends StatelessWidget {
-  const BreederDetailsView({super.key, required this.breederEntryModel,});
+  const BreederDetailsView({
+    super.key,
+    required this.breederEntryModel,
+  });
 
   final BreederEntryModel breederEntryModel;
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => get<BreederDetailsCubit>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<BreederDetailsCubit>(
+          create: (context) =>
+              get<BreederDetailsCubit>(param1: breederEntryModel),
+        ),
+        BlocProvider<DeleteBreederCubit>(
+          create: (context) => get<DeleteBreederCubit>(),
+        ),
+      ],
       child: BreederDetailsPage(
         breederEntryModel: breederEntryModel,
       ),
@@ -39,8 +62,8 @@ class BreederDetailsPage extends StatefulWidget {
     super.key,
     required this.breederEntryModel,
   });
-  final BreederEntryModel breederEntryModel;
 
+  final BreederEntryModel breederEntryModel;
 
   @override
   State<BreederDetailsPage> createState() => _BreederDetailsPageState();
@@ -50,6 +73,10 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
     implements BreederDetailsViewCallbacks {
   late final BreederDetailsCubit breederDetailsCubit = context.read();
 
+  late final MainNavigationCubit mainNavigationCubit = context.read();
+
+  late final DeleteBreederCubit deleteBreederCubit = context.read();
+
   List<TabModel> get tabs => [
         TabModel(title: 'profile'.i18n),
         TabModel(title: 'litters'.i18n),
@@ -58,67 +85,153 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
         TabModel(title: 'tasks'.i18n),
       ];
 
+  @override
+  void initState() {
+    super.initState();
 
+    breederDetailsCubit.getBreederDetails();
+  }
 
   @override
-  void onMoreOptionsTap() {}
+  void onMoreOptionsTap(BreederEntryModel breederEntryModel) {
+    mainShowBottomSheet(
+      context,
+      widget: BottomSheetWidget(
+        title: 'breeder_options'.i18n,
+        child: BreederMoreOptionsWidget(
+          breederEntryModel: breederEntryModel,
+          onEditBreeder: onEditBreeder,
+          onDeleteBreeder: onDeleteBreeder,
+        ),
+      ),
+    );
+  }
 
+  @override
+  void onEditBreeder(BreederEntryModel breederEntryModel) {
+    context.router.popForced();
+    context.router.push(
+      AddBreederRoute(
+        breederEntryModel: breederEntryModel,
+      ),
+    );
+  }
+
+  @override
+  void onDeleteBreeder(BreederEntryModel breederEntryModel) {
+    context.router.popForced();
+    mainShowBottomSheet(
+      context,
+      widget: BottomSheetWidget(
+        title: 'are_you_sure_to_delete_breeder'.i18n,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextButton(
+              onPressed: () {
+                context.router.popForced();
+                deleteBreederCubit.deleteBreeder(breederEntryModel);
+              },
+              child: Text('yes'.i18n),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: const SystemUiOverlayStyle(
-        statusBarIconBrightness: Brightness.dark,
-      ),
-      child:  DefaultTabController(
-              length: tabs.length,
-              child: Scaffold(
-                body: SafeArea(
-                  child: CustomScrollView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    slivers: [
-                      SliverAppBar(
-                        expandedHeight: 250,
-                        centerTitle: true,
-                        title: Text(
-                          'breeder'.i18n,
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                        actions: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 16),
-                            child: IconButton(
-                              onPressed: onMoreOptionsTap,
-                              icon: const Icon(Icons.more_horiz_outlined),
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<MainNavigationCubit, MainNavigationState>(
+          listener: (context, state) {
+            if (state is BreederUpdated) {
+              breederDetailsCubit.updateBreeder(state.breederEntryModel);
+            }
+          },
+        ),
+        BlocListener<DeleteBreederCubit, GeneralDeleteBreederState>(
+          listener: (context, state) {
+            if (state is DeleteBreederSuccess) {
+              mainNavigationCubit.deleteBreeder(state.breeder);
+              MainSnackBar.showSuccessMessageBar(
+                context,
+                'breeder_deleted'.i18n,
+              );
+              context.router.popForced();
+            }
+          },
+        ),
+      ],
+      child: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: const SystemUiOverlayStyle(
+          statusBarIconBrightness: Brightness.dark,
+        ),
+        child: DefaultTabController(
+          length: tabs.length,
+          child: Scaffold(
+            body: SafeArea(
+              child: CustomScrollView(
+                physics: const NeverScrollableScrollPhysics(),
+                slivers: [
+                  BlocBuilder<BreederDetailsCubit, GeneralBreederDetailsState>(
+                    buildWhen: (prev, curr) => curr is BreederDetailsState,
+                    builder: (context, state) {
+                      if (state is BreederDetailsFetch) {
+                        return Skeletonizer.sliver(
+                          enabled: state is BreederDetailsLoading,
+                          child: SliverAppBar(
+                            expandedHeight: 250,
+                            centerTitle: true,
+                            title: Text(
+                              'breeder'.i18n,
+                              style: Theme.of(context).textTheme.titleLarge,
+                            ),
+                            actions: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 16),
+                                child: IconButton(
+                                  onPressed: () =>
+                                      onMoreOptionsTap(state.breederEntryModel),
+                                  icon: const Icon(Icons.more_horiz_outlined),
+                                ),
+                              ),
+                            ],
+                            flexibleSpace: FlexibleSpaceBar(
+                              background: BreederProfileInfoWidget(
+                                breeder: state.breederEntryModel,
+                              ),
+                            ),
+                            bottom: PreferredSize(
+                              preferredSize: const Size.fromHeight(0),
+                              child: DetailsTabBar(tabs: tabs),
                             ),
                           ),
-                        ],
-                        flexibleSpace: FlexibleSpaceBar(
-                          background: BreederProfileInfoWidget(
-                            breeder: widget.breederEntryModel,
-                          ),
-                        ),
-                        bottom: PreferredSize(
-                          preferredSize: const Size.fromHeight(0),
-                          child: DetailsTabBar(tabs: tabs),
-                        ),
-                      ),
-                      SliverFillRemaining(
-                        child: TabBarView(
-                          children: [
-                            ProfileTab(breederId: widget.breederEntryModel.id),
-                            Center(child: Text('not_implemented'.i18n)),
-                            PedigreeTab(breederId: widget.breederEntryModel.id),
-                            NotesTab(breederId: widget.breederEntryModel.id),
-                            Center(child: Text('not_implemented'.i18n)),
-                          ],
-                        ),
-                      ),
-                    ],
+                        );
+                      }
+                      return const SliverToBoxAdapter(
+                        child: SizedBox(),
+                      );
+                    },
                   ),
-                ),
+                  SliverFillRemaining(
+                    child: TabBarView(
+                      children: [
+                        ProfileTab(breederId: widget.breederEntryModel.id),
+                        Center(child: Text('not_implemented'.i18n)),
+                        PedigreeTab(breederId: widget.breederEntryModel.id),
+                        NotesTab(breederId: widget.breederEntryModel.id),
+                        Center(child: Text('not_implemented'.i18n)),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
-      );
+          ),
+        ),
+      ),
+    );
   }
 }

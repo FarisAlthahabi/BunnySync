@@ -1,5 +1,6 @@
 import 'package:bunny_sync/global/gen/assets.gen.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
+import 'package:bunny_sync/global/theme/theme_extensions/app_theme_extension/app_theme_extension.dart';
 import 'package:bunny_sync/global/widgets/radio_selector_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -26,6 +27,15 @@ enum GenderTypes implements RadioSelectorItemModel {
         return Assets.icons.buck.svg();
       case GenderTypes.female:
         return Assets.icons.doe.svg();
+    }
+  }
+
+  Color color(BuildContext context) {
+    switch (this) {
+      case GenderTypes.male:
+        return context.appThemeExtension.maleColor;
+      case GenderTypes.female:
+        return context.appThemeExtension.femaleColor;
     }
   }
 
