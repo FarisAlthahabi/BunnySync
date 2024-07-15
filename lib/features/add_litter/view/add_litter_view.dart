@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/add_litter/cubit/add_litter_cubit.dart';
 import 'package:bunny_sync/features/breeders/cubit/breeders_cubit.dart';
+import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
 import 'package:bunny_sync/features/main_navigation/cubit/main_navigation_cubit.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
@@ -11,6 +12,7 @@ import 'package:bunny_sync/global/widgets/loading_indicator.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
 import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:bunny_sync/global/widgets/main_text_field.dart';
+import 'package:collection/collection.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,17 +46,17 @@ abstract class AddLitterViewCallBack {
 
   void onLiveKitsSubmitted(String liveKits);
 
-  void onDeadkitsChanged(String deadkits);
+  void onDeadKitsChanged(String deadkits);
 
-  void onDeadkitsSubmitted(String deadkits);
+  void onDeadKitsSubmitted(String deadkits);
 
-  void onMaleBreederIdChanged(String maleBreederId);
+  void onMaleBreederIdChanged(BreederEntryModel? breeder);
 
-  void onMaleBreederIdSubmitted(String maleBreederId);
+  void onMaleBreederIdSubmitted(BreederEntryModel breeder);
 
-  void onFemaleBreederIdChanged(String femaleBreederId);
+  void onFemaleBreederIdChanged(BreederEntryModel? breeder);
 
-  void onFemaleBreederIdSubmitted(String femaleBreederId);
+  void onFemaleBreederIdSubmitted(BreederEntryModel breeder);
 
   void onBreedDateSelected(DateTime breedDate, List<int> numbers);
 
@@ -104,10 +106,6 @@ class _AddLitterPageState extends State<AddLitterPage>
   late final BreedersCubit breedersCubit = context.read();
 
   late final MainNavigationCubit mainNavigationCubit = context.read();
-
-  DateTime selectedBreedDate = DateTime.now();
-
-  DateTime selectedBornDate = DateTime.now();
 
   final litterIdFocusNode = FocusNode();
 
@@ -162,22 +160,22 @@ class _AddLitterPageState extends State<AddLitterPage>
   }
 
   @override
-  void onDeadkitsChanged(String deadkits) {
-    addLitterCubit.setDeadKits(deadkits);
+  void onDeadKitsChanged(String deadKits) {
+    addLitterCubit.setDeadKits(deadKits);
   }
 
   @override
-  void onDeadkitsSubmitted(String deadkits) {
+  void onDeadKitsSubmitted(String deadKits) {
     deadKitsFocusNode.unfocus();
   }
 
   @override
-  void onFemaleBreederIdChanged(String femaleBreederId) {
-    addLitterCubit.setFemaleBreederId(femaleBreederId);
+  void onFemaleBreederIdChanged(BreederEntryModel? breeder) {
+    addLitterCubit.setFemaleBreederId(breeder);
   }
 
   @override
-  void onFemaleBreederIdSubmitted(String femaleBreederId) {
+  void onFemaleBreederIdSubmitted(BreederEntryModel breeder) {
     litterIdFocusNode.requestFocus();
   }
 
@@ -202,12 +200,12 @@ class _AddLitterPageState extends State<AddLitterPage>
   }
 
   @override
-  void onMaleBreederIdChanged(String maleBreederId) {
-    addLitterCubit.setMaleBreederId(maleBreederId);
+  void onMaleBreederIdChanged(BreederEntryModel? breeder) {
+    addLitterCubit.setMaleBreederId(breeder);
   }
 
   @override
-  void onMaleBreederIdSubmitted(String maleBreederId) {
+  void onMaleBreederIdSubmitted(BreederEntryModel breeder) {
     femaleBreederIdFocusNode.requestFocus();
   }
 
@@ -223,17 +221,11 @@ class _AddLitterPageState extends State<AddLitterPage>
 
   @override
   void onBreedDateSelected(DateTime breedDate, List<int> numbers) {
-    setState(() {
-      selectedBreedDate = breedDate;
-    });
     addLitterCubit.setBreedDate(breedDate);
   }
 
   @override
   void onBornDateSelected(DateTime bornDate, List<int> numbers) {
-    setState(() {
-      selectedBornDate = bornDate;
-    });
     addLitterCubit.setBornDate(bornDate);
   }
 
@@ -244,14 +236,14 @@ class _AddLitterPageState extends State<AddLitterPage>
 
   @override
   void initState() {
-    breedersCubit.getBreedersByGender();
     super.initState();
+
+    breedersCubit.getBreedersByGender();
+    addLitterCubit.emitUpdateAddLitterState();
   }
 
   @override
   Widget build(BuildContext context) {
-  String? selectedMaleBreeder;
-  String? selectedFemaleBreeder;
     return Scaffold(
       appBar: MainAppBar(
         title: Text(
@@ -266,281 +258,291 @@ class _AddLitterPageState extends State<AddLitterPage>
               enabled: state is BreedersLoading,
               child: Stack(
                 children: [
-                  SingleChildScrollView(
-                    child: Padding(
-                      padding: AppConstants.paddingH16,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          BlocBuilder<BreedersCubit, GeneralBreedersState>(
-                            builder: (context, state) {
-                              if (state is BreedersByGenderSuccess) {
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Male Breeder',
-                                      style: context.tt.bodyLarge?.copyWith(
-                                        fontWeight: FontWeight.w700,
-                                        color:
-                                            context.cs.surfaceContainerHighest,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 8,
-                                    ),
-                                    DropdownButtonHideUnderline(
-                                      child: DropdownButton2<String>(
-                                        isExpanded: true,
-                                        value: selectedMaleBreeder,
-                                        hint: Text(
-                                          selectedMaleBreeder ??
-                                              'Select Male Breeder',
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Theme.of(context).hintColor,
+                  BlocBuilder<AddLitterCubit, GeneralAddLitterState>(
+                    buildWhen: (prev, curr) => curr is UpdateAddLitterState,
+                    builder: (context, innerState) {
+                      if (innerState is UpdateAddLitterState) {
+                        return SingleChildScrollView(
+                          child: Padding(
+                            padding: AppConstants.paddingH16,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(
+                                  height: 30,
+                                ),
+                                BlocBuilder<BreedersCubit,
+                                    GeneralBreedersState>(
+                                  builder: (context, state) {
+                                    if (state is BreedersByGenderSuccess) {
+                                      return Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'male_breeder'.i18n,
+                                            style:
+                                                context.tt.bodyLarge?.copyWith(
+                                              fontWeight: FontWeight.w700,
+                                              color: context
+                                                  .cs.surfaceContainerHighest,
+                                            ),
                                           ),
-                                        ),
-                                        items: state.breedersGenderModel
-                                            .maleBreedersNames
-                                            .map(
-                                              (String item) =>
-                                                  DropdownMenuItem<String>(
-                                                value: item,
-                                                child: Text(
-                                                  item,
-                                                  style: const TextStyle(
-                                                    fontSize: 14,
-                                                  ),
+                                          const SizedBox(
+                                            height: 8,
+                                          ),
+                                          DropdownButtonHideUnderline(
+                                            child: DropdownButton2<
+                                                BreederEntryModel>(
+                                              isExpanded: true,
+                                              value: state.breedersGenderModel
+                                                  .maleBreeders
+                                                  .firstWhereOrNull(
+                                                (element) =>
+                                                    element.id ==
+                                                    innerState.addLitterModel
+                                                        .maleBreederId,
+                                              ),
+                                              hint: Text(
+                                                'select_male_breeder'.i18n,
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Theme.of(context)
+                                                      .hintColor,
                                                 ),
                                               ),
-                                            )
-                                            .toList(),
-                                        onChanged: (String? value) {
-                                          setState(() {
-                                            selectedMaleBreeder = value;
-                                          });
-                                        },
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 25,
-                                    ),
-                                    Text(
-                                      'Female Breeder',
-                                      style: context.tt.bodyLarge?.copyWith(
-                                        fontWeight: FontWeight.w700,
-                                        color:
-                                            context.cs.surfaceContainerHighest,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 8,
-                                    ),
-                                    DropdownButtonHideUnderline(
-                                      child: DropdownButton2<String>(
-                                        isExpanded: true,
-                                        value: selectedFemaleBreeder,
-                                        hint: Text(
-                                          selectedMaleBreeder ??
-                                              'Select Female Breeder',
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Theme.of(context).hintColor,
+                                              items: state.breedersGenderModel
+                                                  .maleBreeders
+                                                  .map(
+                                                    (BreederEntryModel item) =>
+                                                        DropdownMenuItem<
+                                                            BreederEntryModel>(
+                                                      value: item,
+                                                      child: Text(
+                                                        item.name,
+                                                        style: const TextStyle(
+                                                          fontSize: 14,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
+                                                  .toList(),
+                                              onChanged: onMaleBreederIdChanged,
+                                            ),
                                           ),
-                                        ),
-                                        items: state.breedersGenderModel
-                                            .femaleBreedersNames
-                                            .map(
-                                              (String item) =>
-                                                  DropdownMenuItem<String>(
-                                                value: item,
-                                                child: Text(
-                                                  item,
-                                                  style: const TextStyle(
-                                                    fontSize: 14,
-                                                  ),
+                                          const SizedBox(
+                                            height: 25,
+                                          ),
+                                          Text(
+                                            'female_breeder'.i18n,
+                                            style:
+                                                context.tt.bodyLarge?.copyWith(
+                                              fontWeight: FontWeight.w700,
+                                              color: context
+                                                  .cs.surfaceContainerHighest,
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 8,
+                                          ),
+                                          DropdownButtonHideUnderline(
+                                            child: DropdownButton2<
+                                                BreederEntryModel>(
+                                              isExpanded: true,
+                                              value: state.breedersGenderModel
+                                                  .femaleBreeders
+                                                  .firstWhereOrNull(
+                                                (element) =>
+                                                    element.id ==
+                                                    innerState.addLitterModel
+                                                        .femaleBreederId,
+                                              ),
+                                              hint: Text(
+                                                'select_female_breeder'.i18n,
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Theme.of(context)
+                                                      .hintColor,
                                                 ),
                                               ),
-                                            )
-                                            .toList(),
-                                        onChanged: (String? value) {
-                                          setState(() {
-                                            selectedFemaleBreeder = value;
-                                          });
-                                        },
+                                              items: state.breedersGenderModel
+                                                  .femaleBreeders
+                                                  .map(
+                                                    (BreederEntryModel item) =>
+                                                        DropdownMenuItem<
+                                                            BreederEntryModel>(
+                                                      value: item,
+                                                      child: Text(
+                                                        item.name,
+                                                        style: const TextStyle(
+                                                          fontSize: 14,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
+                                                  .toList(),
+                                              onChanged:
+                                                  onFemaleBreederIdChanged,
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 25,
+                                          ),
+                                        ],
+                                      );
+                                    } else if (state is BreedersFail) {
+                                      return Text(state.message);
+                                    } else {
+                                      return const SizedBox();
+                                    }
+                                  },
+                                ),
+                                MainTextField(
+                                  onSubmitted: onLitterIdSubmitted,
+                                  onChanged: onLitterIdChanged,
+                                  focusNode: litterIdFocusNode,
+                                  hintText: 'litter_id'.i18n,
+                                  labelText: 'litter_id'.i18n,
+                                ),
+                                const SizedBox(
+                                  height: 25,
+                                ),
+                                MainTextField(
+                                  onSubmitted: onTypeSubmitted,
+                                  onChanged: onTypeChanged,
+                                  focusNode: typeFocusNode,
+                                  hintText: 'type'.i18n,
+                                  labelText: 'type'.i18n,
+                                ),
+                                const SizedBox(
+                                  height: 25,
+                                ),
+                                MainTextField(
+                                  onSubmitted: onPrefixSubmitted,
+                                  onChanged: onPrefixChanged,
+                                  focusNode: prefixFocusNode,
+                                  hintText: 'prefix'.i18n,
+                                  labelText: 'prefix'.i18n,
+                                ),
+                                const SizedBox(
+                                  height: 25,
+                                ),
+                                MainTextField(
+                                  onSubmitted: onCageSubmitted,
+                                  onChanged: onCageChanged,
+                                  focusNode: cageFocusNode,
+                                  hintText: "cage".i18n,
+                                  labelText: "cage".i18n,
+                                ),
+                                const SizedBox(
+                                  height: 25,
+                                ),
+                                MainTextField(
+                                  onSubmitted: onBreedSubmitted,
+                                  onChanged: onBreedChanged,
+                                  focusNode: breedFocusNode,
+                                  hintText: 'breed'.i18n,
+                                  labelText: 'breed'.i18n,
+                                ),
+                                const SizedBox(
+                                  height: 25,
+                                ),
+                                MainTextField(
+                                  onSubmitted: onLiveKitsSubmitted,
+                                  onChanged: onLiveKitsChanged,
+                                  focusNode: liveKitsFocusNode,
+                                  hintText: 'live_kits_count'.i18n,
+                                  labelText: 'live_kits_count'.i18n,
+                                  keyboardType: TextInputType.number,
+                                ),
+                                const SizedBox(
+                                  height: 25,
+                                ),
+                                MainTextField(
+                                  onSubmitted: onDeadKitsSubmitted,
+                                  onChanged: onDeadKitsChanged,
+                                  focusNode: deadKitsFocusNode,
+                                  hintText: 'dead_kits_count'.i18n,
+                                  labelText: 'dead_kits_count'.i18n,
+                                  keyboardType: TextInputType.number,
+                                ),
+                                const SizedBox(
+                                  height: 25,
+                                ),
+                                Text(
+                                  "set_breed_date".i18n,
+                                  style: context.tt.bodyLarge?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.darkGrey,
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                                Center(
+                                  child: SizedBox(
+                                    width: 0.7.sw,
+                                    child: DatePickerWidget(
+                                      looping: true,
+                                      dateFormat: "dd/MMM/yyyy",
+                                      onChange: onBreedDateSelected,
+                                      pickerTheme: DateTimePickerTheme(
+                                        itemTextStyle:
+                                            context.tt.bodyLarge?.copyWith(
+                                                  fontSize: 18,
+                                                  color: context
+                                                      .cs.secondaryContainer,
+                                                  fontWeight: FontWeight.w700,
+                                                ) ??
+                                                const TextStyle(),
+                                        dividerColor:
+                                            context.cs.secondaryContainer,
                                       ),
                                     ),
-                                    const SizedBox(
-                                      height: 25,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 25,
+                                ),
+                                Text(
+                                  "set_born_date".i18n,
+                                  style: context.tt.bodyLarge?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.darkGrey,
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                                Center(
+                                  child: SizedBox(
+                                    width: 0.7.sw,
+                                    child: DatePickerWidget(
+                                      looping: true,
+                                      dateFormat: "dd/MMM/yyyy",
+                                      onChange: onBornDateSelected,
+                                      pickerTheme: DateTimePickerTheme(
+                                        itemTextStyle:
+                                            context.tt.bodyLarge?.copyWith(
+                                                  fontSize: 18,
+                                                  color: context
+                                                      .cs.secondaryContainer,
+                                                  fontWeight: FontWeight.w700,
+                                                ) ??
+                                                const TextStyle(),
+                                        dividerColor:
+                                            context.cs.secondaryContainer,
+                                      ),
                                     ),
-                                  ],
-                                );
-                              } else if (state is BreedersFail) {
-                                return Text(state.message);
-                              } else {
-                                return const SizedBox();
-                              }
-                            },
-                          ),
-                          MainTextField(
-                            onSubmitted: onMaleBreederIdSubmitted,
-                            onChanged: onMaleBreederIdChanged,
-                            focusNode: maleBreederIdFocusNode,
-                            hintText: 'Male breeder id',
-                            labelText: 'Male breeder id',
-                          ),
-                          const SizedBox(
-                            height: 25,
-                          ),
-                          MainTextField(
-                            onSubmitted: onFemaleBreederIdSubmitted,
-                            onChanged: onFemaleBreederIdChanged,
-                            focusNode: femaleBreederIdFocusNode,
-                            hintText: 'Female breeder id',
-                            labelText: 'Female breeder id',
-                          ),
-                          const SizedBox(
-                            height: 25,
-                          ),
-                          MainTextField(
-                            onSubmitted: onLitterIdSubmitted,
-                            onChanged: onLitterIdChanged,
-                            focusNode: litterIdFocusNode,
-                            hintText: 'Litter id',
-                            labelText: 'Litter id',
-                          ),
-                          const SizedBox(
-                            height: 25,
-                          ),
-                          MainTextField(
-                            onSubmitted: onTypeSubmitted,
-                            onChanged: onTypeChanged,
-                            focusNode: typeFocusNode,
-                            hintText: 'Type',
-                            labelText: 'Type',
-                          ),
-                          const SizedBox(
-                            height: 25,
-                          ),
-                          MainTextField(
-                            onSubmitted: onPrefixSubmitted,
-                            onChanged: onPrefixChanged,
-                            focusNode: prefixFocusNode,
-                            hintText: 'prefix',
-                            labelText: 'prefix',
-                          ),
-                          const SizedBox(
-                            height: 25,
-                          ),
-                          MainTextField(
-                            onSubmitted: onCageSubmitted,
-                            onChanged: onCageChanged,
-                            focusNode: cageFocusNode,
-                            hintText: "cage".i18n,
-                            labelText: "cage".i18n,
-                          ),
-                          const SizedBox(
-                            height: 25,
-                          ),
-                          MainTextField(
-                            onSubmitted: onBreedSubmitted,
-                            onChanged: onBreedChanged,
-                            focusNode: breedFocusNode,
-                            hintText: 'Breed',
-                            labelText: 'Breed',
-                          ),
-                          const SizedBox(
-                            height: 25,
-                          ),
-                          MainTextField(
-                            onSubmitted: onLiveKitsSubmitted,
-                            onChanged: onLiveKitsChanged,
-                            focusNode: liveKitsFocusNode,
-                            hintText: 'Live kits count',
-                            labelText: 'Live kits count',
-                          ),
-                          const SizedBox(
-                            height: 25,
-                          ),
-                          MainTextField(
-                            onSubmitted: onDeadkitsSubmitted,
-                            onChanged: onDeadkitsChanged,
-                            focusNode: deadKitsFocusNode,
-                            hintText: 'Dead kits count',
-                            labelText: 'Dead kits count',
-                          ),
-                          const SizedBox(
-                            height: 25,
-                          ),
-                          Text(
-                            "set_breed_date".i18n,
-                            style: context.tt.bodyLarge?.copyWith(
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.darkGrey,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Center(
-                            child: SizedBox(
-                              width: 0.7.sw,
-                              child: DatePickerWidget(
-                                initialDate: selectedBreedDate,
-                                looping: true,
-                                dateFormat: "dd/MMM/yyyy",
-                                onChange: onBreedDateSelected,
-                                pickerTheme: DateTimePickerTheme(
-                                  itemTextStyle: context.tt.bodyLarge?.copyWith(
-                                        fontSize: 18,
-                                        color: context.cs.secondaryContainer,
-                                        fontWeight: FontWeight.w700,
-                                      ) ??
-                                      const TextStyle(),
-                                  dividerColor: context.cs.secondaryContainer,
+                                  ),
                                 ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 25,
-                          ),
-                          Text(
-                            "set_born_date".i18n,
-                            style: context.tt.bodyLarge?.copyWith(
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.darkGrey,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Center(
-                            child: SizedBox(
-                              width: 0.7.sw,
-                              child: DatePickerWidget(
-                                initialDate: selectedBornDate,
-                                looping: true,
-                                dateFormat: "dd/MMM/yyyy",
-                                onChange: onBornDateSelected,
-                                pickerTheme: DateTimePickerTheme(
-                                  itemTextStyle: context.tt.bodyLarge?.copyWith(
-                                        fontSize: 18,
-                                        color: context.cs.secondaryContainer,
-                                        fontWeight: FontWeight.w700,
-                                      ) ??
-                                      const TextStyle(),
-                                  dividerColor: context.cs.secondaryContainer,
+                                const SizedBox(
+                                  height: 100,
                                 ),
-                              ),
+                              ],
                             ),
                           ),
-                          const SizedBox(
-                            height: 100,
-                          ),
-                        ],
-                      ),
-                    ),
+                        );
+                      }
+
+                      return const SizedBox();
+                    },
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.end,

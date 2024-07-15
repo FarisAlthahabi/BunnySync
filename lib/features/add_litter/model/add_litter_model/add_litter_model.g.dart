@@ -27,15 +27,15 @@ AddLitterModel _$AddLitterModelFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$AddLitterModelToJson(AddLitterModel instance) =>
     <String, dynamic>{
+      'type': instance.type,
       'male': instance.maleBreederId,
       'female': instance.femaleBreederId,
-      'litter_id': instance.litterId,
-      'type': instance.type,
       'prefix': instance.prefix,
-      'cage': instance.cage,
+      'litter_id': instance.litterId,
+      'breed_date': instance.breedDate?.toIso8601String(),
+      'born_date': instance.bornDate?.toIso8601String(),
       'breed': instance.breed,
+      'cage': instance.cage,
       'live_kits': instance.liveKits,
       'dead_kits': instance.deadKits,
-      'breed_date': instance.breedDate.toIso8601String(),
-      'born_date': instance.bornDate.toIso8601String(),
     };

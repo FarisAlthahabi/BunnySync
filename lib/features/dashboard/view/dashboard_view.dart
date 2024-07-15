@@ -25,7 +25,7 @@ abstract class DashboardViewCallback {
 
   void onBreederTap();
 
-  void onLittertap();
+  void onLitterTap();
 }
 
 @RoutePage()
@@ -79,7 +79,7 @@ class _DashboardPageState extends State<DashboardPage>
   }
 
   @override
-  void onLittertap() {
+  void onLitterTap() {
     Navigator.pop(context);
     context.router.push(
       const AddLitterRoute(),
@@ -94,7 +94,7 @@ class _DashboardPageState extends State<DashboardPage>
         title: "add_new_type".i18n,
         child: AddNewTypeWidget(
           onBreederTap: onBreederTap,
-          onLitterTap: onLittertap,
+          onLitterTap: onLitterTap,
         ),
       ),
     );
