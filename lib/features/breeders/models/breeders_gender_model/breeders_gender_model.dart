@@ -4,12 +4,8 @@ class BreedersGenderModel {
   BreedersGenderModel({
     required this.maleBreeders,
     required this.femaleBreeders,
-    required this.maleBreedersNames,
-    required this.femaleBreedersNames,
   });
 
   final List<BreederEntryModel> maleBreeders;
   final List<BreederEntryModel> femaleBreeders;
-  final List<String> maleBreedersNames;
-  final List<String> femaleBreedersNames;
 }

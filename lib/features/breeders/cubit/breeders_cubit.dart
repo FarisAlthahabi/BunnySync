@@ -6,6 +6,7 @@ import 'package:bunny_sync/features/breeders/models/breeders_model/fake_breeders
 import 'package:bunny_sync/features/breeders/models/breeders_status_model/breeder_status_model.dart';
 import 'package:bunny_sync/features/breeders/repo/breeders_repo.dart';
 import 'package:bunny_sync/global/localization/translations.i18n.dart';
+import 'package:bunny_sync/global/utils/enums/gender_types_enum.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
@@ -21,21 +22,9 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
 
   final BreedersRepo _breedersRepo;
 
-  List<BreederEntryModel> activeBreeders = [];
-
-  List<BreederEntryModel> inactiveBreeders = [];
-
   List<BreederEntryModel> allBreeders = [];
 
-  List<BreederEntryModel> maleBreeders = [];
-
-  List<BreederEntryModel> femaleBreeders = [];
-
   List<BreederEntryModel> searchedBreeders = [];
-
-  List<String> maleBreedersNames = [];
-
-  List<String> femaleBreedersNames = [];
 
   late BreedersStatusModel breedersStatusModel;
 
@@ -43,11 +32,19 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
 
   late BreedersStatusModel initailBreeders;
 
-  late BreederEntryModel breederEntryModel;
+  List<BreederEntryModel> get activeBreeders =>
+      allBreeders.where((element) => element.isActive).toList();
 
-  late int? littersCount;
+  List<BreederEntryModel> get inactiveBreeders =>
+      allBreeders.where((element) => !element.isActive).toList();
 
-  late int? kitsCount;
+  List<BreederEntryModel> get maleBreeders => allBreeders
+      .where((element) => element.gender == GenderTypes.male)
+      .toList();
+
+  List<BreederEntryModel> get femaleBreeders => allBreeders
+      .where((element) => element.gender == GenderTypes.female)
+      .toList();
 
   // void setLittersCount(int? littersCount) {
   //   breederEntryModel = breederEntryModel.copyWith(
@@ -66,16 +63,7 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
     try {
       final response = await _breedersRepo.getBreeders();
 
-      activeBreeders = [];
-      inactiveBreeders = [];
       allBreeders = response.breeders;
-      for (final element in allBreeders) {
-        if (element.status == 'active') {
-          activeBreeders.add(element);
-        } else if (element.status == 'inactive') {
-          inactiveBreeders.add(element);
-        }
-      }
 
       breedersStatusModel = BreedersStatusModel(
         all: allBreeders,
@@ -128,20 +116,6 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
   }
 
   void updateBreeder(BreederEntryModel breederEntryModel) {
-    activeBreeders = activeBreeders.map((e) {
-      if (e.id == breederEntryModel.id) {
-        return breederEntryModel;
-      }
-      return e;
-    }).toList();
-
-    inactiveBreeders = inactiveBreeders.map((e) {
-      if (e.id == breederEntryModel.id) {
-        return breederEntryModel;
-      }
-      return e;
-    }).toList();
-
     allBreeders = allBreeders.map((e) {
       if (e.id == breederEntryModel.id) {
         return breederEntryModel;
@@ -170,72 +144,6 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
   }
 
   void addLitter(AddLitterModel addLitterModel) {
-    activeBreeders = activeBreeders.map((e) {
-      breederEntryModel = e;
-      if (e.id == addLitterModel.maleBreederId ||
-          e.id == addLitterModel.femaleBreederId) {
-        littersCount = e.litters;
-        kitsCount = e.kits;
-        // setLittersCount(littersCount = littersCount! + 1);
-        // setkitsCount(
-        //   kitsCount =
-        //       kitsCount! + addLitterModel.liveKits + addLitterModel.liveKits,
-        // );
-      }
-      return breederEntryModel;
-    }).toList();
-
-    inactiveBreeders = inactiveBreeders.map((e) {
-      breederEntryModel = e;
-      if (e.id == addLitterModel.maleBreederId ||
-          e.id == addLitterModel.femaleBreederId) {
-        littersCount = e.litters;
-        kitsCount = e.kits;
-        // setLittersCount(littersCount = littersCount! + 1);
-        // setkitsCount(
-        //   kitsCount =
-        //       kitsCount! + addLitterModel.liveKits + addLitterModel.liveKits,
-        // );
-      }
-      return breederEntryModel;
-    }).toList();
-
-    allBreeders = allBreeders.map((e) {
-      breederEntryModel = e;
-      if (e.id == addLitterModel.maleBreederId ||
-          e.id == addLitterModel.femaleBreederId) {
-        littersCount = e.litters;
-        kitsCount = e.kits;
-        // setLittersCount(littersCount = littersCount! + 1);
-        // setkitsCount(
-        //   kitsCount =
-        //       kitsCount! + addLitterModel.liveKits + addLitterModel.liveKits,
-        // );
-      }
-      return breederEntryModel;
-    }).toList();
-
-    breedersStatusModel = BreedersStatusModel(
-      all: allBreeders,
-      active: activeBreeders,
-      inactive: inactiveBreeders,
-    );
-
-    searchedBreeders = searchedBreeders.map((e) {
-      breederEntryModel = e;
-      if (e.id == addLitterModel.maleBreederId ||
-          e.id == addLitterModel.femaleBreederId) {
-        littersCount = e.litters;
-        kitsCount = e.kits;
-        // setLittersCount(littersCount = littersCount! + 1);
-        // setkitsCount(
-        //   kitsCount =
-        //       kitsCount! + addLitterModel.liveKits + addLitterModel.liveKits,
-        // );
-      }
-      return breederEntryModel;
-    }).toList();
-
     if (state is SearchBreederSuccess) {
       emit(SearchBreederSuccess(searchedBreeders));
     } else if (state is BreedersSuccess) {
@@ -244,10 +152,6 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
   }
 
   void deleteBreeder(int breederId) {
-    activeBreeders =
-        activeBreeders.where((element) => element.id != breederId).toList();
-    inactiveBreeders =
-        inactiveBreeders.where((element) => element.id != breederId).toList();
     allBreeders =
         allBreeders.where((element) => element.id != breederId).toList();
     breedersStatusModel = BreedersStatusModel(
@@ -271,24 +175,10 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
     try {
       final response = await _breedersRepo.getBreeders();
 
-      maleBreeders = [];
-      femaleBreeders = [];
-      femaleBreedersNames = [];
-      maleBreedersNames = [];
       allBreeders = response.breeders;
-      for (final element in allBreeders) {
-        if (element.gender == GenderTypes.male) {
-          maleBreedersNames.add(element.name);
-          maleBreeders.add(element);
-        } else if (element.gender == GenderTypes.female) {
-          femaleBreedersNames.add(element.name);
-          femaleBreeders.add(element);
-        }
-      }
+
       breedersGenderModel = BreedersGenderModel(
-        maleBreedersNames: maleBreedersNames,
         maleBreeders: maleBreeders,
-        femaleBreedersNames: femaleBreedersNames,
         femaleBreeders: femaleBreeders,
       );
 

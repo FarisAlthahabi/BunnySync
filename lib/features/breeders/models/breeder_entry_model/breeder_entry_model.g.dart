@@ -15,13 +15,11 @@ BreederEntryModel _$BreederEntryModelFromJson(Map<String, dynamic> json) =>
       updatedAt: DateTime.parse(json['updated_at'] as String),
       createdAt: DateTime.parse(json['created_at'] as String),
       gender: $enumDecode(_$GenderTypesEnumMap, json['gender']),
-      isActive: JsonUtils.readValue(json, 'isActive') == null
-          ? true
-          : BreederEntryModel.isActiveFromJson(
-              JsonUtils.readValue(json, 'isActive') as Map<String, dynamic>),
+      isActive: BreederEntryModel.isActiveFromJson(
+          JsonUtils.readValue(json, 'isActive') as Map<String, dynamic>),
       weight: json['weight'] as String?,
-      litters: json['litters'] as String?,
-      kits: json['kits'] as String?,
+      litters: const StringConverter().fromJson(json['litters']),
+      kits: const StringConverter().fromJson(json['kits']),
       age: json['age'] as String?,
       status: json['status'] as String?,
       photo: json['photo'] as String?,
@@ -51,8 +49,10 @@ Map<String, dynamic> _$BreederEntryModelToJson(BreederEntryModel instance) =>
       'breed': instance.breed,
       'category_breeder_id': instance.categoryBreederId,
       'weight': instance.weight,
-      'litters': instance.litters,
-      'kits': instance.kits,
+      'litters': _$JsonConverterToJson<dynamic, String>(
+          instance.litters, const StringConverter().toJson),
+      'kits': _$JsonConverterToJson<dynamic, String>(
+          instance.kits, const StringConverter().toJson),
       'age': instance.age,
       'status': instance.status,
       'photo': instance.photo,
@@ -63,3 +63,9 @@ const _$GenderTypesEnumMap = {
   GenderTypes.male: 'male',
   GenderTypes.female: 'female',
 };
+
+Json? _$JsonConverterToJson<Json, Value>(
+  Value? value,
+  Json? Function(Value value) toJson,
+) =>
+    value == null ? null : toJson(value);
