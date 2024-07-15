@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bunny_sync/global/utils/bunny_sync_json_utils.dart';
+import 'package:bunny_sync/global/utils/json_converters/string_converter.dart';
 import 'package:bunny_sync/global/utils/json_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -16,11 +17,8 @@ class LitterEntryModel {
     required this.breedPairId,
     required this.litterId,
     required this.type,
-    required this.prefix,
     required this.breed,
     required this.born,
-    required this.cage,
-    required this.breedText,
     required this.status,
     required this.createdAt,
     required this.updatedAt,
@@ -35,6 +33,9 @@ class LitterEntryModel {
     required this.sold,
     required this.dtRowIndex,
     required this.isActive,
+    this.prefix,
+    this.cage,
+    this.breedText,
     this.note,
     this.tatto,
   });
@@ -58,7 +59,7 @@ class LitterEntryModel {
 
   final String type;
 
-  final String prefix;
+  final String? prefix;
 
   final String? tatto;
 
@@ -66,10 +67,10 @@ class LitterEntryModel {
 
   final String born;
 
-  final String cage;
+  final String? cage;
 
   @JsonKey(name: 'breed_text')
-  final String breedText;
+  final String? breedText;
 
   final String status;
 
@@ -99,6 +100,7 @@ class LitterEntryModel {
 
   final int dead;
 
+  @StringConverter()
   final String sold;
 
   @JsonKey(name: 'DT_RowIndex')
