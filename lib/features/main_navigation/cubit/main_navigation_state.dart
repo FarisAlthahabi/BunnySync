@@ -16,3 +16,9 @@ final class BreederUpdated extends MainNavigationState {
 
   final BreederEntryModel breederEntryModel;
 }
+
+final class BreederDeleted extends MainNavigationState {
+  BreederDeleted(this.breederEntryModel);
+
+  final BreederEntryModel breederEntryModel;
+}

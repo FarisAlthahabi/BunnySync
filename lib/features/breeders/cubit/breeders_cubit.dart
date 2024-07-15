@@ -139,7 +139,7 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
     }
   }
 
-  void deleteBreederLocally(int breederId) {
+  void deleteBreeder(int breederId) {
     activeBreeders =
         activeBreeders.where((element) => element.id != breederId).toList();
     inactiveBreeders =

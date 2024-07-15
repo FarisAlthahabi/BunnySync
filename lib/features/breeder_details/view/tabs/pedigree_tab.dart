@@ -39,6 +39,7 @@ class _PedigreeTabState extends State<PedigreeTab>
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BreederDetailsCubit, GeneralBreederDetailsState>(
+      buildWhen: (prev, curr) => curr is BreederPedigreeState,
       builder: (context, state) {
         if (state is BreederPedigreeFetch) {
           final rabbitProperties = [

@@ -19,7 +19,8 @@ class DeleteBreederCubit extends Cubit<GeneralDeleteBreederState> {
   Future<void> deleteBreeder(BreederEntryModel breederEntryModel) async {
     emit(DeleteBreederLoading());
     try {
-      await _deleteBreederRepo.deleteBreeder(breederEntryModel.id);
+      //TODO
+      // await _deleteBreederRepo.deleteBreeder(breederEntryModel.id);
       emit(DeleteBreederSuccess(breeder: breederEntryModel));
     } catch (e, s) {
       addError(e, s);

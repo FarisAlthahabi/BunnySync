@@ -239,13 +239,15 @@ class _BreedersPageState extends State<BreedersPage>
               breedersCubit.addBreeder(state.breederEntryModel);
             } else if (state is BreederUpdated) {
               breedersCubit.updateBreeder(state.breederEntryModel);
+            } else if (state is BreederDeleted) {
+              breedersCubit.deleteBreeder(state.breederEntryModel.id);
             }
           },
         ),
         BlocListener<DeleteBreederCubit, GeneralDeleteBreederState>(
           listener: (context, state) {
             if (state is DeleteBreederSuccess) {
-              breedersCubit.deleteBreederLocally(state.breeder.id);
+              breedersCubit.deleteBreeder(state.breeder.id);
               MainSnackBar.showSuccessMessageBar(
                 context,
                 'breeder_deleted'.i18n,

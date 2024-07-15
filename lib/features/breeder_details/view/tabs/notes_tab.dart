@@ -44,6 +44,7 @@ class _NotesTabState extends State<NotesTab>
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BreederDetailsCubit, GeneralBreederDetailsState>(
+      buildWhen: (prev, curr) => curr is BreederNotesState,
       builder: (context, state) {
         if (state is BreederNotesFetch) {
           final rabbitProperties = [
