@@ -79,9 +79,6 @@ class AddLitterView extends StatelessWidget {
           create: (context) => get<AddLitterCubit>(),
         ),
         BlocProvider(
-          create: (context) => get<MainNavigationCubit>(),
-        ),
-        BlocProvider(
           create: (context) => get<BreedersCubit>(),
         ),
       ],
