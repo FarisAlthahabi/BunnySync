@@ -51,7 +51,7 @@ class LitterDetailsModel {
 
   final String prefix;
 
-  final String tatto;
+  final String? tatto;
 
   @JsonKey(name: 'breed')
   final DateTime breedDate;

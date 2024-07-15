@@ -15,10 +15,10 @@ class LitterDetailsResponseModel {
     required this.fosterKits,
     required this.age,
     required this.totalWeight,
-    this.averegeWeight,
     required this.activeLittersCount,
     required this.diedLittersCount,
     required this.survivalRate,
+    this.averegeWeight,
   });
 
   factory LitterDetailsResponseModel.fromJsonStr(String str) =>

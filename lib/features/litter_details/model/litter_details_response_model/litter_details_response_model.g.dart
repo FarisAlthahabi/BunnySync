@@ -16,10 +16,10 @@ LitterDetailsResponseModel _$LitterDetailsResponseModelFromJson(
           .toList(),
       age: json['age'] as String,
       totalWeight: (json['totalWeight'] as num).toDouble(),
-      averegeWeight: (json['averegeWeight'] as num?)?.toDouble(),
       activeLittersCount: (json['getStatusActive'] as num).toInt(),
       diedLittersCount: (json['getStatusDied'] as num).toInt(),
       survivalRate: (json['survivalRate'] as num).toInt(),
+      averegeWeight: (json['averegeWeight'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$LitterDetailsResponseModelToJson(
