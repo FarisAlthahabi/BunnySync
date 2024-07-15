@@ -10,7 +10,7 @@ import 'package:bunny_sync/features/home/view/home_view.dart';
 import 'package:bunny_sync/features/intro/view/intro_router.dart';
 import 'package:bunny_sync/features/intro/view/intro_view.dart';
 import 'package:bunny_sync/features/litter_details/view/litter_details_view.dart';
-import 'package:bunny_sync/features/litters/models/litter_model.dart';
+import 'package:bunny_sync/features/litters/models/litter_entry_model/litter_entry_model.dart';
 import 'package:bunny_sync/features/litters/view/litters_view.dart';
 import 'package:bunny_sync/features/main_navigation/view/main_navigation_view.dart';
 import 'package:bunny_sync/features/select_subscription_plan/view/select_subscription_plan_view.dart';
@@ -77,9 +77,6 @@ class AppRouter extends _$AppRouter {
                 ),
                 AutoRoute(
                   page: AddBreederRoute.page,
-                ),
-                AutoRoute(
-                  page: AddLitterRoute.page,
                 ),
               ],
             ),

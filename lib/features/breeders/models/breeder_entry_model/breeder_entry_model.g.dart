@@ -15,7 +15,7 @@ BreederEntryModel _$BreederEntryModelFromJson(Map<String, dynamic> json) =>
       updatedAt: DateTime.parse(json['updated_at'] as String),
       createdAt: DateTime.parse(json['created_at'] as String),
       gender: $enumDecode(_$GenderTypesEnumMap, json['gender']),
-      isActive: BreederEntryModel.isActiveFromJson(
+      isActive: BunnySyncJsonUtils.isActiveFromJson(
           JsonUtils.readValue(json, 'isActive') as Map<String, dynamic>),
       weight: json['weight'] as String?,
       litters: const StringConverter().fromJson(json['litters']),

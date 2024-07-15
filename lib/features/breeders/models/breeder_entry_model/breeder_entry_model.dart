@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bunny_sync/global/utils/bunny_sync_json_utils.dart';
 import 'package:bunny_sync/global/utils/enums/gender_types_enum.dart';
 import 'package:bunny_sync/global/utils/json_converters/string_converter.dart';
 import 'package:bunny_sync/global/utils/json_utils.dart';
@@ -59,7 +60,10 @@ class BreederEntryModel extends Equatable {
 
   final GenderTypes gender;
 
-  @JsonKey(fromJson: isActiveFromJson, readValue: JsonUtils.readValue)
+  @JsonKey(
+    fromJson: BunnySyncJsonUtils.isActiveFromJson,
+    readValue: JsonUtils.readValue,
+  )
   final bool isActive;
 
   final String? prefix;
@@ -172,8 +176,4 @@ class BreederEntryModel extends Equatable {
 
   @override
   List<Object?> get props => [id];
-
-  static bool isActiveFromJson(Map<String, dynamic> json) {
-    return json['status'] == 'active';
-  }
 }

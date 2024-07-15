@@ -1,9 +1,11 @@
-import 'package:bunny_sync/features/litters/models/litter_model.dart';
+import 'package:bunny_sync/features/litters/models/litter_entry_model/litter_entry_model.dart';
 import 'package:bunny_sync/global/gen/assets.gen.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
+import 'package:bunny_sync/global/utils/enums/gender_types_enum.dart';
 import 'package:bunny_sync/global/widgets/breeder_image_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class LitterProfileInfoWidget extends StatelessWidget {
   const LitterProfileInfoWidget({
@@ -12,7 +14,7 @@ class LitterProfileInfoWidget extends StatelessWidget {
     this.paddingTop,
   });
 
-  final LitterModel litter;
+  final LitterEntryModel litter;
   final double? paddingTop;
 
   @override
@@ -28,20 +30,23 @@ class LitterProfileInfoWidget extends StatelessWidget {
           ),
           Column(
             children: [
-              const BreederImageWidget(
-                size: 50,
+              const Skeleton.shade(
+                child: BreederImageWidget(
+                  gender: GenderTypes.male,
+                  size: 50,
+                ),
               ),
               const SizedBox(
                 height: 4,
               ),
               Text(
-                litter.parents[0].name,
+                litter.buck,
                 style: context.tt.titleSmall
                     ?.copyWith(fontWeight: FontWeight.w400),
               ),
               const SizedBox(height: 6),
               Text(
-                '${'id'.i18n}: ${litter.parents[0].id} | ${'prefix'.i18n}: ${litter.parents[0].prefix}',
+                '${'id'.i18n}: ${litter.id} | ${'prefix'.i18n}: ${litter.prefix}',
                 style: context.tt.bodyMedium,
               ),
             ],
@@ -51,25 +56,30 @@ class LitterProfileInfoWidget extends StatelessWidget {
               const SizedBox(
                 height: 25,
               ),
-              Assets.icons.family.svg(),
+              Skeleton.shade(
+                child: Assets.icons.family.svg(),
+              ),
             ],
           ),
           Column(
             children: [
-              const BreederImageWidget(
-                size: 50,
+              const Skeleton.shade(
+                child: BreederImageWidget(
+                  gender: GenderTypes.female,
+                  size: 50,
+                ),
               ),
               const SizedBox(
                 height: 4,
               ),
               Text(
-                litter.parents[0].name,
+                litter.doe,
                 style: context.tt.titleSmall
                     ?.copyWith(fontWeight: FontWeight.w400),
               ),
               const SizedBox(height: 6),
               Text(
-                '${'id'.i18n}: ${litter.parents[0].id} | ${'prefix'.i18n}: ${litter.parents[0].prefix}',
+                '${'id'.i18n}: ${litter.id} | ${'prefix'.i18n}: ${litter.prefix}',
                 style: context.tt.bodyMedium,
               ),
             ],

@@ -2,7 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/breeder_details/view/widgets/details_tab_bar.dart';
 import 'package:bunny_sync/features/litter_details/view/widgets/litter_details_tile.dart';
 import 'package:bunny_sync/features/litter_details/view/widgets/litter_profile_info_widget.dart';
-import 'package:bunny_sync/features/litters/models/litter_model.dart';
+import 'package:bunny_sync/features/litters/models/litter_entry_model/litter_entry_model.dart';
+import 'package:bunny_sync/features/litters/models/litter_model_local.dart';
+import 'package:bunny_sync/global/gen/assets.gen.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/models/rabbit_property_model.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
@@ -22,7 +24,7 @@ class LitterDetailsView extends StatelessWidget {
     required this.litter,
   });
 
-  final LitterModel litter;
+  final LitterEntryModel litter;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,7 @@ class LitterDetailsPage extends StatelessWidget
   @override
   void onMoreOptionsTap() {}
 
-  final LitterModel litter;
+  final LitterEntryModel litter;
 
   List<TabModel> get tabs => [
         TabModel(title: 'kits'.i18n),
@@ -54,6 +56,43 @@ class LitterDetailsPage extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
+    final properties = [
+      RabbitPropertyModel(
+        title: 'Total',
+        value: '10',
+      ),
+      RabbitPropertyModel(
+        title: 'Kits',
+        value: litter.kits.toString(),
+      ),
+      RabbitPropertyModel(
+        title: 'Age',
+        value: litter.age,
+      ),
+      RabbitPropertyModel(
+        title: 'Average',
+        value: 'average',
+      ),
+      RabbitPropertyModel(
+        title: 'Born',
+        value: litter.born,
+      ),
+      RabbitPropertyModel(
+        title: 'Died',
+        value: litter.dead.toString(),
+      ),
+    ];
+    final kids = [
+      KidModel(image: Assets.icons.logo.path, id: '1'),
+      KidModel(image: Assets.icons.logo.path, id: '1'),
+      KidModel(
+        image: Assets.icons.logo.path,
+        id: '1',
+        subTitle: 'Some important text if we want',
+      ),
+      KidModel(image: Assets.icons.logo.path, id: '1'),
+      KidModel(image: Assets.icons.logo.path, id: '1'),
+    ];
     return DefaultTabController(
       length: tabs.length,
       child: Scaffold(
@@ -100,9 +139,9 @@ class LitterDetailsPage extends StatelessWidget
                                   horizontal: 16,
                                 ),
                                 child: InfoPropertiesWidget(
-                                  properties: litter.properties,
+                                  properties: properties,
                                   propertyStructures: List.generate(
-                                    litter.properties.length,
+                                    properties.length,
                                     (index) {
                                       return PropertyStructure(
                                         mainAxisCellCount: 2.2,
@@ -122,7 +161,7 @@ class LitterDetailsPage extends StatelessWidget
                                 child: ListView.builder(
                                   physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
-                                  itemCount: litter.kids.length,
+                                  itemCount: kids.length,
                                   itemBuilder: (context, index) {
                                     Color tileColor;
                                     if (index.isEven) {
@@ -131,10 +170,10 @@ class LitterDetailsPage extends StatelessWidget
                                       tileColor = AppColors.greyShade8;
                                     }
                                     return LitterDetailsTile(
-                                      subTitle: litter.kids[index].subTitle,
+                                      subTitle: kids[index].subTitle,
                                       rabbitProperty: RabbitPropertyModel(
-                                        title: litter.kids[index].image,
-                                        value: litter.kids[index].id,
+                                        title: kids[index].image,
+                                        value: kids[index].id,
                                       ),
                                       tileColor: tileColor,
                                     );

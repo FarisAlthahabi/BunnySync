@@ -305,7 +305,7 @@ class IntroRoute extends PageRouteInfo<void> {
 class LitterDetailsRoute extends PageRouteInfo<LitterDetailsRouteArgs> {
   LitterDetailsRoute({
     Key? key,
-    required LitterModel litter,
+    required LitterEntryModel litter,
     List<PageRouteInfo>? children,
   }) : super(
           LitterDetailsRoute.name,
@@ -330,7 +330,7 @@ class LitterDetailsRouteArgs {
 
   final Key? key;
 
-  final LitterModel litter;
+  final LitterEntryModel litter;
 
   @override
   String toString() {
