@@ -25,27 +25,21 @@ class LittersListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return AnimationLimiter(
-      child: RefreshIndicator(
-        onRefresh: () async {
-          //TODO: NOW
-          context.read<LittersCubit>().getLitters();
+      child: ListView.separated(
+        controller: controller,
+        shrinkWrap: true,
+        padding: padding,
+        itemCount: litters.length,
+        itemBuilder: (context, index) {
+          return IndexedListSlideFadeAnimatedTile(
+            index: index,
+            child: LitterTile(
+              litter: litters[index],
+              onTap: onLitterTap,
+            ),
+          );
         },
-        child: ListView.separated(
-          controller: controller,
-          shrinkWrap: true,
-          padding: padding,
-          itemCount: litters.length,
-          itemBuilder: (context, index) {
-            return IndexedListSlideFadeAnimatedTile(
-              index: index,
-              child: LitterTile(
-                litter: litters[index],
-                onTap: onLitterTap,
-              ),
-            );
-          },
-          separatorBuilder: (context, index) => const SizedBox(height: 16),
-        ),
+        separatorBuilder: (context, index) => const SizedBox(height: 16),
       ),
     );
   }
