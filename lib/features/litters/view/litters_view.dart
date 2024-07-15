@@ -142,7 +142,9 @@ class _LittersPageState extends State<LittersPage>
                         ),
                       );
                     }
-                    return const SizedBox.shrink();
+                    return const SliverToBoxAdapter(
+                      child: SizedBox.shrink(),
+                    );
                   },
                 ),
                 SliverFillRemaining(
@@ -180,7 +182,7 @@ class _LittersPageState extends State<LittersPage>
                             ],
                           ),
                         );
-                      } else if (state is LittersEmpty) {
+                      } else if (state is LittersFail) {
                         return MainErrorWidget(error: state.message);
                       }
 
