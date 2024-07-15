@@ -15,8 +15,6 @@ BreederEntryModel _$BreederEntryModelFromJson(Map<String, dynamic> json) =>
       updatedAt: DateTime.parse(json['updated_at'] as String),
       createdAt: DateTime.parse(json['created_at'] as String),
       gender: $enumDecode(_$GenderTypesEnumMap, json['gender']),
-      isActive: BunnySyncJsonUtils.isActiveFromJson(
-          JsonUtils.readValue(json, 'isActive') as Map<String, dynamic>),
       weight: json['weight'] as String?,
       litters: const StringConverter().fromJson(json['litters']),
       kits: const StringConverter().fromJson(json['kits']),
@@ -30,6 +28,7 @@ BreederEntryModel _$BreederEntryModelFromJson(Map<String, dynamic> json) =>
       tatto: json['tatto'] as String?,
       breed: json['breed'] as String?,
       categoryBreederId: (json['category_breeder_id'] as num?)?.toInt(),
+      isActive: json['isActive'] as bool?,
     );
 
 Map<String, dynamic> _$BreederEntryModelToJson(BreederEntryModel instance) =>
@@ -41,7 +40,6 @@ Map<String, dynamic> _$BreederEntryModelToJson(BreederEntryModel instance) =>
       'updated_at': instance.updatedAt.toIso8601String(),
       'created_at': instance.createdAt.toIso8601String(),
       'gender': _$GenderTypesEnumMap[instance.gender]!,
-      'isActive': instance.isActive,
       'prefix': instance.prefix,
       'cage': instance.cage,
       'color': instance.color,
@@ -57,6 +55,7 @@ Map<String, dynamic> _$BreederEntryModelToJson(BreederEntryModel instance) =>
       'status': instance.status,
       'photo': instance.photo,
       'DT_RowIndex': instance.dtRowIndex,
+      'isActive': instance.isActive,
     };
 
 const _$GenderTypesEnumMap = {
