@@ -313,7 +313,7 @@ class _AddBreederPageState extends State<AddBreederPage>
                       focusNode: weightFocusNode,
                       hintText: "35",
                       labelText: "weight".i18n,
-                      keyboardType: TextInputType.number,
+                      keyboardType: TextInputType.text,
                     ),
                     const SizedBox(
                       height: 25,
