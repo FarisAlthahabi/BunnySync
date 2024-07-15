@@ -49,7 +49,7 @@ class LitterDetailsModel {
 
   final String type;
 
-  final String prefix;
+  final String? prefix;
 
   final String? tatto;
 
