@@ -28,19 +28,21 @@ import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_
 import 'package:bunny_sync/features/breeders/repo/breeders_repo.dart' as _i6;
 import 'package:bunny_sync/features/dashboard/cubit/dashboard_cubit.dart'
     as _i7;
+import 'package:bunny_sync/features/litter_details/cubit/litter_details_cubit.dart'
+    as _i26;
 import 'package:bunny_sync/features/litter_details/repo/litter_details_repo.dart'
     as _i11;
-import 'package:bunny_sync/features/litters/cubit/litters_cubit.dart' as _i26;
+import 'package:bunny_sync/features/litters/cubit/litters_cubit.dart' as _i27;
 import 'package:bunny_sync/features/litters/repo/litters_repo.dart' as _i12;
 import 'package:bunny_sync/features/main_navigation/cubit/main_navigation_cubit.dart'
     as _i14;
-import 'package:bunny_sync/features/sign_in/cubit/sign_in_cubit.dart' as _i27;
+import 'package:bunny_sync/features/sign_in/cubit/sign_in_cubit.dart' as _i28;
 import 'package:bunny_sync/features/sign_in/repo/sign_in_repo.dart' as _i16;
 import 'package:bunny_sync/global/blocs/delete_breeder_cubit/delete_breeder_cubit.dart'
     as _i25;
 import 'package:bunny_sync/global/blocs/permissions_cubit/permissions_cubit.dart'
     as _i15;
-import 'package:bunny_sync/global/di/modules/app_module.dart' as _i28;
+import 'package:bunny_sync/global/di/modules/app_module.dart' as _i29;
 import 'package:bunny_sync/global/dio/dio_client.dart' as _i9;
 import 'package:bunny_sync/global/localization/cubit/localization_cubit.dart'
     as _i13;
@@ -111,9 +113,11 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i24.BreedersCubit(gh<_i6.BreedersRepo>()));
     gh.factory<_i25.DeleteBreederCubit>(
         () => _i25.DeleteBreederCubit(gh<_i8.DeleteBreederRepo>()));
-    gh.factory<_i26.LittersCubit>(
-        () => _i26.LittersCubit(gh<_i12.LittersRepo>()));
-    gh.factory<_i27.SignInCubit>(() => _i27.SignInCubit(
+    gh.factory<_i26.LitterDetailsCubit>(
+        () => _i26.LitterDetailsCubit(gh<_i11.LitterDetailsRepo>()));
+    gh.factory<_i27.LittersCubit>(
+        () => _i27.LittersCubit(gh<_i12.LittersRepo>()));
+    gh.factory<_i28.SignInCubit>(() => _i28.SignInCubit(
           gh<_i16.SignInRepo>(),
           gh<_i20.AuthenticationBloc>(),
         ));
@@ -121,4 +125,4 @@ extension GetItInjectableX on _i1.GetIt {
   }
 }
 
-class _$AppModule extends _i28.AppModule {}
+class _$AppModule extends _i29.AppModule {}

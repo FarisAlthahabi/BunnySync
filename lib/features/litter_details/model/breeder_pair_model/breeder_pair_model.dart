@@ -41,7 +41,7 @@ class BreederPairModel {
 
   final String type;
 
-  final String date;
+  final DateTime date;
 
   @JsonKey(name: 'created_at')
   final DateTime createdAt;

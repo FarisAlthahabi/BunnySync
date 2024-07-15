@@ -13,7 +13,7 @@ BreederPairModel _$BreederPairModelFromJson(Map<String, dynamic> json) =>
       femailBreederId: (json['female_id'] as num).toInt(),
       mailBreederId: (json['male_id'] as num).toInt(),
       type: json['type'] as String,
-      date: json['date'] as String,
+      date: DateTime.parse(json['date'] as String),
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
       maleBreeder:
@@ -29,7 +29,7 @@ Map<String, dynamic> _$BreederPairModelToJson(BreederPairModel instance) =>
       'female_id': instance.femailBreederId,
       'male_id': instance.mailBreederId,
       'type': instance.type,
-      'date': instance.date,
+      'date': instance.date.toIso8601String(),
       'created_at': instance.createdAt.toIso8601String(),
       'updated_at': instance.updatedAt.toIso8601String(),
       'male': instance.maleBreeder,
