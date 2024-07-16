@@ -126,5 +126,6 @@
   "select_female_breeder": "Select Female Breeder",
   "live_kits_count_error": "Live kits count can't be less than 1",
   "total_kits_count_error": "Total kits count can't be more than 25",
-  "litters_empty": "There are no litters"
+  "litters_empty": "There are no litters",
+  "images_empty" : "There are no images"
 }

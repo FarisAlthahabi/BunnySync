@@ -10,15 +10,13 @@ import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/buttons/main_action_button.dart';
 import 'package:bunny_sync/global/widgets/loading_indicator.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
+import 'package:bunny_sync/global/widgets/main_date_picker.dart';
 import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:bunny_sync/global/widgets/main_text_field.dart';
 import 'package:collection/collection.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_holo_date_picker/date_picker_theme.dart';
-import 'package:flutter_holo_date_picker/widget/date_picker_widget.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 abstract class AddLitterViewCallBack {
@@ -475,25 +473,8 @@ class _AddLitterPageState extends State<AddLitterPage>
                                 ),
                                 const SizedBox(height: 10),
                                 Center(
-                                  child: SizedBox(
-                                    width: 0.7.sw,
-                                    child: DatePickerWidget(
-                                      looping: true,
-                                      dateFormat: "dd/MMM/yyyy",
-                                      onChange: onBreedDateSelected,
-                                      pickerTheme: DateTimePickerTheme(
-                                        itemTextStyle:
-                                            context.tt.bodyLarge?.copyWith(
-                                                  fontSize: 18,
-                                                  color: context
-                                                      .cs.secondaryContainer,
-                                                  fontWeight: FontWeight.w700,
-                                                ) ??
-                                                const TextStyle(),
-                                        dividerColor:
-                                            context.cs.secondaryContainer,
-                                      ),
-                                    ),
+                                  child: MainDatePicker(
+                                    onChange: onBreedDateSelected,
                                   ),
                                 ),
                                 const SizedBox(
@@ -508,25 +489,8 @@ class _AddLitterPageState extends State<AddLitterPage>
                                 ),
                                 const SizedBox(height: 10),
                                 Center(
-                                  child: SizedBox(
-                                    width: 0.7.sw,
-                                    child: DatePickerWidget(
-                                      looping: true,
-                                      dateFormat: "dd/MMM/yyyy",
-                                      onChange: onBornDateSelected,
-                                      pickerTheme: DateTimePickerTheme(
-                                        itemTextStyle:
-                                            context.tt.bodyLarge?.copyWith(
-                                                  fontSize: 18,
-                                                  color: context
-                                                      .cs.secondaryContainer,
-                                                  fontWeight: FontWeight.w700,
-                                                ) ??
-                                                const TextStyle(),
-                                        dividerColor:
-                                            context.cs.secondaryContainer,
-                                      ),
-                                    ),
+                                  child: MainDatePicker(
+                                    onChange: onBornDateSelected,
                                   ),
                                 ),
                                 const SizedBox(
@@ -552,8 +516,7 @@ class _AddLitterPageState extends State<AddLitterPage>
                               GeneralAddLitterState>(
                             listener: (context, state) {
                               if (state is AddLitterSuccess) {
-                                mainNavigationCubit
-                                    .addLitter();
+                                mainNavigationCubit.addLitter();
                                 MainSnackBar.showSuccessMessageBar(
                                   context,
                                   "litter_added".i18n,

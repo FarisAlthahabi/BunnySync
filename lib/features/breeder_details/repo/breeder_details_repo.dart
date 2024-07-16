@@ -15,4 +15,6 @@ abstract class BreederDetailsRepo {
   Future<ResponseModel<PedigreeModel>> getBreederPedigree(int id);
 
   Future<List<BreederNoteModel>> getBreederNotes(int id);
+
+  Future<List<dynamic>> getBreederImages(int id);
 }

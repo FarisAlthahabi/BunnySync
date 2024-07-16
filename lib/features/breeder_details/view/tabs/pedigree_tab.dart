@@ -14,8 +14,14 @@ abstract class PedigreeTabCallbacks {
 }
 
 class PedigreeTab extends StatefulWidget {
-  const PedigreeTab({super.key, required this.breederId});
+  const PedigreeTab({
+    super.key,
+    required this.breederId,
+    this.controller,
+  });
+
   final int breederId;
+  final ScrollController? controller;
 
   @override
   State<PedigreeTab> createState() => _PedigreeTabState();
@@ -52,9 +58,29 @@ class _PedigreeTabState extends State<PedigreeTab>
               value: state.pedigreeModel.color,
             ),
           ];
+          final item = state.pedigreeModel;
+          final rabbitDetailsProperties = [
+            RabbitPropertyModel(
+              title: 'Status',
+              value: item.status.status,
+            ),
+            RabbitPropertyModel(
+              title: 'Cage',
+              value: item.cage,
+            ),
+            RabbitPropertyModel(
+              title: 'Breed',
+              value: item.breed ?? 'breed',
+            ),
+            RabbitPropertyModel(
+              title: 'Color',
+              value: item.color,
+            ),
+          ];
           return Skeletonizer(
             enabled: state is BreederPedigreeLoading,
             child: SingleChildScrollView(
+              controller: widget.controller,
               child: Padding(
                 padding: AppConstants.padding24,
                 child: Column(
@@ -86,27 +112,8 @@ class _PedigreeTabState extends State<PedigreeTab>
                       child: ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: 4,
+                        itemCount: rabbitDetailsProperties.length,
                         itemBuilder: (context, index) {
-                          final item = state.pedigreeModel;
-                          final rabbitDetailsProperties = [
-                            RabbitPropertyModel(
-                              title: 'Status',
-                              value: item.status.status,
-                            ),
-                            RabbitPropertyModel(
-                              title: 'Cage',
-                              value: item.cage,
-                            ),
-                            RabbitPropertyModel(
-                              title: 'Breed',
-                              value: item.breed ?? 'breed',
-                            ),
-                            RabbitPropertyModel(
-                              title: 'Color',
-                              value: item.color,
-                            ),
-                          ];
                           Color tileColor;
                           if (index.isEven) {
                             tileColor = context.cs.surface;
@@ -125,8 +132,7 @@ class _PedigreeTabState extends State<PedigreeTab>
               ),
             ),
           );
-        }
-        else if (state is BreederPedigreeFail) {
+        } else if (state is BreederPedigreeFail) {
           return Scaffold(
             body: Center(
               child: Column(

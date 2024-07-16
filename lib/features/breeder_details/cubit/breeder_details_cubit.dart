@@ -19,6 +19,8 @@ part 'states/breeder_pedigree_state.dart';
 
 part 'states/breeder_profile_state.dart';
 
+part 'states/breeder_images_state.dart';
+
 part 'states/general_breeder_details_state.dart';
 
 @injectable
@@ -73,6 +75,22 @@ class BreederDetailsCubit extends Cubit<GeneralBreederDetailsState> {
     } catch (e, s) {
       addError(e, s);
       emit(BreederNotesFail(e.toString()));
+    }
+  }
+
+  Future<void> getBreederImages(int breederId) async {
+    emit(BreederImagesLoading(breederNotesFake));
+    //
+    try {
+      final response = await _breederDetailsRepo.getBreederImages(breederId);
+      if (response.isEmpty) {
+        emit(BreederImagesEmpty('images_empty'.i18n));
+      } else {
+        //emit(BreederImagesSuccess(response));
+      }
+    } catch (e, s) {
+      addError(e, s);
+      emit(BreederImagesFail(e.toString()));
     }
   }
 

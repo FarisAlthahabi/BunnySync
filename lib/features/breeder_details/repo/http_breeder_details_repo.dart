@@ -76,4 +76,26 @@ class HttpBreederDetailsRepo implements BreederDetailsRepo {
       rethrow;
     }
   }
+  
+  @override
+  Future<List<dynamic>> getBreederImages(int id) async{
+    try {
+      final response = await _dioClient.post(
+        '/breeders/$id/get-images',
+      );
+      //
+      final data = response.data as Map<String, dynamic>;
+      final images = data['data'] as List;
+      return List.generate(
+        images.length,
+        (index) =>
+            BreederNoteModel.fromJson(images[index] as Map<String, dynamic>),
+      );
+    } on Exception catch (e) {
+      if (e is NotFoundException) {
+        throw e.message ?? 'something_went_wrong'.i18n;
+      }
+      rethrow;
+    }
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/breeder_details/cubit/breeder_details_cubit.dart';
+import 'package:bunny_sync/features/breeder_details/view/tabs/images_tab.dart';
 import 'package:bunny_sync/features/breeder_details/view/tabs/notes_tab.dart';
 import 'package:bunny_sync/features/breeder_details/view/tabs/pedigree_tab.dart';
 import 'package:bunny_sync/features/breeder_details/view/tabs/profile_tab.dart';
@@ -11,7 +12,9 @@ import 'package:bunny_sync/features/main_navigation/cubit/main_navigation_cubit.
 import 'package:bunny_sync/global/blocs/delete_breeder_cubit/delete_breeder_cubit.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
+import 'package:bunny_sync/global/mixins/create_scroll_listener_mixin.dart';
 import 'package:bunny_sync/global/router/router.dart';
+import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:bunny_sync/global/widgets/custom_app_bar.dart';
 import 'package:bunny_sync/global/widgets/main_show_bottom_sheet.dart';
@@ -70,6 +73,7 @@ class BreederDetailsPage extends StatefulWidget {
 }
 
 class _BreederDetailsPageState extends State<BreederDetailsPage>
+    with CreateScrollListenerMixin
     implements BreederDetailsViewCallbacks {
   late final BreederDetailsCubit breederDetailsCubit = context.read();
 
@@ -77,19 +81,41 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
 
   late final DeleteBreederCubit deleteBreederCubit = context.read();
 
+  final parentScrollController = ScrollController();
+  final List<ScrollController> childScrollController =
+      List.generate(6, (index) => ScrollController());
+
   List<TabModel> get tabs => [
         TabModel(title: 'profile'.i18n),
         TabModel(title: 'litters'.i18n),
         TabModel(title: 'pedigree'.i18n),
         TabModel(title: 'notes'.i18n),
         TabModel(title: 'tasks'.i18n),
+        TabModel(title: 'images'.i18n),
       ];
 
   @override
   void initState() {
     super.initState();
+    for (final element in childScrollController) {
+      element.addListener(
+        createScrollListener(
+          parent: parentScrollController,
+          child: element,
+        ),
+      );
+    }
 
     breederDetailsCubit.getBreederDetails();
+  }
+
+  @override
+  void dispose() {
+    parentScrollController.dispose();
+    for (final element in childScrollController) {
+      element.dispose();
+    }
+    super.dispose();
   }
 
   @override
@@ -173,6 +199,7 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
           child: Scaffold(
             body: SafeArea(
               child: CustomScrollView(
+                controller: parentScrollController,
                 physics: const NeverScrollableScrollPhysics(),
                 slivers: [
                   BlocBuilder<BreederDetailsCubit, GeneralBreederDetailsState>(
@@ -218,11 +245,31 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
                   SliverFillRemaining(
                     child: TabBarView(
                       children: [
-                        ProfileTab(breederId: widget.breederEntryModel.id),
+                        ProfileTab(
+                          breederId: widget.breederEntryModel.id,
+                          controller: childScrollController[0],
+                        ),
+                        Scaffold(
+                          body: Center(
+                            child: Text(
+                              'litters_empty'.i18n,
+                              style: context.tt.bodyLarge,
+                            ),
+                          ),
+                        ),
+                        PedigreeTab(
+                          breederId: widget.breederEntryModel.id,
+                          controller: childScrollController[2],
+                        ),
+                        NotesTab(
+                          breederId: widget.breederEntryModel.id,
+                          controller: childScrollController[3],
+                        ),
                         Center(child: Text('not_implemented'.i18n)),
-                        PedigreeTab(breederId: widget.breederEntryModel.id),
-                        NotesTab(breederId: widget.breederEntryModel.id),
-                        Center(child: Text('not_implemented'.i18n)),
+                        ImagesTab(
+                          breederId: widget.breederEntryModel.id,
+                          controller: childScrollController[5],
+                        ),
                       ],
                     ),
                   ),
