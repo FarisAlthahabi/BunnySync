@@ -180,7 +180,7 @@ class _LittersPageState extends State<LittersPage>
                                   padding: AppConstants.paddingH16V28,
                                   onLitterTap: onLitterTap,
                                   onRefresh: littersCubit.getLitters ,
-                                ),//
+                                ),
                               ),
                             ],
                           ),

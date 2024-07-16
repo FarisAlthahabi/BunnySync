@@ -51,7 +51,7 @@ class LittersListWidget extends StatelessWidget {
       }
       return AnimationLimiter(child: child);
     }
-    else{//
+    else{
       return Scaffold(
         body: Center(
           child: Text(
