@@ -1,3 +1,4 @@
+import 'package:bunny_sync/global/gen/assets.gen.dart';
 import 'package:bunny_sync/global/widgets/images/image_error_covered_widget.dart';
 import 'package:bunny_sync/global/widgets/images/themed_placeholder_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -15,7 +16,7 @@ class AppImageWidget extends StatelessWidget {
     this.imageBuilder,
   });
 
-  final String url;
+  final String? url;
   final BorderRadiusGeometry borderRadius;
   final BoxFit? fit;
   final double? width;
@@ -26,6 +27,8 @@ class AppImageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width:width ,
+      height:height ,
       decoration: BoxDecoration(
         border: border,
         borderRadius: borderRadius,
@@ -37,7 +40,7 @@ class AppImageWidget extends StatelessWidget {
           height: height,
           child: CachedNetworkImage(
             errorListener: (_) {},
-            imageUrl: url,
+            imageUrl: url ?? Assets.icons.logo.path,
             fit: fit,
             imageBuilder: imageBuilder,
             placeholder: (_, __) => const ThemedPlaceholderWidget(),
