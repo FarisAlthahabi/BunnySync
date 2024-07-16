@@ -21,6 +21,7 @@ class BreederEntryModel extends Equatable {
     required this.updatedAt,
     required this.createdAt,
     required this.gender,
+    required this.isActive,
     this.weight,
     this.litters,
     this.kits,
@@ -34,8 +35,7 @@ class BreederEntryModel extends Equatable {
     this.tatto,
     this.breed,
     this.categoryBreederId,
-    bool? isActive,
-  }) : _isActive = isActive;
+  });
 
   factory BreederEntryModel.fromJsonStr(String str) =>
       BreederEntryModel.fromJson(jsonDecode(str) as Map<String, dynamic>);
@@ -64,7 +64,7 @@ class BreederEntryModel extends Equatable {
     fromJson: BunnySyncJsonUtils.isActiveFromJson,
     readValue: JsonUtils.readValue,
   )
-  final bool? _isActive;
+  final bool isActive;
 
   final String? prefix;
 
@@ -173,8 +173,6 @@ class BreederEntryModel extends Equatable {
       categoryBreederId: categoryBreederId ?? this.categoryBreederId,
     );
   }
-
-  bool get isActive => _isActive ?? true;
 
   @override
   List<Object?> get props => [id];

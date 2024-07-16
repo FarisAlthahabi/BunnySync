@@ -58,6 +58,7 @@ final breederPairFakeModel = BreederPairModel(
 );
 
 final fakeMaleBreeder = BreederEntryModel(
+  isActive: false,
   id: 88,
   userId: 1,
   uuid: '1',
@@ -68,6 +69,7 @@ final fakeMaleBreeder = BreederEntryModel(
 );
 
 final fakeFemaleBreeder = BreederEntryModel(
+  isActive: false,
   id: 93,
   userId: 1,
   uuid: '1',
