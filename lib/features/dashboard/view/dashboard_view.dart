@@ -87,7 +87,7 @@ class _DashboardPageState extends State<DashboardPage>
   }
 
   @override
-  void onAddTap()  {
+  void onAddTap() {
     mainShowBottomSheet(
       context,
       widget: BottomSheetWidget(

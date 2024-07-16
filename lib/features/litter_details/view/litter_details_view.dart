@@ -66,8 +66,8 @@ class _LitterDetailsPageState extends State<LitterDetailsPage>
 
   @override
   void initState() {
-    litterDetailsCubit.getLitterDetails(widget.litter.id);
     super.initState();
+    litterDetailsCubit.getLitterDetails(widget.litter.id);
   }
 
   @override
@@ -249,11 +249,8 @@ class _LitterDetailsPageState extends State<LitterDetailsPage>
             ),
           );
         } else {
-          return Scaffold(
-            body: MainErrorWidget(
-              error: "went_wrong".i18n,
-              onTap: onTryAgainTap,
-            ),
+          return const Scaffold(
+            body: SizedBox.shrink()
           );
         }
       },
