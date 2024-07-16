@@ -16,7 +16,6 @@ class MainDatePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //
     return SizedBox(
       width: 0.7.sw,
       child: DatePickerWidget(
