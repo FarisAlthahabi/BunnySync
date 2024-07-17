@@ -102,8 +102,8 @@ class AddLitterCubit extends Cubit<GeneralAddLitterState> {
       if (_addLitterModel.liveKits + _addLitterModel.deadKits > 25) {
         throw 'total_kits_count_error'.i18n;
       }
-
       final response = await _addLitterRepo.addLitter(_addLitterModel);
+       
       if (response.success) {
         emit(AddLitterSuccess());
       } else {
