@@ -78,7 +78,7 @@ class HttpBreederDetailsRepo implements BreederDetailsRepo {
   }
   
   @override
-  Future<List<dynamic>> getBreederImages(int id) async{
+  Future<List<BreederImageModel>> getBreederImages(int id) async{
     try {
       final response = await _dioClient.post(
         '/breeders/$id/get-images',
@@ -89,8 +89,7 @@ class HttpBreederDetailsRepo implements BreederDetailsRepo {
       return List.generate(
         images.length,
         (index) =>
-        //Todo fix model here to breeder image model
-            BreederNoteModel.fromJson(images[index] as Map<String, dynamic>),
+            BreederImageModel.fromJson(images[index] as Map<String, dynamic>),
       );
     } on Exception catch (e) {
       if (e is NotFoundException) {

@@ -1,4 +1,5 @@
 import 'package:bunny_sync/features/breeder_details/models/breeder_details_response_model/breeder_details_response_model.dart';
+import 'package:bunny_sync/features/breeder_details/models/breeder_image_model/breeder_image_model.dart';
 import 'package:bunny_sync/features/breeder_details/models/breeder_note_model/breeder_note_model.dart';
 import 'package:bunny_sync/features/breeder_details/models/pedigree_model/pedigree_model.dart';
 import 'package:bunny_sync/global/dio/dio_client.dart';
@@ -16,6 +17,5 @@ abstract class BreederDetailsRepo {
 
   Future<List<BreederNoteModel>> getBreederNotes(int id);
 
-  //Todo fix model here to list of breeder image model
-  Future<List<dynamic>> getBreederImages(int id);
+  Future<List<BreederImageModel>> getBreederImages(int id);
 }

@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:bunny_sync/features/breeder_details/models/breeder_details_response_model/breeder_details_response_fake_model.dart';
 import 'package:bunny_sync/features/breeder_details/models/breeder_details_response_model/breeder_details_response_model.dart';
+import 'package:bunny_sync/features/breeder_details/models/breeder_image_model/breeder_image_fake_model.dart';
 import 'package:bunny_sync/features/breeder_details/models/breeder_image_model/breeder_image_model.dart';
 import 'package:bunny_sync/features/breeder_details/models/breeder_note_model/breeder_note_fake_model.dart';
 import 'package:bunny_sync/features/breeder_details/models/breeder_note_model/breeder_note_model.dart';
@@ -80,15 +81,13 @@ class BreederDetailsCubit extends Cubit<GeneralBreederDetailsState> {
   }
 
   Future<void> getBreederImages(int breederId) async {
-    // Todo :  breeder images fake instead
-    emit(BreederImagesLoading(breederNotesFake));
+    emit(BreederImagesLoading(breederImagesFake));
     try {
       final response = await _breederDetailsRepo.getBreederImages(breederId);
       if (response.isEmpty) {
         emit(BreederImagesEmpty('images_empty'.i18n));
       } else {
-        // Todo : implementing this 
-        //emit(BreederImagesSuccess(response));
+        emit(BreederImagesSuccess(response));
       }
     } catch (e, s) {
       addError(e, s);
