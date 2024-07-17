@@ -49,7 +49,7 @@ class _ImagesTabState extends State<ImagesTab> implements ImagesTabCallbacks {
           return Skeletonizer(
             enabled: state is BreederImagesLoading,
             child: Padding(
-              padding: AppConstants.padding24,
+              padding: AppConstants.padding40,
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(
