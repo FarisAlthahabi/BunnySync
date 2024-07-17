@@ -7,8 +7,8 @@ class BreederImagesInitial extends BreederImagesState {}
 
 class BreederImagesFetch extends BreederImagesState {
 BreederImagesFetch(this.breederImages);
-// Todo fix model here to list of breeder image model
- final List<BreederNoteModel> breederImages;
+
+ final List<BreederImageModel> breederImages;
 }
 
 class BreederImagesLoading extends BreederImagesFetch {
