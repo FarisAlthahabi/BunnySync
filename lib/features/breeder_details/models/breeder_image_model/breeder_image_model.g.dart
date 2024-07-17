@@ -13,6 +13,8 @@ BreederImageModel _$BreederImageModelFromJson(Map<String, dynamic> json) =>
       path: json['path'] as String,
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
+      imageUrl: BunnySyncJsonUtils.setImageUrlFromJson(
+          JsonUtils.readValue(json, 'imageUrl') as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$BreederImageModelToJson(BreederImageModel instance) =>
@@ -20,6 +22,7 @@ Map<String, dynamic> _$BreederImageModelToJson(BreederImageModel instance) =>
       'id': instance.id,
       'breeder_id': instance.breederId,
       'path': instance.path,
+      'imageUrl': instance.imageUrl,
       'created_at': instance.createdAt.toIso8601String(),
       'updated_at': instance.updatedAt.toIso8601String(),
     };

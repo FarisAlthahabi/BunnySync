@@ -61,7 +61,7 @@ class _ImagesTabState extends State<ImagesTab> implements ImagesTabCallbacks {
                   shrinkWrap: true,
                   itemCount: state.breederImages.length,
                   itemBuilder: (context, index) {
-                    return AppImageWidget(url: state.breederImages[index].path);
+                    return AppImageWidget(url: state.breederImages[index].imageUrl);
                   },
                   separatorBuilder: (context, index) {
                     return const SizedBox(

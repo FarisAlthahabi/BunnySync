@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:bunny_sync/global/utils/bunny_sync_json_utils.dart';
+import 'package:bunny_sync/global/utils/json_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -14,6 +16,7 @@ class BreederImageModel {
     required this.path,
     required this.createdAt,
     required this.updatedAt,
+    required this.imageUrl,
   });
 
   factory BreederImageModel.fromJsonStr(String str) =>
@@ -23,11 +26,17 @@ class BreederImageModel {
       _$BreederImageModelFromJson(json);
 
   final int id;
-  
+
   @JsonKey(name: 'breeder_id')
   final int breederId;
 
   final String path;
+
+  @JsonKey(
+    fromJson: BunnySyncJsonUtils.setImageUrlFromJson,
+    readValue: JsonUtils.readValue,
+  )
+  final String imageUrl;
 
   @JsonKey(name: 'created_at')
   final DateTime createdAt;

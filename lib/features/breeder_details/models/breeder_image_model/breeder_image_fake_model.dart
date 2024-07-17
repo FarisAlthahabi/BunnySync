@@ -8,5 +8,6 @@ final List<BreederImageModel> breederImagesFake = List.generate(
     createdAt: DateTime.now(),
     updatedAt: DateTime.now(),
     path: 'd5Az6BDyQM-1716167170-rbPhO0dVqk.png',
+    imageUrl: 'http://bunnysync.bunnyhorde.com/api/d5Az6BDyQM-1716167170-rbPhO0dVqk.png',
   ),
 );
