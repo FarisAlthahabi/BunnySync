@@ -1,6 +1,7 @@
 import 'package:bunny_sync/features/breeder_details/cubit/breeder_details_cubit.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
+import 'package:bunny_sync/global/widgets/images/app_image_widget.dart';
 import 'package:bunny_sync/global/widgets/main_error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -60,8 +61,7 @@ class _ImagesTabState extends State<ImagesTab> implements ImagesTabCallbacks {
                   shrinkWrap: true,
                   itemCount: state.breederImages.length,
                   itemBuilder: (context, index) {
-                    return const ColoredBox(color: Colors.amber,);
-                    // return AppImageWidget(url: state.breederImages[index]);
+                     return AppImageWidget(url: state.breederImages[index].path);
                   },
                   separatorBuilder: (context, index) {
                     return const SizedBox(height: 25,);
