@@ -44,6 +44,7 @@ class BreederEntryModel extends Equatable implements DropDownItemModel {
   factory BreederEntryModel.fromJson(Map<String, dynamic> json) =>
       _$BreederEntryModelFromJson(json);
 
+  @override
   final int id;
 
   @JsonKey(name: 'user_id')
@@ -51,6 +52,7 @@ class BreederEntryModel extends Equatable implements DropDownItemModel {
 
   final String uuid;
 
+  @override
   final String name;
 
   @JsonKey(name: 'updated_at')
