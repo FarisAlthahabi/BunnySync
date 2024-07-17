@@ -55,13 +55,16 @@ class _ImagesTabState extends State<ImagesTab> implements ImagesTabCallbacks {
                     color: context.cs.onInverseSurface,
                   ),
                 ),
-                child: ListView.builder(
+                child: ListView.separated(
                   controller: widget.controller,
                   shrinkWrap: true,
-                  itemCount: state.breederNotes.length,
+                  itemCount: state.breederImages.length,
                   itemBuilder: (context, index) {
-                    return const SizedBox();
+                    return const ColoredBox(color: Colors.amber,);
                     // return AppImageWidget(url: state.breederImages[index]);
+                  },
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(height: 25,);
                   },
                 ),
               ),

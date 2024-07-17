@@ -79,13 +79,14 @@ class BreederDetailsCubit extends Cubit<GeneralBreederDetailsState> {
   }
 
   Future<void> getBreederImages(int breederId) async {
+    // Todo :  breeder images fake instead
     emit(BreederImagesLoading(breederNotesFake));
-    //
     try {
       final response = await _breederDetailsRepo.getBreederImages(breederId);
       if (response.isEmpty) {
         emit(BreederImagesEmpty('images_empty'.i18n));
       } else {
+        // Todo : implementing this 
         //emit(BreederImagesSuccess(response));
       }
     } catch (e, s) {

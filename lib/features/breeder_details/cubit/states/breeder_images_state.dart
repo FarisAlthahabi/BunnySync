@@ -1,23 +1,22 @@
 part of '../breeder_details_cubit.dart';
-
+ 
 @immutable
 abstract class BreederImagesState extends GeneralBreederDetailsState {}
 
 class BreederImagesInitial extends BreederImagesState {}
 
 class BreederImagesFetch extends BreederImagesState {
-BreederImagesFetch(this.breederNotes);
-//
-
- final List<BreederNoteModel> breederNotes;
+BreederImagesFetch(this.breederImages);
+// Todo fix model here to list of breeder image model
+ final List<BreederNoteModel> breederImages;
 }
 
 class BreederImagesLoading extends BreederImagesFetch {
-  BreederImagesLoading(super.breederNotes);
+  BreederImagesLoading(super.breederImages);
 }
 
 class BreederImagesSuccess extends BreederImagesFetch {
-  BreederImagesSuccess(super.breederNotes);
+  BreederImagesSuccess(super.breederImages);
 }
 
 class BreederImagesEmpty extends BreederImagesState {

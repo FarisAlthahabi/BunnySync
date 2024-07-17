@@ -16,5 +16,6 @@ abstract class BreederDetailsRepo {
 
   Future<List<BreederNoteModel>> getBreederNotes(int id);
 
+  //Todo fix model here to list of breeder image model
   Future<List<dynamic>> getBreederImages(int id);
 }
