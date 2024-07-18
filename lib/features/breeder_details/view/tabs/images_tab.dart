@@ -9,6 +9,8 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 abstract class ImagesTabCallbacks {
   void onTryAgainTap();
+
+  void onAddTap();
 }
 
 class ImagesTab extends StatefulWidget {
@@ -36,6 +38,11 @@ class _ImagesTabState extends State<ImagesTab> implements ImagesTabCallbacks {
   }
 
   @override
+  void onAddTap() {
+    // TODO: implement onAddTap
+  }
+
+  @override
   void onTryAgainTap() {
     breederDetailsCubit.getBreederImages(widget.breederId);
   }
@@ -46,29 +53,44 @@ class _ImagesTabState extends State<ImagesTab> implements ImagesTabCallbacks {
       buildWhen: (prev, curr) => curr is BreederImagesState,
       builder: (context, state) {
         if (state is BreederImagesFetch) {
-          return Skeletonizer(
-            enabled: state is BreederImagesLoading,
-            child: Padding(
-              padding: AppConstants.padding40,
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: context.cs.onInverseSurface,
+          return Scaffold(
+            body: Skeletonizer(
+              enabled: state is BreederImagesLoading,
+              child: Padding(
+                padding: AppConstants.padding40,
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: context.cs.onInverseSurface,
+                    ),
+                  ),
+                  child: ListView.separated(
+                    controller: widget.controller,
+                    shrinkWrap: true,
+                    itemCount: state.breederImages.length,
+                    itemBuilder: (context, index) {
+                      return AppImageWidget(
+                        url: state.breederImages[index].imageUrl,
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(
+                        height: 25,
+                      );
+                    },
                   ),
                 ),
-                child: ListView.separated(
-                  controller: widget.controller,
-                  shrinkWrap: true,
-                  itemCount: state.breederImages.length,
-                  itemBuilder: (context, index) {
-                    return AppImageWidget(url: state.breederImages[index].imageUrl);
-                  },
-                  separatorBuilder: (context, index) {
-                    return const SizedBox(
-                      height: 25,
-                    );
-                  },
+              ),
+            ),
+            floatingActionButton: Padding(
+              padding: AppConstants.padding16,
+              child: FloatingActionButton(
+                onPressed: onAddTap,
+                shape: RoundedRectangleBorder(
+                  borderRadius: AppConstants.circularBorderRadius,
                 ),
+                backgroundColor: context.cs.secondaryContainer,
+                child: const Icon(Icons.add),
               ),
             ),
           );
