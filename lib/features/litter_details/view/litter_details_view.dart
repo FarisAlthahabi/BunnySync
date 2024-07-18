@@ -250,7 +250,7 @@ class _LitterDetailsPageState extends State<LitterDetailsPage>
           );
         } else {
           return const Scaffold(
-            body: SizedBox.shrink()
+            body: SizedBox.shrink(),
           );
         }
       },
