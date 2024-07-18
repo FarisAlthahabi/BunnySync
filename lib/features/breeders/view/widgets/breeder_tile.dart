@@ -3,7 +3,7 @@ import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/models/rabbit_property_model.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
-import 'package:bunny_sync/global/widgets/images/app_image_widget.dart';
+import 'package:bunny_sync/global/widgets/breeder_image_widget.dart';
 import 'package:bunny_sync/global/widgets/info_properties_widget.dart';
 import 'package:bunny_sync/global/widgets/main_tile.dart';
 import 'package:flutter/material.dart';
@@ -44,16 +44,9 @@ class BreederTile extends StatelessWidget {
                 child: Row(
                   children: [
                     Skeleton.shade(
-                      child: AppImageWidget(
-                        width: 70,
-                        height: 70,
+                      child: BreederImageWidget(
                         url: breeder.photo,
-                        fit: BoxFit.cover,
-                        border: Border.all(
-                          width: 4.5,
-                          color: breeder.gender.color(context),
-                        ),
-                        borderRadius: AppConstants.circularBorderRadius,
+                        gender: breeder.gender,
                       ),
                     ),
                     const SizedBox(width: 20),

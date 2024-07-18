@@ -2,6 +2,7 @@ import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
+import 'package:bunny_sync/global/widgets/breeder_image_widget.dart';
 import 'package:bunny_sync/global/widgets/images/app_image_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -24,16 +25,10 @@ class BreederProfileInfoWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            AppImageWidget(
-              width: 100,
-              height: 100,
+            BreederImageWidget(
               url: breeder.photo,
-              fit: BoxFit.cover,
-              border: Border.all(
-                width: 4.5,
-                color: breeder.gender.color(context),
-              ),
-              borderRadius: AppConstants.circularBorderRadius,
+              size: 100,
+              gender: breeder.gender,
             ),
             const SizedBox(width: 25),
             Column(

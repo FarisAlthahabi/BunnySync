@@ -23,12 +23,12 @@ class BreederEntryModel extends Equatable implements DropDownItemModel {
     required this.createdAt,
     required this.gender,
     required this.isActive,
+    required this.photo,
     this.weight,
     this.litters,
     this.kits,
     this.age,
     this.status,
-    this.photo,
     this.dtRowIndex,
     this.prefix,
     this.cage,
@@ -94,7 +94,8 @@ class BreederEntryModel extends Equatable implements DropDownItemModel {
 
   final String? status;
 
-  final String? photo;
+  @JsonKey(defaultValue: '')
+  final String photo;
 
   @JsonKey(name: 'DT_RowIndex')
   final int? dtRowIndex;
