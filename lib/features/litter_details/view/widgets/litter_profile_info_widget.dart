@@ -30,8 +30,9 @@ class LitterProfileInfoWidget extends StatelessWidget {
           ),
           Column(
             children: [
-              const Skeleton.shade(
+              Skeleton.shade(
                 child: BreederImageWidget(
+                  url: litter.buckImage,
                   gender: GenderTypes.male,
                   size: 50,
                 ),
@@ -63,8 +64,9 @@ class LitterProfileInfoWidget extends StatelessWidget {
           ),
           Column(
             children: [
-              const Skeleton.shade(
+              Skeleton.shade(
                 child: BreederImageWidget(
+                  url: litter.doeImage,
                   gender: GenderTypes.female,
                   size: 50,
                 ),
