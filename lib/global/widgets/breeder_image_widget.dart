@@ -1,4 +1,3 @@
-import 'package:bunny_sync/global/gen/assets.gen.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/utils/enums/gender_types_enum.dart';
 import 'package:bunny_sync/global/widgets/images/app_image_widget.dart';

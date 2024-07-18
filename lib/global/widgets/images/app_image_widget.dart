@@ -1,4 +1,3 @@
-import 'package:bunny_sync/global/gen/assets.gen.dart';
 import 'package:bunny_sync/global/widgets/images/image_error_covered_widget.dart';
 import 'package:bunny_sync/global/widgets/images/themed_placeholder_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';

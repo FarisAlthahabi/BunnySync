@@ -1,9 +1,7 @@
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
-import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/breeder_image_widget.dart';
-import 'package:bunny_sync/global/widgets/images/app_image_widget.dart';
 import 'package:flutter/material.dart';
 
 class BreederProfileInfoWidget extends StatelessWidget {
