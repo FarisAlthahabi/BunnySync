@@ -142,62 +142,6 @@ class _ProfileTabState extends State<ProfileTab>
                         },
                       ),
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: context.cs.onInverseSurface,
-                        ),
-                      ),
-                      child: ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: 7,
-                        itemBuilder: (context, index) {
-                          final item =
-                              state.breederDetailsResponseModel.breeder;
-                          final rabbitDetailsProperties = [
-                            RabbitPropertyModel(
-                              title: 'Status',
-                              value: item.status.status,
-                            ),
-                            RabbitPropertyModel(
-                              title: 'Cage',
-                              value: item.cage,
-                            ),
-                            RabbitPropertyModel(
-                              title: 'Weight',
-                              value: state.breederDetailsResponseModel.weight,
-                            ),
-                            RabbitPropertyModel(
-                              title: 'Breed',
-                              value: item.breed ?? 'breed',
-                            ),
-                            RabbitPropertyModel(
-                              title: 'Color',
-                              value: item.color,
-                            ),
-                            RabbitPropertyModel(
-                              title: 'Acquired',
-                              value: item.detail.acquired ?? '15',
-                            ),
-                            RabbitPropertyModel(
-                              title: 'Born',
-                              value: item.detail.born ?? '20',
-                            ),
-                          ];
-                          Color tileColor;
-                          if (index.isEven) {
-                            tileColor = context.cs.surface;
-                          } else {
-                            tileColor = context.cs.onInverseSurface;
-                          }
-                          return BreederDetailsTile(
-                            rabbitProperty: rabbitDetailsProperties[index],
-                            tileColor: tileColor,
-                          );
-                        },
-                      ),
-                    ),
                   ],
                 ),
               ),
