@@ -1,3 +1,4 @@
+import 'package:bunny_sync/global/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 
 class ImageErrorCoveredWidget extends StatelessWidget {
@@ -5,10 +6,6 @@ class ImageErrorCoveredWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //TODO: Add a placeholder image
-    return const Placeholder();
-    // return Assets.images.sliderPlaceHolder.image(
-    //   fit: BoxFit.cover,
-    // );
+    return Image.asset(Assets.icons.logo.path);
   }
 }

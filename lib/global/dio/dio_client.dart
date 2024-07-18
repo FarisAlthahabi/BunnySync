@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
-const _baseUrl = 'http://bunnysync.bunnyhorde.com/api/';
+const baseUrl = 'http://bunnysync.bunnyhorde.com/api/';
 
 @singleton
 class DioClient {
@@ -16,7 +16,7 @@ class DioClient {
 
   DioClient._() {
     final baseOptions = BaseOptions(
-      baseUrl: _baseUrl,
+      baseUrl: baseUrl,
     );
 
     _dio = Dio(baseOptions);

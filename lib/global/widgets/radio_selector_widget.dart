@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 abstract class RadioSelectorItemModel {
   dynamic get value;
-
+  
   String get displayName;
 }
 

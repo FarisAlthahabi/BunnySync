@@ -8,13 +8,16 @@ class DetailsTabBar extends StatelessWidget implements PreferredSizeWidget {
   const DetailsTabBar({
     super.key,
     required this.tabs,
+    this.margin = AppConstants.paddingV12,
   });
 
   final List<TabModel> tabs;
+  final EdgeInsetsGeometry margin;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      margin: margin,
       height: 36,
       child: TabBar(
         padding: AppConstants.paddingH24,

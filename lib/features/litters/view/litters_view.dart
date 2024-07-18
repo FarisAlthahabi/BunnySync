@@ -82,6 +82,15 @@ class _LittersPageState extends State<LittersPage>
   }
 
   @override
+  void dispose() {
+    parentScrollController.dispose();
+    child1ScrollController.dispose();
+    child2ScrollController.dispose();
+    child3ScrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   void onLitterTap(LitterEntryModel litter) {
     context.router.push(
       LitterDetailsRoute(litter: litter),
@@ -161,6 +170,7 @@ class _LittersPageState extends State<LittersPage>
                                   litters: state.littersStatusModel.active,
                                   padding: AppConstants.paddingH16V28,
                                   onLitterTap: onLitterTap,
+                                  onRefresh: littersCubit.getLitters ,
                                 ),
                               ),
                               KeepAliveWidget(
@@ -169,6 +179,7 @@ class _LittersPageState extends State<LittersPage>
                                   litters: state.littersStatusModel.inactive,
                                   padding: AppConstants.paddingH16V28,
                                   onLitterTap: onLitterTap,
+                                  onRefresh: littersCubit.getLitters ,
                                 ),
                               ),
                               KeepAliveWidget(
@@ -177,6 +188,7 @@ class _LittersPageState extends State<LittersPage>
                                   litters: state.littersStatusModel.all,
                                   padding: AppConstants.paddingH16V28,
                                   onLitterTap: onLitterTap,
+                                  onRefresh: littersCubit.getLitters ,
                                 ),
                               ),
                             ],

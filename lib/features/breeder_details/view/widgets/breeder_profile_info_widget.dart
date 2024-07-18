@@ -24,6 +24,7 @@ class BreederProfileInfoWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             BreederImageWidget(
+              url: breeder.photo,
               size: 100,
               gender: breeder.gender,
             ),

@@ -17,12 +17,12 @@ BreederEntryModel _$BreederEntryModelFromJson(Map<String, dynamic> json) =>
       gender: $enumDecode(_$GenderTypesEnumMap, json['gender']),
       isActive: BunnySyncJsonUtils.isActiveFromJson(
           JsonUtils.readValue(json, 'isActive') as Map<String, dynamic>),
+      photo: json['photo'] as String? ?? '',
       weight: json['weight'] as String?,
       litters: const StringConverter().fromJson(json['litters']),
       kits: const StringConverter().fromJson(json['kits']),
       age: json['age'] as String?,
       status: json['status'] as String?,
-      photo: json['photo'] as String?,
       dtRowIndex: (json['DT_RowIndex'] as num?)?.toInt(),
       prefix: json['prefix'] as String?,
       cage: json['cage'] as String?,

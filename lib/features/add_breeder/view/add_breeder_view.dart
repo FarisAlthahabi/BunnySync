@@ -10,13 +10,12 @@ import 'package:bunny_sync/global/utils/enums/gender_types_enum.dart';
 import 'package:bunny_sync/global/widgets/buttons/main_action_button.dart';
 import 'package:bunny_sync/global/widgets/loading_indicator.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
+import 'package:bunny_sync/global/widgets/main_date_picker.dart';
 import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:bunny_sync/global/widgets/main_text_field.dart';
 import 'package:bunny_sync/global/widgets/radio_selector_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 abstract class AddBreederViewCallBack {
   void onNameChanged(String name);
@@ -327,23 +326,9 @@ class _AddBreederPageState extends State<AddBreederPage>
                     ),
                     const SizedBox(height: 10),
                     Center(
-                      child: SizedBox(
-                        width: 0.7.sw,
-                        child: DatePickerWidget(
-                          initialDate: widget.breederEntryModel?.updatedAt,
-                          looping: true,
-                          dateFormat: "dd/MMM/yyyy",
-                          onChange: onDatePicked,
-                          pickerTheme: DateTimePickerTheme(
-                            itemTextStyle: context.tt.bodyLarge?.copyWith(
-                                  fontSize: 18,
-                                  color: context.cs.secondaryContainer,
-                                  fontWeight: FontWeight.w700,
-                                ) ??
-                                const TextStyle(),
-                            dividerColor: context.cs.secondaryContainer,
-                          ),
-                        ),
+                      child: MainDatePicker(
+                        initialDate: widget.breederEntryModel?.updatedAt,
+                        onChange: onDatePicked,
                       ),
                     ),
                     const SizedBox(

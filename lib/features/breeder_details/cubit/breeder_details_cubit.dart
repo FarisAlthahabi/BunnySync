@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:bunny_sync/features/breeder_details/models/breeder_details_response_model/breeder_details_response_fake_model.dart';
 import 'package:bunny_sync/features/breeder_details/models/breeder_details_response_model/breeder_details_response_model.dart';
+import 'package:bunny_sync/features/breeder_details/models/breeder_image_model/breeder_image_fake_model.dart';
+import 'package:bunny_sync/features/breeder_details/models/breeder_image_model/breeder_image_model.dart';
 import 'package:bunny_sync/features/breeder_details/models/breeder_note_model/breeder_note_fake_model.dart';
 import 'package:bunny_sync/features/breeder_details/models/breeder_note_model/breeder_note_model.dart';
 import 'package:bunny_sync/features/breeder_details/models/pedigree_model/pedigree_fake_model.dart';
@@ -18,6 +20,8 @@ part 'states/breeder_notes_state.dart';
 part 'states/breeder_pedigree_state.dart';
 
 part 'states/breeder_profile_state.dart';
+
+part 'states/breeder_images_state.dart';
 
 part 'states/general_breeder_details_state.dart';
 
@@ -73,6 +77,21 @@ class BreederDetailsCubit extends Cubit<GeneralBreederDetailsState> {
     } catch (e, s) {
       addError(e, s);
       emit(BreederNotesFail(e.toString()));
+    }
+  }
+
+  Future<void> getBreederImages(int breederId) async {
+    emit(BreederImagesLoading(breederImagesFake));
+    try {
+      final response = await _breederDetailsRepo.getBreederImages(breederId);
+      if (response.isEmpty) {
+        emit(BreederImagesEmpty('images_empty'.i18n));
+      } else {
+        emit(BreederImagesSuccess(response));
+      }
+    } catch (e, s) {
+      addError(e, s);
+      emit(BreederImagesFail(e.toString()));
     }
   }
 

@@ -4,7 +4,6 @@ import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/models/rabbit_property_model.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
-import 'package:bunny_sync/global/widgets/info_properties_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -17,16 +16,17 @@ class NotesTab extends StatefulWidget {
   const NotesTab({
     super.key,
     required this.breederId,
+    this.controller,
   });
 
   final int breederId;
+  final ScrollController? controller;
 
   @override
   State<NotesTab> createState() => _NotesTabState();
 }
 
-class _NotesTabState extends State<NotesTab>
-    implements NotesTabCallbacks {
+class _NotesTabState extends State<NotesTab> implements NotesTabCallbacks {
   late final BreederDetailsCubit breederDetailsCubit = context.read();
 
   @override
@@ -47,41 +47,14 @@ class _NotesTabState extends State<NotesTab>
       buildWhen: (prev, curr) => curr is BreederNotesState,
       builder: (context, state) {
         if (state is BreederNotesFetch) {
-          final rabbitProperties = [
-            RabbitPropertyModel(
-              title: 'title'.i18n,
-              value: state.breederNotes[0].title,
-            ),
-            RabbitPropertyModel(
-              title: 'note'.i18n,
-              value: state.breederNotes[0].note,
-            ),
-          ];
           return Skeletonizer(
             enabled: state is BreederNotesLoading,
             child: SingleChildScrollView(
+              controller: widget.controller,
               child: Padding(
                 padding: AppConstants.padding24,
                 child: Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                      ),
-                      child: InfoPropertiesWidget(
-                        properties: rabbitProperties,
-                        propertyStructures: List.generate(
-                          rabbitProperties.length,
-                          (index) {
-                            return PropertyStructure(
-                              mainAxisCellCount: 1.6,
-                              crossAxisCellCount: 3,
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 24),
                     Container(
                       decoration: BoxDecoration(
                         border: Border.all(

@@ -13,9 +13,9 @@ class KitModel {
     required this.id,
     required this.userId,
     required this.litterId,
-    required this.code,
     required this.createdAt,
     required this.updatedAt,
+    this.code,
     this.name,
     this.prefix,
     this.color,
@@ -33,7 +33,7 @@ class KitModel {
 
   final int id;
 
-  @JsonKey(name: 'user_id')
+  @JsonKey(name: 'user_id', defaultValue: -1)
   final int userId;
 
   @JsonKey(name: 'litter_id')
@@ -43,7 +43,7 @@ class KitModel {
 
   final String? prefix;
 
-  final String code;
+  final String? code;
 
   final String? color;
 

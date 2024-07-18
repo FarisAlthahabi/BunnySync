@@ -14,7 +14,7 @@ mixin CreateScrollListenerMixin<T extends StatefulWidget> on State<T> {
         if (child.position.userScrollDirection == ScrollDirection.reverse &&
             !isParentScrollingDownward) {
           parent.animateTo(
-            200,
+             200,
             duration: const Duration(milliseconds: 200),
             curve: Curves.easeIn,
           );

@@ -17,9 +17,11 @@ class ProfileTab extends StatefulWidget {
   const ProfileTab({
     super.key,
     required this.breederId,
+    this.controller,
   });
 
   final int breederId;
+  final ScrollController? controller;
 
   @override
   State<ProfileTab> createState() => _ProfileTabState();
@@ -60,6 +62,8 @@ class _ProfileTabState extends State<ProfileTab>
           return Skeletonizer(
             enabled: state is BreederProfileLoading,
             child: SingleChildScrollView(
+              controller: widget.controller,
+              physics: const AlwaysScrollableScrollPhysics(),
               child: Padding(
                 padding: AppConstants.padding24,
                 child: Column(

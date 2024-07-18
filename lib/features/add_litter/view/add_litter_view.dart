@@ -10,15 +10,13 @@ import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/buttons/main_action_button.dart';
 import 'package:bunny_sync/global/widgets/loading_indicator.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
+import 'package:bunny_sync/global/widgets/main_date_picker.dart';
+import 'package:bunny_sync/global/widgets/main_drop_down_widget.dart';
 import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:bunny_sync/global/widgets/main_text_field.dart';
 import 'package:collection/collection.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_holo_date_picker/date_picker_theme.dart';
-import 'package:flutter_holo_date_picker/widget/date_picker_widget.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 abstract class AddLitterViewCallBack {
@@ -288,43 +286,19 @@ class _AddLitterPageState extends State<AddLitterPage>
                                           const SizedBox(
                                             height: 8,
                                           ),
-                                          DropdownButtonHideUnderline(
-                                            child: DropdownButton2<
-                                                BreederEntryModel>(
-                                              isExpanded: true,
-                                              value: state.breedersGenderModel
-                                                  .maleBreeders
-                                                  .firstWhereOrNull(
-                                                (element) =>
-                                                    element.id ==
-                                                    innerState.addLitterModel
-                                                        .maleBreederId,
-                                              ),
-                                              hint: Text(
-                                                'select_male_breeder'.i18n,
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: Theme.of(context)
-                                                      .hintColor,
-                                                ),
-                                              ),
-                                              items: state.breedersGenderModel
-                                                  .maleBreeders
-                                                  .map(
-                                                    (BreederEntryModel item) =>
-                                                        DropdownMenuItem<
-                                                            BreederEntryModel>(
-                                                      value: item,
-                                                      child: Text(
-                                                        item.name,
-                                                        style: const TextStyle(
-                                                          fontSize: 14,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  )
-                                                  .toList(),
-                                              onChanged: onMaleBreederIdChanged,
+                                          MainDropDownWidget<BreederEntryModel>(
+                                            items: state.breedersGenderModel
+                                                .maleBreeders,
+                                            text: 'select_male_breeder'.i18n,
+                                            onChanged: onMaleBreederIdChanged,
+                                            selectedValue: state
+                                                .breedersGenderModel
+                                                .maleBreeders
+                                                .firstWhereOrNull(
+                                              (element) =>
+                                                  element.id ==
+                                                  innerState.addLitterModel
+                                                      .maleBreederId,
                                             ),
                                           ),
                                           const SizedBox(
@@ -342,11 +316,12 @@ class _AddLitterPageState extends State<AddLitterPage>
                                           const SizedBox(
                                             height: 8,
                                           ),
-                                          DropdownButtonHideUnderline(
-                                            child: DropdownButton2<
-                                                BreederEntryModel>(
-                                              isExpanded: true,
-                                              value: state.breedersGenderModel
+                                          MainDropDownWidget<BreederEntryModel>(
+                                            items: state.breedersGenderModel
+                                                .femaleBreeders,
+                                            text: 'select_female_breeder'.i18n,
+                                            onChanged: onFemaleBreederIdChanged,
+                                            selectedValue:  state.breedersGenderModel
                                                   .femaleBreeders
                                                   .firstWhereOrNull(
                                                 (element) =>
@@ -354,33 +329,6 @@ class _AddLitterPageState extends State<AddLitterPage>
                                                     innerState.addLitterModel
                                                         .femaleBreederId,
                                               ),
-                                              hint: Text(
-                                                'select_female_breeder'.i18n,
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: Theme.of(context)
-                                                      .hintColor,
-                                                ),
-                                              ),
-                                              items: state.breedersGenderModel
-                                                  .femaleBreeders
-                                                  .map(
-                                                    (BreederEntryModel item) =>
-                                                        DropdownMenuItem<
-                                                            BreederEntryModel>(
-                                                      value: item,
-                                                      child: Text(
-                                                        item.name,
-                                                        style: const TextStyle(
-                                                          fontSize: 14,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  )
-                                                  .toList(),
-                                              onChanged:
-                                                  onFemaleBreederIdChanged,
-                                            ),
                                           ),
                                           const SizedBox(
                                             height: 25,
@@ -475,25 +423,8 @@ class _AddLitterPageState extends State<AddLitterPage>
                                 ),
                                 const SizedBox(height: 10),
                                 Center(
-                                  child: SizedBox(
-                                    width: 0.7.sw,
-                                    child: DatePickerWidget(
-                                      looping: true,
-                                      dateFormat: "dd/MMM/yyyy",
-                                      onChange: onBreedDateSelected,
-                                      pickerTheme: DateTimePickerTheme(
-                                        itemTextStyle:
-                                            context.tt.bodyLarge?.copyWith(
-                                                  fontSize: 18,
-                                                  color: context
-                                                      .cs.secondaryContainer,
-                                                  fontWeight: FontWeight.w700,
-                                                ) ??
-                                                const TextStyle(),
-                                        dividerColor:
-                                            context.cs.secondaryContainer,
-                                      ),
-                                    ),
+                                  child: MainDatePicker(
+                                    onChange: onBreedDateSelected,
                                   ),
                                 ),
                                 const SizedBox(
@@ -508,25 +439,8 @@ class _AddLitterPageState extends State<AddLitterPage>
                                 ),
                                 const SizedBox(height: 10),
                                 Center(
-                                  child: SizedBox(
-                                    width: 0.7.sw,
-                                    child: DatePickerWidget(
-                                      looping: true,
-                                      dateFormat: "dd/MMM/yyyy",
-                                      onChange: onBornDateSelected,
-                                      pickerTheme: DateTimePickerTheme(
-                                        itemTextStyle:
-                                            context.tt.bodyLarge?.copyWith(
-                                                  fontSize: 18,
-                                                  color: context
-                                                      .cs.secondaryContainer,
-                                                  fontWeight: FontWeight.w700,
-                                                ) ??
-                                                const TextStyle(),
-                                        dividerColor:
-                                            context.cs.secondaryContainer,
-                                      ),
-                                    ),
+                                  child: MainDatePicker(
+                                    onChange: onBornDateSelected,
                                   ),
                                 ),
                                 const SizedBox(
@@ -552,8 +466,7 @@ class _AddLitterPageState extends State<AddLitterPage>
                               GeneralAddLitterState>(
                             listener: (context, state) {
                               if (state is AddLitterSuccess) {
-                                mainNavigationCubit
-                                    .addLitter();
+                                mainNavigationCubit.addLitter();
                                 MainSnackBar.showSuccessMessageBar(
                                   context,
                                   "litter_added".i18n,

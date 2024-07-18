@@ -24,7 +24,8 @@ class BreederTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final rabbitProperties = [
-      RabbitPropertyModel(title: 'litters'.i18n, value: breeder.litters.toString()),
+      RabbitPropertyModel(
+          title: 'litters'.i18n, value: breeder.litters.toString(),),
       RabbitPropertyModel(title: 'kits'.i18n, value: breeder.kits.toString()),
       RabbitPropertyModel(title: 'age'.i18n, value: breeder.age ?? '-'),
       RabbitPropertyModel(title: 'weight'.i18n, value: breeder.weight ?? '-'),
@@ -44,6 +45,7 @@ class BreederTile extends StatelessWidget {
                   children: [
                     Skeleton.shade(
                       child: BreederImageWidget(
+                        url: breeder.photo,
                         gender: breeder.gender,
                       ),
                     ),
