@@ -81,6 +81,7 @@ class _PedigreeTabState extends State<PedigreeTab>
             enabled: state is BreederPedigreeLoading,
             child: SingleChildScrollView(
               controller: widget.controller,
+              physics: const AlwaysScrollableScrollPhysics(),
               child: Padding(
                 padding: AppConstants.padding24,
                 child: Column(

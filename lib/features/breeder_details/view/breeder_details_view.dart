@@ -210,6 +210,7 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
                           child: SliverAppBar(
                             expandedHeight: 250,
                             centerTitle: true,
+                            collapsedHeight: 60,
                             title: Text(
                               'breeder'.i18n,
                               style: Theme.of(context).textTheme.titleLarge,
@@ -231,7 +232,11 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
                             ),
                             bottom: PreferredSize(
                               preferredSize: const Size.fromHeight(0),
-                              child: DetailsTabBar(tabs: tabs),
+                              child: Center(
+                                child: DetailsTabBar(
+                                  tabs: tabs,
+                                ),
+                              ),
                             ),
                           ),
                         );
@@ -248,7 +253,7 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
                           breederId: widget.breederEntryModel.id,
                           controller: childScrollController[0],
                         ),
-                       Center(child: Text('not_implemented'.i18n)),
+                        Center(child: Text('not_implemented'.i18n)),
                         PedigreeTab(
                           breederId: widget.breederEntryModel.id,
                           controller: childScrollController[2],
