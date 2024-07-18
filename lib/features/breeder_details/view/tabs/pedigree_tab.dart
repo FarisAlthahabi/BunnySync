@@ -61,19 +61,19 @@ class _PedigreeTabState extends State<PedigreeTab>
           final item = state.pedigreeModel;
           final rabbitDetailsProperties = [
             RabbitPropertyModel(
-              title: 'Status',
+              title: 'status'.i18n,
               value: item.status.status,
             ),
             RabbitPropertyModel(
-              title: 'Cage',
+              title: 'cage'.i18n,
               value: item.cage,
             ),
             RabbitPropertyModel(
-              title: 'Breed',
+              title: 'Breed'.i18n,
               value: item.breed ?? 'breed',
             ),
             RabbitPropertyModel(
-              title: 'Color',
+              title: 'Color'.i18n,
               value: item.color,
             ),
           ];
