@@ -127,7 +127,11 @@ class BreederDetailsCubit extends Cubit<GeneralBreederDetailsState> {
 
     try {
       await _breederDetailsRepo.deleteNote(breederId);
-      emit(BreederNoteDeleteSuccess());
+      notes.removeWhere(
+        (element) => element.id == breederId,
+      );
+      emit(BreederNoteDeleteSuccess(notes));
+      print(notes);
     } catch (e, s) {
       addError(e, s);
       emit(BreederNoteDeleteFail(e.toString()));

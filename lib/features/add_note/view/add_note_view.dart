@@ -29,14 +29,23 @@ class AddNoteView extends StatelessWidget {
   const AddNoteView({
     super.key,
     required this.breederId,
+    required this.breederDetailsCubit,
   });
   final int breederId;
+  final BreederDetailsCubit breederDetailsCubit;
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => get<AddNoteCubit>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => get<AddNoteCubit>(),
+        ),
+        BlocProvider.value(value: breederDetailsCubit),
+      ],
+      // create: (context) => get<AddNoteCubit>(),
       child: AddNotePage(
+        breederDetailsCubit: breederDetailsCubit,
         breederId: breederId,
       ),
     );
@@ -47,9 +56,11 @@ class AddNotePage extends StatefulWidget {
   const AddNotePage({
     super.key,
     required this.breederId,
+    required this.breederDetailsCubit,
   });
 
   final int breederId;
+  final BreederDetailsCubit breederDetailsCubit;
 
   @override
   State<AddNotePage> createState() => _AddNotePageState();
@@ -57,7 +68,6 @@ class AddNotePage extends StatefulWidget {
 
 class _AddNotePageState extends State<AddNotePage>
     implements AddNoteViewCallBack {
-  late final BreederDetailsCubit breederDetailsCubit = context.read();
 
   late final AddNoteCubit addNoteCubit = context.read();
 
@@ -145,7 +155,7 @@ class _AddNotePageState extends State<AddNotePage>
                             "note_added".i18n,
                           );
                           context.router.maybePop();
-                          breederDetailsCubit.addNoteManager(
+                          widget.breederDetailsCubit.addNoteManager(
                             state.addNoteModel,
                             state.breederId,
                           );

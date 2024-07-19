@@ -39,6 +39,7 @@ abstract class _$AppRouter extends RootStackRouter {
         child: AddNoteView(
           key: args.key,
           breederId: args.breederId,
+          breederDetailsCubit: args.breederDetailsCubit,
         ),
       );
     },
@@ -194,12 +195,14 @@ class AddNoteRoute extends PageRouteInfo<AddNoteRouteArgs> {
   AddNoteRoute({
     Key? key,
     required int breederId,
+    required BreederDetailsCubit breederDetailsCubit,
     List<PageRouteInfo>? children,
   }) : super(
           AddNoteRoute.name,
           args: AddNoteRouteArgs(
             key: key,
             breederId: breederId,
+            breederDetailsCubit: breederDetailsCubit,
           ),
           initialChildren: children,
         );
@@ -214,15 +217,18 @@ class AddNoteRouteArgs {
   const AddNoteRouteArgs({
     this.key,
     required this.breederId,
+    required this.breederDetailsCubit,
   });
 
   final Key? key;
 
   final int breederId;
 
+  final BreederDetailsCubit breederDetailsCubit;
+
   @override
   String toString() {
-    return 'AddNoteRouteArgs{key: $key, breederId: $breederId}';
+    return 'AddNoteRouteArgs{key: $key, breederId: $breederId, breederDetailsCubit: $breederDetailsCubit}';
   }
 }
 

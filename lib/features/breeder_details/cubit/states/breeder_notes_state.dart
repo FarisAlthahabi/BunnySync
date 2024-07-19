@@ -29,7 +29,9 @@ class BreederNoteAddSuccess extends BreederNotesState {
   final int breederId;
 }
 
-class BreederNoteDeleteSuccess extends BreederNotesState {}
+class BreederNoteDeleteSuccess extends BreederNotesFetch {
+  BreederNoteDeleteSuccess(super.breederNotes);
+}
 
 class BreederNotesEmpty extends BreederNotesState {
   BreederNotesEmpty(this.message);

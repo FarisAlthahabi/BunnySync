@@ -53,7 +53,10 @@ class _NotesTabState extends State<NotesTab> implements NotesTabCallbacks {
   @override
   void onAddTap() {
     context.router.push(
-      AddNoteRoute(breederId: widget.breederId),
+      AddNoteRoute(
+        breederId: widget.breederId,
+        breederDetailsCubit: breederDetailsCubit,
+      ),
     );
   }
 
@@ -196,7 +199,10 @@ class _NotesTabState extends State<NotesTab> implements NotesTabCallbacks {
             onTap: onTryAgainTap,
           );
         }
-        return const SizedBox.shrink();
+        return Container(
+          color: Colors.amber,
+        );
+        // return const SizedBox.shrink();
       },
     );
   }
