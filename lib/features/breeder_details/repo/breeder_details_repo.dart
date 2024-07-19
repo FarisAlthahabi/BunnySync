@@ -18,4 +18,6 @@ abstract class BreederDetailsRepo {
   Future<List<BreederNoteModel>> getBreederNotes(int id);
 
   Future<List<BreederImageModel>> getBreederImages(int id);
+
+  Future<void> deleteNote(int breederId);
 }

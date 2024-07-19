@@ -1,15 +1,24 @@
+import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:flutter/material.dart';
 
-class BottomSheetWidget extends StatelessWidget {
+abstract class GlobalModel {}
+
+class BottomSheetWidget<T extends GlobalModel> extends StatelessWidget {
   const BottomSheetWidget({
     super.key,
     required this.title,
-    required this.child,
+    this.model,
+    this.onEdit,
+    this.onDelete,
+    this.child,
   });
 
   final String title;
-  final Widget child;
+  final Widget? child;
+  final ValueSetter<T>? onEdit;
+  final ValueSetter<T>? onDelete;
+  final T? model;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +40,32 @@ class BottomSheetWidget extends StatelessWidget {
               style: context.tt.titleLarge?.copyWith(height: 1.3),
             ),
             const SizedBox(height: 12),
-            child,
+            if (child != null) child!,
+            if (child == null)
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  TextButton(
+                    onPressed: () => onEdit!(model!),
+                    style: TextButton.styleFrom(
+                      alignment: AlignmentDirectional.centerStart,
+                    ),
+                    child: Text(
+                      "edit".i18n,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () => onDelete!(model!),
+                    style: TextButton.styleFrom(
+                      alignment: AlignmentDirectional.centerStart,
+                    ),
+                    child: Text(
+                      "delete".i18n,
+                    ),
+                  ),
+                ],
+              ),
           ],
         ),
       ),

@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:bunny_sync/features/add_note/model/add_note_model/add_note_model.dart';
 import 'package:bunny_sync/features/breeder_details/models/breeder_details_response_model/breeder_details_response_fake_model.dart';
 import 'package:bunny_sync/features/breeder_details/models/breeder_details_response_model/breeder_details_response_model.dart';
 import 'package:bunny_sync/features/breeder_details/models/breeder_image_model/breeder_image_fake_model.dart';
@@ -33,6 +34,8 @@ class BreederDetailsCubit extends Cubit<GeneralBreederDetailsState> {
   ) : super(BreederDetailsInitial());
 
   final BreederDetailsRepo _breederDetailsRepo;
+
+  List<BreederNoteModel> notes = [];
 
   BreederEntryModel breeder;
 
@@ -72,6 +75,7 @@ class BreederDetailsCubit extends Cubit<GeneralBreederDetailsState> {
       if (response.isEmpty) {
         emit(BreederNotesEmpty('notes_empty'.i18n));
       } else {
+        notes = response;
         emit(BreederNotesSuccess(response));
       }
     } catch (e, s) {
@@ -98,5 +102,35 @@ class BreederDetailsCubit extends Cubit<GeneralBreederDetailsState> {
   void updateBreeder(BreederEntryModel breeder) {
     this.breeder = breeder;
     emit(BreederDetailsSuccess(breeder));
+  }
+
+  void addNoteManager(AddNoteModel addNoteModel, int breederId) {
+    emit(BreederNoteAddSuccess(addNoteModel, breederId));
+  }
+
+  void addNote(AddNoteModel addNoteModel, int breederId) {
+    final BreederNoteModel noteModel = BreederNoteModel(
+      id: notes[notes.length - 1].id + 1,
+      breederId: breederId,
+      title: addNoteModel.title,
+      note: addNoteModel.note,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+      dtRowIndex: 1,
+    );
+    notes.add(noteModel);
+    emit(BreederNotesSuccess(notes));
+  }
+
+  Future<void> deleteNote(int breederId) async {
+    emit(BreederNotesLoading(breederNotesFake));
+
+    try {
+      await _breederDetailsRepo.deleteNote(breederId);
+      emit(BreederNoteDeleteSuccess());
+    } catch (e, s) {
+      addError(e, s);
+      emit(BreederNoteDeleteFail(e.toString()));
+    }
   }
 }

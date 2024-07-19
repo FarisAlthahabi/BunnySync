@@ -6,9 +6,9 @@ abstract class BreederNotesState extends GeneralBreederDetailsState {}
 class BreederNotesInitial extends BreederNotesState {}
 
 class BreederNotesFetch extends BreederNotesState {
-BreederNotesFetch(this.breederNotes);
+  BreederNotesFetch(this.breederNotes);
 
- final List<BreederNoteModel> breederNotes;
+  final List<BreederNoteModel> breederNotes;
 }
 
 class BreederNotesLoading extends BreederNotesFetch {
@@ -19,15 +19,32 @@ class BreederNotesSuccess extends BreederNotesFetch {
   BreederNotesSuccess(super.breederNotes);
 }
 
+class BreederNoteAddSuccess extends BreederNotesState {
+  BreederNoteAddSuccess(
+    this.addNoteModel,
+    this.breederId,
+  );
+
+  final AddNoteModel addNoteModel;
+  final int breederId;
+}
+
+class BreederNoteDeleteSuccess extends BreederNotesState {}
+
 class BreederNotesEmpty extends BreederNotesState {
   BreederNotesEmpty(this.message);
 
   final String message;
 }
 
-
 class BreederNotesFail extends BreederNotesState {
   BreederNotesFail(this.message);
+
+  final String message;
+}
+
+class BreederNoteDeleteFail extends BreederNotesState {
+  BreederNoteDeleteFail(this.message);
 
   final String message;
 }

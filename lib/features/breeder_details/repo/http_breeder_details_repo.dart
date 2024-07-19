@@ -76,9 +76,9 @@ class HttpBreederDetailsRepo implements BreederDetailsRepo {
       rethrow;
     }
   }
-  
+
   @override
-  Future<List<BreederImageModel>> getBreederImages(int id) async{
+  Future<List<BreederImageModel>> getBreederImages(int id) async {
     try {
       final response = await _dioClient.post(
         '/breeders/$id/get-images',
@@ -92,6 +92,20 @@ class HttpBreederDetailsRepo implements BreederDetailsRepo {
             BreederImageModel.fromJson(images[index] as Map<String, dynamic>),
       );
     } on Exception catch (e) {
+      if (e is NotFoundException) {
+        throw e.message ?? 'something_went_wrong'.i18n;
+      }
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> deleteNote(int breederId) async {
+    try {
+      await _dioClient.delete(
+        '/breeders/note/$breederId/destroy',
+      );
+    } catch (e) {
       if (e is NotFoundException) {
         throw e.message ?? 'something_went_wrong'.i18n;
       }

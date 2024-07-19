@@ -7,7 +7,15 @@ class AddNoteInitial extends AddNoteState {}
 
 class AddNoteLoading extends AddNoteState {}
 
-class AddNoteSuccess extends AddNoteState {}
+class AddNoteSuccess extends AddNoteState {
+  AddNoteSuccess(
+    this.addNoteModel,
+    this.breederId,
+  );
+
+  final AddNoteModel addNoteModel;
+  final int breederId;
+}
 
 class AddNoteFail extends AddNoteState {
   AddNoteFail(this.message);

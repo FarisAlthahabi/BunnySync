@@ -1,6 +1,7 @@
 
 import 'dart:convert';
 
+import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
@@ -8,7 +9,7 @@ part 'breeder_note_model.g.dart';
 
 @JsonSerializable()
 @immutable
-class BreederNoteModel {
+class BreederNoteModel implements GlobalModel {
   const BreederNoteModel({
     required this.id,
     required this.breederId,

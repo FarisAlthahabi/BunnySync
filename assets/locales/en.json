@@ -133,5 +133,13 @@
   "average_weight" : "Average Weight",
   "survival_rate" : "Survival Rate",
   "unknown" : "Unknown",
-  "stats" : "Stats"
+  "stats" : "Stats",
+  "new_note" : "New note",
+  "title" : "Title",
+  "note" : "Note",
+  "note_added" :  "Note is added successfully",
+  "note_options" : "Note Options",
+  "are_you_sure_to_delete_note" : "Are you sure to delete note?",
+  "note_deleted" : "Note is deleted successfully",
+  "note_delete_fail" : "Fail to delete note"
 }

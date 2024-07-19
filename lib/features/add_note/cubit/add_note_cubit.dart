@@ -16,24 +16,24 @@ class AddNoteCubit extends Cubit<GeneralAddNoteState> {
 
   AddNoteModel _addNoteModel = const AddNoteModel();
 
-  void setName(String title) {
+  void setTitle(String title) {
     _addNoteModel = _addNoteModel.copyWith(
       title: () => title,
     );
   }
 
-  void setPrefix(String note) {
+  void setNote(String note) {
     _addNoteModel = _addNoteModel.copyWith(
       note: () => note,
     );
   }
 
-  Future<void> addBreeder(int breederId) async {
+  Future<void> addNote(int breederId) async {
     emit(AddNoteLoading());
-    
+
     try {
       await _addNoteRepo.addNote(_addNoteModel, breederId);
-      emit(AddNoteSuccess());
+      emit(AddNoteSuccess(_addNoteModel, breederId));
     } catch (e, s) {
       addError(e, s);
       emit(AddNoteFail(e.toString()));
