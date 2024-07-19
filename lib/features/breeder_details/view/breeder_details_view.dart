@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/breeder_details/cubit/breeder_details_cubit.dart';
 import 'package:bunny_sync/features/breeder_details/view/tabs/images_tab.dart';
+import 'package:bunny_sync/features/breeder_details/view/tabs/litters_tab.dart';
 import 'package:bunny_sync/features/breeder_details/view/tabs/notes_tab.dart';
 import 'package:bunny_sync/features/breeder_details/view/tabs/pedigree_tab.dart';
 import 'package:bunny_sync/features/breeder_details/view/tabs/profile_tab.dart';
@@ -253,7 +254,10 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
                           breederId: widget.breederEntryModel.id,
                           controller: childScrollController[0],
                         ),
-                        Center(child: Text('not_implemented'.i18n)),
+                        LittersTab(
+                          breederId: widget.breederEntryModel.id,
+                          controller: childScrollController[1],
+                        ),
                         PedigreeTab(
                           breederId: widget.breederEntryModel.id,
                           controller: childScrollController[2],

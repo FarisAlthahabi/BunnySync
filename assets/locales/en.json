@@ -133,5 +133,8 @@
   "average_weight" : "Average Weight",
   "survival_rate" : "Survival Rate",
   "unknown" : "Unknown",
-  "stats" : "Stats"
+  "stats" : "Stats",
+  "number" : "NO",
+  "live" : "Live",
+  "action" : "Action"
 }
