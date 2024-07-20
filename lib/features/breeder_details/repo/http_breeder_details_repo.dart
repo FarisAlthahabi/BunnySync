@@ -116,4 +116,21 @@ class HttpBreederDetailsRepo implements BreederDetailsRepo {
       rethrow;
     }
   }
+
+  @override
+  Future<void> deleteBreederImage(int breederId, int imageId) async {
+    try {
+      await _dioClient.post(
+        '/breeders/$breederId/delete-images',
+        data: <String, dynamic>{
+          'id': imageId,
+        },
+      );
+    } on Exception catch (e) {
+      if (e is NotFoundException) {
+        throw e.message ?? 'something_went_wrong'.i18n;
+      }
+      rethrow;
+    }
+  }
 }

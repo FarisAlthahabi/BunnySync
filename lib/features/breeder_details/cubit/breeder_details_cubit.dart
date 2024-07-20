@@ -37,6 +37,8 @@ class BreederDetailsCubit extends Cubit<GeneralBreederDetailsState> {
 
   BreederEntryModel breeder;
 
+  List<BreederImageModel> breederImages = [];
+
   Future<void> getBreederDetails() async {
     emit(BreederDetailsSuccess(breeder));
   }
@@ -88,6 +90,7 @@ class BreederDetailsCubit extends Cubit<GeneralBreederDetailsState> {
       if (response.isEmpty) {
         emit(BreederImagesEmpty('images_empty'.i18n));
       } else {
+        breederImages = response;
         emit(BreederImagesSuccess(response));
       }
     } catch (e, s) {
@@ -101,7 +104,8 @@ class BreederDetailsCubit extends Cubit<GeneralBreederDetailsState> {
     try {
       final response =
           await _breederDetailsRepo.addBreederImage(breederId, image);
-      emit(BreederImageAddSuccess(response));
+      breederImages.add(response);
+      emit(BreederImageAddSuccess(breederImages));
     } catch (e, s) {
       addError(e, s);
       emit(BreederImageAddFail(e.toString()));

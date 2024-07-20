@@ -19,10 +19,8 @@ class BreederImagesSuccess extends BreederImagesFetch {
   BreederImagesSuccess(super.breederImages);
 }
 
-class BreederImageAddSuccess extends BreederImagesState {
-  BreederImageAddSuccess(this.breederImageModel);
-
-  final BreederImageModel breederImageModel;
+class BreederImageAddSuccess extends BreederImagesFetch {
+  BreederImageAddSuccess(super.breederImages);
 }
 
 class BreederImagesEmpty extends BreederImagesState {
