@@ -13,6 +13,7 @@ class AppImageWidget extends StatelessWidget {
     this.height,
     this.border,
     this.imageBuilder,
+
   });
 
   final String url;
@@ -22,6 +23,7 @@ class AppImageWidget extends StatelessWidget {
   final double? height;
   final Border? border;
   final ImageWidgetBuilder? imageBuilder;
+
 
   @override
   Widget build(BuildContext context) {

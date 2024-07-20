@@ -6,6 +6,7 @@ import 'package:bunny_sync/global/dio/dio_client.dart';
 import 'package:bunny_sync/global/dio/exceptions.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/models/response_model/response_model.dart';
+import 'package:dio/dio.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 
@@ -22,5 +23,5 @@ abstract class BreederDetailsRepo {
 
   Future<BreederImageModel> addBreederImage(int id, XFile image);
 
-  Future<void> deleteBreederImage(int breederId, int imageId);
+  Future<void> deleteBreederImage(int breederId, int imageId);//
 }

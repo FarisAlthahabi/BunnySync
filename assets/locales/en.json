@@ -133,5 +133,11 @@
   "average_weight" : "Average Weight",
   "survival_rate" : "Survival Rate",
   "unknown" : "Unknown",
-  "stats" : "Stats"
+  "stats" : "Stats",
+  "image_added" : "Image is added successfully",
+  "image_deleted" : "Image is deleted successfully",
+  "are_you_sure_to_delete_image" : "Are you sure to delete Image?",
+  "choose_image_source" : "Choose image source",
+  "gallery" : "Gallery",
+  "camera" : "Camera"
 }

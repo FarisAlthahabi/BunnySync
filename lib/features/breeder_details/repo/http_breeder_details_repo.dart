@@ -101,10 +101,16 @@ class HttpBreederDetailsRepo implements BreederDetailsRepo {
   @override
   Future<BreederImageModel> addBreederImage(int id, XFile imagePicked) async {
     try {
-      final XFile pickedImage = imagePicked;
+      final FormData formData = FormData.fromMap({
+        'file': await MultipartFile.fromFile(
+          imagePicked.path,
+          filename: imagePicked.name,
+        ),
+        //
+      });
       final response = await _dioClient.post(
         '/breeders/$id/upload-images',
-        data: pickedImage,
+        data: formData,
       );
       final data = response.data as Map<String, dynamic>;
       final image = data['data'] as Map<String, dynamic>;
