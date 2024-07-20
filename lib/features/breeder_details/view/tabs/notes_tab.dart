@@ -108,30 +108,30 @@ class _NotesTabState extends State<NotesTab> implements NotesTabCallbacks {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<BreederDetailsCubit, GeneralBreederDetailsState>(
-      listener: (context, state) {
-        if (state is BreederNoteAddSuccess) {
-          breederDetailsCubit.addNote(
-            state.addNoteModel,
-            state.breederId,
-          );
-        } else if (state is BreederNoteDeleteSuccess) {
-          MainSnackBar.showSuccessMessageBar(
-            context,
-            "note_deleted".i18n,
-          );
-        } else if (state is BreederNoteDeleteFail) {
-          MainSnackBar.showErrorMessageBar(
-            context,
-            "note_delete_fail".i18n,
-          );
-        }
-      },
-      buildWhen: (prev, curr) => curr is BreederNotesState,
-      builder: (context, state) {
-        if (state is BreederNotesFetch) {
-          return Scaffold(
-            body: Skeletonizer(
+    return Scaffold(
+      body: BlocConsumer<BreederDetailsCubit, GeneralBreederDetailsState>(
+        listener: (context, state) {
+          if (state is BreederNoteAddSuccess) {
+            breederDetailsCubit.addNote(
+              state.addNoteModel,
+              state.breederId,
+            );
+          } else if (state is BreederNoteDeleteSuccess) {
+            MainSnackBar.showSuccessMessageBar(
+              context,
+              "note_deleted".i18n,
+            );
+          } else if (state is BreederNoteDeleteFail) {
+            MainSnackBar.showErrorMessageBar(
+              context,
+              "note_delete_fail".i18n,
+            );
+          }
+        },
+        buildWhen: (prev, curr) => curr is BreederNotesState,
+        builder: (context, state) {
+          if (state is BreederNotesFetch) {
+            return Skeletonizer(
               enabled: state is BreederNotesLoading,
               child: SingleChildScrollView(
                 controller: widget.controller,
@@ -173,37 +173,34 @@ class _NotesTabState extends State<NotesTab> implements NotesTabCallbacks {
                   ),
                 ),
               ),
-            ),
-            floatingActionButton: Padding(
-              padding: AppConstants.padding16,
-              child: FloatingActionButton(
-                onPressed: onAddTap,
-                shape: RoundedRectangleBorder(
-                  borderRadius: AppConstants.circularBorderRadius,
-                ),
-                backgroundColor: context.cs.secondaryContainer,
-                child: const Icon(Icons.add),
+            );
+          } else if (state is BreederNotesEmpty) {
+            return Center(
+              child: Text(
+                state.message,
+                style: context.tt.bodyLarge,
               ),
-            ),
-          );
-        } else if (state is BreederNotesEmpty) {
-          return Center(
-            child: Text(
-              state.message,
-              style: context.tt.bodyLarge,
-            ),
-          );
-        } else if (state is BreederNotesFail) {
-          return MainErrorWidget(
-            error: state.message,
-            onTap: onTryAgainTap,
-          );
-        }
-        return Container(
-          color: Colors.amber,
-        );
-        // return const SizedBox.shrink();
-      },
+            );
+          } else if (state is BreederNotesFail) {
+            return MainErrorWidget(
+              error: state.message,
+              onTap: onTryAgainTap,
+            );
+          }
+          return const SizedBox.shrink();
+        },
+      ),
+      floatingActionButton: Padding(
+        padding: AppConstants.padding16,
+        child: FloatingActionButton(
+          onPressed: onAddTap,
+          shape: RoundedRectangleBorder(
+            borderRadius: AppConstants.circularBorderRadius,
+          ),
+          backgroundColor: context.cs.secondaryContainer,
+          child: const Icon(Icons.add),
+        ),
+      ),
     );
   }
 }
