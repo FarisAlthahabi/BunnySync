@@ -111,12 +111,7 @@ class _NotesTabState extends State<NotesTab> implements NotesTabCallbacks {
     return Scaffold(
       body: BlocConsumer<BreederDetailsCubit, GeneralBreederDetailsState>(
         listener: (context, state) {
-          if (state is BreederNoteAddSuccess) {
-            breederDetailsCubit.addNote(
-              state.addNoteModel,
-              state.breederId,
-            );
-          } else if (state is BreederNoteDeleteSuccess) {
+          if (state is BreederNoteDeleteSuccess) {
             MainSnackBar.showSuccessMessageBar(
               context,
               "note_deleted".i18n,

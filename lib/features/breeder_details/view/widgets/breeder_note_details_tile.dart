@@ -1,4 +1,5 @@
 import 'package:bunny_sync/features/breeder_details/models/breeder_note_model/breeder_note_model.dart';
+import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -33,7 +34,7 @@ class BreederNoteDetailsTile extends StatelessWidget {
                     vertical: 14,
                   ),
                   child: Text(
-                    'Title',
+                    'title'.i18n,
                     style: TextStyle(color: context.cs.primary),
                   ),
                 ),
@@ -61,7 +62,7 @@ class BreederNoteDetailsTile extends StatelessWidget {
                     vertical: 13,
                   ),
                   child: Text(
-                    'Note',
+                    'note'.i18n,
                     style: TextStyle(color: context.cs.primary),
                   ),
                 ),

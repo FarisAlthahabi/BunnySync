@@ -104,10 +104,6 @@ class BreederDetailsCubit extends Cubit<GeneralBreederDetailsState> {
     emit(BreederDetailsSuccess(breeder));
   }
 
-  void addNoteManager(AddNoteModel addNoteModel, int breederId) {
-    emit(BreederNoteAddSuccess(addNoteModel, breederId));
-  }
-
   void addNote(AddNoteModel addNoteModel, int breederId) {
     final BreederNoteModel noteModel = BreederNoteModel(
       id: notes[notes.length - 1].id + 1,
@@ -131,7 +127,6 @@ class BreederDetailsCubit extends Cubit<GeneralBreederDetailsState> {
         (element) => element.id == breederId,
       );
       emit(BreederNoteDeleteSuccess(notes));
-      print(notes);
     } catch (e, s) {
       addError(e, s);
       emit(BreederNoteDeleteFail(e.toString()));

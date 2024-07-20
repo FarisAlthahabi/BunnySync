@@ -19,16 +19,6 @@ class BreederNotesSuccess extends BreederNotesFetch {
   BreederNotesSuccess(super.breederNotes);
 }
 
-class BreederNoteAddSuccess extends BreederNotesState {
-  BreederNoteAddSuccess(
-    this.addNoteModel,
-    this.breederId,
-  );
-
-  final AddNoteModel addNoteModel;
-  final int breederId;
-}
-
 class BreederNoteDeleteSuccess extends BreederNotesFetch {
   BreederNoteDeleteSuccess(super.breederNotes);
 }
