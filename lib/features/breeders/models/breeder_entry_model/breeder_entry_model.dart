@@ -14,7 +14,7 @@ part 'breeder_entry_model.g.dart';
 
 @immutable
 @JsonSerializable()
-class BreederEntryModel extends Equatable implements DropDownItemModel,GlobalModel {
+class BreederEntryModel extends Equatable implements DropDownItemModel,BottomSheetItemModel {
   const BreederEntryModel({
     required this.id,
     required this.userId,

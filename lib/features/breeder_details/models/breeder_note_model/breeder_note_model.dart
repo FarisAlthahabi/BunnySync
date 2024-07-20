@@ -9,7 +9,7 @@ part 'breeder_note_model.g.dart';
 
 @JsonSerializable()
 @immutable
-class BreederNoteModel implements GlobalModel {
+class BreederNoteModel implements BottomSheetItemModel {
   const BreederNoteModel({
     required this.id,
     required this.breederId,

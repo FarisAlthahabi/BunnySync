@@ -2,9 +2,10 @@ import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:flutter/material.dart';
 
-abstract class GlobalModel {}
+abstract class BottomSheetItemModel {}
 
-class BottomSheetWidget<T extends GlobalModel> extends StatelessWidget {
+class BottomSheetWidget<T extends BottomSheetItemModel>
+    extends StatelessWidget {
   const BottomSheetWidget({
     super.key,
     required this.title,
@@ -22,6 +23,17 @@ class BottomSheetWidget<T extends GlobalModel> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final child = this.child;
+    final onEdit = this.onEdit;
+    final onDelete = this.onDelete;
+    final model = this.model;
+
+    if (child == null && model == null) {
+      throw Exception(
+        "Either child or model should be provided to BottomSheetWidget",
+      );
+    }
+
     return SafeArea(
       top: false,
       child: Padding(
@@ -40,14 +52,15 @@ class BottomSheetWidget<T extends GlobalModel> extends StatelessWidget {
               style: context.tt.titleLarge?.copyWith(height: 1.3),
             ),
             const SizedBox(height: 12),
-            if (child != null) child!,
+            if (child != null) child,
             if (child == null)
               Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  if (onEdit != null && model != null)
                   TextButton(
-                    onPressed: () => onEdit!(model!),
+                    onPressed: () => onEdit(model),
                     style: TextButton.styleFrom(
                       alignment: AlignmentDirectional.centerStart,
                     ),
@@ -55,8 +68,9 @@ class BottomSheetWidget<T extends GlobalModel> extends StatelessWidget {
                       "edit".i18n,
                     ),
                   ),
+                  if (onDelete != null && model != null)
                   TextButton(
-                    onPressed: () => onDelete!(model!),
+                    onPressed: () => onDelete(model),
                     style: TextButton.styleFrom(
                       alignment: AlignmentDirectional.centerStart,
                     ),
