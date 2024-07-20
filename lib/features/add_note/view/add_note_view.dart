@@ -43,7 +43,6 @@ class AddNoteView extends StatelessWidget {
         ),
         BlocProvider.value(value: breederDetailsCubit),
       ],
-      // create: (context) => get<AddNoteCubit>(),
       child: AddNotePage(
         breederDetailsCubit: breederDetailsCubit,
         breederId: breederId,
