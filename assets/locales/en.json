@@ -139,5 +139,6 @@
   "are_you_sure_to_delete_image" : "Are you sure to delete Image?",
   "choose_image_source" : "Choose image source",
   "gallery" : "Gallery",
-  "camera" : "Camera"
+  "camera" : "Camera",
+  "image_options" : "Image Options"
 }

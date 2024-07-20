@@ -129,7 +129,7 @@ class _ImagesTabState extends State<ImagesTab> implements ImagesTabCallbacks {
     mainShowBottomSheet(
       context,
       widget: BottomSheetWidget(
-        title: 'Image Options',
+        title: 'image_options'.i18n,
         model: breederImageModel,
         onDelete: onDeleteTap,
       ),
@@ -227,7 +227,7 @@ class _ImagesTabState extends State<ImagesTab> implements ImagesTabCallbacks {
           return const SizedBox.shrink();
         },
       ),
-      floatingActionButton: FloatingActionButton(//
+      floatingActionButton: FloatingActionButton(
         onPressed: onAddTap,
         shape: RoundedRectangleBorder(
           borderRadius: AppConstants.circularBorderRadius,
