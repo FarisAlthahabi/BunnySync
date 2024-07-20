@@ -27,17 +27,27 @@ class BreederNoteDetailsTile extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 14,
+                  ),
                   child: Text(
                     'Title',
+                    style: TextStyle(color: context.cs.primary),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 15),
-                  child: Text(
-                    breederNoteModel.title,
-                    style: TextStyle(color: context.cs.primary),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 15),
+                    child: Text(
+                      breederNoteModel.title,
+                      textAlign: TextAlign.start,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -45,17 +55,23 @@ class BreederNoteDetailsTile extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 13),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 13,
+                  ),
                   child: Text(
                     'Note',
+                    style: TextStyle(color: context.cs.primary),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 15),
-                  child: Text(
-                    breederNoteModel.note,
-                    style: TextStyle(color: context.cs.primary),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 15),
+                    child: Text(
+                      breederNoteModel.note,
+                      style: const TextStyle(fontSize: 16),
+                    ),
                   ),
                 ),
               ],
