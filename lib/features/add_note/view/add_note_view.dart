@@ -136,6 +136,7 @@ class _AddNotePageState extends State<AddNotePage>
                       focusNode: noteFocusNode,
                       hintText: "note".i18n,
                       labelText: "note".i18n,
+                      maxLines: 7,
                     ),
                   ],
                 ),
