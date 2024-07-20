@@ -106,7 +106,6 @@ class HttpBreederDetailsRepo implements BreederDetailsRepo {
           imagePicked.path,
           filename: imagePicked.name,
         ),
-        //
       });
       final response = await _dioClient.post(
         '/breeders/$id/upload-images',

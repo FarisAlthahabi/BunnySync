@@ -23,5 +23,5 @@ abstract class BreederDetailsRepo {
 
   Future<BreederImageModel> addBreederImage(int id, XFile image);
 
-  Future<void> deleteBreederImage(int breederId, int imageId);//
+  Future<void> deleteBreederImage(int breederId, int imageId);
 }
