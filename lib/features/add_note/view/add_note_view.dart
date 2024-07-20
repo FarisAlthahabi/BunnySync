@@ -80,7 +80,9 @@ class _AddNotePageState extends State<AddNotePage>
   }
 
   @override
-  void onNoteSubmitted(String note) {}
+  void onNoteSubmitted(String note) {
+    onSave();
+  }
 
   @override
   void onTitleChanged(String title) {
