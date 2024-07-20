@@ -10,6 +10,7 @@ import 'package:bunny_sync/features/breeder_details/models/pedigree_model/pedigr
 import 'package:bunny_sync/features/breeder_details/repo/breeder_details_repo.dart';
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
@@ -92,6 +93,18 @@ class BreederDetailsCubit extends Cubit<GeneralBreederDetailsState> {
     } catch (e, s) {
       addError(e, s);
       emit(BreederImagesFail(e.toString()));
+    }
+  }
+
+  Future<void> addBreederImage(int breederId, XFile image) async {
+    emit(BreederImagesLoading(breederImagesFake));
+    try {
+      final response =
+          await _breederDetailsRepo.addBreederImage(breederId, image);
+      emit(BreederImageAddSuccess(response));
+    } catch (e, s) {
+      addError(e, s);
+      emit(BreederImageAddFail(e.toString()));
     }
   }
 
