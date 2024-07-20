@@ -112,6 +112,20 @@ class BreederDetailsCubit extends Cubit<GeneralBreederDetailsState> {
     }
   }
 
+  Future<void> deleteBreederImage(int breederId, int imageId) async {
+    emit(BreederImagesLoading(breederImagesFake));
+    try {
+      await _breederDetailsRepo.deleteBreederImage(breederId, imageId);
+      breederImages.removeWhere(
+        (element) => element.id == imageId,
+      );
+      emit(BreederImageDeleteSuccess(breederImages));
+    } catch (e, s) {
+      addError(e, s);
+      emit(BreederImageDeleteFail(e.toString()));
+    }
+  }
+
   void updateBreeder(BreederEntryModel breeder) {
     this.breeder = breeder;
     emit(BreederDetailsSuccess(breeder));
