@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/breeder_details/cubit/breeder_details_cubit.dart';
 import 'package:bunny_sync/features/breeder_details/models/breeder_image_model/breeder_image_model.dart';
+import 'package:bunny_sync/global/blocs/blocs.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
@@ -19,6 +22,8 @@ abstract class ImagesTabCallbacks {
   void onTryAgainTap();
 
   Future<void> onAddTap();
+
+  void onPermission({required bool isGranted});
 
   void onImageTap(BreederImageModel breederImageModel);
 
@@ -44,6 +49,8 @@ class ImagesTab extends StatefulWidget {
 }
 
 class _ImagesTabState extends State<ImagesTab> implements ImagesTabCallbacks {
+  late final PermissionsCubit permissionsCubit = context.read();
+
   late final BreederDetailsCubit breederDetailsCubit = context.read();
 
   @override
@@ -59,47 +66,15 @@ class _ImagesTabState extends State<ImagesTab> implements ImagesTabCallbacks {
   }
 
   @override
-  Future<void> pickCameraImage() async {
-    context.router.popForced();
-    final storageStatus = await Permission.storage.status;
-    if (!storageStatus.isGranted) {
-      await Permission.storage.request();
+  void onPermission({required bool isGranted}) {
+    if (!isGranted) {
+      MainSnackBar.showErrorMessageBar(
+        context,
+        "storage_permission_denied".i18n,
+      );
+      return;
     }
-    final XFile? image;
-    if (storageStatus.isGranted) {
-      final ImagePicker imagePicker = ImagePicker();
-      image = await imagePicker.pickImage(source: ImageSource.camera);
-      if (image != null) {
-        breederDetailsCubit.addBreederImage(
-          widget.breederId,
-          image,
-        );
-      }
-    }
-  }
 
-  @override
-  Future<void> pickGalleryImage() async {
-    context.router.popForced();
-    final storageStatus = await Permission.storage.status;
-    if (!storageStatus.isGranted) {
-      await Permission.storage.request();
-    }
-    final XFile? image;
-    if (storageStatus.isGranted) {
-      final ImagePicker imagePicker = ImagePicker();
-      image = await imagePicker.pickImage(source: ImageSource.gallery);
-      if (image != null) {
-        breederDetailsCubit.addBreederImage(
-          widget.breederId,
-          image,
-        );
-      }
-    }
-  }
-
-  @override
-  Future<void> onAddTap() async {
     mainShowBottomSheet(
       context,
       widget: BottomSheetWidget(
@@ -108,7 +83,7 @@ class _ImagesTabState extends State<ImagesTab> implements ImagesTabCallbacks {
           mainAxisSize: MainAxisSize.min,
           children: [
             TextButton(
-              onPressed:pickGalleryImage,
+              onPressed: pickGalleryImage,
               child: Text('gallery'.i18n),
             ),
             const SizedBox(
@@ -122,6 +97,41 @@ class _ImagesTabState extends State<ImagesTab> implements ImagesTabCallbacks {
         ),
       ),
     );
+  }
+
+  @override
+  Future<void> pickCameraImage() async {
+    context.router.popForced();
+    final ImagePicker imagePicker = ImagePicker();
+    final image = await imagePicker.pickImage(source: ImageSource.camera);
+    if (image != null) {
+      breederDetailsCubit.addBreederImage(
+        widget.breederId,
+        image,
+      );
+    }
+  }
+
+  @override
+  Future<void> pickGalleryImage() async {
+    context.router.popForced();
+    final ImagePicker imagePicker = ImagePicker();
+    final image = await imagePicker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      breederDetailsCubit.addBreederImage(
+        widget.breederId,
+        image,
+      );
+    }
+  }
+
+  @override
+  Future<void> onAddTap() async {
+    if (Platform.isIOS) {
+      permissionsCubit.requestPermission(Permission.mediaLibrary);
+    } else {
+      onPermission(isGranted: true);
+    }
   }
 
   @override
@@ -164,76 +174,84 @@ class _ImagesTabState extends State<ImagesTab> implements ImagesTabCallbacks {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocConsumer<BreederDetailsCubit, GeneralBreederDetailsState>(
-        listener: (context, state) {
-          if (state is BreederImageAddSuccess) {
-            MainSnackBar.showSuccessMessageBar(context, "image_added".i18n);
-          } else if (state is BreederImageAddFail) {
-            MainSnackBar.showErrorMessageBar(context, state.message);
-          } else if (state is BreederImageDeleteSuccess) {
-            MainSnackBar.showSuccessMessageBar(context, "image_deleted".i18n);
-          } else if (state is BreederImageDeleteFail) {
-            MainSnackBar.showErrorMessageBar(context, state.message);
-          }
-        },
-        buildWhen: (prev, curr) => curr is BreederImagesState,
-        builder: (context, state) {
-          if (state is BreederImagesFetch) {
-            return Skeletonizer(
-              enabled: state is BreederImagesLoading,
-              child: Padding(
-                padding: AppConstants.padding40,
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: context.cs.onInverseSurface,
+    return BlocListener<PermissionsCubit, PermissionsState>(
+      listener: (context, state) {
+        if (state is PermissionsResult &&
+            state.permission == Permission.photos) {
+          onPermission(isGranted: state is PermissionsGranted);
+        }
+      },
+      child: Scaffold(
+        body: BlocConsumer<BreederDetailsCubit, GeneralBreederDetailsState>(
+          listener: (context, state) {
+            if (state is BreederImageAddSuccess) {
+              MainSnackBar.showSuccessMessageBar(context, "image_added".i18n);
+            } else if (state is BreederImageAddFail) {
+              MainSnackBar.showErrorMessageBar(context, state.message);
+            } else if (state is BreederImageDeleteSuccess) {
+              MainSnackBar.showSuccessMessageBar(context, "image_deleted".i18n);
+            } else if (state is BreederImageDeleteFail) {
+              MainSnackBar.showErrorMessageBar(context, state.message);
+            }
+          },
+          buildWhen: (prev, curr) => curr is BreederImagesState,
+          builder: (context, state) {
+            if (state is BreederImagesFetch) {
+              return Skeletonizer(
+                enabled: state is BreederImagesLoading,
+                child: Padding(
+                  padding: AppConstants.padding40,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: context.cs.onInverseSurface,
+                      ),
+                    ),
+                    child: ListView.separated(
+                      controller: widget.controller,
+                      shrinkWrap: true,
+                      itemCount: state.breederImages.length,
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () => onImageTap(state.breederImages[index]),
+                          child: AppImageWidget(
+                            url: state.breederImages[index].imageUrl,
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(
+                          height: 25,
+                        );
+                      },
                     ),
                   ),
-                  child: ListView.separated(
-                    controller: widget.controller,
-                    shrinkWrap: true,
-                    itemCount: state.breederImages.length,
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () => onImageTap(state.breederImages[index]),
-                        child: AppImageWidget(
-                          url: state.breederImages[index].imageUrl,
-                        ),
-                      );
-                    },
-                    separatorBuilder: (context, index) {
-                      return const SizedBox(
-                        height: 25,
-                      );
-                    },
-                  ),
                 ),
-              ),
-            );
-          } else if (state is BreederImagesEmpty) {
-            return Center(
-              child: Text(
-                state.message,
-                style: context.tt.bodyLarge,
-              ),
-            );
-          } else if (state is BreederImagesFail) {
-            return MainErrorWidget(
-              error: state.message,
-              onTap: onTryAgainTap,
-            );
-          }
-          return const SizedBox.shrink();
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: onAddTap,
-        shape: RoundedRectangleBorder(
-          borderRadius: AppConstants.circularBorderRadius,
+              );
+            } else if (state is BreederImagesEmpty) {
+              return Center(
+                child: Text(
+                  state.message,
+                  style: context.tt.bodyLarge,
+                ),
+              );
+            } else if (state is BreederImagesFail) {
+              return MainErrorWidget(
+                error: state.message,
+                onTap: onTryAgainTap,
+              );
+            }
+            return const SizedBox.shrink();
+          },
         ),
-        backgroundColor: context.cs.secondaryContainer,
-        child: const Icon(Icons.add),
+        floatingActionButton: FloatingActionButton(
+          onPressed: onAddTap,
+          shape: RoundedRectangleBorder(
+            borderRadius: AppConstants.circularBorderRadius,
+          ),
+          backgroundColor: context.cs.secondaryContainer,
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }

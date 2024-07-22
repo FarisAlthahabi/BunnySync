@@ -1,5 +1,6 @@
 import 'package:bunny_sync/features/app/view/bunny_sync_material_app.dart';
 import 'package:bunny_sync/features/authentication/bloc/authentication_bloc.dart';
+import 'package:bunny_sync/global/blocs/blocs.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/repos/repos.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,9 @@ class BunnySyncApp extends StatelessWidget {
         providers: [
           BlocProvider(
             create: (_) => get<AuthenticationBloc>(),
+          ),
+          BlocProvider(
+            create: (_) => get<PermissionsCubit>(),
           ),
         ],
         child: const BunnySyncMaterialApp(),
