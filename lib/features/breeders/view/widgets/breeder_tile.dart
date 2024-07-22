@@ -36,7 +36,7 @@ class BreederTile extends StatelessWidget {
     return MainTile(
       padding: AppConstants.paddingSB16,
       onTap: () => onTap(breeder),
-      child: Column(//
+      child: Column(
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
