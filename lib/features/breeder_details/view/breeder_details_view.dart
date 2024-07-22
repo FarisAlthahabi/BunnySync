@@ -161,6 +161,7 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
       ),
     );
   }
+  
 
   @override
   void onEditBreeder(BreederEntryModel breederEntryModel) {
