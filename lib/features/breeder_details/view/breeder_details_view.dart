@@ -7,7 +7,6 @@ import 'package:bunny_sync/features/breeder_details/view/tabs/profile_tab.dart';
 import 'package:bunny_sync/features/breeder_details/view/widgets/breeder_profile_info_widget.dart';
 import 'package:bunny_sync/features/breeder_details/view/widgets/details_tab_bar.dart';
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
-import 'package:bunny_sync/features/breeders/view/widgets/breeder_more_options_widget.dart';
 import 'package:bunny_sync/features/main_navigation/cubit/main_navigation_cubit.dart';
 import 'package:bunny_sync/global/blocs/delete_breeder_cubit/delete_breeder_cubit.dart';
 import 'package:bunny_sync/global/di/di.dart';
@@ -27,6 +26,28 @@ abstract class BreederDetailsViewCallbacks {
   void onMoreOptionsTap(BreederEntryModel breederEntryModel);
 
   void onEditBreeder(BreederEntryModel breederEntryModel);
+
+  void onBreed(BreederEntryModel breederEntryModel);
+
+  void onBirth(BreederEntryModel breederEntryModel);
+
+  void onCageCard(BreederEntryModel breederEntryModel);
+
+  void onPedigree(BreederEntryModel breederEntryModel);
+
+  void onSell(BreederEntryModel breederEntryModel);
+
+  void onWeight(BreederEntryModel breederEntryModel);
+
+  void onButcher(BreederEntryModel breederEntryModel);
+
+  void onDied(BreederEntryModel breederEntryModel);
+
+  void onArchive(BreederEntryModel breederEntryModel);
+
+  void onCull(BreederEntryModel breederEntryModel);
+
+  void onNotes(BreederEntryModel breederEntryModel);
 
   void onDeleteBreeder(BreederEntryModel breederEntryModel);
 }
@@ -123,11 +144,20 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
       context,
       widget: BottomSheetWidget(
         title: 'breeder_options'.i18n,
-        child: BreederMoreOptionsWidget(
-          breederEntryModel: breederEntryModel,
-          onEditBreeder: onEditBreeder,
-          onDeleteBreeder: onDeleteBreeder,
-        ),
+        model: breederEntryModel,
+        onArchive: onArchive,
+        onBirth: onBirth,
+        onBreed: onBreed,
+        onCageCard: onCageCard,
+        onButcher: onButcher,
+        onCull: onCull,
+        onEdit: onEditBreeder,
+        onDelete: onDeleteBreeder,
+        onDied: onDied,
+        onNotes: onNotes,
+        onPedigree: onPedigree,
+        onSell: onSell,
+        onWeight: onWeight,
       ),
     );
   }
@@ -140,6 +170,61 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
         breederEntryModel: breederEntryModel,
       ),
     );
+  }
+
+  @override
+  void onArchive(BreederEntryModel breederEntryModel) {
+    // TODO: implement onArchive
+  }
+  
+  @override
+  void onBirth(BreederEntryModel breederEntryModel) {
+    // TODO: implement onBirth
+  }
+  
+  @override
+  void onBreed(BreederEntryModel breederEntryModel) {
+    // TODO: implement onBreed
+  }
+  
+  @override
+  void onButcher(BreederEntryModel breederEntryModel) {
+    // TODO: implement onButcher
+  }
+  
+  @override
+  void onCageCard(BreederEntryModel breederEntryModel) {
+    // TODO: implement onCageCard
+  }
+  
+  @override
+  void onCull(BreederEntryModel breederEntryModel) {
+    // TODO: implement onCull
+  }
+  
+  @override
+  void onDied(BreederEntryModel breederEntryModel) {
+    // TODO: implement onDied
+  }
+  
+  @override
+  void onNotes(BreederEntryModel breederEntryModel) {
+    // TODO: implement onNotes
+  }
+  
+  @override
+  void onPedigree(BreederEntryModel breederEntryModel) {
+    // TODO: implement onPedigree
+  }
+  
+  @override
+  void onSell(BreederEntryModel breederEntryModel) {
+    // TODO: implement onSell
+  }
+  
+  @override
+  void onWeight(BreederEntryModel breederEntryModel) {
+    // TODO: implement onWeight
   }
 
   @override

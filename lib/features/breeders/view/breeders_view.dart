@@ -37,6 +37,8 @@ abstract class BreedersViewCallbacks {
   void onSearchChanged(String value);
 
   void onDeleteSearch();
+
+  void onScanTap();
 }
 
 @RoutePage()
@@ -198,6 +200,11 @@ class _BreedersPageState extends State<BreedersPage>
   }
 
   @override
+  void onScanTap() {
+    context.router.push(const BarcodeScannerRoute());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
@@ -268,6 +275,7 @@ class _BreedersPageState extends State<BreedersPage>
                     return Skeletonizer.sliver(
                       enabled: state is BreedersLoading,
                       child: CustomAppBar(
+                        onScanTap: onScanTap,
                         searchController: searchController,
                         searchFocusNode: searchFocusNode,
                         onSearchChanged: onSearchChanged,

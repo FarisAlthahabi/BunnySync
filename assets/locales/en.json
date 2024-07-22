@@ -133,5 +133,14 @@
   "average_weight" : "Average Weight",
   "survival_rate" : "Survival Rate",
   "unknown" : "Unknown",
-  "stats" : "Stats"
+  "stats" : "Stats",
+  "birth" : "Birth",
+  "cage_card" : "Cage Card",
+  "sell" : "Sell",
+  "butcher" : "Butcher",
+  "archive" : "Archive",
+  "cull" : "Cull",
+  "scan_qr_code" : "Scan QR Code",
+  "scan_something!" : "Scan something!",
+  "no_display_value." : "No display value."
 }

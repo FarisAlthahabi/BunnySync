@@ -25,7 +25,9 @@ class BreederTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final rabbitProperties = [
       RabbitPropertyModel(
-          title: 'litters'.i18n, value: breeder.litters.toString(),),
+        title: 'litters'.i18n,
+        value: breeder.litters.toString(),
+      ),
       RabbitPropertyModel(title: 'kits'.i18n, value: breeder.kits.toString()),
       RabbitPropertyModel(title: 'age'.i18n, value: breeder.age ?? '-'),
       RabbitPropertyModel(title: 'weight'.i18n, value: breeder.weight ?? '-'),
@@ -34,7 +36,7 @@ class BreederTile extends StatelessWidget {
     return MainTile(
       padding: AppConstants.paddingSB16,
       onTap: () => onTap(breeder),
-      child: Column(
+      child: Column(//
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,16 +53,25 @@ class BreederTile extends StatelessWidget {
                     ),
                     const SizedBox(width: 20),
                     Column(
+                      mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           breeder.name,
                           style: context.tt.headlineSmall,
                         ),
-                        const SizedBox(height: 2),
-                        Text(
-                          '${'id'.i18n}: ${breeder.id} | ${'prefix'.i18n}: ${breeder.prefix}',
-                          style: context.tt.bodyMedium,
+                        Wrap(
+                          spacing: 4,
+                          children: [
+                            Text(
+                              '${'id'.i18n}: ${breeder.id} | ${'breed'.i18n}: ${breeder.breed ?? 'breed'}',
+                              style: context.tt.bodyMedium,
+                            ),
+                            Text(
+                              '${'cage'.i18n}: ${breeder.cage} | ${'color'.i18n}: ${breeder.color ?? 'color'}',
+                              style: context.tt.bodyMedium,
+                            ),
+                          ],
                         ),
                       ],
                     ),

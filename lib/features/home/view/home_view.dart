@@ -1,4 +1,4 @@
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/authentication/bloc/authentication_bloc.dart';
 import 'package:bunny_sync/features/home/view/widgets/home_tile.dart';
 import 'package:bunny_sync/features/sign_in/cubit/sign_in_cubit.dart';
@@ -19,6 +19,14 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 abstract class HomeViewCallBacks {
   void onLogOutTap();
+
+  void onBreedersTap();
+
+  void onLittersTap();
+
+  void onKitsTap();
+
+  void onFinancesTap();
 }
 
 @RoutePage()
@@ -49,6 +57,26 @@ class _HomePageState extends State<HomePage> implements HomeViewCallBacks {
   @override
   void onLogOutTap() {
     signInCubit.logout();
+  }
+
+   @override
+  void onBreedersTap() {
+    // TODO: implement onBreedersTap
+  }
+  
+  @override
+  void onLittersTap() {
+    // TODO: implement onLittersTap
+  }
+
+  @override
+  void onFinancesTap() {
+    // TODO: implement onFinancesTap
+  }
+
+  @override
+  void onKitsTap() {
+    // TODO: implement onKitsTap
   }
 
   @override
@@ -116,6 +144,7 @@ class _HomePageState extends State<HomePage> implements HomeViewCallBacks {
                   padding: const EdgeInsets.only(top: 16),
                   children: [
                     IndexedGridScaleFadeAnimatedTile(
+                      onTap: onBreedersTap,
                       index: 0,
                       columnCount: 2,
                       child: HomeTile(
@@ -126,6 +155,7 @@ class _HomePageState extends State<HomePage> implements HomeViewCallBacks {
                       ),
                     ),
                     IndexedGridScaleFadeAnimatedTile(
+                      onTap: onLittersTap,
                       index: 1,
                       columnCount: 2,
                       child: HomeTile(
@@ -136,6 +166,7 @@ class _HomePageState extends State<HomePage> implements HomeViewCallBacks {
                       ),
                     ),
                     IndexedGridScaleFadeAnimatedTile(
+                      onTap: onKitsTap,
                       index: 2,
                       columnCount: 2,
                       child: HomeTile(
@@ -147,6 +178,7 @@ class _HomePageState extends State<HomePage> implements HomeViewCallBacks {
                       ),
                     ),
                     IndexedGridScaleFadeAnimatedTile(
+                      onTap: onFinancesTap,
                       index: 3,
                       columnCount: 2,
                       child: HomeTile(
