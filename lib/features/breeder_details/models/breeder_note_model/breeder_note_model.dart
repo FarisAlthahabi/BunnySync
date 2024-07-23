@@ -1,6 +1,6 @@
-
 import 'dart:convert';
 
+import 'package:bunny_sync/global/utils/json_converters/int_converter.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
@@ -17,7 +17,7 @@ class BreederNoteModel implements BottomSheetItemModel {
     required this.note,
     required this.createdAt,
     required this.updatedAt,
-    required this.dtRowIndex,
+    this.dtRowIndex,
   });
 
   factory BreederNoteModel.fromJsonStr(String str) =>
@@ -28,6 +28,7 @@ class BreederNoteModel implements BottomSheetItemModel {
 
   final int id;
 
+  @IntConverter()
   @JsonKey(name: 'breeder_id')
   final int breederId;
 
@@ -42,7 +43,7 @@ class BreederNoteModel implements BottomSheetItemModel {
   final DateTime updatedAt;
 
   @JsonKey(name: 'DT_RowIndex')
-  final int dtRowIndex;
+  final int? dtRowIndex;
 
   String toJsonStr() => jsonEncode(toJson());
 
