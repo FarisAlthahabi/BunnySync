@@ -1,14 +1,14 @@
-part of '../breeder_details_cubit.dart';
- 
+part of '../../breeder_details_cubit.dart';
+
 @immutable
 abstract class BreederImagesState extends GeneralBreederDetailsState {}
 
 class BreederImagesInitial extends BreederImagesState {}
 
 class BreederImagesFetch extends BreederImagesState {
-BreederImagesFetch(this.breederImages);
+  BreederImagesFetch(this.breederImages);
 
- final List<BreederImageModel> breederImages;
+  final List<BreederImageModel> breederImages;
 }
 
 class BreederImagesLoading extends BreederImagesFetch {
@@ -24,7 +24,6 @@ class BreederImagesEmpty extends BreederImagesState {
 
   final String message;
 }
-
 
 class BreederImagesFail extends BreederImagesState {
   BreederImagesFail(this.message);

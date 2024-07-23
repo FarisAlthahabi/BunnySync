@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:bunny_sync/global/utils/bunny_sync_json_utils.dart';
+import 'package:bunny_sync/global/utils/json_converters/int_converter.dart';
 import 'package:bunny_sync/global/utils/json_utils.dart';
+import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -9,7 +11,7 @@ part 'breeder_image_model.g.dart';
 
 @JsonSerializable()
 @immutable
-class BreederImageModel {
+class BreederImageModel implements BottomSheetItemModel{
   const BreederImageModel({
     required this.id,
     required this.breederId,
@@ -27,6 +29,7 @@ class BreederImageModel {
 
   final int id;
 
+  @IntConverter()
   @JsonKey(name: 'breeder_id')
   final int breederId;
 

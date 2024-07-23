@@ -76,20 +76,60 @@ class HttpBreederDetailsRepo implements BreederDetailsRepo {
       rethrow;
     }
   }
-  
+
   @override
-  Future<List<BreederImageModel>> getBreederImages(int id) async{
+  Future<List<BreederImageModel>> getBreederImages(int id) async {
     try {
       final response = await _dioClient.post(
         '/breeders/$id/get-images',
       );
-      //
       final data = response.data as Map<String, dynamic>;
       final images = data['data'] as List;
       return List.generate(
         images.length,
         (index) =>
             BreederImageModel.fromJson(images[index] as Map<String, dynamic>),
+      );
+    } on Exception catch (e) {
+      if (e is NotFoundException) {
+        throw e.message ?? 'something_went_wrong'.i18n;
+      }
+      rethrow;
+    }
+  }
+
+  @override
+  Future<BreederImageModel> addBreederImage(int id, XFile imagePicked) async {
+    try {
+      final FormData formData = FormData.fromMap({
+        'file': await MultipartFile.fromFile(
+          imagePicked.path,
+          filename: imagePicked.name,
+        ),
+      });
+      final response = await _dioClient.post(
+        '/breeders/$id/upload-images',
+        data: formData,
+      );
+      final data = response.data as Map<String, dynamic>;
+      final image = data['data'] as Map<String, dynamic>;
+      return BreederImageModel.fromJson(image);
+    } on Exception catch (e) {
+      if (e is NotFoundException) {
+        throw e.message ?? 'something_went_wrong'.i18n;
+      }
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> deleteBreederImage(int breederId, int imageId) async {
+    try {
+      await _dioClient.post(
+        '/breeders/$breederId/delete-images',
+        data: <String, dynamic>{
+          'id': imageId,
+        },
       );
     } on Exception catch (e) {
       if (e is NotFoundException) {
