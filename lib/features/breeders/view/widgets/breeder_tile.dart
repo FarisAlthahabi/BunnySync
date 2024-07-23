@@ -50,6 +50,7 @@ class BreederTile extends StatelessWidget {
                         child: BreederImageWidget(
                           url: breeder.photo,
                           gender: breeder.gender,
+                          size: 80,
                         ),
                       ),
                       const SizedBox(width: 20),
