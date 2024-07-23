@@ -24,8 +24,6 @@ abstract class ImagesTabCallbacks {
 
   void onAddTap();
 
-  Future<void> onAddTap();
-
   void onPermission({required bool isGranted});
 
   void onImageTap(BreederImageModel breederImageModel);
@@ -61,11 +59,6 @@ class _ImagesTabState extends State<ImagesTab> implements ImagesTabCallbacks {
     super.initState();
 
     breederDetailsCubit.getBreederImages(widget.breederId);
-  }
-
-  @override
-  void onAddTap() {
-    // TODO: implement onAddTap
   }
 
   @override
