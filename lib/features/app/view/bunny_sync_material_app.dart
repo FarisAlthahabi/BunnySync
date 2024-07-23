@@ -1,6 +1,6 @@
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/router/router.dart';
-import 'package:bunny_sync/global/theme/light_theme.dart';
+import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,8 +27,10 @@ class _BunnySyncMaterialAppState extends State<BunnySyncMaterialApp> {
           child: GlobalLoaderOverlay(
             useDefaultLoading: false,
             overlayWidgetBuilder: (_) {
-              return const Center(
-                child: LoadingIndicator(),
+              return Center(
+                child: LoadingIndicator(
+                  color: context.cs.primary,
+                ),
               );
             },
             child: MaterialApp.router(
