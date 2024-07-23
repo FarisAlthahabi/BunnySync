@@ -7,21 +7,26 @@ class IndexedGridScaleFadeAnimatedTile extends StatelessWidget {
     required this.index,
     required this.columnCount,
     required this.child,
+    required this.onTap,
   });
 
   final int index;
   final int columnCount;
   final Widget child;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return AnimationConfiguration.staggeredGrid(
-      position: index,
-      duration: const Duration(milliseconds: 700),
-      columnCount: columnCount,
-      child: ScaleAnimation(
-        child: FadeInAnimation(
-          child: child,
+    return InkWell(
+      onTap: onTap,
+      child: AnimationConfiguration.staggeredGrid(
+        position: index,
+        duration: const Duration(milliseconds: 700),
+        columnCount: columnCount,
+        child: ScaleAnimation(
+          child: FadeInAnimation(
+            child: child,
+          ),
         ),
       ),
     );

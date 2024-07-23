@@ -14,7 +14,8 @@ part 'breeder_entry_model.g.dart';
 
 @immutable
 @JsonSerializable()
-class BreederEntryModel extends Equatable implements DropDownItemModel,BottomSheetItemModel {
+class BreederEntryModel extends Equatable
+    implements DropDownItemModel, BottomSheetItemModel {
   const BreederEntryModel({
     required this.id,
     required this.userId,
@@ -181,5 +182,4 @@ class BreederEntryModel extends Equatable implements DropDownItemModel,BottomShe
 
   @override
   List<Object?> get props => [id];
-
 }

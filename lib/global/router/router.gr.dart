@@ -49,6 +49,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const AuthenticationView(),
       );
     },
+    BarcodeScannerRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const BarcodeScannerView(),
+      );
+    },
     BreederDetailsRoute.name: (routeData) {
       final args = routeData.argsAs<BreederDetailsRouteArgs>();
       return AutoRoutePage<dynamic>(
@@ -242,6 +248,20 @@ class AuthenticationRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'AuthenticationRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [BarcodeScannerView]
+class BarcodeScannerRoute extends PageRouteInfo<void> {
+  const BarcodeScannerRoute({List<PageRouteInfo>? children})
+      : super(
+          BarcodeScannerRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'BarcodeScannerRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

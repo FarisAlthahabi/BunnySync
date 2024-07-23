@@ -25,7 +25,9 @@ class BreederTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final rabbitProperties = [
       RabbitPropertyModel(
-          title: 'litters'.i18n, value: breeder.litters.toString(),),
+        title: 'litters'.i18n,
+        value: breeder.litters.toString(),
+      ),
       RabbitPropertyModel(title: 'kits'.i18n, value: breeder.kits.toString()),
       RabbitPropertyModel(title: 'age'.i18n, value: breeder.age ?? '-'),
       RabbitPropertyModel(title: 'weight'.i18n, value: breeder.weight ?? '-'),
@@ -39,35 +41,68 @@ class BreederTile extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: AppConstants.paddingT16,
-                child: Row(
-                  children: [
-                    Skeleton.shade(
-                      child: BreederImageWidget(
-                        url: breeder.photo,
-                        gender: breeder.gender,
+              Expanded(
+                child: Padding(
+                  padding: AppConstants.paddingT16,
+                  child: Row(
+                    children: [
+                      Skeleton.shade(
+                        child: BreederImageWidget(
+                          url: breeder.photo,
+                          gender: breeder.gender,
+                          size: 80,
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 20),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          breeder.name,
-                          style: context.tt.headlineSmall,
+                      const SizedBox(width: 20),
+                      Expanded(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Text(
+                              breeder.name,
+                              style: context.tt.headlineSmall,
+                            ),
+                            Wrap(
+                              spacing: 4,
+                              children: [
+                                Text(
+                                  '${'id'.i18n}: ${breeder.id}',
+                                  style: context.tt.bodyMedium,
+                                ),
+                                Text(
+                                  ' | ',
+                                  style: context.tt.bodyMedium,
+                                ),
+                                Text(
+                                  '${'breed'.i18n}: ${breeder.breed ?? 'breed'}',
+                                  style: context.tt.bodyMedium,
+                                ),
+                                Text(
+                                  ' | ',
+                                  style: context.tt.bodyMedium,
+                                ),
+                                Text(
+                                  '${'cage'.i18n}: ${breeder.cage}',
+                                  style: context.tt.bodyMedium,
+                                ),
+                                Text(
+                                  ' | ',
+                                  style: context.tt.bodyMedium,
+                                ),
+                                Text(
+                                  '${'color'.i18n}: ${breeder.color ?? 'color'}',
+                                  style: context.tt.bodyMedium,
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                        const SizedBox(height: 2),
-                        Text(
-                          '${'id'.i18n}: ${breeder.id} | ${'prefix'.i18n}: ${breeder.prefix}',
-                          style: context.tt.bodyMedium,
-                        ),
-                      ],
-                    ),
-                  ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              const Spacer(),
               const SizedBox(width: 3),
               TextButton(
                 onPressed: () {
