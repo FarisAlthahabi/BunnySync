@@ -5,6 +5,7 @@ import 'package:bunny_sync/global/models/rabbit_property_model.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/info_properties_widget.dart';
+import 'package:bunny_sync/global/widgets/main_error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -36,6 +37,7 @@ class _PedigreeTabState extends State<PedigreeTab>
     breederDetailsCubit.getBreederPedigree(widget.breederId);
     super.initState();
   }
+
 
   @override
   void onTryAgainTap() {
@@ -78,81 +80,65 @@ class _PedigreeTabState extends State<PedigreeTab>
             ),
           ];
           return Skeletonizer(
-            enabled: state is BreederPedigreeLoading,
-            child: SingleChildScrollView(
-              controller: widget.controller,
-              physics: const AlwaysScrollableScrollPhysics(),
-              child: Padding(
-                padding: AppConstants.padding24,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
+              enabled: state is BreederPedigreeLoading,
+              child: SingleChildScrollView(
+                controller: widget.controller,
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: Padding(
+                  padding: AppConstants.padding24,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                        ),
+                        child: InfoPropertiesWidget(
+                          properties: rabbitProperties,
+                          propertyStructures: List.generate(
+                            rabbitProperties.length,
+                            (index) {
+                              return PropertyStructure(
+                                mainAxisCellCount: 1.6,
+                                crossAxisCellCount: 3,
+                              );
+                            },
+                          ),
+                        ),
                       ),
-                      child: InfoPropertiesWidget(
-                        properties: rabbitProperties,
-                        propertyStructures: List.generate(
-                          rabbitProperties.length,
-                          (index) {
-                            return PropertyStructure(
-                              mainAxisCellCount: 1.6,
-                              crossAxisCellCount: 3,
+                      const SizedBox(height: 24),
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: context.cs.onInverseSurface,
+                          ),
+                        ),
+                        child: ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: rabbitDetailsProperties.length,
+                          itemBuilder: (context, index) {
+                            Color tileColor;
+                            if (index.isEven) {
+                              tileColor = context.cs.surface;
+                            } else {
+                              tileColor = context.cs.onInverseSurface;
+                            }
+                            return BreederDetailsTile(
+                              rabbitProperty: rabbitDetailsProperties[index],
+                              tileColor: tileColor,
                             );
                           },
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 24),
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: context.cs.onInverseSurface,
-                        ),
-                      ),
-                      child: ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: rabbitDetailsProperties.length,
-                        itemBuilder: (context, index) {
-                          Color tileColor;
-                          if (index.isEven) {
-                            tileColor = context.cs.surface;
-                          } else {
-                            tileColor = context.cs.onInverseSurface;
-                          }
-                          return BreederDetailsTile(
-                            rabbitProperty: rabbitDetailsProperties[index],
-                            tileColor: tileColor,
-                          );
-                        },
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          );
+            );
         } else if (state is BreederPedigreeFail) {
-          return Scaffold(
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    state.message,
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  TextButton(
-                    onPressed: onTryAgainTap,
-                    child: Text("try_again".i18n),
-                  ),
-                ],
-              ),
-            ),
+          return MainErrorWidget(
+            error: state.message,
+            onTap: onTryAgainTap,
           );
         }
         return const SizedBox.shrink();

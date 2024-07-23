@@ -1,4 +1,3 @@
-import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -101,7 +100,7 @@ class BottomSheetWidget<T extends BottomSheetItemModel>
                         "edit".i18n,
                       ),
                     ),
-                    if (onBreed != null && model != null)
+                  if (onBreed != null && model != null)
                     TextButton(
                       onPressed: () => onBreed(model),
                       style: TextButton.styleFrom(
@@ -111,7 +110,7 @@ class BottomSheetWidget<T extends BottomSheetItemModel>
                         "breed".i18n,
                       ),
                     ),
-                    if (onBirth != null && model != null)
+                  if (onBirth != null && model != null)
                     TextButton(
                       onPressed: () => onBirth(model),
                       style: TextButton.styleFrom(
@@ -121,7 +120,7 @@ class BottomSheetWidget<T extends BottomSheetItemModel>
                         "birth".i18n,
                       ),
                     ),
-                    if (onCageCard != null && model != null)
+                  if (onCageCard != null && model != null)
                     TextButton(
                       onPressed: () => onCageCard(model),
                       style: TextButton.styleFrom(
@@ -131,7 +130,7 @@ class BottomSheetWidget<T extends BottomSheetItemModel>
                         "cage_card".i18n,
                       ),
                     ),
-                    if (onPedigree != null && model != null)
+                  if (onPedigree != null && model != null)
                     TextButton(
                       onPressed: () => onPedigree(model),
                       style: TextButton.styleFrom(
@@ -141,7 +140,7 @@ class BottomSheetWidget<T extends BottomSheetItemModel>
                         "pedigree".i18n,
                       ),
                     ),
-                    if (onSell != null && model != null)
+                  if (onSell != null && model != null)
                     TextButton(
                       onPressed: () => onSell(model),
                       style: TextButton.styleFrom(
@@ -151,7 +150,7 @@ class BottomSheetWidget<T extends BottomSheetItemModel>
                         "sell".i18n,
                       ),
                     ),
-                    if (onWeight != null && model != null)
+                  if (onWeight != null && model != null)
                     TextButton(
                       onPressed: () => onWeight(model),
                       style: TextButton.styleFrom(
@@ -161,7 +160,7 @@ class BottomSheetWidget<T extends BottomSheetItemModel>
                         "weight".i18n,
                       ),
                     ),
-                    if (onButcher != null && model != null)
+                  if (onButcher != null && model != null)
                     TextButton(
                       onPressed: () => onButcher(model),
                       style: TextButton.styleFrom(
@@ -171,7 +170,7 @@ class BottomSheetWidget<T extends BottomSheetItemModel>
                         "butcher".i18n,
                       ),
                     ),
-                    if (onDied != null && model != null)
+                  if (onDied != null && model != null)
                     TextButton(
                       onPressed: () => onDied(model),
                       style: TextButton.styleFrom(
@@ -181,7 +180,7 @@ class BottomSheetWidget<T extends BottomSheetItemModel>
                         "died".i18n,
                       ),
                     ),
-                    if (onArchive != null && model != null)
+                  if (onArchive != null && model != null)
                     TextButton(
                       onPressed: () => onArchive(model),
                       style: TextButton.styleFrom(
@@ -201,7 +200,7 @@ class BottomSheetWidget<T extends BottomSheetItemModel>
                         "cull".i18n,
                       ),
                     ),
-                    if (onNotes != null && model != null)
+                  if (onNotes != null && model != null)
                     TextButton(
                       onPressed: () => onNotes(model),
                       style: TextButton.styleFrom(
@@ -211,7 +210,7 @@ class BottomSheetWidget<T extends BottomSheetItemModel>
                         "notes".i18n,
                       ),
                     ),
-                    if (onDelete != null && model != null)
+                  if (onDelete != null && model != null)
                     TextButton(
                       onPressed: () => onDelete(model),
                       style: TextButton.styleFrom(

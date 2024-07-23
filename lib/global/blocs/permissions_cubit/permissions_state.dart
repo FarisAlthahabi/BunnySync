@@ -5,15 +5,18 @@ abstract class PermissionsState {}
 
 class PermissionsInitial extends PermissionsState {}
 
-class PermissionsGranted extends PermissionsState {
-  PermissionsGranted(this.permission);
+class PermissionsResult extends PermissionsState {
+  PermissionsResult(this.permission);
 
   final Permission permission;
 }
 
-class PermissionsDenied extends PermissionsState {
-  PermissionsDenied(this.permission, {this.isPermanent = false});
+class PermissionsGranted extends PermissionsResult {
+  PermissionsGranted(super.permission);
+}
 
-  final Permission permission;
+class PermissionsDenied extends PermissionsResult {
+  PermissionsDenied(super.permission, {this.isPermanent = false});
+
   final bool isPermanent;
 }

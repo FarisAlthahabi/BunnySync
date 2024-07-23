@@ -161,7 +161,6 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
       ),
     );
   }
-  
 
   @override
   void onEditBreeder(BreederEntryModel breederEntryModel) {
@@ -177,52 +176,52 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
   void onArchive(BreederEntryModel breederEntryModel) {
     // TODO: implement onArchive
   }
-  
+
   @override
   void onBirth(BreederEntryModel breederEntryModel) {
     // TODO: implement onBirth
   }
-  
+
   @override
   void onBreed(BreederEntryModel breederEntryModel) {
     // TODO: implement onBreed
   }
-  
+
   @override
   void onButcher(BreederEntryModel breederEntryModel) {
     // TODO: implement onButcher
   }
-  
+
   @override
   void onCageCard(BreederEntryModel breederEntryModel) {
     // TODO: implement onCageCard
   }
-  
+
   @override
   void onCull(BreederEntryModel breederEntryModel) {
     // TODO: implement onCull
   }
-  
+
   @override
   void onDied(BreederEntryModel breederEntryModel) {
     // TODO: implement onDied
   }
-  
+
   @override
   void onNotes(BreederEntryModel breederEntryModel) {
     // TODO: implement onNotes
   }
-  
+
   @override
   void onPedigree(BreederEntryModel breederEntryModel) {
     // TODO: implement onPedigree
   }
-  
+
   @override
   void onSell(BreederEntryModel breederEntryModel) {
     // TODO: implement onSell
   }
-  
+
   @override
   void onWeight(BreederEntryModel breederEntryModel) {
     // TODO: implement onWeight
