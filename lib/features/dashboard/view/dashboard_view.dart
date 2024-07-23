@@ -56,17 +56,12 @@ class _DashboardPageState extends State<DashboardPage>
     implements DashboardViewCallback {
   late final UserRepo userRepo = context.read();
 
-  int currentIndex = 0;
-
   @override
   void onBottomTab(
     int previousIndex,
     int currentIndex,
     TabsRouter tabsRouter,
   ) {
-    setState(() {
-      this.currentIndex = currentIndex;
-    });
     tabsRouter.setActiveIndex(currentIndex);
   }
 
@@ -129,29 +124,29 @@ class _DashboardPageState extends State<DashboardPage>
               child: ClipRRect(
                 borderRadius: AppConstants.topCornersBorderRadius,
                 child: BottomNavigationBar(
-                  currentIndex: currentIndex,
+                  currentIndex: tabsRouter.activeIndex,
                   onTap: (index) {
-                    onBottomTab(currentIndex, index, tabsRouter);
+                    onBottomTab(tabsRouter.activeIndex, index, tabsRouter);
                   },
                   items: [
                     BottomNavigationBarItem(
                       icon: getBottomBarIcon(
                         Assets.icons.charts.path,
-                        isSelected: currentIndex == 0,
+                        isSelected: tabsRouter.activeIndex == 0,
                       ),
                       label: 'dashboard'.i18n,
                     ),
                     BottomNavigationBarItem(
                       icon: getBottomBarIcon(
                         Assets.icons.genders.path,
-                        isSelected: currentIndex == 1,
+                        isSelected: tabsRouter.activeIndex == 1,
                       ),
                       label: 'breeders'.i18n,
                     ),
                     BottomNavigationBarItem(
                       icon: getBottomBarIcon(
                         Assets.icons.squares.path,
-                        isSelected: currentIndex == 2,
+                        isSelected: tabsRouter.activeIndex == 2,
                       ),
                       label: 'litters'.i18n,
                     ),

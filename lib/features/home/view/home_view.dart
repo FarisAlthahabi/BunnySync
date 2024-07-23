@@ -59,14 +59,14 @@ class _HomePageState extends State<HomePage> implements HomeViewCallBacks {
     signInCubit.logout();
   }
 
-   @override
+  @override
   void onBreedersTap() {
-    // TODO: implement onBreedersTap
+    context.tabsRouter.setActiveIndex(1);
   }
-  
+
   @override
   void onLittersTap() {
-    // TODO: implement onLittersTap
+    context.tabsRouter.setActiveIndex(2);
   }
 
   @override
