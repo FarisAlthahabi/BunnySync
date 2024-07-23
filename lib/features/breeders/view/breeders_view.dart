@@ -37,6 +37,28 @@ abstract class BreedersViewCallbacks {
 
   void onDeleteSearch();
 
+  void onBreed(BreederEntryModel breederEntryModel);
+
+  void onBirth(BreederEntryModel breederEntryModel);
+
+  void onCageCard(BreederEntryModel breederEntryModel);
+
+  void onPedigree(BreederEntryModel breederEntryModel);
+
+  void onSell(BreederEntryModel breederEntryModel);
+
+  void onWeight(BreederEntryModel breederEntryModel);
+
+  void onButcher(BreederEntryModel breederEntryModel);
+
+  void onDied(BreederEntryModel breederEntryModel);
+
+  void onArchive(BreederEntryModel breederEntryModel);
+
+  void onCull(BreederEntryModel breederEntryModel);
+
+  void onNotes(BreederEntryModel breederEntryModel);
+
   void onScanTap();
 }
 
@@ -159,6 +181,17 @@ class _BreedersPageState extends State<BreedersPage>
         onEdit: onEditBreeder,
         onDelete: onDeleteBreeder,
         model: breederEntryModel,
+        onArchive: onArchive,
+        onBirth: onBirth,
+        onBreed: onBreed,
+        onCageCard: onCageCard,
+        onButcher: onButcher,
+        onCull: onCull,
+        onDied: onDied,
+        onNotes: onNotes,
+        onPedigree: onPedigree,
+        onSell: onSell,
+        onWeight: onWeight,
       ),
     );
   }
@@ -194,6 +227,61 @@ class _BreedersPageState extends State<BreedersPage>
         breederEntryModel: breederEntryModel,
       ),
     );
+  }
+
+  @override
+  void onArchive(BreederEntryModel breederEntryModel) {
+    // TODO: implement onArchive
+  }
+
+  @override
+  void onBirth(BreederEntryModel breederEntryModel) {
+    // TODO: implement onBirth
+  }
+
+  @override
+  void onBreed(BreederEntryModel breederEntryModel) {
+    // TODO: implement onBreed
+  }
+
+  @override
+  void onButcher(BreederEntryModel breederEntryModel) {
+    // TODO: implement onButcher
+  }
+
+  @override
+  void onCageCard(BreederEntryModel breederEntryModel) {
+    // TODO: implement onCageCard
+  }
+
+  @override
+  void onCull(BreederEntryModel breederEntryModel) {
+    // TODO: implement onCull
+  }
+
+  @override
+  void onDied(BreederEntryModel breederEntryModel) {
+    // TODO: implement onDied
+  }
+
+  @override
+  void onNotes(BreederEntryModel breederEntryModel) {
+    // TODO: implement onNotes
+  }
+
+  @override
+  void onPedigree(BreederEntryModel breederEntryModel) {
+    // TODO: implement onPedigree
+  }
+
+  @override
+  void onSell(BreederEntryModel breederEntryModel) {
+    // TODO: implement onSell
+  }
+
+  @override
+  void onWeight(BreederEntryModel breederEntryModel) {
+    // TODO: implement onWeight
   }
 
   @override
