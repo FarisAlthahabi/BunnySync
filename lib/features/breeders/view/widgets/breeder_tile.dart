@@ -41,44 +41,67 @@ class BreederTile extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: AppConstants.paddingT16,
-                child: Row(
-                  children: [
-                    Skeleton.shade(
-                      child: BreederImageWidget(
-                        url: breeder.photo,
-                        gender: breeder.gender,
-                      ),
-                    ),
-                    const SizedBox(width: 20),
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          breeder.name,
-                          style: context.tt.headlineSmall,
+              Expanded(
+                child: Padding(
+                  padding: AppConstants.paddingT16,
+                  child: Row(
+                    children: [
+                      Skeleton.shade(
+                        child: BreederImageWidget(
+                          url: breeder.photo,
+                          gender: breeder.gender,
                         ),
-                        Wrap(
-                          spacing: 4,
+                      ),
+                      const SizedBox(width: 20),
+                      Expanded(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Text(
-                              '${'id'.i18n}: ${breeder.id} | ${'breed'.i18n}: ${breeder.breed ?? 'breed'}',
-                              style: context.tt.bodyMedium,
+                              breeder.name,
+                              style: context.tt.headlineSmall,
                             ),
-                            Text(
-                              '${'cage'.i18n}: ${breeder.cage} | ${'color'.i18n}: ${breeder.color ?? 'color'}',
-                              style: context.tt.bodyMedium,
+                            Wrap(
+                              spacing: 4,
+                              children: [
+                                Text(
+                                  '${'id'.i18n}: ${breeder.id}',
+                                  style: context.tt.bodyMedium,
+                                ),
+                                Text(
+                                  ' | ',
+                                  style: context.tt.bodyMedium,
+                                ),
+                                Text(
+                                  '${'breed'.i18n}: ${breeder.breed ?? 'breed'}',
+                                  style: context.tt.bodyMedium,
+                                ),
+                                Text(
+                                  ' | ',
+                                  style: context.tt.bodyMedium,
+                                ),
+                                Text(
+                                  '${'cage'.i18n}: ${breeder.cage}',
+                                  style: context.tt.bodyMedium,
+                                ),
+                                Text(
+                                  ' | ',
+                                  style: context.tt.bodyMedium,
+                                ),
+                                Text(
+                                  '${'color'.i18n}: ${breeder.color ?? 'color'}',
+                                  style: context.tt.bodyMedium,
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                      ],
-                    ),
-                  ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              const Spacer(),
               const SizedBox(width: 3),
               TextButton(
                 onPressed: () {
