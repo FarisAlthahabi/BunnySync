@@ -22,8 +22,6 @@ abstract class NotesTabCallbacks {
 
   void onNoteTap(BreederNoteModel breederNoteModel);
 
-  void onEditTap(BreederNoteModel breederNoteModel);
-
   void onDeleteTap(BreederNoteModel breederNoteModel);
 }
 
@@ -90,11 +88,6 @@ class _NotesTabState extends State<NotesTab> implements NotesTabCallbacks {
   }
 
   @override
-  void onEditTap(BreederNoteModel breederNoteModel) {
-    // TODO: implement onEditTap
-  }
-
-  @override
   void onNoteTap(BreederNoteModel breederNoteModel) {
     mainShowBottomSheet(
       context,
@@ -102,7 +95,6 @@ class _NotesTabState extends State<NotesTab> implements NotesTabCallbacks {
         title: "note_options".i18n,
         model: breederNoteModel,
         onDelete: onDeleteTap,
-        onEdit: onEditTap,
       ),
     );
   }
@@ -163,8 +155,8 @@ class _NotesTabState extends State<NotesTab> implements NotesTabCallbacks {
                             );
                           },
                           separatorBuilder: (context, index) {
-                            return const Divider(
-                              thickness: 1,
+                            return const Skeleton.shade(
+                              child: Divider(thickness: 1),
                             );
                           },
                         ),
