@@ -82,9 +82,13 @@ class _ImagesTabState extends State<ImagesTab> implements ImagesTabCallbacks {
         title: 'choose_image_source'.i18n,
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TextButton(
               onPressed: pickGalleryImage,
+              style: const ButtonStyle(
+                alignment: AlignmentDirectional.centerStart,
+              ),
               child: Text('gallery'.i18n),
             ),
             const SizedBox(
@@ -92,6 +96,9 @@ class _ImagesTabState extends State<ImagesTab> implements ImagesTabCallbacks {
             ),
             TextButton(
               onPressed: pickCameraImage,
+              style: const ButtonStyle(
+                alignment: AlignmentDirectional.centerStart,
+              ),
               child: Text('camera'.i18n),
             ),
           ],
@@ -156,6 +163,7 @@ class _ImagesTabState extends State<ImagesTab> implements ImagesTabCallbacks {
         title: 'are_you_sure_to_delete_image'.i18n,
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TextButton(
               onPressed: () {
@@ -165,6 +173,9 @@ class _ImagesTabState extends State<ImagesTab> implements ImagesTabCallbacks {
                   breederImageModel.id,
                 );
               },
+              style: const ButtonStyle(
+                alignment: AlignmentDirectional.centerStart,
+              ),
               child: Text('yes'.i18n),
             ),
           ],
