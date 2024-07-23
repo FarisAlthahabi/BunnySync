@@ -87,6 +87,9 @@ class AppRouter extends _$AppRouter {
                 AutoRoute(
                   page: AddNoteRoute.page,
                 ),
+                AutoRoute(
+                  page: BarcodeScannerRoute.page,
+                ),
               ],
             ),
           ],
