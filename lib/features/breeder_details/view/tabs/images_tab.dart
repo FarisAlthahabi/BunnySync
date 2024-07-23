@@ -15,6 +15,7 @@ import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -186,12 +187,18 @@ class _ImagesTabState extends State<ImagesTab> implements ImagesTabCallbacks {
           listener: (context, state) {
             if (state is BreederImageAddSuccess) {
               MainSnackBar.showSuccessMessageBar(context, "image_added".i18n);
+              context.loaderOverlay.hide();
             } else if (state is BreederImageAddFail) {
               MainSnackBar.showErrorMessageBar(context, state.message);
+              context.loaderOverlay.hide();
             } else if (state is BreederImageDeleteSuccess) {
               MainSnackBar.showSuccessMessageBar(context, "image_deleted".i18n);
+              context.loaderOverlay.hide();
             } else if (state is BreederImageDeleteFail) {
               MainSnackBar.showErrorMessageBar(context, state.message);
+              context.loaderOverlay.hide();
+            } else if (state is BreederImageAddLoading) {
+              context.loaderOverlay.show();
             }
           },
           buildWhen: (prev, curr) => curr is BreederImagesState,
@@ -199,33 +206,26 @@ class _ImagesTabState extends State<ImagesTab> implements ImagesTabCallbacks {
             if (state is BreederImagesFetch) {
               return Skeletonizer(
                 enabled: state is BreederImagesLoading,
-                child: Padding(
+                child: ListView.separated(
                   padding: AppConstants.padding40,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: context.cs.onInverseSurface,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  controller: widget.controller,
+                  shrinkWrap: true,
+                  itemCount: state.breederImages.length,
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      key: ValueKey(state.breederImages[index].id),
+                      onTap: () => onImageTap(state.breederImages[index]),
+                      child: AppImageWidget(
+                        url: state.breederImages[index].imageUrl,
                       ),
-                    ),
-                    child: ListView.separated(
-                      controller: widget.controller,
-                      shrinkWrap: true,
-                      itemCount: state.breederImages.length,
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () => onImageTap(state.breederImages[index]),
-                          child: AppImageWidget(
-                            url: state.breederImages[index].imageUrl,
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(
-                          height: 25,
-                        );
-                      },
-                    ),
-                  ),
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(
+                      height: 25,
+                    );
+                  },
                 ),
               );
             } else if (state is BreederImagesEmpty) {

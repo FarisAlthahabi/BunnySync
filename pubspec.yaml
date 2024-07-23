@@ -68,6 +68,7 @@ dependencies:
 
   lint: ^2.1.2
 
+  loader_overlay: ^4.0.1
   logger: ^2.0.1
 
   meta: ^1.9.1

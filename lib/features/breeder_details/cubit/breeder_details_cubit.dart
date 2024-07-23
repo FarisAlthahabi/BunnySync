@@ -15,15 +15,11 @@ import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
 part 'states/breeder_details_state.dart';
-
+part 'states/breeder_images_state/breeder_images_actions_state.dart';
+part 'states/breeder_images_state/breeder_images_state.dart';
 part 'states/breeder_notes_state.dart';
-
 part 'states/breeder_pedigree_state.dart';
-
 part 'states/breeder_profile_state.dart';
-
-part 'states/breeder_images_state.dart';
-
 part 'states/general_breeder_details_state.dart';
 
 @injectable
@@ -100,12 +96,18 @@ class BreederDetailsCubit extends Cubit<GeneralBreederDetailsState> {
   }
 
   Future<void> addBreederImage(int breederId, XFile image) async {
-    emit(BreederImagesLoading(breederImagesFake));
+    emit(BreederImageAddLoading());
     try {
       final response =
           await _breederDetailsRepo.addBreederImage(breederId, image);
       breederImages.add(response);
-      emit(BreederImageAddSuccess(breederImages));
+      emit(BreederImageAddSuccess());
+
+      if (breederImages.isEmpty) {
+        emit(BreederImagesEmpty('images_empty'.i18n));
+      } else {
+        emit(BreederImagesSuccess(breederImages));
+      }
     } catch (e, s) {
       addError(e, s);
       emit(BreederImageAddFail(e.toString()));
@@ -113,13 +115,19 @@ class BreederDetailsCubit extends Cubit<GeneralBreederDetailsState> {
   }
 
   Future<void> deleteBreederImage(int breederId, int imageId) async {
-    emit(BreederImagesLoading(breederImagesFake));
+    emit(BreederImageAddLoading());
     try {
       await _breederDetailsRepo.deleteBreederImage(breederId, imageId);
       breederImages.removeWhere(
         (element) => element.id == imageId,
       );
-      emit(BreederImageDeleteSuccess(breederImages));
+      emit(BreederImageDeleteSuccess());
+
+      if (breederImages.isEmpty) {
+        emit(BreederImagesEmpty('images_empty'.i18n));
+      } else {
+        emit(BreederImagesSuccess(breederImages));
+      }
     } catch (e, s) {
       addError(e, s);
       emit(BreederImageDeleteFail(e.toString()));
