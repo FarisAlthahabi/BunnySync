@@ -8,13 +8,9 @@ class AddNoteInitial extends AddNoteState {}
 class AddNoteLoading extends AddNoteState {}
 
 class AddNoteSuccess extends AddNoteState {
-  AddNoteSuccess(
-    this.addNoteModel,
-    this.breederId,
-  );
+  AddNoteSuccess(this.note);
 
-  final AddNoteModel addNoteModel;
-  final int breederId;
+  final BreederNoteModel note;
 }
 
 class AddNoteFail extends AddNoteState {

@@ -143,17 +143,8 @@ class BreederDetailsCubit extends Cubit<GeneralBreederDetailsState> {
     emit(BreederDetailsSuccess(breeder));
   }
 
-  void addNote(AddNoteModel addNoteModel, int breederId) {
-    final BreederNoteModel noteModel = BreederNoteModel(
-      id: notes[notes.length - 1].id + 1,
-      breederId: breederId,
-      title: addNoteModel.title,
-      note: addNoteModel.note,
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-      dtRowIndex: 1,
-    );
-    notes.add(noteModel);
+  void addNote(BreederNoteModel note) {
+    notes.add(note);
     emit(BreederNotesSuccess(notes));
   }
 

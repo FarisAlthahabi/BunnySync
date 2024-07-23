@@ -157,8 +157,7 @@ class _AddNotePageState extends State<AddNotePage>
                           );
                           context.router.maybePop();
                           breederDetailsCubit.addNote(
-                            state.addNoteModel,
-                            state.breederId,
+                            state.note,
                           );
                         } else if (state is AddNoteFail) {
                           MainSnackBar.showErrorMessageBar(
