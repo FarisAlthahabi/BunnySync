@@ -12,6 +12,7 @@ import 'package:bunny_sync/global/widgets/main_show_bottom_sheet.dart';
 import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 abstract class NotesTabCallbacks {
@@ -116,11 +117,15 @@ class _NotesTabState extends State<NotesTab> implements NotesTabCallbacks {
               context,
               "note_deleted".i18n,
             );
+            context.loaderOverlay.hide();
           } else if (state is BreederNoteDeleteFail) {
             MainSnackBar.showErrorMessageBar(
               context,
               "note_delete_fail".i18n,
             );
+            context.loaderOverlay.hide();
+          } else if (state is BreederNoteAddLoading) {
+            context.loaderOverlay.show();
           }
         },
         buildWhen: (prev, curr) => curr is BreederNotesState,

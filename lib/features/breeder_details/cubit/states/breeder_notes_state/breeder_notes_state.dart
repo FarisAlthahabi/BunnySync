@@ -1,4 +1,4 @@
-part of '../breeder_details_cubit.dart';
+part of '../../breeder_details_cubit.dart';
 
 @immutable
 abstract class BreederNotesState extends GeneralBreederDetailsState {}
@@ -19,10 +19,6 @@ class BreederNotesSuccess extends BreederNotesFetch {
   BreederNotesSuccess(super.breederNotes);
 }
 
-class BreederNoteDeleteSuccess extends BreederNotesFetch {
-  BreederNoteDeleteSuccess(super.breederNotes);
-}
-
 class BreederNotesEmpty extends BreederNotesState {
   BreederNotesEmpty(this.message);
 
@@ -31,12 +27,6 @@ class BreederNotesEmpty extends BreederNotesState {
 
 class BreederNotesFail extends BreederNotesState {
   BreederNotesFail(this.message);
-
-  final String message;
-}
-
-class BreederNoteDeleteFail extends BreederNotesState {
-  BreederNoteDeleteFail(this.message);
 
   final String message;
 }
