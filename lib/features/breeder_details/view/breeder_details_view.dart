@@ -8,7 +8,6 @@ import 'package:bunny_sync/features/breeder_details/view/tabs/profile_tab.dart';
 import 'package:bunny_sync/features/breeder_details/view/widgets/breeder_profile_info_widget.dart';
 import 'package:bunny_sync/features/breeder_details/view/widgets/details_tab_bar.dart';
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
-import 'package:bunny_sync/features/breeders/view/widgets/breeder_more_options_widget.dart';
 import 'package:bunny_sync/features/main_navigation/cubit/main_navigation_cubit.dart';
 import 'package:bunny_sync/global/blocs/delete_breeder_cubit/delete_breeder_cubit.dart';
 import 'package:bunny_sync/global/di/di.dart';
@@ -124,11 +123,9 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
       context,
       widget: BottomSheetWidget(
         title: 'breeder_options'.i18n,
-        child: BreederMoreOptionsWidget(
-          breederEntryModel: breederEntryModel,
-          onEditBreeder: onEditBreeder,
-          onDeleteBreeder: onDeleteBreeder,
-        ),
+        onEdit: onEditBreeder,
+        onDelete: onDeleteBreeder,
+        model: breederEntryModel,
       ),
     );
   }

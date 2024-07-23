@@ -10,19 +10,17 @@ import 'package:bunny_sync/features/breeder_details/models/pedigree_model/pedigr
 import 'package:bunny_sync/features/breeder_details/repo/breeder_details_repo.dart';
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
 part 'states/breeder_details_state.dart';
-
-part 'states/breeder_notes_state.dart';
-
+part 'states/breeder_images_state/breeder_images_actions_state.dart';
+part 'states/breeder_images_state/breeder_images_state.dart';
+part 'states/breeder_notes_state/breeder_notes_actions_state.dart';
+part 'states/breeder_notes_state/breeder_notes_state.dart';
 part 'states/breeder_pedigree_state.dart';
-
 part 'states/breeder_profile_state.dart';
-
-part 'states/breeder_images_state.dart';
-
 part 'states/general_breeder_details_state.dart';
 
 @injectable
@@ -34,7 +32,11 @@ class BreederDetailsCubit extends Cubit<GeneralBreederDetailsState> {
 
   final BreederDetailsRepo _breederDetailsRepo;
 
+  List<BreederNoteModel> notes = [];
+
   BreederEntryModel breeder;
+
+  List<BreederImageModel> breederImages = [];
 
   Future<void> getBreederDetails() async {
     emit(BreederDetailsSuccess(breeder));
@@ -72,6 +74,7 @@ class BreederDetailsCubit extends Cubit<GeneralBreederDetailsState> {
       if (response.isEmpty) {
         emit(BreederNotesEmpty('notes_empty'.i18n));
       } else {
+        notes = response;
         emit(BreederNotesSuccess(response));
       }
     } catch (e, s) {
@@ -87,6 +90,7 @@ class BreederDetailsCubit extends Cubit<GeneralBreederDetailsState> {
       if (response.isEmpty) {
         emit(BreederImagesEmpty('images_empty'.i18n));
       } else {
+        breederImages = response;
         emit(BreederImagesSuccess(response));
       }
     } catch (e, s) {
@@ -95,8 +99,74 @@ class BreederDetailsCubit extends Cubit<GeneralBreederDetailsState> {
     }
   }
 
+  Future<void> addBreederImage(int breederId, XFile image) async {
+    emit(BreederImageAddLoading());
+    try {
+      final response =
+          await _breederDetailsRepo.addBreederImage(breederId, image);
+      breederImages.add(response);
+      emit(BreederImageAddSuccess());
+
+      if (breederImages.isEmpty) {
+        emit(BreederImagesEmpty('images_empty'.i18n));
+      } else {
+        emit(BreederImagesSuccess(breederImages));
+      }
+    } catch (e, s) {
+      addError(e, s);
+      emit(BreederImageAddFail(e.toString()));
+    }
+  }
+
+  Future<void> deleteBreederImage(int breederId, int imageId) async {
+    emit(BreederImageAddLoading());
+    try {
+      await _breederDetailsRepo.deleteBreederImage(breederId, imageId);
+      breederImages.removeWhere(
+        (element) => element.id == imageId,
+      );
+      emit(BreederImageDeleteSuccess());
+
+      if (breederImages.isEmpty) {
+        emit(BreederImagesEmpty('images_empty'.i18n));
+      } else {
+        emit(BreederImagesSuccess(breederImages));
+      }
+    } catch (e, s) {
+      addError(e, s);
+      emit(BreederImageDeleteFail(e.toString()));
+    }
+  }
+
   void updateBreeder(BreederEntryModel breeder) {
     this.breeder = breeder;
     emit(BreederDetailsSuccess(breeder));
+  }
+
+  void addNote(BreederNoteModel note) {
+    notes.add(note);
+    emit(BreederNotesSuccess(notes));
+  }
+
+  Future<void> deleteNote(int breederId) async {
+    emit(BreederNoteAddLoading());
+
+    try {
+      await _breederDetailsRepo.deleteNote(breederId);
+      notes.removeWhere(
+        (element) => element.id == breederId,
+      );
+
+      emit(BreederNoteDeleteSuccess());
+
+      if (notes.isEmpty) {
+        emit(BreederNotesEmpty('notes_empty'.i18n));
+      } else {
+        emit(BreederNotesSuccess(notes));
+      }
+    } catch (e, s) {
+      addError(e, s);
+      emit(BreederNoteDeleteFail(e.toString()));
+    }
   }
 }

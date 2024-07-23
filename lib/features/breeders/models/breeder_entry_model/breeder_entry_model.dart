@@ -4,6 +4,7 @@ import 'package:bunny_sync/global/utils/bunny_sync_json_utils.dart';
 import 'package:bunny_sync/global/utils/enums/gender_types_enum.dart';
 import 'package:bunny_sync/global/utils/json_converters/string_converter.dart';
 import 'package:bunny_sync/global/utils/json_utils.dart';
+import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:bunny_sync/global/widgets/main_drop_down_widget.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,7 @@ part 'breeder_entry_model.g.dart';
 
 @immutable
 @JsonSerializable()
-class BreederEntryModel extends Equatable implements DropDownItemModel {
+class BreederEntryModel extends Equatable implements DropDownItemModel,BottomSheetItemModel {
   const BreederEntryModel({
     required this.id,
     required this.userId,

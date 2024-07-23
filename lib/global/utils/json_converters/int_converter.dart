@@ -1,11 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
 
-class IntConverter implements JsonConverter<int, String> {
+class IntConverter implements JsonConverter<int, dynamic> {
   const IntConverter();
 
   @override
-  int fromJson(String json) => int.parse(json);
+  int fromJson(dynamic json) => int.parse(json.toString());
 
   @override
-  String toJson(int object) => object.toString();
+  dynamic toJson(int object) => object;
 }

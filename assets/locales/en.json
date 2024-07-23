@@ -136,5 +136,21 @@
   "stats" : "Stats",
   "number" : "NO",
   "live" : "Live",
-  "action" : "Action"
+  "action" : "Action",
+  "new_note" : "New note",
+  "title" : "Title",
+  "note" : "Note",
+  "note_added" :  "Note is added successfully",
+  "note_options" : "Note Options",
+  "are_you_sure_to_delete_note" : "Are you sure to delete note?",
+  "note_deleted" : "Note is deleted successfully",
+  "note_delete_fail" : "Fail to delete note",
+  "image_added": "Image is added successfully",
+  "image_deleted": "Image is deleted successfully",
+  "are_you_sure_to_delete_image": "Are you sure to delete Image?",
+  "choose_image_source": "Choose image source",
+  "gallery": "Gallery",
+  "camera": "Camera",
+  "image_options": "Image Options",
+  "storage_permission_denied": "Storage permission denied"
 }

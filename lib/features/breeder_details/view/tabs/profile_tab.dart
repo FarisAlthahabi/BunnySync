@@ -5,6 +5,7 @@ import 'package:bunny_sync/global/models/rabbit_property_model.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/info_properties_widget.dart';
+import 'package:bunny_sync/global/widgets/main_error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -148,25 +149,9 @@ class _ProfileTabState extends State<ProfileTab>
             ),
           );
         } else if (state is BreederProfileFail) {
-          return Scaffold(
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    state.message,
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  TextButton(
-                    onPressed: onTryAgainTap,
-                    child: Text("try_again".i18n),
-                  ),
-                ],
-              ),
-            ),
+          return MainErrorWidget(
+            error: state.message,
+            onTap: onTryAgainTap,
           );
         }
         return const SizedBox.shrink();
