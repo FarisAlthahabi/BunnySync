@@ -22,7 +22,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 abstract class ImagesTabCallbacks {
   void onTryAgainTap();
 
-  Future<void> onAddTap();
+  void onAddTap();
 
   void onPermission({required bool isGranted});
 

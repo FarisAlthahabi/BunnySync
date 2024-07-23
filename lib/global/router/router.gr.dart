@@ -32,6 +32,17 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const AddLitterView(),
       );
     },
+    AddNoteRoute.name: (routeData) {
+      final args = routeData.argsAs<AddNoteRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: AddNoteView(
+          key: args.key,
+          breederId: args.breederId,
+          breederDetailsCubit: args.breederDetailsCubit,
+        ),
+      );
+    },
     AuthenticationRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -176,6 +187,49 @@ class AddLitterRoute extends PageRouteInfo<void> {
   static const String name = 'AddLitterRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [AddNoteView]
+class AddNoteRoute extends PageRouteInfo<AddNoteRouteArgs> {
+  AddNoteRoute({
+    Key? key,
+    required int breederId,
+    required BreederDetailsCubit breederDetailsCubit,
+    List<PageRouteInfo>? children,
+  }) : super(
+          AddNoteRoute.name,
+          args: AddNoteRouteArgs(
+            key: key,
+            breederId: breederId,
+            breederDetailsCubit: breederDetailsCubit,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'AddNoteRoute';
+
+  static const PageInfo<AddNoteRouteArgs> page =
+      PageInfo<AddNoteRouteArgs>(name);
+}
+
+class AddNoteRouteArgs {
+  const AddNoteRouteArgs({
+    this.key,
+    required this.breederId,
+    required this.breederDetailsCubit,
+  });
+
+  final Key? key;
+
+  final int breederId;
+
+  final BreederDetailsCubit breederDetailsCubit;
+
+  @override
+  String toString() {
+    return 'AddNoteRouteArgs{key: $key, breederId: $breederId, breederDetailsCubit: $breederDetailsCubit}';
+  }
 }
 
 /// generated route for

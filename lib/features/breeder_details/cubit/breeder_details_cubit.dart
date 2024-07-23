@@ -17,7 +17,8 @@ import 'package:meta/meta.dart';
 part 'states/breeder_details_state.dart';
 part 'states/breeder_images_state/breeder_images_actions_state.dart';
 part 'states/breeder_images_state/breeder_images_state.dart';
-part 'states/breeder_notes_state.dart';
+part 'states/breeder_notes_state/breeder_notes_actions_state.dart';
+part 'states/breeder_notes_state/breeder_notes_state.dart';
 part 'states/breeder_pedigree_state.dart';
 part 'states/breeder_profile_state.dart';
 part 'states/general_breeder_details_state.dart';
@@ -30,6 +31,8 @@ class BreederDetailsCubit extends Cubit<GeneralBreederDetailsState> {
   ) : super(BreederDetailsInitial());
 
   final BreederDetailsRepo _breederDetailsRepo;
+
+  List<BreederNoteModel> notes = [];
 
   BreederEntryModel breeder;
 
@@ -71,6 +74,7 @@ class BreederDetailsCubit extends Cubit<GeneralBreederDetailsState> {
       if (response.isEmpty) {
         emit(BreederNotesEmpty('notes_empty'.i18n));
       } else {
+        notes = response;
         emit(BreederNotesSuccess(response));
       }
     } catch (e, s) {
@@ -137,5 +141,32 @@ class BreederDetailsCubit extends Cubit<GeneralBreederDetailsState> {
   void updateBreeder(BreederEntryModel breeder) {
     this.breeder = breeder;
     emit(BreederDetailsSuccess(breeder));
+  }
+
+  void addNote(BreederNoteModel note) {
+    notes.add(note);
+    emit(BreederNotesSuccess(notes));
+  }
+
+  Future<void> deleteNote(int breederId) async {
+    emit(BreederNoteAddLoading());
+
+    try {
+      await _breederDetailsRepo.deleteNote(breederId);
+      notes.removeWhere(
+        (element) => element.id == breederId,
+      );
+
+      emit(BreederNoteDeleteSuccess());
+
+      if (notes.isEmpty) {
+        emit(BreederNotesEmpty('notes_empty'.i18n));
+      } else {
+        emit(BreederNotesSuccess(notes));
+      }
+    } catch (e, s) {
+      addError(e, s);
+      emit(BreederNoteDeleteFail(e.toString()));
+    }
   }
 }

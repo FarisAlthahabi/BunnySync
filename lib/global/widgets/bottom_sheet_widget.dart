@@ -59,25 +59,25 @@ class BottomSheetWidget<T extends BottomSheetItemModel>
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   if (onEdit != null && model != null)
-                  TextButton(
-                    onPressed: () => onEdit(model),
-                    style: TextButton.styleFrom(
-                      alignment: AlignmentDirectional.centerStart,
+                    TextButton(
+                      onPressed: () => onEdit(model),
+                      style: TextButton.styleFrom(
+                        alignment: AlignmentDirectional.centerStart,
+                      ),
+                      child: Text(
+                        "edit".i18n,
+                      ),
                     ),
-                    child: Text(
-                      "edit".i18n,
-                    ),
-                  ),
                   if (onDelete != null && model != null)
-                  TextButton(
-                    onPressed: () => onDelete(model),
-                    style: TextButton.styleFrom(
-                      alignment: AlignmentDirectional.centerStart,
+                    TextButton(
+                      onPressed: () => onDelete(model),
+                      style: TextButton.styleFrom(
+                        alignment: AlignmentDirectional.centerStart,
+                      ),
+                      child: Text(
+                        "delete".i18n,
+                      ),
                     ),
-                    child: Text(
-                      "delete".i18n,
-                    ),
-                  ),
                 ],
               ),
           ],

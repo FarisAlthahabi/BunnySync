@@ -15,6 +15,7 @@ class MainTextField extends StatefulWidget {
     this.labelText,
     this.keyboardType,
     this.initialValue,
+    this.maxLines,
   });
 
   final String hintText;
@@ -28,6 +29,7 @@ class MainTextField extends StatefulWidget {
   final String? labelText;
   final TextInputType? keyboardType;
   final String? initialValue;
+  final int? maxLines;
 
   @override
   State<MainTextField> createState() => _MainTextFieldState();
@@ -66,6 +68,7 @@ class _MainTextFieldState extends State<MainTextField> {
           obscureText: isObscure,
           focusNode: widget.focusNode,
           keyboardType: widget.keyboardType,
+          maxLines: widget.maxLines,
           decoration: InputDecoration(
             prefixIconConstraints: const BoxConstraints(
               minWidth: 40,

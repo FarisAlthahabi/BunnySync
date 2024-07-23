@@ -99,6 +99,20 @@ class HttpBreederDetailsRepo implements BreederDetailsRepo {
   }
 
   @override
+  Future<void> deleteNote(int breederId) async {
+    try {
+      await _dioClient.delete(
+        '/breeders/note/$breederId/destroy',
+      );
+    } catch (e) {
+      if (e is NotFoundException) {
+        throw e.message ?? 'something_went_wrong'.i18n;
+      }
+      rethrow;
+    }
+  }
+
+  @override
   Future<BreederImageModel> addBreederImage(int id, XFile imagePicked) async {
     try {
       final FormData formData = FormData.fromMap({
