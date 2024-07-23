@@ -13,7 +13,6 @@ class AppImageWidget extends StatelessWidget {
     this.height,
     this.border,
     this.imageBuilder,
-
   });
 
   final String url;
@@ -24,14 +23,17 @@ class AppImageWidget extends StatelessWidget {
   final Border? border;
   final ImageWidgetBuilder? imageBuilder;
 
-
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: borderRadius,
-      child: SizedBox(
-        width: width,
-        height: height,
+    return Container(
+      width: width,
+      height: height,
+      decoration: BoxDecoration(
+        borderRadius: borderRadius,
+        border: border,
+      ),
+      child: ClipRRect(
+        borderRadius: borderRadius,
         child: CachedNetworkImage(
           errorListener: (_) {},
           imageUrl: url,

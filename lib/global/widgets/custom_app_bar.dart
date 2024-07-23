@@ -25,8 +25,9 @@ class CustomAppBar extends StatelessWidget {
     this.searchController,
     this.searchFocusNode,
     this.onDeleteSearch,
+    this.onScanTap,
   });
-
+  final VoidCallback? onScanTap;
   final ValueChanged<String> onSearchChanged;
   final String title;
   final List<TabModel> tabs;
@@ -53,12 +54,22 @@ class CustomAppBar extends StatelessWidget {
               SizedBox(
                 height: MediaQuery.of(context).padding.top,
               ),
-              SearchTextField(
-                controller: searchController,
-                focusNode: searchFocusNode,
-                hintText: 'search'.i18n,
-                onChanged: onSearchChanged,
-                onDeleteText: onDeleteSearch,
+              Row(
+                children: [
+                  Expanded(
+                    child: SearchTextField(
+                      controller: searchController,
+                      focusNode: searchFocusNode,
+                      hintText: 'search'.i18n,
+                      onChanged: onSearchChanged,
+                      onDeleteText: onDeleteSearch,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: onScanTap,
+                    icon: const Icon(Icons.qr_code_scanner),
+                  ),
+                ],
               ),
               const SizedBox(height: 12),
               Text(
