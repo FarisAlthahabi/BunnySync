@@ -142,4 +142,12 @@
   "are_you_sure_to_delete_note" : "Are you sure to delete note?",
   "note_deleted" : "Note is deleted successfully",
   "note_delete_fail" : "Fail to delete note"
+  "image_added": "Image is added successfully",
+  "image_deleted": "Image is deleted successfully",
+  "are_you_sure_to_delete_image": "Are you sure to delete Image?",
+  "choose_image_source": "Choose image source",
+  "gallery": "Gallery",
+  "camera": "Camera",
+  "image_options": "Image Options",
+  "storage_permission_denied": "Storage permission denied"
 }
