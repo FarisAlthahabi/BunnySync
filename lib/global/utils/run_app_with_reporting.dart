@@ -23,6 +23,8 @@ Future<void> runAppWithReporting(
       runApp(app);
     },
     (error, stackTrace) {
+      debugPrint('runAppWithReporting error: $error');
+      debugPrint('runAppWithReporting stackTrace: $stackTrace');
     },
   );
 }
