@@ -296,6 +296,7 @@ class _SignInPageState extends State<SignInPage> implements SignInViewCallback {
                         isPassword: true,
                         keyboardType: TextInputType.visiblePassword,
                         errorText: state is TextFieldState ? state.error : null,
+                        maxLines: 1,
                       );
                     },
                   ),
@@ -322,6 +323,7 @@ class _SignInPageState extends State<SignInPage> implements SignInViewCallback {
                                     errorText: state is TextFieldState
                                         ? state.error
                                         : null,
+                                    maxLines: 1,
                                   );
                                 },
                               ),
