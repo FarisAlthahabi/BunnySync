@@ -28,8 +28,6 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
 
   late BreedersStatusModel breedersStatusModel;
 
-  late BreedersGenderModel breedersGenderModel;
-
   late BreedersStatusModel initialBreeders;
 
   List<BreederEntryModel> get activeBreeders =>
@@ -38,6 +36,12 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
   List<BreederEntryModel> get inactiveBreeders =>
       allBreeders.where((element) => !element.isActive).toList();
 
+  List<BreederEntryModel> get activeBreeders2 =>
+      genderBreeders.where((element) => element.isActive).toList();
+
+  List<BreederEntryModel> get inactiveBreeders2 =>
+      genderBreeders.where((element) => !element.isActive).toList();
+
   List<BreederEntryModel> get maleBreeders => allBreeders
       .where((element) => element.gender == GenderTypes.male)
       .toList();
@@ -45,6 +49,12 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
   List<BreederEntryModel> get femaleBreeders => allBreeders
       .where((element) => element.gender == GenderTypes.female)
       .toList();
+
+  List<BreederEntryModel> genderBreeders = [];
+
+  late BreedersGenderModel breedersGenderModel;
+
+  String? genderCategory = 'all';
 
   Future<void> getBreeders() async {
     emit(BreedersLoading(fakeBreedersStatusModel));
@@ -201,6 +211,32 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
       );
 
       emit(BreedersByGenderSuccess(breedersGenderModel));
+    } catch (e, s) {
+      addError(e, s);
+      emit(BreedersFail(e.toString()));
+    }
+  }
+
+  Future<void> getBreedersByGenderFromService(String? gender) async {
+    emit(BreedersLoading(fakeBreedersStatusModel));
+    try {
+      // final response = await _breedersRepo.getBreederByGender(gender);
+
+      if (gender == 'male') {
+        genderBreeders = maleBreeders;
+      } else if (gender == 'female') {
+        genderBreeders = femaleBreeders;
+      } else {
+        genderBreeders = allBreeders;
+      }
+
+      breedersStatusModel = BreedersStatusModel(
+        all: genderBreeders,
+        active: activeBreeders2,
+        inactive: inactiveBreeders2,
+      );
+
+      emit(BreedersSuccess(breedersStatusModel, gender: gender));
     } catch (e, s) {
       addError(e, s);
       emit(BreedersFail(e.toString()));

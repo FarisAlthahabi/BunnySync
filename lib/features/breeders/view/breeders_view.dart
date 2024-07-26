@@ -60,6 +60,8 @@ abstract class BreedersViewCallbacks {
   void onNotes(BreederEntryModel breederEntryModel);
 
   void onScanTap();
+
+  void onGenderCategorySelected(String? value);
 }
 
 @RoutePage()
@@ -109,7 +111,6 @@ class _BreedersPageState extends State<BreedersPage>
   @override
   void initState() {
     super.initState();
-
     breedersCubit.getBreeders();
     child1ScrollController.addListener(
       createScrollListener(
@@ -285,6 +286,11 @@ class _BreedersPageState extends State<BreedersPage>
   }
 
   @override
+  void onGenderCategorySelected(String? value) {
+      breedersCubit.getBreedersByGenderFromService(value);
+  }
+
+  @override
   void onScanTap() {
     context.router.push(const BarcodeScannerRoute());
   }
@@ -360,6 +366,9 @@ class _BreedersPageState extends State<BreedersPage>
                     return Skeletonizer.sliver(
                       enabled: state is BreedersLoading,
                       child: CustomAppBar(
+                        selectedGender:
+                            state is BreedersSuccess ? state.gender : null,
+                        onGenderCategorySelected: onGenderCategorySelected,
                         onScanTap: onScanTap,
                         searchController: searchController,
                         searchFocusNode: searchFocusNode,
