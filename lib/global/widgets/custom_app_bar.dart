@@ -91,6 +91,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                     widget.title,
                     style: context.tt.displayLarge,
                   ),
+                  if(widget.onGenderCategorySelected != null)
                   SizedBox(
                     width: 110,
                     height: 50,

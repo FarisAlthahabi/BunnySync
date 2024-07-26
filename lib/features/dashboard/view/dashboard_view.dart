@@ -102,6 +102,8 @@ class _DashboardPageState extends State<DashboardPage>
     );
   }
 
+  int currentIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DashboardCubit, GeneralDashboardState>(
@@ -112,6 +114,7 @@ class _DashboardPageState extends State<DashboardPage>
             HomeRoute(),
             BreedersRoute(),
             LittersRoute(),
+            SettingsRoute(),
           ],
           extendBody: true,
           resizeToAvoidBottomInset: true,
@@ -127,6 +130,9 @@ class _DashboardPageState extends State<DashboardPage>
                   currentIndex: tabsRouter.activeIndex,
                   onTap: (index) {
                     onBottomTab(tabsRouter.activeIndex, index, tabsRouter);
+                    setState(() {
+                      currentIndex = index;
+                    });
                   },
                   items: [
                     BottomNavigationBarItem(
@@ -150,19 +156,28 @@ class _DashboardPageState extends State<DashboardPage>
                       ),
                       label: 'litters'.i18n,
                     ),
+                    BottomNavigationBarItem(
+                      icon: getBottomBarIcon(
+                        Assets.icons.more.path,
+                        isSelected: tabsRouter.activeIndex == 3,
+                      ),
+                      label: 'more'.i18n,
+                    ),
                   ],
                 ),
               ),
             );
           },
-          floatingActionButton: FloatingActionButton(
-            onPressed: onAddTap,
-            shape: RoundedRectangleBorder(
-              borderRadius: AppConstants.circularBorderRadius,
-            ),
-            backgroundColor: context.cs.secondaryContainer,
-            child: const Icon(Icons.add),
-          ),
+          floatingActionButton: currentIndex != 3
+              ? FloatingActionButton(
+                  onPressed: onAddTap,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: AppConstants.circularBorderRadius,
+                  ),
+                  backgroundColor: context.cs.secondaryContainer,
+                  child: const Icon(Icons.add),
+                )
+              : null,
         );
       },
     );
