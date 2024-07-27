@@ -12,21 +12,13 @@ class BreedersFetch extends BreedersState {
 }
 
 class BreedersLoading extends BreedersFetch {
-  BreedersLoading(
-    super.breedersStatusModel, {
-    this.gender,
-  });
-  final String? gender;
+  BreedersLoading(super.breedersStatusModel);
 }
 
 class BreedersByGenderLoading extends BreedersState {}
 
 class BreedersSuccess extends BreedersFetch {
-  BreedersSuccess(
-    super.breedersStatusModel, {
-    this.gender,
-  });
-  final String? gender;
+  BreedersSuccess(super.breedersStatusModel);
 }
 
 class BreedersByGenderSuccess extends BreedersState {
