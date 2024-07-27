@@ -239,6 +239,7 @@ final lightTheme = ThemeData(
     onPrimary: Colors.white,
     brightness: Brightness.light,
     tertiary: AppColors.darkBlue,
+    scrim: AppColors.blackShade2,
     onTertiary: Colors.white,
     tertiaryContainer: AppColors.greyShade3,
     surface: Colors.white,

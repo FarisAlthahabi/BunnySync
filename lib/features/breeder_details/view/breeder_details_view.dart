@@ -4,6 +4,7 @@ import 'package:bunny_sync/features/breeder_details/view/tabs/images_tab.dart';
 import 'package:bunny_sync/features/breeder_details/view/tabs/notes_tab.dart';
 import 'package:bunny_sync/features/breeder_details/view/tabs/pedigree_tab.dart';
 import 'package:bunny_sync/features/breeder_details/view/tabs/profile_tab.dart';
+import 'package:bunny_sync/features/breeder_details/view/tabs/tasks_tab.dart';
 import 'package:bunny_sync/features/breeder_details/view/widgets/breeder_profile_info_widget.dart';
 import 'package:bunny_sync/features/breeder_details/view/widgets/details_tab_bar.dart';
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
@@ -347,7 +348,7 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
                           breederId: widget.breederEntryModel.id,
                           controller: childScrollController[3],
                         ),
-                        Center(child: Text('not_implemented'.i18n)),
+                        const TasksTab(),
                         ImagesTab(
                           breederId: widget.breederEntryModel.id,
                           controller: childScrollController[5],
