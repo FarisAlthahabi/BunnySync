@@ -24,6 +24,7 @@ class TaskTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MainTile(
+      boxShadow: AppShadows.getTaskTileShadow(context),
       child: Column(
         children: [
           ListTile(
@@ -50,6 +51,7 @@ class TaskTile extends StatelessWidget {
               ),
             ),
             title: Text(
+               strutStyle: const StrutStyle(height: 1.6),
               description,
               style: context.tt.titleSmall?.copyWith(
                 fontWeight: FontWeight.w400,
@@ -101,6 +103,7 @@ class TaskTile extends StatelessWidget {
               ),
             ],
           ),
+          const SizedBox(height: 5),
         ],
       ),
     );

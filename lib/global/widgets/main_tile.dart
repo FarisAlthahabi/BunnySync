@@ -5,14 +5,16 @@ import 'package:flutter/material.dart';
 class MainTile extends StatelessWidget {
   const MainTile({
     super.key,
-    this.padding = AppConstants.padding16,
     required this.child,
+    this.padding = AppConstants.padding16,
     this.onTap,
+    this.boxShadow,
   });
 
-  final EdgeInsetsGeometry padding;
   final Widget child;
+  final EdgeInsetsGeometry padding;
   final VoidCallback? onTap;
+  final List<BoxShadow>? boxShadow;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,7 @@ class MainTile extends StatelessWidget {
       decoration: BoxDecoration(
         color: context.cs.surface,
         borderRadius: AppConstants.borderRadius8,
-        boxShadow: AppShadows.getTileShadow(context),
+        boxShadow: boxShadow ?? AppShadows.getTileShadow(context),
       ),
       child: Material(
         type: MaterialType.transparency,
