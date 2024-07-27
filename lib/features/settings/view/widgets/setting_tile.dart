@@ -25,7 +25,7 @@ class SettingTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 18 , top: 16),
+            padding: const EdgeInsets.only(left: 18, top: 16),
             child: Text(
               title,
               style: context.tt.headlineSmall?.copyWith(
@@ -44,22 +44,23 @@ class SettingTile extends StatelessWidget {
             itemBuilder: (context, index) {
               return ListTile(
                 dense: true,
+                contentPadding: AppConstants.paddingH16,
                 onTap: items[index].call,
-                tileColor: AppColors.backgroundColor,
+                tileColor: context.cs.surface,
                 leading: items[index].icon.svg(),
                 title: Text(
                   items[index].title,
                   style: context.tt.labelLarge
-                      ?.copyWith(color: AppColors.greyShade7),
+                      ?.copyWith(color: context.cs.surfaceContainerHighest),
                 ),
               );
             },
             separatorBuilder: (context, index) {
-              return const Divider(
+              return Divider(
                 thickness: 1,
                 endIndent: 30,
                 indent: 30,
-                color: AppColors.greyShade2,
+                color: context.cs.onTertiaryFixed,
               );
             },
           ),

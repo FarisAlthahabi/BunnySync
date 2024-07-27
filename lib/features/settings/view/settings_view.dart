@@ -135,9 +135,9 @@ class _SettingsPageState extends State<SettingsPage>
       ),
     ];
     return Scaffold(
-      appBar: const MainAppBar(
+      appBar:  MainAppBar(
         leadingWith: 70,
-        leading: Center(
+        leading: const Center(
           child: BunnyLogo(
             size: 40,
             borderRadius: AppConstants.borderRadius12,
@@ -145,7 +145,7 @@ class _SettingsPageState extends State<SettingsPage>
         ),
         actions: [
           CircleAvatar(
-            backgroundColor: AppColors.greyShade10,
+            backgroundColor: context.cs.tertiaryFixed,
           ),
         ],
       ),
@@ -162,7 +162,7 @@ class _SettingsPageState extends State<SettingsPage>
                 ),
                 Text(
                   'more'.i18n,
-                  style: Theme.of(context).textTheme.displayLarge,
+                  style: context.tt.displayLarge,
                 ),
                 const SizedBox(
                   height: 20,
