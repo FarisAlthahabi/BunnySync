@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:bunny_sync/features/breeder_details/view/widgets/task_tile.dart';
 import 'package:bunny_sync/global/extensions/date_time_x.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
+import 'package:bunny_sync/global/widgets/element_tile.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -28,6 +28,7 @@ class _TasksTabState extends State<TasksTab> implements TasksTabCallBacks {
   void onAddTap() {
     // TODO: implement onAddTap
   }
+
   @override
   Widget build(BuildContext context) {
     final title = widget.title;
@@ -51,9 +52,9 @@ class _TasksTabState extends State<TasksTab> implements TasksTabCallBacks {
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   //TODO : from cubit
-                  return TaskTile(
-                    id: '${index + 1}',
-                    breederName: 'Breeder Name',
+                  return ElementTile(
+                    no: '${index + 1}',
+                    tag: 'Breeder Name',
                     createdAt: DateTime.now().formatMMddYYYY,
                     description:
                         'Cupidatat consequat aute nostrud proident duis Lorem elit',

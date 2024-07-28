@@ -3,22 +3,22 @@ import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/main_tile.dart';
 import 'package:flutter/material.dart';
 
-class TaskTile extends StatelessWidget {
-  const TaskTile({
+class ElementTile extends StatelessWidget {
+  const ElementTile({
     super.key,
-    required this.id,
+    required this.no,
     required this.description,
     required this.icon,
     required this.type,
-    required this.breederName,
+    required this.tag,
     required this.createdAt,
   });
 
-  final String id;
+  final String no;
   final String description;
   final String icon;
   final String type;
-  final String breederName;
+  final String tag;
   final String createdAt;
 
   @override
@@ -38,12 +38,12 @@ class TaskTile extends StatelessWidget {
                   width: 2,
                   color: context.cs.primary,
                 ),
-                color: Colors.white,
+                color: context.cs.surface,
                 shape: BoxShape.circle,
               ),
               child: Center(
                 child: Text(
-                  id,
+                  no,
                   style: context.tt.titleSmall?.copyWith(
                     fontWeight: FontWeight.w400,
                   ),
@@ -51,7 +51,7 @@ class TaskTile extends StatelessWidget {
               ),
             ),
             title: Text(
-               strutStyle: const StrutStyle(height: 1.6),
+              strutStyle: const StrutStyle(height: 1.6),
               description,
               style: context.tt.titleSmall?.copyWith(
                 fontWeight: FontWeight.w400,
@@ -68,8 +68,8 @@ class TaskTile extends StatelessWidget {
               const SizedBox(width: 5),
               Text(
                 type,
-                style: context.tt.labelSmall
-                    ?.copyWith(color: context.cs.tertiary),
+                style:
+                    context.tt.labelSmall?.copyWith(color: context.cs.tertiary),
               ),
               const Expanded(
                 flex: 2,
@@ -83,7 +83,7 @@ class TaskTile extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    breederName,
+                    tag,
                     style: context.tt.labelSmall
                         ?.copyWith(color: context.cs.scrim),
                   ),
