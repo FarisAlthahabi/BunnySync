@@ -17,6 +17,7 @@ import 'package:bunny_sync/features/litters/models/litter_entry_model/litter_ent
 import 'package:bunny_sync/features/litters/view/litters_view.dart';
 import 'package:bunny_sync/features/main_navigation/view/main_navigation_view.dart';
 import 'package:bunny_sync/features/select_subscription_plan/view/select_subscription_plan_view.dart';
+import 'package:bunny_sync/features/settings/view/settings_view.dart';
 import 'package:bunny_sync/features/sign_in/view/sign_in_view.dart';
 import 'package:bunny_sync/features/splash/view/splash_view.dart';
 import 'package:flutter/foundation.dart';
@@ -69,6 +70,9 @@ class AppRouter extends _$AppRouter {
                     ),
                     AutoRoute(
                       page: LittersRoute.page,
+                    ),
+                     AutoRoute(
+                      page: SettingsRoute.page,
                     ),
                   ],
                 ),

@@ -12,6 +12,7 @@ import 'package:bunny_sync/global/mixins/create_scroll_listener_mixin.dart';
 import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
+import 'package:bunny_sync/global/utils/enums/gender_types_enum.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:bunny_sync/global/widgets/custom_app_bar.dart';
 import 'package:bunny_sync/global/widgets/keep_alive_widget.dart';
@@ -60,6 +61,8 @@ abstract class BreedersViewCallbacks {
   void onNotes(BreederEntryModel breederEntryModel);
 
   void onScanTap();
+
+  void onGenderSelected(GenderTypes? gender);
 }
 
 @RoutePage()
@@ -109,7 +112,6 @@ class _BreedersPageState extends State<BreedersPage>
   @override
   void initState() {
     super.initState();
-
     breedersCubit.getBreeders();
     child1ScrollController.addListener(
       createScrollListener(
@@ -285,6 +287,15 @@ class _BreedersPageState extends State<BreedersPage>
   }
 
   @override
+  void onGenderSelected(GenderTypes? gender) {
+    if (gender != null) {
+      breedersCubit.getBreedersByGender(gender);
+    } else {
+      breedersCubit.getBreeders();
+    }
+  }
+
+  @override
   void onScanTap() {
     context.router.push(const BarcodeScannerRoute());
   }
@@ -369,6 +380,9 @@ class _BreedersPageState extends State<BreedersPage>
                             : null,
                         title: title,
                         tabs: tabs,
+                        selectableItems: GenderTypes.values,
+                        hint: 'gender'.i18n,
+                        onFilterSelect: onGenderSelected,
                       ),
                     );
                   },
