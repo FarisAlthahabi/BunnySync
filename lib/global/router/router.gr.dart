@@ -145,7 +145,7 @@ abstract class _$AppRouter extends RootStackRouter {
           orElse: () => const TasksRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: TasksTab(
+        child: TasksView(
           key: args.key,
           title: args.title,
         ),
@@ -517,7 +517,7 @@ class SplashRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [TasksTab]
+/// [TasksView]
 class TasksRoute extends PageRouteInfo<TasksRouteArgs> {
   TasksRoute({
     Key? key,

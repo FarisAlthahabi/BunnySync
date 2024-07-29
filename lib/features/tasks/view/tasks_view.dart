@@ -6,13 +6,13 @@ import 'package:bunny_sync/global/widgets/element_tile.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
 import 'package:flutter/material.dart';
 
-abstract class TasksTabCallBacks {
+abstract class TasksViewCallBacks {
   void onAddTap();
 }
 
 @RoutePage()
-class TasksTab extends StatefulWidget {
-  const TasksTab({
+class TasksView extends StatefulWidget {
+  const TasksView({
     super.key,
     this.title,
   });
@@ -20,10 +20,10 @@ class TasksTab extends StatefulWidget {
   final String? title;
 
   @override
-  State<TasksTab> createState() => _TasksTabState();
+  State<TasksView> createState() => _TasksViewState();
 }
 
-class _TasksTabState extends State<TasksTab> implements TasksTabCallBacks {
+class _TasksViewState extends State<TasksView> implements TasksViewCallBacks {
   @override
   void onAddTap() {
     // TODO: implement onAddTap

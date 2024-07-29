@@ -4,11 +4,11 @@ import 'package:bunny_sync/features/breeder_details/view/tabs/images_tab.dart';
 import 'package:bunny_sync/features/breeder_details/view/tabs/notes_tab.dart';
 import 'package:bunny_sync/features/breeder_details/view/tabs/pedigree_tab.dart';
 import 'package:bunny_sync/features/breeder_details/view/tabs/profile_tab.dart';
-import 'package:bunny_sync/features/breeder_details/view/tabs/tasks_tab.dart';
 import 'package:bunny_sync/features/breeder_details/view/widgets/breeder_profile_info_widget.dart';
 import 'package:bunny_sync/features/breeder_details/view/widgets/details_tab_bar.dart';
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
 import 'package:bunny_sync/features/main_navigation/cubit/main_navigation_cubit.dart';
+import 'package:bunny_sync/features/tasks/view/tasks_view.dart';
 import 'package:bunny_sync/global/blocs/delete_breeder_cubit/delete_breeder_cubit.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
@@ -348,7 +348,7 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
                           breederId: widget.breederEntryModel.id,
                           controller: childScrollController[3],
                         ),
-                        const TasksTab(),
+                        const TasksView(),
                         ImagesTab(
                           breederId: widget.breederEntryModel.id,
                           controller: childScrollController[5],
