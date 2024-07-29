@@ -92,7 +92,7 @@ class _SettingsPageState extends State<SettingsPage>
     final List<SettingsTileModel> financeOptions = [
       SettingsTileModel(
         icon: Assets.icons.contacts.path,
-        title: 'contact_us'.i18n,
+        title: 'customers'.i18n,
         call: onContactUsTap,
       ),
       SettingsTileModel(
