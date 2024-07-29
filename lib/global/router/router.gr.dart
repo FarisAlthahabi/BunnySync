@@ -146,6 +146,17 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const SplashView(),
       );
     },
+    TasksRoute.name: (routeData) {
+      final args = routeData.argsAs<TasksRouteArgs>(
+          orElse: () => const TasksRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: TasksView(
+          key: args.key,
+          title: args.title,
+        ),
+      );
+    },
   };
 }
 
@@ -523,4 +534,41 @@ class SplashRoute extends PageRouteInfo<void> {
   static const String name = 'SplashRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [TasksView]
+class TasksRoute extends PageRouteInfo<TasksRouteArgs> {
+  TasksRoute({
+    Key? key,
+    String? title,
+    List<PageRouteInfo>? children,
+  }) : super(
+          TasksRoute.name,
+          args: TasksRouteArgs(
+            key: key,
+            title: title,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'TasksRoute';
+
+  static const PageInfo<TasksRouteArgs> page = PageInfo<TasksRouteArgs>(name);
+}
+
+class TasksRouteArgs {
+  const TasksRouteArgs({
+    this.key,
+    this.title,
+  });
+
+  final Key? key;
+
+  final String? title;
+
+  @override
+  String toString() {
+    return 'TasksRouteArgs{key: $key, title: $title}';
+  }
 }

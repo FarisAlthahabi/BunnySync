@@ -297,4 +297,14 @@ abstract class AppShadows {
       ),
     ];
   }
+
+  static List<BoxShadow> getTaskTileShadow(BuildContext context) {
+    return [
+      BoxShadow(
+        offset: const Offset(0.0, 4.0),
+        blurRadius: 4,
+        color: context.cs.shadow.withOpacity(0.25),
+      ),
+    ];
+  }
 }

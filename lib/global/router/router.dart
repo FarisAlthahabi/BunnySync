@@ -20,6 +20,7 @@ import 'package:bunny_sync/features/select_subscription_plan/view/select_subscri
 import 'package:bunny_sync/features/settings/view/settings_view.dart';
 import 'package:bunny_sync/features/sign_in/view/sign_in_view.dart';
 import 'package:bunny_sync/features/splash/view/splash_view.dart';
+import 'package:bunny_sync/features/tasks/view/tasks_view.dart';
 import 'package:flutter/foundation.dart';
 
 part 'router.gr.dart';
@@ -93,6 +94,9 @@ class AppRouter extends _$AppRouter {
                 ),
                 AutoRoute(
                   page: BarcodeScannerRoute.page,
+                ),
+                AutoRoute(
+                  page: TasksRoute.page,
                 ),
               ],
             ),

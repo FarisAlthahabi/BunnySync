@@ -11,6 +11,7 @@ abstract class AppColors {
   static const purpleDarkShade = Color(0xFF001233);
   static const backgroundColor = Color(0xFFFFFFFF);
   static const blackShade = Color(0xFF333333);
+  static const blackShade2 = Color(0xFF323743);
   static const greyShade = Color(0xFF9095A1);
   static const greyShade2 = Color(0xFFBDC1CA);
   static const greyShade3 = Color(0xFFC7C7CC);

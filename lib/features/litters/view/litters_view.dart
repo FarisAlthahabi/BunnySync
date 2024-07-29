@@ -170,7 +170,7 @@ class _LittersPageState extends State<LittersPage>
                                   litters: state.littersStatusModel.active,
                                   padding: AppConstants.paddingH16V28,
                                   onLitterTap: onLitterTap,
-                                  onRefresh: littersCubit.getLitters ,
+                                  onRefresh: littersCubit.getLitters,
                                 ),
                               ),
                               KeepAliveWidget(
@@ -179,7 +179,7 @@ class _LittersPageState extends State<LittersPage>
                                   litters: state.littersStatusModel.inactive,
                                   padding: AppConstants.paddingH16V28,
                                   onLitterTap: onLitterTap,
-                                  onRefresh: littersCubit.getLitters ,
+                                  onRefresh: littersCubit.getLitters,
                                 ),
                               ),
                               KeepAliveWidget(
@@ -188,16 +188,18 @@ class _LittersPageState extends State<LittersPage>
                                   litters: state.littersStatusModel.all,
                                   padding: AppConstants.paddingH16V28,
                                   onLitterTap: onLitterTap,
-                                  onRefresh: littersCubit.getLitters ,
+                                  onRefresh: littersCubit.getLitters,
                                 ),
                               ),
                             ],
                           ),
                         );
                       } else if (state is LittersFail) {
-                        return MainErrorWidget(error: state.message);
+                        return MainErrorWidget(
+                          error: state.message,
+                          onTap: onTryAgainTap,
+                        );
                       }
-
                       return const SizedBox.shrink();
                     },
                   ),
