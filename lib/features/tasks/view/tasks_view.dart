@@ -15,9 +15,11 @@ class TasksView extends StatefulWidget {
   const TasksView({
     super.key,
     this.title,
+    this.scrollController,
   });
 
   final String? title;
+  final ScrollController? scrollController;
 
   @override
   State<TasksView> createState() => _TasksViewState();
@@ -36,6 +38,7 @@ class _TasksViewState extends State<TasksView> implements TasksViewCallBacks {
     return Scaffold(
       appBar: title != null ? const MainAppBar() : null,
       body: SingleChildScrollView(
+        controller: widget.scrollController,
         child: Padding(
           padding: AppConstants.padding16,
           child: Column(
