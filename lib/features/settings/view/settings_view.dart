@@ -4,6 +4,7 @@ import 'package:bunny_sync/features/settings/view/widgets/setting_tile.dart';
 import 'package:bunny_sync/global/extensions/date_time_x.dart';
 import 'package:bunny_sync/global/gen/assets.gen.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
+import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/bunny_logo.dart';
@@ -84,7 +85,11 @@ class _SettingsPageState extends State<SettingsPage>
 
   @override
   void onScheduleTap() {
-    // TODO: implement onScheduleTap
+    context.router.push(
+      TasksRoute(
+        title: 'Tasks'.i18n,
+      ),
+    );
   }
 
   @override
