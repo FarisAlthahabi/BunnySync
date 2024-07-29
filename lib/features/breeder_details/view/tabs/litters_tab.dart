@@ -94,7 +94,7 @@ class _LittersTabState extends State<LittersTab>
               flex: 4,
               child: SearchTextField(
                 onChanged: onChanged,
-                hintText: 'Search..',
+                hintText: '${'search'.i18n}..',
               ),
             ),
             const SizedBox(
@@ -103,14 +103,14 @@ class _LittersTabState extends State<LittersTab>
             Expanded(
               flex: 3,
               child: MainActionButton(
-                text: 'Add New Litter',
+                text: 'add_new_litter'.i18n,
                 onTap: onAddLitterTab,
-                child: const Row(
+                child: Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Icon(Icons.add),
-                    Text('Add New Litter'),
+                    const Icon(Icons.add),
+                    Text('add_new_litter'.i18n),
                   ],
                 ),
               ),
@@ -126,7 +126,7 @@ class _LittersTabState extends State<LittersTab>
             child: DataTable2(
               dataTextStyle: context.tt.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w600,
-                color: AppColors.greyShade,
+                color: context.cs.onSurface,
               ),
               dataRowHeight: 60,
               columnSpacing: 12,
@@ -140,7 +140,7 @@ class _LittersTabState extends State<LittersTab>
                     child: Text(
                       columnsTitles[index],
                       style: context.tt.titleMedium?.copyWith(
-                        color: AppColors.greyShade,
+                        color: context.cs.onSurface,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
