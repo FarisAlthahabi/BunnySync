@@ -7,29 +7,29 @@ class MainTile extends StatelessWidget {
     super.key,
     required this.child,
     this.padding = AppConstants.padding16,
+    this.borderRadius = AppConstants.borderRadius8,
     this.onTap,
     this.boxShadow,
-    this.borderRadius,
   });
 
   final Widget child;
   final EdgeInsetsGeometry padding;
   final VoidCallback? onTap;
   final List<BoxShadow>? boxShadow;
-  final BorderRadius? borderRadius;
+  final BorderRadius borderRadius;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         color: context.cs.surface,
-        borderRadius: AppConstants.borderRadius8,
+        borderRadius: borderRadius,
         boxShadow: boxShadow ?? AppShadows.getTileShadow(context),
       ),
       child: Material(
         type: MaterialType.transparency,
         child: InkWell(
-          borderRadius: borderRadius ?? AppConstants.borderRadius8,
+          borderRadius: borderRadius,
           onTap: onTap,
           child: Padding(
             padding: padding,
