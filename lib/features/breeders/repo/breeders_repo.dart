@@ -1,3 +1,4 @@
+import 'package:bunny_sync/features/breeders/models/breeder_by_gender_model/breeder_by_gender_model.dart';
 import 'package:bunny_sync/features/breeders/models/breeders_model/breeders_model.dart';
 import 'package:bunny_sync/features/breeders/models/search_breeder_request_model/search_breeder_request_model.dart';
 import 'package:bunny_sync/features/breeders/models/search_breeder_request_model/search_entry_model/search_entry_model.dart';
@@ -13,4 +14,6 @@ abstract class BreedersRepo {
   Future<BreedersModel> getBreeders();
 
   Future<BreedersModel> getSearchedBreeders(String breederName);
+
+  Future<List<BreederByGenderModel>> getBreederByGender(String? gender);
 }

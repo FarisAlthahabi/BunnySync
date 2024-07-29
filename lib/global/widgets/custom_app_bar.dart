@@ -1,7 +1,9 @@
+import 'package:bunny_sync/features/breeders/view/widgets/single_selector_dropdown_widget.dart';
 import 'package:bunny_sync/features/breeders/view/widgets/tab_header.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
+import 'package:bunny_sync/global/widgets/radio_selector_widget.dart';
 import 'package:bunny_sync/global/widgets/search_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -16,7 +18,7 @@ class TabModel {
   final String? indicatorValue;
 }
 
-class CustomAppBar extends StatelessWidget {
+class CustomAppBar<T extends RadioSelectorItemModel> extends StatefulWidget {
   const CustomAppBar({
     super.key,
     required this.onSearchChanged,
@@ -26,7 +28,12 @@ class CustomAppBar extends StatelessWidget {
     this.searchFocusNode,
     this.onDeleteSearch,
     this.onScanTap,
+    this.hint,
+    this.onFilterSelect,
+    this.selectableItems,
+    this.selected,
   });
+
   final VoidCallback? onScanTap;
   final ValueChanged<String> onSearchChanged;
   final String title;
@@ -34,11 +41,25 @@ class CustomAppBar extends StatelessWidget {
   final TextEditingController? searchController;
   final FocusNode? searchFocusNode;
   final VoidCallback? onDeleteSearch;
+  final String? hint;
+  final List<T>? selectableItems;
+  final ValueChanged<T?>? onFilterSelect;
+  final T? selected;
 
   @override
+  State<CustomAppBar<T>> createState() => _CustomAppBarState<T>();
+}
+
+class _CustomAppBarState<T extends RadioSelectorItemModel>
+    extends State<CustomAppBar<T>> {
+  @override
   Widget build(BuildContext context) {
+    final hint = widget.hint;
+    final selectableItems = widget.selectableItems;
+    final onFilterSelect = widget.onFilterSelect;
+
     return SliverAppBar(
-      expandedHeight: tabs.isNotEmpty ? 180 : 155,
+      expandedHeight: widget.tabs.isNotEmpty ? 180 : 155,
       automaticallyImplyLeading: false,
       elevation: 0,
       scrolledUnderElevation: 0,
@@ -58,30 +79,44 @@ class CustomAppBar extends StatelessWidget {
                 children: [
                   Expanded(
                     child: SearchTextField(
-                      controller: searchController,
-                      focusNode: searchFocusNode,
+                      controller: widget.searchController,
+                      focusNode: widget.searchFocusNode,
                       hintText: 'search'.i18n,
-                      onChanged: onSearchChanged,
-                      onDeleteText: onDeleteSearch,
+                      onChanged: widget.onSearchChanged,
+                      onDeleteText: widget.onDeleteSearch,
                     ),
                   ),
                   IconButton(
-                    onPressed: onScanTap,
+                    onPressed: widget.onScanTap,
                     icon: const Icon(Icons.qr_code_scanner),
                   ),
                 ],
               ),
               const SizedBox(height: 12),
-              Text(
-                title,
-                style: context.tt.displayLarge,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    widget.title,
+                    style: context.tt.displayLarge,
+                  ),
+                  if (hint != null &&
+                      selectableItems != null &&
+                      onFilterSelect != null)
+                    SingleSelectorDropdownWidget<T>(
+                      hint: hint,
+                      selected: widget.selected,
+                      items: selectableItems,
+                      onSelect: onFilterSelect,
+                    ),
+                ],
               ),
               const SizedBox(height: 16),
             ],
           ),
         ),
       ),
-      bottom: tabs.isNotEmpty
+      bottom: widget.tabs.isNotEmpty
           ? PreferredSize(
               preferredSize: const Size.fromHeight(48),
               child: Container(
@@ -89,7 +124,7 @@ class CustomAppBar extends StatelessWidget {
                 padding: AppConstants.paddingH16,
                 child: Skeleton.shade(
                   child: TabBar(
-                    tabs: tabs
+                    tabs: widget.tabs
                         .map(
                           (tab) => TabHeader(
                             text: tab.title,

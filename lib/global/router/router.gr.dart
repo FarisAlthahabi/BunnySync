@@ -123,6 +123,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const SelectSubscriptionPlanView(),
       );
     },
+    SettingsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SettingsView(),
+      );
+    },
     SignInRoute.name: (routeData) {
       final args = routeData.argsAs<SignInRouteArgs>(
           orElse: () => const SignInRouteArgs());
@@ -138,6 +144,17 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const SplashView(),
+      );
+    },
+    TasksRoute.name: (routeData) {
+      final args = routeData.argsAs<TasksRouteArgs>(
+          orElse: () => const TasksRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: TasksView(
+          key: args.key,
+          title: args.title,
+        ),
       );
     },
   };
@@ -455,6 +472,20 @@ class SelectSubscriptionPlanRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [SettingsView]
+class SettingsRoute extends PageRouteInfo<void> {
+  const SettingsRoute({List<PageRouteInfo>? children})
+      : super(
+          SettingsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SettingsRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [SignInView]
 class SignInRoute extends PageRouteInfo<SignInRouteArgs> {
   SignInRoute({
@@ -503,4 +534,41 @@ class SplashRoute extends PageRouteInfo<void> {
   static const String name = 'SplashRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [TasksView]
+class TasksRoute extends PageRouteInfo<TasksRouteArgs> {
+  TasksRoute({
+    Key? key,
+    String? title,
+    List<PageRouteInfo>? children,
+  }) : super(
+          TasksRoute.name,
+          args: TasksRouteArgs(
+            key: key,
+            title: title,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'TasksRoute';
+
+  static const PageInfo<TasksRouteArgs> page = PageInfo<TasksRouteArgs>(name);
+}
+
+class TasksRouteArgs {
+  const TasksRouteArgs({
+    this.key,
+    this.title,
+  });
+
+  final Key? key;
+
+  final String? title;
+
+  @override
+  String toString() {
+    return 'TasksRouteArgs{key: $key, title: $title}';
+  }
 }

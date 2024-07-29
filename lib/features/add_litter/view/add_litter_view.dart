@@ -233,7 +233,7 @@ class _AddLitterPageState extends State<AddLitterPage>
   void initState() {
     super.initState();
 
-    breedersCubit.getBreedersByGender();
+    breedersCubit.getBreedersByAllGenders();
     addLitterCubit.emitUpdateAddLitterState();
   }
 
@@ -321,14 +321,15 @@ class _AddLitterPageState extends State<AddLitterPage>
                                                 .femaleBreeders,
                                             text: 'select_female_breeder'.i18n,
                                             onChanged: onFemaleBreederIdChanged,
-                                            selectedValue:  state.breedersGenderModel
-                                                  .femaleBreeders
-                                                  .firstWhereOrNull(
-                                                (element) =>
-                                                    element.id ==
-                                                    innerState.addLitterModel
-                                                        .femaleBreederId,
-                                              ),
+                                            selectedValue: state
+                                                .breedersGenderModel
+                                                .femaleBreeders
+                                                .firstWhereOrNull(
+                                              (element) =>
+                                                  element.id ==
+                                                  innerState.addLitterModel
+                                                      .femaleBreederId,
+                                            ),
                                           ),
                                           const SizedBox(
                                             height: 25,
@@ -418,7 +419,7 @@ class _AddLitterPageState extends State<AddLitterPage>
                                   "set_breed_date".i18n,
                                   style: context.tt.bodyLarge?.copyWith(
                                     fontWeight: FontWeight.w700,
-                                    color: AppColors.darkGrey,
+                                    color: context.cs.primaryFixed,
                                   ),
                                 ),
                                 const SizedBox(height: 10),
@@ -434,7 +435,7 @@ class _AddLitterPageState extends State<AddLitterPage>
                                   "set_born_date".i18n,
                                   style: context.tt.bodyLarge?.copyWith(
                                     fontWeight: FontWeight.w700,
-                                    color: AppColors.darkGrey,
+                                    color: context.cs.primaryFixed,
                                   ),
                                 ),
                                 const SizedBox(height: 10),

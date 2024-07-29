@@ -11,7 +11,7 @@ part 'breeder_image_model.g.dart';
 
 @JsonSerializable()
 @immutable
-class BreederImageModel implements BottomSheetItemModel{
+class BreederImageModel implements BottomSheetItemModel {
   const BreederImageModel({
     required this.id,
     required this.breederId,
@@ -36,7 +36,7 @@ class BreederImageModel implements BottomSheetItemModel{
   final String path;
 
   @JsonKey(
-    fromJson: BunnySyncJsonUtils.setImageUrlFromJson,
+    fromJson: BunnySyncJsonUtils.setBreedersImageUrlFromJson,
     readValue: JsonUtils.readValue,
   )
   final String imageUrl;

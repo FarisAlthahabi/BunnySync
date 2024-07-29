@@ -42,4 +42,29 @@ class HttpBreedersRepo implements BreedersRepo {
       rethrow;
     }
   }
+
+  @override
+  Future<List<BreederByGenderModel>> getBreederByGender(
+    String? gender,
+  ) async {
+    try {
+      final response = await _dioClient.get(
+        '/breeders/show-by-gender/${gender ?? 'male'}',
+      );
+      final data = response.data as Map<String, dynamic>;
+      final innerData = data['data'] as Map<String, dynamic>;
+      final breedersByGender = innerData['breeders'] as List;
+      return List.generate(
+        breedersByGender.length,
+        (index) => BreederByGenderModel.fromJson(
+          breedersByGender[index] as Map<String, dynamic>,
+        ),
+      );
+    } on Exception catch (e) {
+      if (e is NotFoundException) {
+        throw e.message ?? 'something_went_wrong'.i18n;
+      }
+      rethrow;
+    }
+  }
 }

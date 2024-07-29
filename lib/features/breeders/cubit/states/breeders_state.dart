@@ -15,6 +15,8 @@ class BreedersLoading extends BreedersFetch {
   BreedersLoading(super.breedersStatusModel);
 }
 
+class BreedersByGenderLoading extends BreedersState {}
+
 class BreedersSuccess extends BreedersFetch {
   BreedersSuccess(super.breedersStatusModel);
 }

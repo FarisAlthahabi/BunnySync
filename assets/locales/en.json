@@ -163,5 +163,15 @@
   "image_options": "Image Options",
   "storage_permission_denied": "Storage permission denied",
   "scan_something": "Scan something",
-  "add_new_litter": "Add New Litter"
+  "add_new_litter": "Add New Litter",
+  "more" : "More",
+  "contact_us" : "Contact us",
+  "categories" : "Categories",
+  "schedule" : "Schedule",
+  "cage_cards" : "Cage Cards",
+  "reports" : "Reports",
+  "queue_history" : "Queue History",
+  "health" : "Health",
+  "finance" : "Finance",
+  "other" : "Other"
 }
