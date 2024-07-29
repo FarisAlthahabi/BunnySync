@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:bunny_sync/features/intro/models/goal_model.dart';
+import 'package:bunny_sync/features/settings/models/settings_tile_model.dart';
 import 'package:bunny_sync/features/settings/view/widgets/setting_tile.dart';
 import 'package:bunny_sync/global/extensions/date_time_x.dart';
 import 'package:bunny_sync/global/gen/assets.gen.dart';
@@ -89,53 +89,53 @@ class _SettingsPageState extends State<SettingsPage>
 
   @override
   Widget build(BuildContext context) {
-    final List<GoalModel> financeOptions = [
-      GoalModel(
+    final List<SettingsTileModel> financeOptions = [
+      SettingsTileModel(
         icon: Assets.icons.contacts.path,
         title: 'contact_us'.i18n,
         call: onContactUsTap,
       ),
-      GoalModel(
+      SettingsTileModel(
         icon: Assets.icons.calculator.path,
         title: 'ledger'.i18n,
         call: onLedgerTap,
       ),
-      GoalModel(
+      SettingsTileModel(
         icon: Assets.icons.selection.path,
         title: 'categories'.i18n,
         call: onCategoriesTap,
       ),
     ];
 
-    final List<GoalModel> otherOptions = [
-      GoalModel(
+    final List<SettingsTileModel> otherOptions = [
+      SettingsTileModel(
         icon: Assets.icons.calendarDate.path,
         title: 'schedule'.i18n,
         call: onScheduleTap,
       ),
-      GoalModel(
+      SettingsTileModel(
         icon: Assets.icons.cardholder.path,
         title: 'cage_cards'.i18n,
         call: onCageCardsTap,
       ),
-      GoalModel(
+      SettingsTileModel(
         icon: Assets.icons.chart.path,
         title: 'reports'.i18n,
         call: onReportsTap,
       ),
-      GoalModel(
+      SettingsTileModel(
         icon: Assets.icons.question.path,
         title: 'queue_history'.i18n,
         call: onQueueHistoryTap,
       ),
-      GoalModel(
+      SettingsTileModel(
         icon: Assets.icons.heart.path,
         title: 'health'.i18n,
         call: onHealthTap,
       ),
     ];
     return Scaffold(
-      appBar:  MainAppBar(
+      appBar: MainAppBar(
         leadingWith: 70,
         leading: const Center(
           child: BunnyLogo(
