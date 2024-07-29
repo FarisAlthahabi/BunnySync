@@ -17,7 +17,6 @@ class LitterDetailsModel {
     required this.litterId,
     required this.type,
     required this.prefix,
-    required this.tatto,
     required this.breedDate,
     required this.bronDate,
     required this.status,
@@ -25,6 +24,7 @@ class LitterDetailsModel {
     required this.updatedAt,
     required this.kits,
     required this.breederPairModel,
+    this.tatto,
     this.note,
     this.cage,
     this.breed,
@@ -44,7 +44,7 @@ class LitterDetailsModel {
   @JsonKey(name: 'breed_pair_id')
   final int breedPairId;
 
-@JsonKey(name: 'litter_id')
+  @JsonKey(name: 'litter_id')
   final String litterId;
 
   final String type;
