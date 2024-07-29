@@ -14,7 +14,6 @@ LitterDetailsModel _$LitterDetailsModelFromJson(Map<String, dynamic> json) =>
       litterId: json['litter_id'] as String,
       type: json['type'] as String,
       prefix: json['prefix'] as String?,
-      tatto: json['tatto'] as String?,
       breedDate: DateTime.parse(json['breed'] as String),
       bronDate: DateTime.parse(json['born'] as String),
       status: json['status'] as String,
@@ -25,6 +24,7 @@ LitterDetailsModel _$LitterDetailsModelFromJson(Map<String, dynamic> json) =>
           .toList(),
       breederPairModel: BreederPairModel.fromJson(
           json['breederpair'] as Map<String, dynamic>),
+      tatto: json['tatto'] as String?,
       note: json['note'] as String?,
       cage: json['cage'] as String?,
       breed: json['breed_text'] as String?,
