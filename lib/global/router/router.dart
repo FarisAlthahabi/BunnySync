@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/add_breeder/view/add_breeder_view.dart';
 import 'package:bunny_sync/features/add_litter/view/add_litter_view.dart';
 import 'package:bunny_sync/features/add_note/view/add_note_view.dart';
+import 'package:bunny_sync/features/add_task/view/add_task_view.dart';
 import 'package:bunny_sync/features/authentication/view/authentication_view.dart';
 import 'package:bunny_sync/features/breeder_details/cubit/breeder_details_cubit.dart';
 import 'package:bunny_sync/features/breeder_details/view/breeder_details_view.dart';
@@ -21,7 +22,7 @@ import 'package:bunny_sync/features/settings/view/settings_view.dart';
 import 'package:bunny_sync/features/sign_in/view/sign_in_view.dart';
 import 'package:bunny_sync/features/splash/view/splash_view.dart';
 import 'package:bunny_sync/features/tasks/view/tasks_view.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 part 'router.gr.dart';
 
@@ -97,6 +98,9 @@ class AppRouter extends _$AppRouter {
                 ),
                 AutoRoute(
                   page: TasksRoute.page,
+                ),
+                AutoRoute(
+                  page: AddTaskRoute.page,
                 ),
               ],
             ),
