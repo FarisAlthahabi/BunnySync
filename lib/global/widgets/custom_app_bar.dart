@@ -1,8 +1,9 @@
-import 'package:bunny_sync/features/breeders/view/widgets/gender_category_selector.dart';
+import 'package:bunny_sync/features/breeders/view/widgets/single_selector_dropdown_widget.dart';
 import 'package:bunny_sync/features/breeders/view/widgets/tab_header.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
+import 'package:bunny_sync/global/widgets/radio_selector_widget.dart';
 import 'package:bunny_sync/global/widgets/search_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -17,38 +18,46 @@ class TabModel {
   final String? indicatorValue;
 }
 
-class CustomAppBar extends StatefulWidget {
+class CustomAppBar<T extends RadioSelectorItemModel> extends StatefulWidget {
   const CustomAppBar({
     super.key,
     required this.onSearchChanged,
     required this.title,
     required this.tabs,
-    this.onGenderCategorySelected,
     this.searchController,
     this.searchFocusNode,
     this.onDeleteSearch,
     this.onScanTap,
-    this.selectedGender,
+    this.hint,
+    this.onFilterSelect,
+    this.selectableItems,
+    this.selected,
   });
+
   final VoidCallback? onScanTap;
   final ValueChanged<String> onSearchChanged;
-  final ValueChanged<String?>? onGenderCategorySelected;
   final String title;
   final List<TabModel> tabs;
   final TextEditingController? searchController;
   final FocusNode? searchFocusNode;
   final VoidCallback? onDeleteSearch;
-  final String? selectedGender;
+  final String? hint;
+  final List<T>? selectableItems;
+  final ValueChanged<T?>? onFilterSelect;
+  final T? selected;
 
   @override
-  State<CustomAppBar> createState() => _CustomAppBarState();
+  State<CustomAppBar<T>> createState() => _CustomAppBarState<T>();
 }
 
-class _CustomAppBarState extends State<CustomAppBar> {
-  final List<String> genderCategories = ['all', 'male', 'female'];
-
+class _CustomAppBarState<T extends RadioSelectorItemModel>
+    extends State<CustomAppBar<T>> {
   @override
   Widget build(BuildContext context) {
+    final hint = widget.hint;
+    final selectableItems = widget.selectableItems;
+    final onFilterSelect = widget.onFilterSelect;
+
     return SliverAppBar(
       expandedHeight: widget.tabs.isNotEmpty ? 180 : 155,
       automaticallyImplyLeading: false,
@@ -91,15 +100,15 @@ class _CustomAppBarState extends State<CustomAppBar> {
                     widget.title,
                     style: context.tt.displayLarge,
                   ),
-                  SizedBox(
-                    width: 110,
-                    height: 50,
-                    child: GenderCategorySelector(
-                      selectedGender: widget.selectedGender,
-                      onGenderCategorySelected:
-                          widget.onGenderCategorySelected,
+                  if (hint != null &&
+                      selectableItems != null &&
+                      onFilterSelect != null)
+                    SingleSelectorDropdownWidget<T>(
+                      hint: hint,
+                      selected: widget.selected,
+                      items: selectableItems,
+                      onSelect: onFilterSelect,
                     ),
-                  ),
                 ],
               ),
               const SizedBox(height: 16),

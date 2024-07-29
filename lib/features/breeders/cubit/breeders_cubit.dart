@@ -11,9 +11,7 @@ import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
 part 'states/breeders_state.dart';
-
 part 'states/general_breeders_state.dart';
-
 part 'states/search_breeder_state.dart';
 
 @injectable
@@ -26,21 +24,16 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
 
   List<BreederEntryModel> searchedBreeders = [];
 
-  late BreedersStatusModel breedersStatusModel;
+  BreedersStatusModel? _breedersStatusModel;
 
-  late BreedersStatusModel initialBreeders;
+  BreedersStatusModel get breedersStatusModel =>
+      _breedersStatusModel ?? BreedersStatusModel.empty();
 
   List<BreederEntryModel> get activeBreeders =>
       allBreeders.where((element) => element.isActive).toList();
 
   List<BreederEntryModel> get inactiveBreeders =>
       allBreeders.where((element) => !element.isActive).toList();
-
-  List<BreederEntryModel> get activeBreeders2 =>
-      genderBreeders.where((element) => element.isActive).toList();
-
-  List<BreederEntryModel> get inactiveBreeders2 =>
-      genderBreeders.where((element) => !element.isActive).toList();
 
   List<BreederEntryModel> get maleBreeders => allBreeders
       .where((element) => element.gender == GenderTypes.male)
@@ -50,25 +43,37 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
       .where((element) => element.gender == GenderTypes.female)
       .toList();
 
-  List<BreederEntryModel> genderBreeders = [];
+  List<BreederEntryModel> get activeMaleBreeders =>
+      maleBreeders.where((element) => element.isActive).toList();
+
+  List<BreederEntryModel> get activeFemaleBreeders =>
+      femaleBreeders.where((element) => element.isActive).toList();
+
+  List<BreederEntryModel> get inactiveMaleBreeders =>
+      maleBreeders.where((element) => !element.isActive).toList();
+
+  List<BreederEntryModel> get inactiveFemaleBreeders =>
+      femaleBreeders.where((element) => !element.isActive).toList();
 
   late BreedersGenderModel breedersGenderModel;
 
-  String? genderCategory = 'all';
-
   Future<void> getBreeders() async {
+    if (_breedersStatusModel != null) {
+      emit(BreedersSuccess(breedersStatusModel));
+      return;
+    }
+
     emit(BreedersLoading(fakeBreedersStatusModel));
     try {
       final response = await _breedersRepo.getBreeders();
 
       allBreeders = response.breeders;
 
-      breedersStatusModel = BreedersStatusModel(
+      _breedersStatusModel = BreedersStatusModel(
         all: allBreeders,
         active: activeBreeders,
         inactive: inactiveBreeders,
       );
-      initialBreeders = breedersStatusModel;
       emit(BreedersSuccess(breedersStatusModel));
     } catch (e, s) {
       addError(e, s);
@@ -80,7 +85,7 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
     try {
       if (input.isEmpty) {
         searchedBreeders = [];
-        emit(BreedersSuccess(initialBreeders));
+        emit(BreedersSuccess(breedersStatusModel));
       } else {
         emit(SearchBreederLoading());
         final response = await _breedersRepo.getSearchedBreeders(input);
@@ -100,7 +105,7 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
   void addBreeder(BreederEntryModel breederEntryModel) {
     allBreeders.add(breederEntryModel);
 
-    breedersStatusModel = BreedersStatusModel(
+    _breedersStatusModel = BreedersStatusModel(
       all: allBreeders,
       active: activeBreeders,
       inactive: inactiveBreeders,
@@ -121,7 +126,7 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
       return e;
     }).toList();
 
-    breedersStatusModel = BreedersStatusModel(
+    _breedersStatusModel = BreedersStatusModel(
       all: allBreeders,
       active: activeBreeders,
       inactive: inactiveBreeders,
@@ -154,7 +159,7 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
       return e;
     }).toList();
 
-    breedersStatusModel = BreedersStatusModel(
+    _breedersStatusModel = BreedersStatusModel(
       all: allBreeders,
       active: activeBreeders,
       inactive: inactiveBreeders,
@@ -182,7 +187,7 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
   void deleteBreeder(int breederId) {
     allBreeders =
         allBreeders.where((element) => element.id != breederId).toList();
-    breedersStatusModel = BreedersStatusModel(
+    _breedersStatusModel = BreedersStatusModel(
       all: allBreeders,
       active: activeBreeders,
       inactive: inactiveBreeders,
@@ -198,7 +203,7 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
     }
   }
 
-  Future<void> getBreedersByGender() async {
+  Future<void> getBreedersByAllGenders() async {
     emit(BreedersLoading(fakeBreedersStatusModel));
     try {
       final response = await _breedersRepo.getBreeders();
@@ -217,26 +222,26 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
     }
   }
 
-  Future<void> getBreedersByGenderFromService(String? gender) async {
+  Future<void> getBreedersByGender(GenderTypes gender) async {
     emit(BreedersLoading(fakeBreedersStatusModel));
     try {
-      // final response = await _breedersRepo.getBreederByGender(gender);
+      var result = breedersStatusModel;
 
-      if (gender == 'male') {
-        genderBreeders = maleBreeders;
-      } else if (gender == 'female') {
-        genderBreeders = femaleBreeders;
-      } else {
-        genderBreeders = allBreeders;
+      if (gender.isMale) {
+        result = breedersStatusModel.copyWith(
+          all: maleBreeders,
+          active: activeMaleBreeders,
+          inactive: inactiveMaleBreeders,
+        );
+      } else if (gender.isFemale) {
+        result = breedersStatusModel.copyWith(
+          all: femaleBreeders,
+          active: activeFemaleBreeders,
+          inactive: inactiveFemaleBreeders,
+        );
       }
 
-      breedersStatusModel = BreedersStatusModel(
-        all: genderBreeders,
-        active: activeBreeders2,
-        inactive: inactiveBreeders2,
-      );
-
-      emit(BreedersSuccess(breedersStatusModel, gender: gender));
+      emit(BreedersSuccess(result));
     } catch (e, s) {
       addError(e, s);
       emit(BreedersFail(e.toString()));

@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
-const baseUrl = 'http://bunnysync.bunnyhorde.com/api/';
+const baseUrl = 'http://bunnysync.bunnyhorde.com/';
+const apiUrl = '${baseUrl}api/';
 
 @singleton
 class DioClient {
@@ -16,7 +17,7 @@ class DioClient {
 
   DioClient._() {
     final baseOptions = BaseOptions(
-      baseUrl: baseUrl,
+      baseUrl: apiUrl,
     );
 
     _dio = Dio(baseOptions);
@@ -77,10 +78,10 @@ class DioClient {
   }
 
   Future<Response<dynamic>> delete(
-      String endpoint, {
-        dynamic data,
-        Map<String, dynamic>? headers,
-      }) async {
+    String endpoint, {
+    dynamic data,
+    Map<String, dynamic>? headers,
+  }) async {
     return _dio.delete(
       endpoint,
       data: data,

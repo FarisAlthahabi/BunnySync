@@ -123,6 +123,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const SelectSubscriptionPlanView(),
       );
     },
+    SettingsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SettingsView(),
+      );
+    },
     SignInRoute.name: (routeData) {
       final args = routeData.argsAs<SignInRouteArgs>(
           orElse: () => const SignInRouteArgs());
@@ -461,6 +467,20 @@ class SelectSubscriptionPlanRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'SelectSubscriptionPlanRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SettingsView]
+class SettingsRoute extends PageRouteInfo<void> {
+  const SettingsRoute({List<PageRouteInfo>? children})
+      : super(
+          SettingsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SettingsRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

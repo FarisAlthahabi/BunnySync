@@ -9,12 +9,14 @@ class MainTile extends StatelessWidget {
     this.padding = AppConstants.padding16,
     this.onTap,
     this.boxShadow,
+    this.borderRadius,
   });
 
   final Widget child;
   final EdgeInsetsGeometry padding;
   final VoidCallback? onTap;
   final List<BoxShadow>? boxShadow;
+  final BorderRadius? borderRadius;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class MainTile extends StatelessWidget {
       child: Material(
         type: MaterialType.transparency,
         child: InkWell(
-          borderRadius: AppConstants.borderRadius8,
+          borderRadius: borderRadius ?? AppConstants.borderRadius8,
           onTap: onTap,
           child: Padding(
             padding: padding,
