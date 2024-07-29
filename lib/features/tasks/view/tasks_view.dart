@@ -62,7 +62,7 @@ class _TasksViewState extends State<TasksView> implements TasksViewCallBacks {
                     description:
                         'Cupidatat consequat aute nostrud proident duis Lorem elit',
                     icon: 'cds',
-                    type: 'Custom-heart',
+                    subtitle: 'Custom-heart',
                   );
                 },
                 separatorBuilder: (context, index) {

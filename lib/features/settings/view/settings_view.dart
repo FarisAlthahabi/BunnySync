@@ -4,6 +4,7 @@ import 'package:bunny_sync/features/settings/view/widgets/setting_tile.dart';
 import 'package:bunny_sync/global/extensions/date_time_x.dart';
 import 'package:bunny_sync/global/gen/assets.gen.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
+import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/bunny_logo.dart';
@@ -54,7 +55,7 @@ class _SettingsPageState extends State<SettingsPage>
 
   @override
   void onCategoriesTap() {
-    // TODO: implement onCategoriesTap
+    context.router.push(const CategoriesRoute());
   }
 
   @override
@@ -84,7 +85,7 @@ class _SettingsPageState extends State<SettingsPage>
 
   @override
   void onScheduleTap() {
-    // TODO: implement onScheduleTap
+    context.router.push(TasksRoute(title: 'tasks'.i18n));
   }
 
   @override
@@ -135,7 +136,7 @@ class _SettingsPageState extends State<SettingsPage>
       ),
     ];
     return Scaffold(
-      appBar:  MainAppBar(
+      appBar: MainAppBar(
         leadingWith: 70,
         leading: const Center(
           child: BunnyLogo(

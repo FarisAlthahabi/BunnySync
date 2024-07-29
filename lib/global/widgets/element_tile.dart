@@ -8,21 +8,26 @@ class ElementTile extends StatelessWidget {
     super.key,
     required this.no,
     required this.description,
-    required this.icon,
-    required this.type,
+    required this.subtitle,
     required this.tag,
-    required this.createdAt,
+    this.icon,
+    this.createdAt,
+    this.numTitle,
   });
 
   final String no;
   final String description;
-  final String icon;
-  final String type;
+  final String? icon;
+  final String subtitle;
   final String tag;
-  final String createdAt;
+  final String? numTitle;
+  final String? createdAt;
 
   @override
   Widget build(BuildContext context) {
+    final icon = this.icon;
+    final numTitle = this.numTitle;
+    final createdAt = this.createdAt;
     return MainTile(
       boxShadow: AppShadows.getTaskTileShadow(context),
       child: Column(
@@ -61,13 +66,14 @@ class ElementTile extends StatelessWidget {
           Row(
             children: [
               const SizedBox(width: 50),
-              Icon(
-                Icons.favorite_outline_outlined,
-                color: context.cs.onSurface,
-              ),
+              if (icon != null)
+                Icon(
+                  Icons.favorite_outline_outlined,
+                  color: context.cs.onSurface,
+                ),
               const SizedBox(width: 5),
               Text(
-                type,
+                numTitle == null ? subtitle : '$numTitle : $subtitle',
                 style:
                     context.tt.labelSmall?.copyWith(color: context.cs.tertiary),
               ),
@@ -92,17 +98,18 @@ class ElementTile extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 10),
-          Row(
-            children: [
-              const SizedBox(width: 50),
-              Text(
-                createdAt,
-                style: context.tt.labelSmall?.copyWith(
-                  fontWeight: FontWeight.w700,
+          if (createdAt != null)
+            Row(
+              children: [
+                const SizedBox(width: 50),
+                Text(
+                  createdAt,
+                  style: context.tt.labelSmall?.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
           const SizedBox(height: 5),
         ],
       ),

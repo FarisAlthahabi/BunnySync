@@ -8,6 +8,7 @@ import 'package:bunny_sync/features/breeder_details/view/breeder_details_view.da
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
 import 'package:bunny_sync/features/breeders/view/breeders_view.dart';
 import 'package:bunny_sync/features/breeders/view/widgets/scanner_view/scanner_view.dart';
+import 'package:bunny_sync/features/categories/view/categories_view.dart';
 import 'package:bunny_sync/features/dashboard/view/dashboard_view.dart';
 import 'package:bunny_sync/features/home/view/home_view.dart';
 import 'package:bunny_sync/features/intro/view/intro_router.dart';
@@ -22,6 +23,7 @@ import 'package:bunny_sync/features/sign_in/view/sign_in_view.dart';
 import 'package:bunny_sync/features/splash/view/splash_view.dart';
 import 'package:bunny_sync/features/tasks/view/tasks_view.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 part 'router.gr.dart';
 
@@ -97,6 +99,9 @@ class AppRouter extends _$AppRouter {
                 ),
                 AutoRoute(
                   page: TasksRoute.page,
+                ),
+                AutoRoute(
+                  page: CategoriesRoute.page,
                 ),
               ],
             ),

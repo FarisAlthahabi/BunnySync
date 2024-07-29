@@ -173,5 +173,6 @@
   "queue_history" : "Queue History",
   "health" : "Health",
   "finance" : "Finance",
-  "other" : "Other"
+  "other" : "Other",
+  "transactions" : "Transactions"
 }
