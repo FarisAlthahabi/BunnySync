@@ -14,18 +14,21 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
     required this.googleColor,
     required this.indicatorInfoColor,
     required this.maleColor,
+    required this.plusColor,
   });
 
   final Color femaleColor;
   final Color googleColor;
   final Color indicatorInfoColor;
   final Color maleColor;
+  final Color plusColor;
 
   static final AppThemeExtension light = AppThemeExtension(
     femaleColor: _$AppThemeExtension.femaleColor[0],
     googleColor: _$AppThemeExtension.googleColor[0],
     indicatorInfoColor: _$AppThemeExtension.indicatorInfoColor[0],
     maleColor: _$AppThemeExtension.maleColor[0],
+    plusColor: _$AppThemeExtension.plusColor[0],
   );
 
   static final AppThemeExtension dark = AppThemeExtension(
@@ -33,6 +36,7 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
     googleColor: _$AppThemeExtension.googleColor[1],
     indicatorInfoColor: _$AppThemeExtension.indicatorInfoColor[1],
     maleColor: _$AppThemeExtension.maleColor[1],
+    plusColor: _$AppThemeExtension.plusColor[1],
   );
 
   static final themes = [
@@ -46,12 +50,14 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
     Color? googleColor,
     Color? indicatorInfoColor,
     Color? maleColor,
+    Color? plusColor,
   }) {
     return AppThemeExtension(
       femaleColor: femaleColor ?? this.femaleColor,
       googleColor: googleColor ?? this.googleColor,
       indicatorInfoColor: indicatorInfoColor ?? this.indicatorInfoColor,
       maleColor: maleColor ?? this.maleColor,
+      plusColor: plusColor ?? this.plusColor,
     );
   }
 
@@ -65,6 +71,7 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
       indicatorInfoColor:
           Color.lerp(indicatorInfoColor, other.indicatorInfoColor, t)!,
       maleColor: Color.lerp(maleColor, other.maleColor, t)!,
+      plusColor: Color.lerp(plusColor, other.plusColor, t)!,
     );
   }
 
@@ -79,7 +86,8 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
                 .equals(googleColor, other.googleColor) &&
             const DeepCollectionEquality()
                 .equals(indicatorInfoColor, other.indicatorInfoColor) &&
-            const DeepCollectionEquality().equals(maleColor, other.maleColor));
+            const DeepCollectionEquality().equals(maleColor, other.maleColor) &&
+            const DeepCollectionEquality().equals(plusColor, other.plusColor));
   }
 
   @override
@@ -90,6 +98,7 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
       const DeepCollectionEquality().hash(googleColor),
       const DeepCollectionEquality().hash(indicatorInfoColor),
       const DeepCollectionEquality().hash(maleColor),
+      const DeepCollectionEquality().hash(plusColor),
     );
   }
 }
@@ -101,4 +110,5 @@ extension AppThemeExtensionBuildContextProps on BuildContext {
   Color get googleColor => appThemeExtension.googleColor;
   Color get indicatorInfoColor => appThemeExtension.indicatorInfoColor;
   Color get maleColor => appThemeExtension.maleColor;
+  Color get plusColor => appThemeExtension.plusColor;
 }

@@ -25,4 +25,9 @@ class _$AppThemeExtension {
     AppColors.femaleColor,
     AppColors.femaleColor,
   ];
+
+  static List<Color> plusColor = [
+    AppColors.greenShade,
+    AppColors.greenShade,
+  ];
 }
