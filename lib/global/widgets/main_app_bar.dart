@@ -1,5 +1,6 @@
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   const MainAppBar({
@@ -26,6 +27,9 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      systemOverlayStyle: const SystemUiOverlayStyle(
+        statusBarIconBrightness: Brightness.dark,
+      ),
       elevation: 2,
       scrolledUnderElevation: 4,
       shadowColor: context.cs.shadow,
