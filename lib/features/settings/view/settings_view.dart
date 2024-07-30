@@ -55,7 +55,7 @@ class _SettingsPageState extends State<SettingsPage>
 
   @override
   void onCategoriesTap() {
-    // TODO: implement onCategoriesTap
+    context.router.push(const CategoriesRoute());
   }
 
   @override

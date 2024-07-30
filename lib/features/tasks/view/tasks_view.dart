@@ -62,8 +62,21 @@ class _TasksViewState extends State<TasksView> implements TasksViewCallBacks {
                     createdAt: DateTime.now().formatMMddYYYY,
                     description:
                         'Cupidatat consequat aute nostrud proident duis Lorem elit',
-                    icon: 'cds',
-                    type: 'Custom-heart',
+                    type: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.favorite_outline_outlined,
+                          color: context.cs.onSurface,
+                        ),
+                        const SizedBox(width: 5),
+                        Text(
+                          'Custom heart',
+                          style: context.tt.labelSmall
+                              ?.copyWith(color: context.cs.tertiary),
+                        ),
+                      ],
+                    ),
                   );
                 },
                 separatorBuilder: (context, index) {
