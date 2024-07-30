@@ -43,6 +43,12 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    AddTaskRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AddTaskView(),
+      );
+    },
     AuthenticationRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -260,6 +266,20 @@ class AddNoteRouteArgs {
   String toString() {
     return 'AddNoteRouteArgs{key: $key, breederId: $breederId, breederDetailsCubit: $breederDetailsCubit}';
   }
+}
+
+/// generated route for
+/// [AddTaskView]
+class AddTaskRoute extends PageRouteInfo<void> {
+  const AddTaskRoute({List<PageRouteInfo>? children})
+      : super(
+          AddTaskRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AddTaskRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
