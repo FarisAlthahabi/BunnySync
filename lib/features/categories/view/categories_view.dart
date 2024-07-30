@@ -40,11 +40,12 @@ class _CategoriesPageState extends State<CategoriesPage>
       description: 'Cupidatat consequat aute nostrud proident duis Lorem elit',
     ),
   );
- 
+
   @override
   void onAddTap() {
     // TODO: implement onAddTap
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -69,8 +70,11 @@ class _CategoriesPageState extends State<CategoriesPage>
                     return ElementTile(
                       no: item.id.toString(),
                       description: item.description,
-                      subtitle: item.transactions.toInt().toString(),
-                      numTitle: 'transactions'.i18n,
+                      type: Text(
+                        '${item.transactions.toInt()}: ${'transactions'.i18n}',
+                        style: context.tt.labelSmall
+                            ?.copyWith(color: context.cs.tertiary),
+                      ),
                       tag: item.name,
                     );
                   },

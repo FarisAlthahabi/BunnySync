@@ -10,7 +10,6 @@ class ElementTile extends StatelessWidget {
     required this.description,
     required this.tag,
     this.type,
-    this.icon,
     this.createdAt,
     this.secondaryTag,
     this.note,
@@ -18,17 +17,15 @@ class ElementTile extends StatelessWidget {
 
   final String no;
   final String description;
-  final String? icon;
   final String tag;
-  final String? type;
+  final Widget? type;
   final String? createdAt;
   final String? secondaryTag;
   final String? note;
 
   @override
   Widget build(BuildContext context) {
-    final icon = this.icon;
-    final numTitle = this.numTitle;
+    final type = this.type;
     final createdAt = this.createdAt;
     final secondaryTag = this.secondaryTag;
     final note = this.note;
@@ -71,17 +68,7 @@ class ElementTile extends StatelessWidget {
           Row(
             children: [
               const SizedBox(width: 50),
-              if (icon != null)
-                Icon(
-                  Icons.favorite_outline_outlined,
-                  color: context.cs.onSurface,
-                ),
-              const SizedBox(width: 5),
-              Text(
-                type,
-                style:
-                    context.tt.labelSmall?.copyWith(color: context.cs.tertiary),
-              ),
+              if (type != null) type,
               const Expanded(
                 flex: 2,
                 child: SizedBox(),
@@ -103,8 +90,9 @@ class ElementTile extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 10),
-          if (createdAt != null)
+          const SizedBox(height: 5),
+          if (createdAt != null) ...[
+            const SizedBox(height: 5),
             Row(
               children: [
                 const SizedBox(width: 50),
@@ -114,16 +102,18 @@ class ElementTile extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-              const Spacer(),
-              if (secondaryTag != null)
-                Text(
-                  secondaryTag,
-                  style: context.tt.labelMedium?.copyWith(
-                    color: context.cs.scrim,
+                const Spacer(),
+                if (secondaryTag != null)
+                  Text(
+                    secondaryTag,
+                    style: context.tt.labelMedium?.copyWith(
+                      color: context.cs.scrim,
+                    ),
                   ),
-                ),],
+              ],
             ),
-          const SizedBox(height: 5),
+            const SizedBox(height: 5),
+          ],
           if (note != null)
             Column(
               children: [

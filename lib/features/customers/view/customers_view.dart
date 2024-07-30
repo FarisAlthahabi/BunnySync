@@ -50,9 +50,8 @@ class _CustomersPageState extends State<CustomersPage> {
                     createdAt: DateTime.now().formatMMddYYYY,
                     description:
                         'Cupidatat consequat aute nostrud proident duis Lorem elit',
-                    icon: 'cds',
-                    type: 'Custom-heart',
-                    tag: 'Customer Name',
+                    type: Text('lead'.i18n),
+                    tag: 'Company Name',
                     secondaryTag: '+961353633',
                     note:
                         "This is note designed specifically for writing important stuff about the customer. It's not mandatory",
