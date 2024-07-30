@@ -48,57 +48,55 @@ class _CategoriesPageState extends State<CategoriesPage>
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: const MainAppBar(),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: AppConstants.padding16,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'categories'.i18n,
-                  style: Theme.of(context).textTheme.displayLarge,
-                ),
-                const SizedBox(height: 10),
-                ListView.separated(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    final item = categories[index];
-                    return ElementTile(
-                      no: item.id.toString(),
-                      description: item.description,
-                      type: Text(
-                        '${item.transactions.toInt()}: ${'transactions'.i18n}',
-                        style: context.tt.labelSmall
-                            ?.copyWith(color: context.cs.tertiary),
-                      ),
-                      tag: item.name,
-                    );
-                  },
-                  separatorBuilder: (context, index) {
-                    return const SizedBox(
-                      height: 16,
-                    );
-                  },
-                  itemCount: categories.length,
-                ),
-              ],
-            ),
+    return Scaffold(
+      appBar: const MainAppBar(),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: AppConstants.padding16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'categories'.i18n,
+                style: Theme.of(context).textTheme.displayLarge,
+              ),
+              const SizedBox(height: 10),
+              ListView.separated(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  final item = categories[index];
+                  return ElementTile(
+                    no: item.id.toString(),
+                    description: item.description,
+                    type: Text(
+                      '${item.transactions.toInt()}: ${'transactions'.i18n}',
+                      style: context.tt.labelSmall
+                          ?.copyWith(color: context.cs.tertiary),
+                    ),
+                    tag: item.name,
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return const SizedBox(
+                    height: 16,
+                  );
+                },
+                itemCount: categories.length,
+              ),
+            ],
           ),
         ),
-        floatingActionButton: Padding(
-          padding: AppConstants.padding16,
-          child: FloatingActionButton(
-            onPressed: onAddTap,
-            shape: RoundedRectangleBorder(
-              borderRadius: AppConstants.circularBorderRadius,
-            ),
-            backgroundColor: context.cs.secondaryContainer,
-            child: const Icon(Icons.add),
+      ),
+      floatingActionButton: Padding(
+        padding: AppConstants.padding16,
+        child: FloatingActionButton(
+          onPressed: onAddTap,
+          shape: RoundedRectangleBorder(
+            borderRadius: AppConstants.circularBorderRadius,
           ),
+          backgroundColor: context.cs.secondaryContainer,
+          child: const Icon(Icons.add),
         ),
       ),
     );
