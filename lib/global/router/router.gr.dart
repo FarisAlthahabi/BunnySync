@@ -77,6 +77,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const BreedersView(),
       );
     },
+    CategoriesRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const CategoriesView(),
+      );
+    },
     CustomersRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -358,6 +364,20 @@ class BreedersRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'BreedersRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [CategoriesView]
+class CategoriesRoute extends PageRouteInfo<void> {
+  const CategoriesRoute({List<PageRouteInfo>? children})
+      : super(
+          CategoriesRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'CategoriesRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
