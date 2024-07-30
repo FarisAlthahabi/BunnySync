@@ -5,6 +5,7 @@ import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/element_tile.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
+import 'package:bunny_sync/global/widgets/texts/bordered_textual_widget.dart';
 import 'package:flutter/material.dart';
 
 abstract class CategoriesViewCallBacks {
@@ -67,8 +68,16 @@ class _CategoriesPageState extends State<CategoriesPage>
                 itemBuilder: (context, index) {
                   final item = categories[index];
                   return ElementTile(
-                    no: item.id.toString(),
-                    description: item.description,
+                    leading: BorderedTextualWidget(
+                      text: item.id.toString(),
+                    ),
+                    title: Text(
+                      strutStyle: const StrutStyle(height: 1.6),
+                      item.description,
+                      style: context.tt.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
                     type: Text(
                       '${item.transactions.toInt()}: ${'transactions'.i18n}',
                       style: context.tt.labelSmall

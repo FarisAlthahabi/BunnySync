@@ -5,6 +5,7 @@ import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/element_tile.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
+import 'package:bunny_sync/global/widgets/texts/bordered_textual_widget.dart';
 import 'package:flutter/material.dart';
 
 abstract class TasksViewCallBacks {
@@ -57,11 +58,18 @@ class _TasksViewState extends State<TasksView> implements TasksViewCallBacks {
                 itemBuilder: (context, index) {
                   //TODO : from cubit
                   return ElementTile(
-                    no: '${index + 1}',
+                    leading: BorderedTextualWidget(
+                      text: '${index + 1}',
+                    ),
                     tag: 'Breeder Name',
                     createdAt: DateTime.now().formatMMddYYYY,
-                    description:
-                        'Cupidatat consequat aute nostrud proident duis Lorem elit',
+                    title: Text(
+                      strutStyle: const StrutStyle(height: 1.6),
+                      'Cupidatat consequat aute nostrud proident duis Lorem elit',
+                      style: context.tt.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
                     type: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
