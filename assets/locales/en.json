@@ -173,5 +173,13 @@
   "queue_history" : "Queue History",
   "health" : "Health",
   "finance" : "Finance",
-  "other" : "Other"
+  "other" : "Other",
+  "create_task" : "Create Task",
+  "select_type" : "Select type",
+  "task_type" : "Task Type",
+  "who" : "Who",
+  "select_breeder": "Select Breeder",
+  "date" : "Date",
+  "recurring" : "Recurring",
+  "select_recurring" : "Select Recurring"
 }
