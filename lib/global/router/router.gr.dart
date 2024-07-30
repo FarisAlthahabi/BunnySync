@@ -71,6 +71,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const BreedersView(),
       );
     },
+    CustomersRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const CustomersView(),
+      );
+    },
     DashboardRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -154,6 +160,7 @@ abstract class _$AppRouter extends RootStackRouter {
         child: TasksView(
           key: args.key,
           title: args.title,
+          scrollController: args.scrollController,
         ),
       );
     },
@@ -331,6 +338,20 @@ class BreedersRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'BreedersRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [CustomersView]
+class CustomersRoute extends PageRouteInfo<void> {
+  const CustomersRoute({List<PageRouteInfo>? children})
+      : super(
+          CustomersRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'CustomersRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -542,12 +563,14 @@ class TasksRoute extends PageRouteInfo<TasksRouteArgs> {
   TasksRoute({
     Key? key,
     String? title,
+    ScrollController? scrollController,
     List<PageRouteInfo>? children,
   }) : super(
           TasksRoute.name,
           args: TasksRouteArgs(
             key: key,
             title: title,
+            scrollController: scrollController,
           ),
           initialChildren: children,
         );
@@ -561,14 +584,17 @@ class TasksRouteArgs {
   const TasksRouteArgs({
     this.key,
     this.title,
+    this.scrollController,
   });
 
   final Key? key;
 
   final String? title;
 
+  final ScrollController? scrollController;
+
   @override
   String toString() {
-    return 'TasksRouteArgs{key: $key, title: $title}';
+    return 'TasksRouteArgs{key: $key, title: $title, scrollController: $scrollController}';
   }
 }

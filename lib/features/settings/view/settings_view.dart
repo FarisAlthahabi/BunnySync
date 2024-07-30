@@ -12,7 +12,7 @@ import 'package:bunny_sync/global/widgets/main_app_bar.dart';
 import 'package:flutter/material.dart';
 
 abstract class SettingsViewCallBacks {
-  void onContactUsTap();
+  void onCustomersTap();
 
   void onLedgerTap();
 
@@ -59,8 +59,8 @@ class _SettingsPageState extends State<SettingsPage>
   }
 
   @override
-  void onContactUsTap() {
-    // TODO: implement onContactUsTap
+  void onCustomersTap() {
+    context.router.push(const CustomersRoute());
   }
 
   @override
@@ -98,7 +98,7 @@ class _SettingsPageState extends State<SettingsPage>
       SettingsTileModel(
         icon: Assets.icons.contacts.path,
         title: 'customers'.i18n,
-        call: onContactUsTap,
+        call: onCustomersTap,
       ),
       SettingsTileModel(
         icon: Assets.icons.calculator.path,

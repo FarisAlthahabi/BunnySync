@@ -12,6 +12,8 @@ class ElementTile extends StatelessWidget {
     required this.type,
     required this.tag,
     required this.createdAt,
+    this.secondaryTag,
+    this.note,
   });
 
   final String no;
@@ -20,9 +22,14 @@ class ElementTile extends StatelessWidget {
   final String type;
   final String tag;
   final String createdAt;
+  final String? secondaryTag;
+  final String? note;
 
   @override
   Widget build(BuildContext context) {
+    final secondaryTag = this.secondaryTag;
+    final note = this.note;
+
     return MainTile(
       boxShadow: AppShadows.getTaskTileShadow(context),
       child: Column(
@@ -84,8 +91,9 @@ class ElementTile extends StatelessWidget {
                 child: Center(
                   child: Text(
                     tag,
-                    style: context.tt.labelSmall
-                        ?.copyWith(color: context.cs.scrim),
+                    style: context.tt.labelSmall?.copyWith(
+                      color: context.cs.scrim,
+                    ),
                   ),
                 ),
               ),
@@ -101,9 +109,35 @@ class ElementTile extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                 ),
               ),
+              const Spacer(),
+              if (secondaryTag != null)
+                Text(
+                  secondaryTag,
+                  style: context.tt.labelMedium?.copyWith(
+                    color: context.cs.scrim,
+                  ),
+                ),
             ],
           ),
           const SizedBox(height: 5),
+          if (note != null)
+            Column(
+              children: [
+                Divider(
+                  thickness: 1,
+                  color: context.cs.tertiaryContainer,
+                  height: 30,
+                  indent: 12,
+                  endIndent: 12,
+                ),
+                Text(
+                  note,
+                  style: context.tt.labelMedium?.copyWith(
+                    color: context.cs.scrim,
+                  ),
+                ),
+              ],
+            ),
         ],
       ),
     );
