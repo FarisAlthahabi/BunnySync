@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bunny_sync/global/widgets/main_drop_down_widget.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
@@ -7,7 +8,7 @@ part 'breeder_by_gender_model.g.dart';
 
 @immutable
 @JsonSerializable()
-class BreederByGenderModel {
+class BreederByGenderModel implements DropDownItemModel {
   const BreederByGenderModel({
     required this.id,
     required this.name,
@@ -18,7 +19,9 @@ class BreederByGenderModel {
   factory BreederByGenderModel.fromJson(Map<String, dynamic> json) =>
       _$BreederByGenderModelFromJson(json);
 
+  @override
   final int id;
+  @override
   final String name;
 
   String toJsonStr() => jsonEncode(toJson());

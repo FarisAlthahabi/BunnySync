@@ -43,6 +43,12 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    AddTaskRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AddTaskView(),
+      );
+    },
     AuthenticationRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -71,10 +77,10 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const BreedersView(),
       );
     },
-    CategoriesRoute.name: (routeData) {
+    CustomersRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const CategoriesView(),
+        child: const CustomersView(),
       );
     },
     DashboardRoute.name: (routeData) {
@@ -263,6 +269,20 @@ class AddNoteRouteArgs {
 }
 
 /// generated route for
+/// [AddTaskView]
+class AddTaskRoute extends PageRouteInfo<void> {
+  const AddTaskRoute({List<PageRouteInfo>? children})
+      : super(
+          AddTaskRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AddTaskRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [AuthenticationView]
 class AuthenticationRoute extends PageRouteInfo<void> {
   const AuthenticationRoute({List<PageRouteInfo>? children})
@@ -343,15 +363,15 @@ class BreedersRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [CategoriesView]
-class CategoriesRoute extends PageRouteInfo<void> {
-  const CategoriesRoute({List<PageRouteInfo>? children})
+/// [CustomersView]
+class CustomersRoute extends PageRouteInfo<void> {
+  const CustomersRoute({List<PageRouteInfo>? children})
       : super(
-          CategoriesRoute.name,
+          CustomersRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'CategoriesRoute';
+  static const String name = 'CustomersRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

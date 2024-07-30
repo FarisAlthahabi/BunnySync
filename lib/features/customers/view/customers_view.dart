@@ -1,55 +1,44 @@
-import 'package:auto_route/auto_route.dart';
+import 'package:auto_route/annotations.dart';
 import 'package:bunny_sync/global/extensions/date_time_x.dart';
-import 'package:bunny_sync/global/router/router.dart';
+import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/element_tile.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
 import 'package:flutter/material.dart';
 
-abstract class TasksViewCallBacks {
-  void onAddTap();
-}
-
 @RoutePage()
-class TasksView extends StatefulWidget {
-  const TasksView({
-    super.key,
-    this.title,
-    this.scrollController,
-  });
-
-  final String? title;
-  final ScrollController? scrollController;
-
-  @override
-  State<TasksView> createState() => _TasksViewState();
-}
-
-class _TasksViewState extends State<TasksView> implements TasksViewCallBacks {
-  @override
-  void onAddTap() {
-    context.router.push(const AddTaskRoute());
-  }
+class CustomersView extends StatelessWidget {
+  const CustomersView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final title = widget.title;
+    return const CustomersPage();
+  }
+}
 
+class CustomersPage extends StatefulWidget {
+  const CustomersPage({super.key});
+
+  @override
+  State<CustomersPage> createState() => _CustomersPageState();
+}
+
+class _CustomersPageState extends State<CustomersPage> {
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: title != null ? const MainAppBar() : null,
+      appBar: const MainAppBar(),
       body: SingleChildScrollView(
-        controller: widget.scrollController,
         child: Padding(
           padding: AppConstants.padding16,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (title != null)
-                Text(
-                  title,
-                  style: Theme.of(context).textTheme.displayLarge,
-                ),
+              Text(
+                'customers'.i18n,
+                style: Theme.of(context).textTheme.displayLarge,
+              ),
               const SizedBox(height: 10),
               ListView.separated(
                 physics: const NeverScrollableScrollPhysics(),
@@ -58,12 +47,15 @@ class _TasksViewState extends State<TasksView> implements TasksViewCallBacks {
                   //TODO : from cubit
                   return ElementTile(
                     no: '${index + 1}',
-                    tag: 'Breeder Name',
                     createdAt: DateTime.now().formatMMddYYYY,
                     description:
                         'Cupidatat consequat aute nostrud proident duis Lorem elit',
                     icon: 'cds',
-                    subtitle: 'Custom-heart',
+                    type: 'Custom-heart',
+                    tag: 'Customer Name',
+                    secondaryTag: '+961353633',
+                    note:
+                        "This is note designed specifically for writing important stuff about the customer. It's not mandatory",
                   );
                 },
                 separatorBuilder: (context, index) {
@@ -81,7 +73,7 @@ class _TasksViewState extends State<TasksView> implements TasksViewCallBacks {
       floatingActionButton: Padding(
         padding: AppConstants.padding16,
         child: FloatingActionButton(
-          onPressed: onAddTap,
+          onPressed: () {},
           shape: RoundedRectangleBorder(
             borderRadius: AppConstants.circularBorderRadius,
           ),

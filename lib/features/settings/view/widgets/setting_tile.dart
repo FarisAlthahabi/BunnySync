@@ -1,4 +1,4 @@
-import 'package:bunny_sync/features/intro/models/goal_model.dart';
+import 'package:bunny_sync/features/settings/models/settings_tile_model.dart';
 import 'package:bunny_sync/global/extensions/string_x.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
@@ -13,7 +13,7 @@ class SettingTile extends StatelessWidget {
     required this.title,
   });
 
-  final List<GoalModel> items;
+  final List<SettingsTileModel> items;
   final String title;
 
   @override

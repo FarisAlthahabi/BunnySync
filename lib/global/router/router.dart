@@ -2,12 +2,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/add_breeder/view/add_breeder_view.dart';
 import 'package:bunny_sync/features/add_litter/view/add_litter_view.dart';
 import 'package:bunny_sync/features/add_note/view/add_note_view.dart';
+import 'package:bunny_sync/features/add_task/view/add_task_view.dart';
 import 'package:bunny_sync/features/authentication/view/authentication_view.dart';
 import 'package:bunny_sync/features/breeder_details/cubit/breeder_details_cubit.dart';
 import 'package:bunny_sync/features/breeder_details/view/breeder_details_view.dart';
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
 import 'package:bunny_sync/features/breeders/view/breeders_view.dart';
 import 'package:bunny_sync/features/breeders/view/widgets/scanner_view/scanner_view.dart';
+import 'package:bunny_sync/features/customers/view/customers_view.dart';
 import 'package:bunny_sync/features/categories/view/categories_view.dart';
 import 'package:bunny_sync/features/dashboard/view/dashboard_view.dart';
 import 'package:bunny_sync/features/home/view/home_view.dart';
@@ -22,7 +24,7 @@ import 'package:bunny_sync/features/settings/view/settings_view.dart';
 import 'package:bunny_sync/features/sign_in/view/sign_in_view.dart';
 import 'package:bunny_sync/features/splash/view/splash_view.dart';
 import 'package:bunny_sync/features/tasks/view/tasks_view.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 
 part 'router.gr.dart';
@@ -74,7 +76,7 @@ class AppRouter extends _$AppRouter {
                     AutoRoute(
                       page: LittersRoute.page,
                     ),
-                     AutoRoute(
+                    AutoRoute(
                       page: SettingsRoute.page,
                     ),
                   ],
@@ -98,10 +100,16 @@ class AppRouter extends _$AppRouter {
                   page: BarcodeScannerRoute.page,
                 ),
                 AutoRoute(
+                  page: CustomersRoute.page,
+                ),
+                AutoRoute(
                   page: TasksRoute.page,
                 ),
                 AutoRoute(
                   page: CategoriesRoute.page,
+                ),
+                AutoRoute(
+                  page: AddTaskRoute.page,
                 ),
               ],
             ),

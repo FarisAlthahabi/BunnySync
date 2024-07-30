@@ -165,7 +165,7 @@
   "scan_something": "Scan something",
   "add_new_litter": "Add New Litter",
   "more" : "More",
-  "contact_us" : "Contact us",
+  "customers" : "Customers",
   "categories" : "Categories",
   "schedule" : "Schedule",
   "cage_cards" : "Cage Cards",
@@ -174,5 +174,13 @@
   "health" : "Health",
   "finance" : "Finance",
   "other" : "Other",
-  "transactions" : "Transactions"
+  "transactions" : "Transactions",
+  "create_task" : "Create Task",
+  "select_type" : "Select type",
+  "task_type" : "Task Type",
+  "who" : "Who",
+  "select_breeder": "Select Breeder",
+  "date" : "Date",
+  "recurring" : "Recurring",
+  "select_recurring" : "Select Recurring"
 }
