@@ -6,6 +6,7 @@ import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/extensions/date_time_x.dart';
 import 'package:bunny_sync/global/gen/assets.gen.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
+import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/animation/indexed_grid_scale_fade_animated_tile.dart';
@@ -71,12 +72,12 @@ class _HomePageState extends State<HomePage> implements HomeViewCallBacks {
 
   @override
   void onFinancesTap() {
-    // TODO: implement onFinancesTap
+    context.router.push(const LedgerRoute());
   }
 
   @override
   void onKitsTap() {
-    // TODO: implement onKitsTap
+    context.router.push(const LedgerRoute());
   }
 
   @override
