@@ -5,11 +5,19 @@ abstract class CategoriesState extends GeneralCategoriesState {}
 
 class CategoriesInitial extends CategoriesState {}
 
-class CategoriesFetch extends CategoriesState {}
+class CategoriesFetch extends CategoriesState {
+  CategoriesFetch(this.categories);
 
-class CategoriesLoading extends CategoriesFetch {}
+  final List<CategoryModel> categories;
+}
 
-class CategoriesSuccess extends CategoriesFetch {}
+class CategoriesLoading extends CategoriesFetch {
+  CategoriesLoading(super.categories);
+}
+
+class CategoriesSuccess extends CategoriesFetch {
+  CategoriesSuccess(super.categories);
+}
 
 class CategoriesFail extends CategoriesState {
   CategoriesFail(this.message);
