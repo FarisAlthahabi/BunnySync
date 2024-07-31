@@ -27,7 +27,8 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      systemOverlayStyle: const SystemUiOverlayStyle(
+      systemOverlayStyle: SystemUiOverlayStyle(
+        statusBarColor: context.cs.surface,
         statusBarIconBrightness: Brightness.dark,
       ),
       elevation: 2,
