@@ -73,16 +73,6 @@ class _SplashPageState extends State<SplashPage> with PostFrameMixin {
                   width: logoSize.width,
                   height: logoSize.height,
                 ),
-                SizedBox(height: 35.h),
-                Text(
-                  'slogan'.i18n,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    height: 1.7,
-                    color: context.cs.onSurface,
-                    fontSize: 20,
-                  ),
-                ),
               ],
             ),
           ),
