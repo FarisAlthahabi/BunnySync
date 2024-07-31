@@ -113,6 +113,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const IntroView(),
       );
     },
+    LedgerRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const LedgerView(),
+      );
+    },
     LitterDetailsRoute.name: (routeData) {
       final args = routeData.argsAs<LitterDetailsRouteArgs>();
       return AutoRoutePage<dynamic>(
@@ -448,6 +454,20 @@ class IntroRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'IntroRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [LedgerView]
+class LedgerRoute extends PageRouteInfo<void> {
+  const LedgerRoute({List<PageRouteInfo>? children})
+      : super(
+          LedgerRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'LedgerRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

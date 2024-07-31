@@ -70,7 +70,7 @@ class _SettingsPageState extends State<SettingsPage>
 
   @override
   void onLedgerTap() {
-    // TODO: implement onLedgerTap
+    context.router.push(const LedgerRoute());
   }
 
   @override

@@ -45,11 +45,22 @@ class $AssetsIconsGen {
   /// File path: assets/icons/charts.svg
   SvgGenImage get charts => const SvgGenImage('assets/icons/charts.svg');
 
+  /// File path: assets/icons/coins.svg
+  SvgGenImage get coins => const SvgGenImage('assets/icons/coins.svg');
+
   /// File path: assets/icons/contacts.svg
   SvgGenImage get contacts => const SvgGenImage('assets/icons/contacts.svg');
 
+  /// File path: assets/icons/corp_interest.svg
+  SvgGenImage get corpInterest =>
+      const SvgGenImage('assets/icons/corp_interest.svg');
+
   /// File path: assets/icons/doe.svg
   SvgGenImage get doe => const SvgGenImage('assets/icons/doe.svg');
+
+  /// File path: assets/icons/dollar_circle.svg
+  SvgGenImage get dollarCircle =>
+      const SvgGenImage('assets/icons/dollar_circle.svg');
 
   /// File path: assets/icons/eye.svg
   SvgGenImage get eye => const SvgGenImage('assets/icons/eye.svg');
@@ -94,6 +105,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/meeting.svg
   SvgGenImage get meeting => const SvgGenImage('assets/icons/meeting.svg');
 
+  /// File path: assets/icons/money.svg
+  SvgGenImage get money => const SvgGenImage('assets/icons/money.svg');
+
   /// File path: assets/icons/more.svg
   SvgGenImage get more => const SvgGenImage('assets/icons/more.svg');
 
@@ -133,8 +147,11 @@ class $AssetsIconsGen {
         cardholder,
         chart,
         charts,
+        coins,
         contacts,
+        corpInterest,
         doe,
+        dollarCircle,
         eye,
         facebook,
         family,
@@ -149,6 +166,7 @@ class $AssetsIconsGen {
         logo,
         mail,
         meeting,
+        money,
         more,
         petHome,
         profile,
@@ -179,16 +197,11 @@ class Assets {
 }
 
 class AssetGenImage {
-  const AssetGenImage(
-    this._assetName, {
-    this.size,
-    this.flavors = const {},
-  });
+  const AssetGenImage(this._assetName, {this.size = null});
 
   final String _assetName;
 
   final Size? size;
-  final Set<String> flavors;
 
   Image image({
     Key? key,
@@ -262,19 +275,17 @@ class AssetGenImage {
 class SvgGenImage {
   const SvgGenImage(
     this._assetName, {
-    this.size,
-    this.flavors = const {},
+    this.size = null,
   }) : _isVecFormat = false;
 
   const SvgGenImage.vec(
     this._assetName, {
-    this.size,
-    this.flavors = const {},
+    this.size = null,
   }) : _isVecFormat = true;
 
   final String _assetName;
+
   final Size? size;
-  final Set<String> flavors;
   final bool _isVecFormat;
 
   SvgPicture svg({
@@ -297,23 +308,12 @@ class SvgGenImage {
     @deprecated BlendMode colorBlendMode = BlendMode.srcIn,
     @deprecated bool cacheColorFilter = false,
   }) {
-    final BytesLoader loader;
-    if (_isVecFormat) {
-      loader = AssetBytesLoader(
-        _assetName,
-        assetBundle: bundle,
-        packageName: package,
-      );
-    } else {
-      loader = SvgAssetLoader(
-        _assetName,
-        assetBundle: bundle,
-        packageName: package,
-        theme: theme,
-      );
-    }
     return SvgPicture(
-      loader,
+      _isVecFormat
+          ? AssetBytesLoader(_assetName,
+              assetBundle: bundle, packageName: package)
+          : SvgAssetLoader(_assetName,
+              assetBundle: bundle, packageName: package),
       key: key,
       matchTextDirection: matchTextDirection,
       width: width,
@@ -324,6 +324,7 @@ class SvgGenImage {
       placeholderBuilder: placeholderBuilder,
       semanticsLabel: semanticsLabel,
       excludeFromSemantics: excludeFromSemantics,
+      theme: theme,
       colorFilter: colorFilter ??
           (color == null ? null : ColorFilter.mode(color, colorBlendMode)),
       clipBehavior: clipBehavior,

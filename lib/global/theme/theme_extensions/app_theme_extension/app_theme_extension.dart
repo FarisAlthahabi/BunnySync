@@ -30,4 +30,44 @@ class _$AppThemeExtension {
     AppColors.greenShade,
     AppColors.greenShade,
   ];
+
+  static List<Color> incomeColor = [
+    AppColors.greenShade4,
+    AppColors.greenShade4,
+  ];
+
+  static List<Color> incomeIconColor = [
+    AppColors.greenShade5,
+    AppColors.greenShade5,
+  ];
+
+  static List<Color> expensesColor = [
+    AppColors.lightRed,
+    AppColors.lightRed,
+  ];
+
+  static List<Color> expensesIconColor = [
+    AppColors.redShade2,
+    AppColors.redShade2,
+  ];
+
+  static List<Color> incomePerBreederColor = [
+    AppColors.lightBlue2,
+    AppColors.lightBlue2,
+  ];
+
+  static List<Color> incomePerBreederIconColor = [
+    AppColors.lightBlue3,
+    AppColors.lightBlue3,
+  ];
+
+  static List<Color> expensesPerBreederColor = [
+    AppColors.lightOrange,
+    AppColors.lightOrange,
+  ];
+
+  static List<Color> expensesPerBreederIconColor = [
+    AppColors.lightOrange2,
+    AppColors.lightOrange2,
+  ];
 }

@@ -27,6 +27,8 @@ abstract class AppColors {
   static const greenShade = Color(0xFF00B63B);
   static const greenShade2 = Color(0xFFe0f2dc);
   static const greenShade3 = Color(0xFF66BD50);
+  static const greenShade4 = Color(0xFFE0F7E9);
+  static const greenShade5 = Color(0xFF29C770);
   static const shadow = Colors.black;
   static const glowEffectLight = greyShade2;
   static const glowEffectDark = greyShade2;
@@ -39,4 +41,10 @@ abstract class AppColors {
   static const red = Color(0xFFDE3B40);
   static const maleColor = Color(0xFF15ABFF);
   static const femaleColor = Color(0xFFFF56A5);
+  static const lightRed = Color(0xFFFCE5E6);
+  static const redShade2 = Color(0xFFEA5355);
+  static const lightBlue2 = Color(0xFFD9F8FC);
+  static const lightBlue3 = Color(0xFF04CFE7);
+  static const lightOrange = Color(0xFFFFF0E4);
+  static const lightOrange2 = Color(0xFFFF9E43);
 }

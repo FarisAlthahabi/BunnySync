@@ -183,5 +183,7 @@
   "date": "Date",
   "recurring": "Recurring",
   "select_recurring": "Select Recurring",
-  "lead": "Lead"
+  "lead": "Lead",
+  "income_per_breeder": "Income per breeder",
+  "expenses_per_breeder": "Expenses per breeder"
 }
