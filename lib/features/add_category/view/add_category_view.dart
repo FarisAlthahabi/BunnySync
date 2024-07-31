@@ -1,10 +1,16 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:bunny_sync/features/add_category/cubit/add_category_cubit.dart';
+import 'package:bunny_sync/features/categories/cubit/categories_cubit.dart';
+import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/buttons/main_action_button.dart';
+import 'package:bunny_sync/global/widgets/loading_indicator.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
+import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:bunny_sync/global/widgets/main_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 abstract class AddCategoryViewCallBack {
   void onNameChanged(String name);
@@ -22,11 +28,22 @@ abstract class AddCategoryViewCallBack {
 class AddCategoryView extends StatelessWidget {
   const AddCategoryView({
     super.key,
+    required this.categoriesCubit,
   });
+
+  final CategoriesCubit categoriesCubit;
 
   @override
   Widget build(BuildContext context) {
-    return const AddCategoryPage();
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => get<AddCategoryCubit>(),
+        ),
+        BlocProvider.value(value: categoriesCubit),
+      ],
+      child: const AddCategoryPage(),
+    );
   }
 }
 
@@ -41,33 +58,37 @@ class AddCategoryPage extends StatefulWidget {
 
 class _AddCategoryPageState extends State<AddCategoryPage>
     implements AddCategoryViewCallBack {
+  late final AddCategoryCubit addCategoryCubit = context.read();
+
+  late final CategoriesCubit categoriesCubit = context.read();
+
   final nameFocusNode = FocusNode();
 
   final descriptionFocusNode = FocusNode();
 
   @override
   void onDescriptionChanged(String description) {
-    // TODO: implement onDescriptionChanged
+    addCategoryCubit.setDescription(description);
   }
 
   @override
   void onDescriptionSubmitted(String description) {
-    // TODO: implement onDescriptionSubmitted
+    onSave();
   }
 
   @override
   void onNameChanged(String name) {
-    // TODO: implement onNameChanged
+    addCategoryCubit.setTitle(name);
   }
 
   @override
   void onNameSubmitted(String name) {
-    // TODO: implement onNameSubmitted
+    descriptionFocusNode.requestFocus();
   }
 
   @override
   void onSave() {
-    // TODO: implement onSave
+    addCategoryCubit.addCategory();
   }
 
   @override
@@ -120,9 +141,38 @@ class _AddCategoryPageState extends State<AddCategoryPage>
                   padding: AppConstants.paddingH16,
                   child: SizedBox(
                     width: double.maxFinite,
-                    child: MainActionButton(
-                      onTap: onSave,
-                      text: "save".i18n,
+                    child:
+                        BlocConsumer<AddCategoryCubit, GeneralAddCategoryState>(
+                      listener: (context, state) {
+                        if (state is AddCategorySuccess) {
+                          MainSnackBar.showSuccessMessageBar(
+                            context,
+                            "category_added".i18n,
+                          );
+                          context.router.maybePop();
+                          categoriesCubit.addCategory(
+                            state.categoryModel,
+                          );
+                        } else if (state is AddCategoryFail) {
+                          MainSnackBar.showErrorMessageBar(
+                            context,
+                            state.message,
+                          );
+                        }
+                      },
+                      builder: (context, state) {
+                        var onTap = onSave;
+                        Widget? child;
+                        if (state is AddCategoryLoading) {
+                          onTap = () {};
+                          child = const LoadingIndicator();
+                        }
+                        return MainActionButton(
+                          onTap: onTap,
+                          text: "save".i18n,
+                          child: child,
+                        );
+                      },
                     ),
                   ),
                 ),

@@ -188,5 +188,6 @@
   "expenses_per_breeder": "Expenses per breeder",
   "create_ledger_category" : "Create Ledger Category",
   "description" : "Description",
-  "categories_empty": "There are no categories"
+  "categories_empty": "There are no categories",
+  "category_added" : "Category is added successfully"
 }

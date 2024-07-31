@@ -15,11 +15,14 @@ class CategoriesCubit extends Cubit<CategoriesState> {
 
   final CategoriesRepo _categoriesRepo;
 
+  List<CategoryModel> categories = [];
+
   Future<void> getCategories() async {
     emit(CategoriesLoading(fakeCategories));
 
     try {
       final categories = await _categoriesRepo.getCategories();
+      this.categories = categories;
       if (categories.isEmpty) {
         emit(CategoriesEmpty("categories_empty".i18n));
       } else {
@@ -29,5 +32,10 @@ class CategoriesCubit extends Cubit<CategoriesState> {
       addError(e, s);
       emit(CategoriesFail(e.toString()));
     }
+  }
+
+  void addCategory(CategoryModel category) {
+    categories.add(category);
+    emit(CategoriesSuccess(categories));
   }
 }

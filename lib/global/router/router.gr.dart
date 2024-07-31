@@ -27,9 +27,13 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     AddCategoryRoute.name: (routeData) {
+      final args = routeData.argsAs<AddCategoryRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const AddCategoryView(),
+        child: AddCategoryView(
+          key: args.key,
+          categoriesCubit: args.categoriesCubit,
+        ),
       );
     },
     AddLitterRoute.name: (routeData) {
@@ -231,16 +235,40 @@ class AddBreederRouteArgs {
 
 /// generated route for
 /// [AddCategoryView]
-class AddCategoryRoute extends PageRouteInfo<void> {
-  const AddCategoryRoute({List<PageRouteInfo>? children})
-      : super(
+class AddCategoryRoute extends PageRouteInfo<AddCategoryRouteArgs> {
+  AddCategoryRoute({
+    Key? key,
+    required CategoriesCubit categoriesCubit,
+    List<PageRouteInfo>? children,
+  }) : super(
           AddCategoryRoute.name,
+          args: AddCategoryRouteArgs(
+            key: key,
+            categoriesCubit: categoriesCubit,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'AddCategoryRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<AddCategoryRouteArgs> page =
+      PageInfo<AddCategoryRouteArgs>(name);
+}
+
+class AddCategoryRouteArgs {
+  const AddCategoryRouteArgs({
+    this.key,
+    required this.categoriesCubit,
+  });
+
+  final Key? key;
+
+  final CategoriesCubit categoriesCubit;
+
+  @override
+  String toString() {
+    return 'AddCategoryRouteArgs{key: $key, categoriesCubit: $categoriesCubit}';
+  }
 }
 
 /// generated route for

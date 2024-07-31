@@ -51,7 +51,11 @@ class _CategoriesPageState extends State<CategoriesPage>
 
   @override
   void onAddTap() {
-    context.router.push(const AddCategoryRoute());
+    context.router.push(
+      AddCategoryRoute(
+        categoriesCubit: categoriesCubit,
+      ),
+    );
   }
 
   @override

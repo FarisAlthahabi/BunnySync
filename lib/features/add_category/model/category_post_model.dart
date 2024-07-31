@@ -39,11 +39,11 @@ class CategoryPostModel {
   Map<String, dynamic> toJson() => _$CategoryPostModelToJson(this);
 
   String get title {
-    return _title ?? (throw Exception('title is null'));
+    return _title ?? (throw Exception('Name is null'));
   }
   
   @JsonKey(name: 'desc')
   String get description {
-    return _description ?? (throw Exception('description is null'));
+    return _description ?? (throw Exception('Description is null'));
   }
 }
