@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:bunny_sync/features/categories/cubit/categories_cubit.dart';
 import 'package:bunny_sync/features/categories/model/category_model.dart';
+import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
@@ -8,6 +10,7 @@ import 'package:bunny_sync/global/widgets/element_tile.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
 import 'package:bunny_sync/global/widgets/texts/bordered_textual_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 abstract class CategoriesViewCallBacks {
   void onAddTap();
@@ -19,7 +22,10 @@ class CategoriesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CategoriesPage();
+    return BlocProvider(
+      create: (context) => get<CategoriesCubit>(),
+      child: const CategoriesPage(),
+    );
   }
 }
 
@@ -32,6 +38,7 @@ class CategoriesPage extends StatefulWidget {
 
 class _CategoriesPageState extends State<CategoriesPage>
     implements CategoriesViewCallBacks {
+  late final CategoriesCubit categoriesCubit = context.read();
   //TODO: fetch from cubit
   final List<CategoryModel> categories = List.generate(
     6,
@@ -43,6 +50,12 @@ class _CategoriesPageState extends State<CategoriesPage>
       userId: 1,
     ),
   );
+
+  @override
+  void initState() {
+    categoriesCubit.getCategories();
+    super.initState();
+  }
 
   @override
   void onAddTap() {

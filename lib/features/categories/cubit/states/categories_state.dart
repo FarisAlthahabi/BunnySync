@@ -19,6 +19,12 @@ class CategoriesSuccess extends CategoriesFetch {
   CategoriesSuccess(super.categories);
 }
 
+class CategoriesEmpty extends CategoriesState {
+  CategoriesEmpty(this.message);
+
+  final String message;
+}
+
 class CategoriesFail extends CategoriesState {
   CategoriesFail(this.message);
 
