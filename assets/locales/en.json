@@ -185,5 +185,7 @@
   "select_recurring": "Select Recurring",
   "lead": "Lead",
   "income_per_breeder": "Income per breeder",
-  "expenses_per_breeder": "Expenses per breeder"
+  "expenses_per_breeder": "Expenses per breeder",
+  "create_ledger_category" : "Create Ledger Category",
+  "description" : "Description"
 }

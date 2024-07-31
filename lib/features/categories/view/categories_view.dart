@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/categories/model/category_model.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
+import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/element_tile.dart';
@@ -44,7 +45,7 @@ class _CategoriesPageState extends State<CategoriesPage>
 
   @override
   void onAddTap() {
-    // TODO: implement onAddTap
+   context.router.push(const AddCategoryRoute());
   }
 
   @override
