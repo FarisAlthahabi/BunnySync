@@ -40,12 +40,13 @@ class _CategoriesPageState extends State<CategoriesPage>
       name: 'general'.i18n,
       transactions: 0,
       description: 'Cupidatat consequat aute nostrud proident duis Lorem elit',
+      userId: 1,
     ),
   );
 
   @override
   void onAddTap() {
-   context.router.push(const AddCategoryRoute());
+    context.router.push(const AddCategoryRoute());
   }
 
   @override
@@ -74,13 +75,13 @@ class _CategoriesPageState extends State<CategoriesPage>
                     ),
                     title: Text(
                       strutStyle: const StrutStyle(height: 1.6),
-                      item.description,
+                      item.description ?? 'description'.i18n,
                       style: context.tt.titleSmall?.copyWith(
                         fontWeight: FontWeight.w400,
                       ),
                     ),
                     type: Text(
-                      '${item.transactions.toInt()}: ${'transactions'.i18n}',
+                      '${item.transactions?.toInt() ?? 0}: ${'transactions'.i18n}',
                       style: context.tt.labelSmall
                           ?.copyWith(color: context.cs.tertiary),
                     ),
