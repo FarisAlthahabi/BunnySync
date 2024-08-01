@@ -11,4 +11,9 @@ abstract class AddCategoryRepo {
   Future<CategoryModel> addCategory(
     CategoryPostModel categoryPostModel,
   );
+
+  Future<CategoryModel> updateCategory(
+    CategoryPostModel categoryPostModel,
+    int categoryId,
+  );
 }
