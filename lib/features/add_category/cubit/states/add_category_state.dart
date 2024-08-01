@@ -13,6 +13,12 @@ class AddCategorySuccess extends AddCategoryState {
   final CategoryModel categoryModel;
 }
 
+class UpdateCategorySuccess extends AddCategoryState {
+  UpdateCategorySuccess(this.categoryModel);
+
+  final CategoryModel categoryModel;
+}
+
 class AddCategoryFail extends AddCategoryState {
   AddCategoryFail(this.message);
 

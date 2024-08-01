@@ -32,8 +32,23 @@ class AddCategoryCubit extends Cubit<AddCategoryState> {
     emit(AddCategoryLoading());
 
     try {
-      final note = await _addCategoryRepo.addCategory(_categoryPostModel);
-      emit(AddCategorySuccess(note));
+      final category = await _addCategoryRepo.addCategory(_categoryPostModel);
+      emit(AddCategorySuccess(category));
+    } catch (e, s) {
+      addError(e, s);
+      emit(AddCategoryFail(e.toString()));
+    }
+  }
+
+  Future<void> updateCategory(int categoryId) async {
+    emit(AddCategoryLoading());
+
+    try {
+      final category = await _addCategoryRepo.updateCategory(
+        _categoryPostModel,
+        categoryId,
+      );
+      emit(UpdateCategorySuccess(category));
     } catch (e, s) {
       addError(e, s);
       emit(AddCategoryFail(e.toString()));
