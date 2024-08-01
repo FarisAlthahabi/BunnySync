@@ -94,7 +94,7 @@ class _CategoriesPageState extends State<CategoriesPage>
               onPressed: () {
                 context.router.popForced();
                 //TODO
-               // breederDetailsCubit.deleteNote(breederNoteModel.id);
+                //categoriesCubit.deleteCategory(categoryModel.id);
               },
               child: Text('yes'.i18n),
             ),

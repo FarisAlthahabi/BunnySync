@@ -48,4 +48,9 @@ class CategoriesCubit extends Cubit<CategoriesState> {
     }).toList();
      emit(CategoriesSuccess(categories));
   }
+
+  void deleteCategory(int categoryId) {
+    categories.add(category);
+    emit(CategoriesSuccess(categories));
+  }
 }

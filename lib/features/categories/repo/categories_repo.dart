@@ -8,4 +8,6 @@ part 'http_categories_repo.dart';
 
 abstract class CategoriesRepo {
   Future<List<CategoryModel>> getCategories();
+
+  Future<void> deleteCategory(int categoryId);
 }

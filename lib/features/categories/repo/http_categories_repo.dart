@@ -24,4 +24,16 @@ class HttpCategoriesRepo implements CategoriesRepo {
       rethrow;
     }
   }
+  
+  @override
+  Future<void> deleteCategory(int categoryId) async{
+    try {
+      await _dioClient.delete('/finance/category/$categoryId');
+    } catch (e) {
+      if (e is NotFoundException) {
+        throw e.message ?? 'something_went_wrong'.i18n;
+      }
+      rethrow;
+    }
+  }
 }
