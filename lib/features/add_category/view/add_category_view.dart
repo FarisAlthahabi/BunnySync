@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/add_category/cubit/add_category_cubit.dart';
 import 'package:bunny_sync/features/categories/cubit/categories_cubit.dart';
+import 'package:bunny_sync/features/categories/model/category_model.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
@@ -29,9 +30,11 @@ class AddCategoryView extends StatelessWidget {
   const AddCategoryView({
     super.key,
     required this.categoriesCubit,
+    this.categoryModel,
   });
 
   final CategoriesCubit categoriesCubit;
+  final CategoryModel? categoryModel;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +45,7 @@ class AddCategoryView extends StatelessWidget {
         ),
         BlocProvider.value(value: categoriesCubit),
       ],
-      child: const AddCategoryPage(),
+      child: AddCategoryPage(categoryModel: categoryModel),
     );
   }
 }
@@ -50,7 +53,10 @@ class AddCategoryView extends StatelessWidget {
 class AddCategoryPage extends StatefulWidget {
   const AddCategoryPage({
     super.key,
+    this.categoryModel,
   });
+
+  final CategoryModel? categoryModel;
 
   @override
   State<AddCategoryPage> createState() => _AddCategoryPageState();
@@ -65,6 +71,16 @@ class _AddCategoryPageState extends State<AddCategoryPage>
   final nameFocusNode = FocusNode();
 
   final descriptionFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    final categoryModel = widget.categoryModel;
+    if (categoryModel != null) {
+      onNameChanged(categoryModel.name);
+      onDescriptionChanged(categoryModel.description ?? 'description');
+    }
+    super.initState();
+  }
 
   @override
   void onDescriptionChanged(String description) {
@@ -88,7 +104,12 @@ class _AddCategoryPageState extends State<AddCategoryPage>
 
   @override
   void onSave() {
-    addCategoryCubit.addCategory();
+    final categoryModel = widget.categoryModel;
+    if (categoryModel != null) {
+      addCategoryCubit.updateCategory(categoryModel.id);
+    } else {
+      addCategoryCubit.addCategory();
+    }
   }
 
   @override
@@ -113,6 +134,7 @@ class _AddCategoryPageState extends State<AddCategoryPage>
                       height: 30,
                     ),
                     MainTextField(
+                      initialValue: widget.categoryModel?.name,
                       onSubmitted: onNameSubmitted,
                       onChanged: onNameChanged,
                       focusNode: nameFocusNode,
@@ -123,6 +145,7 @@ class _AddCategoryPageState extends State<AddCategoryPage>
                       height: 25,
                     ),
                     MainTextField(
+                      initialValue: widget.categoryModel?.description,
                       onSubmitted: onDescriptionSubmitted,
                       onChanged: onDescriptionChanged,
                       focusNode: descriptionFocusNode,
@@ -151,6 +174,16 @@ class _AddCategoryPageState extends State<AddCategoryPage>
                           );
                           context.router.maybePop();
                           categoriesCubit.addCategory(
+                            state.categoryModel,
+                          );
+                        }
+                        if (state is UpdateCategorySuccess) {
+                          MainSnackBar.showSuccessMessageBar(
+                            context,
+                            "category_updated".i18n,
+                          );
+                          context.router.maybePop();
+                          categoriesCubit.updateCategory(
                             state.categoryModel,
                           );
                         } else if (state is AddCategoryFail) {

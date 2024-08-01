@@ -1,13 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/categories/cubit/categories_cubit.dart';
+import 'package:bunny_sync/features/categories/model/category_model.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
+import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:bunny_sync/global/widgets/element_tile.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
 import 'package:bunny_sync/global/widgets/main_error_widget.dart';
+import 'package:bunny_sync/global/widgets/main_show_bottom_sheet.dart';
 import 'package:bunny_sync/global/widgets/texts/bordered_textual_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +18,12 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 abstract class CategoriesViewCallBacks {
   void onAddTap();
+
+  void onCategoryTap(CategoryModel categoryModel);
+
+  void onUpdateCategoryTap(CategoryModel categoryModel);
+
+  void onDeleteCategoryTap(CategoryModel categoryModel);
 
   void onTryAgainTap();
 }
@@ -59,6 +68,54 @@ class _CategoriesPageState extends State<CategoriesPage>
   }
 
   @override
+  void onCategoryTap(CategoryModel categoryModel) {
+    mainShowBottomSheet(
+      context,
+      widget: BottomSheetWidget(
+        title: "category_options".i18n,
+        model: categoryModel,
+        onEdit: onUpdateCategoryTap,
+        onDelete: onDeleteCategoryTap,
+      ),
+    );
+  }
+
+  @override
+  void onDeleteCategoryTap(CategoryModel categoryModel) {
+    context.router.popForced();
+    mainShowBottomSheet(
+      context,
+      widget: BottomSheetWidget(
+        title: 'are_you_sure_to_delete_category'.i18n,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextButton(
+              onPressed: () {
+                context.router.popForced();
+                //TODO
+               // breederDetailsCubit.deleteNote(breederNoteModel.id);
+              },
+              child: Text('yes'.i18n),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  void onUpdateCategoryTap(CategoryModel categoryModel) {
+    context.router.popForced();
+    context.router.push(
+      AddCategoryRoute(
+        categoriesCubit: categoriesCubit,
+        categoryModel: categoryModel,
+      ),
+    );
+  }
+
+  @override
   void onTryAgainTap() {
     categoriesCubit.getCategories();
   }
@@ -90,6 +147,8 @@ class _CategoriesPageState extends State<CategoriesPage>
                         itemBuilder: (context, index) {
                           final item = state.categories[index];
                           return ElementTile(
+                            categoryModel: item,
+                            onTap: onCategoryTap,
                             leading: Skeleton.shade(
                               child: BorderedTextualWidget(
                                 text: item.id.toString(),

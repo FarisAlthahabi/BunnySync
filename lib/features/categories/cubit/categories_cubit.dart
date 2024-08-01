@@ -38,4 +38,14 @@ class CategoriesCubit extends Cubit<CategoriesState> {
     categories.add(category);
     emit(CategoriesSuccess(categories));
   }
+
+  void updateCategory(CategoryModel category) {
+    categories = categories.map((e) {
+      if (e.id == category.id) {
+        return category;
+      }
+      return e;
+    }).toList();
+     emit(CategoriesSuccess(categories));
+  }
 }

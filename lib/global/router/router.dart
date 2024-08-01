@@ -11,6 +11,7 @@ import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_
 import 'package:bunny_sync/features/breeders/view/breeders_view.dart';
 import 'package:bunny_sync/features/breeders/view/widgets/scanner_view/scanner_view.dart';
 import 'package:bunny_sync/features/categories/cubit/categories_cubit.dart';
+import 'package:bunny_sync/features/categories/model/category_model.dart';
 import 'package:bunny_sync/features/categories/view/categories_view.dart';
 import 'package:bunny_sync/features/customers/view/customers_view.dart';
 import 'package:bunny_sync/features/dashboard/view/dashboard_view.dart';

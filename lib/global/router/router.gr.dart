@@ -33,6 +33,7 @@ abstract class _$AppRouter extends RootStackRouter {
         child: AddCategoryView(
           key: args.key,
           categoriesCubit: args.categoriesCubit,
+          categoryModel: args.categoryModel,
         ),
       );
     },
@@ -239,12 +240,14 @@ class AddCategoryRoute extends PageRouteInfo<AddCategoryRouteArgs> {
   AddCategoryRoute({
     Key? key,
     required CategoriesCubit categoriesCubit,
+    CategoryModel? categoryModel,
     List<PageRouteInfo>? children,
   }) : super(
           AddCategoryRoute.name,
           args: AddCategoryRouteArgs(
             key: key,
             categoriesCubit: categoriesCubit,
+            categoryModel: categoryModel,
           ),
           initialChildren: children,
         );
@@ -259,15 +262,18 @@ class AddCategoryRouteArgs {
   const AddCategoryRouteArgs({
     this.key,
     required this.categoriesCubit,
+    this.categoryModel,
   });
 
   final Key? key;
 
   final CategoriesCubit categoriesCubit;
 
+  final CategoryModel? categoryModel;
+
   @override
   String toString() {
-    return 'AddCategoryRouteArgs{key: $key, categoriesCubit: $categoriesCubit}';
+    return 'AddCategoryRouteArgs{key: $key, categoriesCubit: $categoriesCubit, categoryModel: $categoryModel}';
   }
 }
 

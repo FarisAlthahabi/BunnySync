@@ -189,5 +189,8 @@
   "create_ledger_category" : "Create Ledger Category",
   "description" : "Description",
   "categories_empty": "There are no categories",
-  "category_added" : "Category is added successfully"
+  "category_added" : "Category is added successfully",
+  "category_updated" : "Category is updated successfully",
+  "category_options" : "Category Options",
+  "are_you_sure_to_delete_category" : "Are you sure to delete this category?"
 }

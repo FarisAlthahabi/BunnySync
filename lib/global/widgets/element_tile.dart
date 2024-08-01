@@ -1,3 +1,4 @@
+import 'package:bunny_sync/features/categories/model/category_model.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/main_tile.dart';
@@ -13,6 +14,8 @@ class ElementTile extends StatelessWidget {
     this.createdAt,
     this.secondaryTag,
     this.note,
+    this.onTap,
+    this.categoryModel,
   });
 
   final Widget leading;
@@ -22,6 +25,8 @@ class ElementTile extends StatelessWidget {
   final String? createdAt;
   final String? secondaryTag;
   final String? note;
+  final ValueSetter<CategoryModel>? onTap;
+  final CategoryModel? categoryModel;
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +35,11 @@ class ElementTile extends StatelessWidget {
     final secondaryTag = this.secondaryTag;
     final tag = this.tag;
     final note = this.note;
+    final onTap = this.onTap;
+    final categoryModel = this.categoryModel;
 
     return MainTile(
+      onTap: onTap == null || categoryModel == null ? null : () => onTap(categoryModel),
       boxShadow: AppShadows.getTaskTileShadow(context),
       child: Column(
         children: [
