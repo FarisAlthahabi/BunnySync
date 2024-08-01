@@ -11,6 +11,7 @@ import 'package:bunny_sync/global/widgets/element_tile.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
 import 'package:bunny_sync/global/widgets/main_error_widget.dart';
 import 'package:bunny_sync/global/widgets/main_show_bottom_sheet.dart';
+import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:bunny_sync/global/widgets/texts/bordered_textual_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -93,7 +94,7 @@ class _CategoriesPageState extends State<CategoriesPage>
             TextButton(
               onPressed: () {
                 context.router.popForced();
-                //categoriesCubit.deleteCategory(categoryModel.id);
+                categoriesCubit.deleteCategory(categoryModel.id);
               },
               child: Text('yes'.i18n),
             ),
@@ -123,7 +124,20 @@ class _CategoriesPageState extends State<CategoriesPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const MainAppBar(),
-      body: BlocBuilder<CategoriesCubit, GeneralCategoriesState>(
+      body: BlocConsumer<CategoriesCubit, GeneralCategoriesState>(
+        listener: (context, state) {
+          if (state is DeleteCategorySuccess) {
+            MainSnackBar.showSuccessMessageBar(
+              context,
+              'category_deleted'.i18n,
+            );
+          }else if(state is CategoriesFail){
+             MainSnackBar.showErrorMessageBar(
+              context,
+              state.message,
+            );
+          }
+        },
         builder: (context, state) {
           if (state is CategoriesFetch) {
             return Skeletonizer(

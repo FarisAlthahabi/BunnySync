@@ -192,5 +192,6 @@
   "category_added" : "Category is added successfully",
   "category_updated" : "Category is updated successfully",
   "category_options" : "Category Options",
-  "are_you_sure_to_delete_category" : "Are you sure to delete this category?"
+  "are_you_sure_to_delete_category" : "Are you sure to delete this category?",
+  "category_deleted" : "Category is deleted successfully"
 }
