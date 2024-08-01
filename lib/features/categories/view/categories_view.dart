@@ -93,7 +93,6 @@ class _CategoriesPageState extends State<CategoriesPage>
             TextButton(
               onPressed: () {
                 context.router.popForced();
-                //TODO
                 //categoriesCubit.deleteCategory(categoryModel.id);
               },
               child: Text('yes'.i18n),

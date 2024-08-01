@@ -46,11 +46,19 @@ class CategoriesCubit extends Cubit<CategoriesState> {
       }
       return e;
     }).toList();
-     emit(CategoriesSuccess(categories));
+    emit(CategoriesSuccess(categories));
   }
 
-  void deleteCategory(int categoryId) {
-    categories.add(category);
-    emit(CategoriesSuccess(categories));
+  Future<void> deleteCategory(int categoryId) async {
+    try {
+      await _categoriesRepo.deleteCategory(categoryId);
+      categories.removeWhere(
+        (element) => element.id == categoryId,
+      );
+      emit(DeleteCategorySuccess(categories));
+    } catch (e, s) {
+      addError(e, s);
+      emit(CategoriesFail(e.toString()));
+    }
   }
 }

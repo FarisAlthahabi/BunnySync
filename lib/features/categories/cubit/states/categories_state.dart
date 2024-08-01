@@ -19,6 +19,10 @@ class CategoriesSuccess extends CategoriesFetch {
   CategoriesSuccess(super.categories);
 }
 
+class DeleteCategorySuccess extends CategoriesFetch {
+  DeleteCategorySuccess(super.categories);
+}
+
 class CategoriesEmpty extends CategoriesState {
   CategoriesEmpty(this.message);
 
