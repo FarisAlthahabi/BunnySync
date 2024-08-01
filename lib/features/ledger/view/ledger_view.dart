@@ -1,12 +1,17 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/ledger/view/widgets/ledger_types_widget.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
+import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/element_tile.dart';
 import 'package:bunny_sync/global/widgets/texts/bordered_textual_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+abstract class LedgerViewCallBacks {
+  void onAddTap();
+}
 
 @RoutePage()
 class LedgerView extends StatelessWidget {
@@ -25,7 +30,13 @@ class LedgerPage extends StatefulWidget {
   State<LedgerPage> createState() => _LedgerPageState();
 }
 
-class _LedgerPageState extends State<LedgerPage> {
+class _LedgerPageState extends State<LedgerPage>
+    implements LedgerViewCallBacks {
+  @override
+  void onAddTap() {
+    context.router.push(const AddLedgerRoute());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,7 +101,7 @@ class _LedgerPageState extends State<LedgerPage> {
       floatingActionButton: Padding(
         padding: AppConstants.padding16,
         child: FloatingActionButton(
-          onPressed: () {},
+          onPressed: onAddTap,
           shape: RoundedRectangleBorder(
             borderRadius: AppConstants.circularBorderRadius,
           ),

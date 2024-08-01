@@ -1,3 +1,5 @@
+import 'package:bunny_sync/global/theme/theme.dart';
+import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 
@@ -25,6 +27,12 @@ class MainDropDownWidget<T extends DropDownItemModel> extends StatelessWidget {
   Widget build(BuildContext context) {
     return DropdownButtonHideUnderline(
       child: DropdownButton2<T>(
+        buttonStyleData: ButtonStyleData(
+          decoration: BoxDecoration(
+            border: Border.all(color: AppColors.greyShade),
+            borderRadius:AppConstants.borderRadius12,
+          ),
+        ),
         isExpanded: true,
         value: selectedValue,
         hint: Text(

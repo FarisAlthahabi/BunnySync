@@ -185,5 +185,16 @@
   "select_recurring": "Select Recurring",
   "lead": "Lead",
   "income_per_breeder": "Income per breeder",
-  "expenses_per_breeder": "Expenses per breeder"
+  "expenses_per_breeder": "Expenses per breeder",
+  "create_ledger" : "Create Ledger",
+  "amount" : "Amount",
+  "select_category" : "Select Category",
+  "select_contact" : "Select Contact",
+  "expense" : "Expense",
+  "Income" : "income",
+  "category" : "Category",
+  "contact" : "Contact",
+  "attach_receipt" : "Attach receipt",
+  "choose_file" : "Choose File",
+  "no_file_choosen" : "No file choosen"
 }
