@@ -26,6 +26,12 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    AddCustomerRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AddCustomerView(),
+      );
+    },
     AddLitterRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -221,6 +227,20 @@ class AddBreederRouteArgs {
   String toString() {
     return 'AddBreederRouteArgs{key: $key, breederEntryModel: $breederEntryModel}';
   }
+}
+
+/// generated route for
+/// [AddCustomerView]
+class AddCustomerRoute extends PageRouteInfo<void> {
+  const AddCustomerRoute({List<PageRouteInfo>? children})
+      : super(
+          AddCustomerRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AddCustomerRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for

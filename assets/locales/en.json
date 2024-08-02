@@ -185,5 +185,13 @@
   "select_recurring": "Select Recurring",
   "lead": "Lead",
   "income_per_breeder": "Income per breeder",
-  "expenses_per_breeder": "Expenses per breeder"
+  "expenses_per_breeder": "Expenses per breeder",
+  "new_customer" : "New Customer",
+  "company_name" : "Company Name",
+  "phone" : "Phone",
+  "street" : "Street",
+  "city" : "City",
+  "country" : "Country",
+  "state" : "State",
+  "zip_code" : "Zip Code"
 }

@@ -1,12 +1,17 @@
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/global/extensions/date_time_x.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
+import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/element_tile.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
 import 'package:bunny_sync/global/widgets/texts/bordered_textual_widget.dart';
 import 'package:flutter/material.dart';
+
+abstract class CustomersViewCallBacks {
+  void onAddTap();
+}
 
 @RoutePage()
 class CustomersView extends StatelessWidget {
@@ -25,7 +30,13 @@ class CustomersPage extends StatefulWidget {
   State<CustomersPage> createState() => _CustomersPageState();
 }
 
-class _CustomersPageState extends State<CustomersPage> {
+class _CustomersPageState extends State<CustomersPage>
+    implements CustomersViewCallBacks {
+  @override
+  void onAddTap() {
+    context.router.push(const AddCustomerRoute());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,7 +91,7 @@ class _CustomersPageState extends State<CustomersPage> {
       floatingActionButton: Padding(
         padding: AppConstants.padding16,
         child: FloatingActionButton(
-          onPressed: () {},
+          onPressed: onAddTap,
           shape: RoundedRectangleBorder(
             borderRadius: AppConstants.circularBorderRadius,
           ),
