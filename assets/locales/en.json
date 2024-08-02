@@ -194,5 +194,6 @@
   "country" : "Country",
   "state" : "State",
   "zip_code" : "Zip Code",
-  "customers_empty" : "There are no Customers"
+  "customers_empty" : "There are no Customers",
+  "there_is_no_note" : "There is no note"
 }
