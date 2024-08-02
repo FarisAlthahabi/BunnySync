@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/add_customer/cubit/add_customer_cubit.dart';
 import 'package:bunny_sync/features/customers/cubit/customers_cubit.dart';
+import 'package:bunny_sync/features/customers/model/customer_model/customer_model.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
@@ -65,9 +66,11 @@ class AddCustomerView extends StatelessWidget {
   const AddCustomerView({
     super.key,
     required this.customersCubit,
+    this.customerModel,
   });
 
   final CustomersCubit customersCubit;
+  final CustomerModel? customerModel;
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +91,10 @@ class AddCustomerView extends StatelessWidget {
 class AddCustomerPage extends StatefulWidget {
   const AddCustomerPage({
     super.key,
+    this.customerModel,
   });
+
+  final CustomerModel? customerModel;
 
   @override
   State<AddCustomerPage> createState() => _AddCustomerPageState();
@@ -272,6 +278,25 @@ class _AddCustomerPageState extends State<AddCustomerPage>
     "state".i18n,
     "zip_code".i18n,
   ];
+
+  @override
+  void initState() {
+    final customer = widget.customerModel;
+    if (customer != null) {
+      addCustomerCubit.setName(customer.name);
+      addCustomerCubit.setEmail(customer.email);
+      addCustomerCubit.setType(customer.type);
+      addCustomerCubit.setCompanyName(customer.companyName);
+      addCustomerCubit.setPhone(customer.phone);
+      addCustomerCubit.setNote(customer.name);
+      addCustomerCubit.setStreet(customer.street);
+      addCustomerCubit.setCity(customer.city);
+      addCustomerCubit.setCountry(customer.country);
+      addCustomerCubit.setState(customer.state);
+      addCustomerCubit.setZipCode(customer.zipCode);
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

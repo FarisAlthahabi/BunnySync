@@ -196,5 +196,7 @@
   "zip_code" : "Zip Code",
   "customers_empty" : "There are no Customers",
   "there_is_no_note" : "There is no note",
-  "customer_added" : "Customer is added successfully"
+  "customer_added" : "Customer is added successfully",
+  "customers_options" : "Customers Options",
+  "are_you_sure_to_delete_customer" : "Are you sure to delete customer?"
 }

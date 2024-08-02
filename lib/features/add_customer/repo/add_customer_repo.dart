@@ -9,4 +9,9 @@ part 'http_add_customer_repo.dart';
 
 abstract class AddCustomerRepo {
   Future<CustomerModel> addCustomer(CustomerPostModel customer);
+
+  Future<CustomerModel> updateCustomer(
+    CustomerPostModel customer,
+    int customerId,
+  );
 }

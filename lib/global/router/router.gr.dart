@@ -33,6 +33,7 @@ abstract class _$AppRouter extends RootStackRouter {
         child: AddCustomerView(
           key: args.key,
           customersCubit: args.customersCubit,
+          customerModel: args.customerModel,
         ),
       );
     },
@@ -239,12 +240,14 @@ class AddCustomerRoute extends PageRouteInfo<AddCustomerRouteArgs> {
   AddCustomerRoute({
     Key? key,
     required CustomersCubit customersCubit,
+    CustomerModel? customerModel,
     List<PageRouteInfo>? children,
   }) : super(
           AddCustomerRoute.name,
           args: AddCustomerRouteArgs(
             key: key,
             customersCubit: customersCubit,
+            customerModel: customerModel,
           ),
           initialChildren: children,
         );
@@ -259,15 +262,18 @@ class AddCustomerRouteArgs {
   const AddCustomerRouteArgs({
     this.key,
     required this.customersCubit,
+    this.customerModel,
   });
 
   final Key? key;
 
   final CustomersCubit customersCubit;
 
+  final CustomerModel? customerModel;
+
   @override
   String toString() {
-    return 'AddCustomerRouteArgs{key: $key, customersCubit: $customersCubit}';
+    return 'AddCustomerRouteArgs{key: $key, customersCubit: $customersCubit, customerModel: $customerModel}';
   }
 }
 

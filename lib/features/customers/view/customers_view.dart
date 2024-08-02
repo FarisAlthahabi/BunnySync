@@ -1,13 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/customers/cubit/customers_cubit.dart';
+import 'package:bunny_sync/features/customers/model/customer_model/customer_model.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
+import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:bunny_sync/global/widgets/element_tile.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
 import 'package:bunny_sync/global/widgets/main_error_widget.dart';
+import 'package:bunny_sync/global/widgets/main_show_bottom_sheet.dart';
 import 'package:bunny_sync/global/widgets/texts/bordered_textual_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,6 +20,12 @@ abstract class CustomersViewCallBacks {
   void onAddTap();
 
   void onTryAgainTap();
+
+  void onCustomerTap(CustomerModel customerModel);
+
+  void onEditTap(CustomerModel customerModel);
+
+  void onDeleteTap(CustomerModel customerModel);
 }
 
 @RoutePage()
@@ -46,6 +55,54 @@ class _CustomersPageState extends State<CustomersPage>
   void initState() {
     customersCubit.getCustomers();
     super.initState();
+  }
+
+  @override
+  void onCustomerTap(CustomerModel customerModel) {
+    mainShowBottomSheet(
+      context,
+      widget: BottomSheetWidget(
+        title: 'customers_options'.i18n,
+        onEdit: onEditTap,
+        onDelete: onDeleteTap,
+        model: customerModel,
+      ),
+    );
+  }
+
+  @override
+  void onDeleteTap(CustomerModel customerModel) {
+     context.router.popForced();
+    mainShowBottomSheet(
+      context,
+      widget: BottomSheetWidget(
+        title: 'are_you_sure_to_delete_breeder'.i18n,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextButton(
+              onPressed: () {
+                context.router.popForced();
+                //TODO ...............
+                //deleteBreederCubit.deleteBreeder(breederEntryModel);
+              },
+              child: Text('yes'.i18n),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  void onEditTap(CustomerModel customerModel) {
+   Navigator.pop(context);
+    context.router.push(
+      AddCustomerRoute(
+        customersCubit: customersCubit,
+        customerModel: customerModel,
+      ),
+    );
   }
 
   @override

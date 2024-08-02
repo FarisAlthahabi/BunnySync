@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bunny_sync/global/utils/json_converters/date_parser.dart';
+import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -8,7 +9,7 @@ part 'customer_model.g.dart';
 
 @JsonSerializable()
 @immutable
-class CustomerModel {
+class CustomerModel implements BottomSheetItemModel{
   const CustomerModel({
     required this.id,
     required this.userId,

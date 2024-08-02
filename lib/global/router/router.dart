@@ -12,6 +12,7 @@ import 'package:bunny_sync/features/breeders/view/breeders_view.dart';
 import 'package:bunny_sync/features/breeders/view/widgets/scanner_view/scanner_view.dart';
 import 'package:bunny_sync/features/categories/view/categories_view.dart';
 import 'package:bunny_sync/features/customers/cubit/customers_cubit.dart';
+import 'package:bunny_sync/features/customers/model/customer_model/customer_model.dart';
 import 'package:bunny_sync/features/customers/view/customers_view.dart';
 import 'package:bunny_sync/features/dashboard/view/dashboard_view.dart';
 import 'package:bunny_sync/features/home/view/home_view.dart';
