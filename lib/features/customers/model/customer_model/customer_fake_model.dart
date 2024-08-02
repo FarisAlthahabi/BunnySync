@@ -1,6 +1,6 @@
 import 'package:bunny_sync/features/customers/model/customer_model/customer_model.dart';
 
-final customerFakeModel = List.generate(
+final customersFakeModel = List.generate(
   3,
   (index) => CustomerModel(
     id: index,

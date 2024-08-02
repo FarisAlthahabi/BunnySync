@@ -193,5 +193,6 @@
   "city" : "City",
   "country" : "Country",
   "state" : "State",
-  "zip_code" : "Zip Code"
+  "zip_code" : "Zip Code",
+  "customers_empty" : "There are no Customers"
 }
