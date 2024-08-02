@@ -198,5 +198,6 @@
   "there_is_no_note" : "There is no note",
   "customer_added" : "Customer is added successfully",
   "customers_options" : "Customers Options",
-  "are_you_sure_to_delete_customer" : "Are you sure to delete customer?"
+  "are_you_sure_to_delete_customer" : "Are you sure to delete customer?",
+  "customer_update" : "Customer is updated successfully"
 }

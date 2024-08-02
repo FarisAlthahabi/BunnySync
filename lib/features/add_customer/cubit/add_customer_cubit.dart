@@ -93,4 +93,18 @@ class AddCustomerCubit extends Cubit<GeneralAddCustomerState> {
       emit(AddCustomerFail(e.toString()));
     }
   }
+
+  Future<void> updateCustomer(int customerId) async {
+    emit(AddCustomerLoading());
+    try {
+      final customer = await _addCustomerRepo.updateCustomer(
+        _customerPostModel,
+        customerId,
+      );
+      emit(UpdateCustomerSuccess(customer));
+    } catch (e, s) {
+      addError(e, s);
+      emit(AddCustomerFail(e.toString()));
+    }
+  }
 }

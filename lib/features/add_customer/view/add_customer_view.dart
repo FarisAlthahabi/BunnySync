@@ -83,7 +83,7 @@ class AddCustomerView extends StatelessWidget {
           create: (context) => get<AddCustomerCubit>(),
         ),
       ],
-      child: const AddCustomerPage(),
+      child:  AddCustomerPage(customerModel: customerModel),
     );
   }
 }
@@ -107,6 +107,7 @@ class _AddCustomerPageState extends State<AddCustomerPage>
   late final CustomersCubit customersCubit = context.read();
 
   final focusNode = List.generate(11, (index) => FocusNode());
+  List<String?> initialValue = List.generate(11, (_) => null);
 
   @override
   void onNameChanged(String name) {
@@ -220,7 +221,12 @@ class _AddCustomerPageState extends State<AddCustomerPage>
 
   @override
   void onSave() {
-    addCustomerCubit.addCustomer();
+    final customer = widget.customerModel;
+    if (customer == null) {
+      addCustomerCubit.addCustomer();
+    } else {
+      addCustomerCubit.updateCustomer(customer.id);
+    }
   }
 
   late final List<ValueSetter<String>> onPropertyChanged = [
@@ -288,12 +294,25 @@ class _AddCustomerPageState extends State<AddCustomerPage>
       addCustomerCubit.setType(customer.type);
       addCustomerCubit.setCompanyName(customer.companyName);
       addCustomerCubit.setPhone(customer.phone);
-      addCustomerCubit.setNote(customer.name);
+      addCustomerCubit.setNote(customer.note);
       addCustomerCubit.setStreet(customer.street);
       addCustomerCubit.setCity(customer.city);
       addCustomerCubit.setCountry(customer.country);
       addCustomerCubit.setState(customer.state);
       addCustomerCubit.setZipCode(customer.zipCode);
+      initialValue = [
+        customer.name,
+        customer.email,
+        customer.type,
+        customer.companyName,
+        customer.phone,
+        customer.note,
+        customer.street,
+        customer.city,
+        customer.country,
+        customer.state,
+        customer.zipCode,
+      ];
     }
     super.initState();
   }
@@ -325,6 +344,7 @@ class _AddCustomerPageState extends State<AddCustomerPage>
                       itemCount: propertyLabelText.length,
                       itemBuilder: (context, index) {
                         return MainTextField(
+                          initialValue: initialValue[index],
                           onSubmitted: onPropertySubmitted[index],
                           onChanged: onPropertyChanged[index],
                           focusNode: focusNode[index],
@@ -362,6 +382,15 @@ class _AddCustomerPageState extends State<AddCustomerPage>
                           );
                           context.router.maybePop();
                           customersCubit.addCustomer(
+                            state.customer,
+                          );
+                        } else if (state is UpdateCustomerSuccess) {
+                          MainSnackBar.showSuccessMessageBar(
+                            context,
+                            "customer_update".i18n,
+                          );
+                          context.router.maybePop();
+                          customersCubit.updateCustomer(
                             state.customer,
                           );
                         } else if (state is AddCustomerFail) {

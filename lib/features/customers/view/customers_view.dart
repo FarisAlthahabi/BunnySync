@@ -72,7 +72,7 @@ class _CustomersPageState extends State<CustomersPage>
 
   @override
   void onDeleteTap(CustomerModel customerModel) {
-     context.router.popForced();
+    context.router.popForced();
     mainShowBottomSheet(
       context,
       widget: BottomSheetWidget(
@@ -96,7 +96,7 @@ class _CustomersPageState extends State<CustomersPage>
 
   @override
   void onEditTap(CustomerModel customerModel) {
-   Navigator.pop(context);
+    Navigator.pop(context);
     context.router.push(
       AddCustomerRoute(
         customersCubit: customersCubit,
@@ -145,6 +145,8 @@ class _CustomersPageState extends State<CustomersPage>
                         itemBuilder: (context, index) {
                           final item = state.customers[index];
                           return ElementTile(
+                            model: item,
+                            onTap: onCustomerTap,
                             leading: Skeleton.shade(
                               child: BorderedTextualWidget(
                                 text: item.id.toString(),

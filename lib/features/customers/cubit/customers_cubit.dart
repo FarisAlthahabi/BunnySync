@@ -36,6 +36,16 @@ class CustomersCubit extends Cubit<GeneralCustomersState> {
 
   void addCustomer(CustomerModel customer) {
     customers.add(customer);
-    emit(CustomersEmpty('customers_empty'.i18n));
+    emit(CustomersSuccess(customers));
+  }
+
+  void updateCustomer(CustomerModel customer) {
+    customers = customers.map((e) {
+      if (e.id == customer.id) {
+        return customer;
+      }
+      return e;
+    }).toList();
+   emit(CustomersSuccess(customers));
   }
 }
