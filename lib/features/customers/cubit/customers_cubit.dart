@@ -46,6 +46,23 @@ class CustomersCubit extends Cubit<GeneralCustomersState> {
       }
       return e;
     }).toList();
-   emit(CustomersSuccess(customers));
+    emit(CustomersSuccess(customers));
+  }
+
+  Future<void> deleteCustomer(int customerId) async {
+    try {
+      await _customersRepo.deleteCustomer(customerId);
+      customers.removeWhere(
+        (customer) => customer.id == customerId,
+      );
+      if (customers.isEmpty) {
+        emit(CustomersEmpty('customers_empty'.i18n));
+      } else {
+        emit(DeleteCustomerSuccess(customers));
+      }
+    } catch (e, s) {
+      addError(e, s);
+      emit(DeleteCustomerFail(e.toString()));
+    }
   }
 }

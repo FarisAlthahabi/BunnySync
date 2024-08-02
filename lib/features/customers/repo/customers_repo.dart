@@ -8,4 +8,6 @@ part 'http_customers_repo.dart';
 
 abstract class CustomersRepo {
   Future<List<CustomerModel>> getCustomers();
+
+  Future<void> deleteCustomer(int customerId);
 }

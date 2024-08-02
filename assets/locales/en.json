@@ -199,5 +199,7 @@
   "customer_added" : "Customer is added successfully",
   "customers_options" : "Customers Options",
   "are_you_sure_to_delete_customer" : "Are you sure to delete customer?",
-  "customer_update" : "Customer is updated successfully"
+  "customer_update" : "Customer is updated successfully",
+  "customer_delete" : "Customer is deleted Successfully",
+  "customer_delete_fail" : "Failed to delete customer"
 }

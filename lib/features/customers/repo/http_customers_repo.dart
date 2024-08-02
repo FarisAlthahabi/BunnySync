@@ -22,4 +22,16 @@ class HttpCustomersRepo implements CustomersRepo {
       rethrow;
     }
   }
+  
+  @override
+  Future<void> deleteCustomer(int customerId) async{
+    try {
+      await _dioClient.delete('/finance/customer/$customerId');
+    } catch (e) {
+      if (e is NotFoundException) {
+        throw e.message ?? 'something_went_wrong'.i18n;
+      }
+      rethrow;
+    }
+  }
 }

@@ -9,6 +9,10 @@ part 'states/add_customer_state.dart';
 
 part 'states/general_add_customer_state.dart';
 
+part 'states/add_customer_name_state.dart';
+
+part 'states/add_customer_email_state.dart';
+
 @injectable
 class AddCustomerCubit extends Cubit<GeneralAddCustomerState> {
   AddCustomerCubit(this._addCustomerRepo) : super(AddCustomerInitial());
@@ -84,6 +88,16 @@ class AddCustomerCubit extends Cubit<GeneralAddCustomerState> {
   }
 
   Future<void> addCustomer() async {
+    final nameError = _customerPostModel.validateName();
+    final emailError = _customerPostModel.validateEmail();
+    if (nameError != null) {
+      emit(CustomerNamePostInvalid(nameError));
+      return;
+    }
+    if (emailError != null) {
+      emit(CustomerEmailPostInvalid(emailError));
+      return;
+    }
     emit(AddCustomerLoading());
     try {
       final customer = await _addCustomerRepo.addCustomer(_customerPostModel);

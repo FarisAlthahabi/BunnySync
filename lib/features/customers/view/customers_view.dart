@@ -11,6 +11,7 @@ import 'package:bunny_sync/global/widgets/element_tile.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
 import 'package:bunny_sync/global/widgets/main_error_widget.dart';
 import 'package:bunny_sync/global/widgets/main_show_bottom_sheet.dart';
+import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:bunny_sync/global/widgets/texts/bordered_textual_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -83,8 +84,7 @@ class _CustomersPageState extends State<CustomersPage>
             TextButton(
               onPressed: () {
                 context.router.popForced();
-                //TODO ...............
-                //deleteBreederCubit.deleteBreeder(breederEntryModel);
+                customersCubit.deleteCustomer(customerModel.id);
               },
               child: Text('yes'.i18n),
             ),
@@ -121,7 +121,17 @@ class _CustomersPageState extends State<CustomersPage>
       appBar: const MainAppBar(),
       body: BlocConsumer<CustomersCubit, GeneralCustomersState>(
         listener: (context, state) {
-          // TODO: implement listener
+          if (state is DeleteCustomerSuccess) {
+            MainSnackBar.showSuccessMessageBar(
+              context,
+              "customer_delete".i18n,
+            );
+          } else if (state is DeleteCustomerFail) {
+            MainSnackBar.showErrorMessageBar(
+              context,
+              "customer_delete_fail".i18n,
+            );
+          }
         },
         builder: (context, state) {
           if (state is CustomersFetch) {

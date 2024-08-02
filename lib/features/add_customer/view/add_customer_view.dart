@@ -83,7 +83,7 @@ class AddCustomerView extends StatelessWidget {
           create: (context) => get<AddCustomerCubit>(),
         ),
       ],
-      child:  AddCustomerPage(customerModel: customerModel),
+      child: AddCustomerPage(customerModel: customerModel),
     );
   }
 }
@@ -375,6 +375,18 @@ class _AddCustomerPageState extends State<AddCustomerPage>
                     child:
                         BlocConsumer<AddCustomerCubit, GeneralAddCustomerState>(
                       listener: (context, state) {
+                        if (state is CustomerNamePostInvalid) {
+                          MainSnackBar.showErrorMessageBar(
+                            context,
+                            state.message,
+                          );
+                        }
+                        if (state is CustomerEmailPostInvalid) {
+                          MainSnackBar.showErrorMessageBar(
+                            context,
+                            state.message,
+                          );
+                        }
                         if (state is AddCustomerSuccess) {
                           MainSnackBar.showSuccessMessageBar(
                             context,
