@@ -1,8 +1,96 @@
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
+import 'package:bunny_sync/features/add_customer/model/customer_post_model.dart';
+import 'package:bunny_sync/features/add_customer/repo/add_customer_repo.dart';
+import 'package:bunny_sync/features/customers/model/customer_model/customer_model.dart';
+import 'package:injectable/injectable.dart';
+import 'package:meta/meta.dart';
 
-part 'add_customer_state.dart';
+part 'states/add_customer_state.dart';
 
-class AddCustomerCubit extends Cubit<AddCustomerState> {
-  AddCustomerCubit() : super(AddCustomerInitial());
+part 'states/general_add_customer_state.dart';
+
+@injectable
+class AddCustomerCubit extends Cubit<GeneralAddCustomerState> {
+  AddCustomerCubit(this._addCustomerRepo) : super(AddCustomerInitial());
+
+  final AddCustomerRepo _addCustomerRepo;
+
+  CustomerPostModel _customerPostModel = const CustomerPostModel();
+
+  void setName(String name) {
+    _customerPostModel = _customerPostModel.copyWith(
+      name: () => name,
+    );
+  }
+
+  void setEmail(String email) {
+    _customerPostModel = _customerPostModel.copyWith(
+      email: () => email,
+    );
+  }
+
+  void setType(String type) {
+    _customerPostModel = _customerPostModel.copyWith(
+      type: () => type,
+    );
+  }
+
+  void setCompanyName(String companyName) {
+    _customerPostModel = _customerPostModel.copyWith(
+      companyName: () => companyName,
+    );
+  }
+
+  void setPhone(String phone) {
+    _customerPostModel = _customerPostModel.copyWith(
+      phone: () => phone,
+    );
+  }
+
+  void setNote(String note) {
+    _customerPostModel = _customerPostModel.copyWith(
+      note: () => note,
+    );
+  }
+
+  void setStreet(String street) {
+    _customerPostModel = _customerPostModel.copyWith(
+      street: () => street,
+    );
+  }
+
+  void setCity(String city) {
+    _customerPostModel = _customerPostModel.copyWith(
+      city: () => city,
+    );
+  }
+
+  void setCountry(String country) {
+    _customerPostModel = _customerPostModel.copyWith(
+      country: () => country,
+    );
+  }
+
+  void setState(String state) {
+    _customerPostModel = _customerPostModel.copyWith(
+      state: () => state,
+    );
+  }
+
+  void setZipCode(String zipCode) {
+    _customerPostModel = _customerPostModel.copyWith(
+      zipCode: () => zipCode,
+    );
+  }
+
+  Future<void> addCustomer() async {
+    emit(AddCustomerLoading());
+    try {
+      final customer = await _addCustomerRepo.addCustomer(_customerPostModel);
+      emit(AddCustomerSuccess(customer));
+    } catch (e, s) {
+      addError(e, s);
+      emit(AddCustomerFail(e.toString()));
+    }
+  }
 }
