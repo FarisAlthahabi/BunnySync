@@ -10,8 +10,8 @@ part 'customer_post_model.g.dart';
 @immutable
 class CustomerPostModel {
   const CustomerPostModel({
-    String? email,
     String? name,
+    String? email,
     String? type,
     String? companyName,
     String? phone,
@@ -21,8 +21,8 @@ class CustomerPostModel {
     String? country,
     String? state,
     String? zipCode,
-  })  : _email = email,
-        _name = name,
+  })  : _name = name,
+        _email = email,
         _type = type,
         _companyName = companyName,
         _phone = phone,
@@ -39,9 +39,9 @@ class CustomerPostModel {
   factory CustomerPostModel.fromJson(Map<String, dynamic> json) =>
       _$CustomerPostModelFromJson(json);
 
-  final String? _email;
-
   final String? _name;
+
+  final String? _email;
 
   final String? _type;
 
@@ -62,8 +62,8 @@ class CustomerPostModel {
   final String? _zipCode;
 
    CustomerPostModel copyWith({
-    String? Function()? email,
     String? Function()? name,
+    String? Function()? email,
     String? Function()? type,
     String? Function()? companyName,
     String? Function()? phone,
@@ -75,8 +75,8 @@ class CustomerPostModel {
     String? Function()? zipCode,
   }) {
     return CustomerPostModel(
-      email: email != null ? email() : _email,
       name: name != null ? name() : _name,
+      email: email != null ? email() : _email,
       type: type != null ? type() : _type,
       companyName: companyName != null ? companyName() : _companyName,
       phone: phone != null ? phone() : _phone,
@@ -93,13 +93,13 @@ class CustomerPostModel {
 
   Map<String, dynamic> toJson() => _$CustomerPostModelToJson(this);
 
-  String get email {
-    return _email ?? (throw Exception('email is null'));
-  }
-
   @JsonKey(name: 'contact_name')
   String get name {
     return _name ?? (throw Exception('name is null'));
+  }
+
+  String get email {
+    return _email ?? (throw Exception('email is null'));
   }
 
   String get type {

@@ -68,16 +68,16 @@ class CustomerModel {
   final String zipCode;
 
   @JsonKey(name: 'created_at')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   @JsonKey(name: 'updated_at')
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
 
   @DateParser()
-  final DateTime date;
+  final DateTime? date;
 
   @JsonKey(name: 'DT_RowIndex')
-  final int dtRowIndex;
+  final int? dtRowIndex;
 
   String toJsonStr() => jsonEncode(toJson());
 

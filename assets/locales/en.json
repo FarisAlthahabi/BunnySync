@@ -195,5 +195,6 @@
   "state" : "State",
   "zip_code" : "Zip Code",
   "customers_empty" : "There are no Customers",
-  "there_is_no_note" : "There is no note"
+  "there_is_no_note" : "There is no note",
+  "customer_added" : "Customer is added successfully"
 }

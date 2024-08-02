@@ -1,10 +1,16 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:bunny_sync/features/add_customer/cubit/add_customer_cubit.dart';
+import 'package:bunny_sync/features/customers/cubit/customers_cubit.dart';
+import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/buttons/main_action_button.dart';
+import 'package:bunny_sync/global/widgets/loading_indicator.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
+import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:bunny_sync/global/widgets/main_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 abstract class AddCustomerViewCallBack {
   void onNameChanged(String name);
@@ -58,11 +64,24 @@ abstract class AddCustomerViewCallBack {
 class AddCustomerView extends StatelessWidget {
   const AddCustomerView({
     super.key,
+    required this.customersCubit,
   });
+
+  final CustomersCubit customersCubit;
 
   @override
   Widget build(BuildContext context) {
-    return const AddCustomerPage();
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider.value(
+          value: customersCubit,
+        ),
+        BlocProvider(
+          create: (context) => get<AddCustomerCubit>(),
+        ),
+      ],
+      child: const AddCustomerPage(),
+    );
   }
 }
 
@@ -77,10 +96,16 @@ class AddCustomerPage extends StatefulWidget {
 
 class _AddCustomerPageState extends State<AddCustomerPage>
     implements AddCustomerViewCallBack {
+  late final AddCustomerCubit addCustomerCubit = context.read();
+
+  late final CustomersCubit customersCubit = context.read();
+
   final focusNode = List.generate(11, (index) => FocusNode());
 
   @override
-  void onNameChanged(String name) {}
+  void onNameChanged(String name) {
+    addCustomerCubit.setName(name);
+  }
 
   @override
   void onNameSubmitted(String name) {
@@ -88,7 +113,9 @@ class _AddCustomerPageState extends State<AddCustomerPage>
   }
 
   @override
-  void onEmailChanged(String email) {}
+  void onEmailChanged(String email) {
+    addCustomerCubit.setEmail(email);
+  }
 
   @override
   void onEmailSubmitted(String email) {
@@ -97,7 +124,7 @@ class _AddCustomerPageState extends State<AddCustomerPage>
 
   @override
   void onCityChanged(String city) {
-    // TODO: implement onCityChanged
+    addCustomerCubit.setCity(city);
   }
 
   @override
@@ -107,7 +134,7 @@ class _AddCustomerPageState extends State<AddCustomerPage>
 
   @override
   void onCompanyNameChanged(String companyName) {
-    // TODO: implement onCompanyNameChanged
+    addCustomerCubit.setCompanyName(companyName);
   }
 
   @override
@@ -117,7 +144,7 @@ class _AddCustomerPageState extends State<AddCustomerPage>
 
   @override
   void onCountryChanged(String country) {
-    // TODO: implement onCountryChanged
+    addCustomerCubit.setCountry(country);
   }
 
   @override
@@ -127,7 +154,7 @@ class _AddCustomerPageState extends State<AddCustomerPage>
 
   @override
   void onNoteChanged(String note) {
-    // TODO: implement onNoteChanged
+    addCustomerCubit.setNote(note);
   }
 
   @override
@@ -137,7 +164,7 @@ class _AddCustomerPageState extends State<AddCustomerPage>
 
   @override
   void onPhoneChanged(String phone) {
-    // TODO: implement onPhoneChanged
+    addCustomerCubit.setPhone(phone);
   }
 
   @override
@@ -147,7 +174,7 @@ class _AddCustomerPageState extends State<AddCustomerPage>
 
   @override
   void onStateChanged(String state) {
-    // TODO: implement onStateChanged
+    addCustomerCubit.setState(state);
   }
 
   @override
@@ -157,7 +184,7 @@ class _AddCustomerPageState extends State<AddCustomerPage>
 
   @override
   void onStreetChanged(String street) {
-    // TODO: implement onStreetChanged
+    addCustomerCubit.setStreet(street);
   }
 
   @override
@@ -167,7 +194,7 @@ class _AddCustomerPageState extends State<AddCustomerPage>
 
   @override
   void onTypeChanged(String type) {
-    // TODO: implement onTypeChanged
+    addCustomerCubit.setType(type);
   }
 
   @override
@@ -177,7 +204,7 @@ class _AddCustomerPageState extends State<AddCustomerPage>
 
   @override
   void onZipCodeChanged(String zipCode) {
-    // TODO: implement onZipCodeChanged
+    addCustomerCubit.setZipCode(zipCode);
   }
 
   @override
@@ -186,7 +213,9 @@ class _AddCustomerPageState extends State<AddCustomerPage>
   }
 
   @override
-  void onSave() {}
+  void onSave() {
+    addCustomerCubit.addCustomer();
+  }
 
   late final List<ValueSetter<String>> onPropertyChanged = [
     onNameChanged,
@@ -298,9 +327,38 @@ class _AddCustomerPageState extends State<AddCustomerPage>
                   padding: AppConstants.paddingH16,
                   child: SizedBox(
                     width: double.maxFinite,
-                    child: MainActionButton(
-                      onTap: onSave,
-                      text: "save".i18n,
+                    child:
+                        BlocConsumer<AddCustomerCubit, GeneralAddCustomerState>(
+                      listener: (context, state) {
+                        if (state is AddCustomerSuccess) {
+                          MainSnackBar.showSuccessMessageBar(
+                            context,
+                            "customer_added".i18n,
+                          );
+                          context.router.maybePop();
+                          customersCubit.addCustomer(
+                            state.customer,
+                          );
+                        } else if (state is AddCustomerFail) {
+                          MainSnackBar.showErrorMessageBar(
+                            context,
+                            state.message,
+                          );
+                        }
+                      },
+                      builder: (context, state) {
+                        var onTap = onSave;
+                        Widget? child;
+                        if (state is AddCustomerLoading) {
+                          onTap = () {};
+                          child = const LoadingIndicator();
+                        }
+                        return MainActionButton(
+                          onTap: onTap,
+                          text: "save".i18n,
+                          child: child,
+                        );
+                      },
                     ),
                   ),
                 ),

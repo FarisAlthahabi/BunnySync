@@ -16,10 +16,13 @@ class CustomersCubit extends Cubit<GeneralCustomersState> {
 
   final CustomersRepo _customersRepo;
 
+  List<CustomerModel> customers = [];
+
   Future<void> getCustomers() async {
     emit(CustomersLoading(customersFakeModel));
     try {
       final customers = await _customersRepo.getCustomers();
+      this.customers = customers;
       if (customers.isEmpty) {
         emit(CustomersEmpty('customers_empty'.i18n));
       } else {
@@ -29,5 +32,10 @@ class CustomersCubit extends Cubit<GeneralCustomersState> {
       addError(e, s);
       emit(CustomersFail(e.toString()));
     }
+  }
+
+  void addCustomer(CustomerModel customer) {
+    customers.add(customer);
+    emit(CustomersEmpty('customers_empty'.i18n));
   }
 }

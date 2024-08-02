@@ -22,10 +22,14 @@ CustomerModel _$CustomerModelFromJson(Map<String, dynamic> json) =>
       country: json['country'] as String,
       state: json['state'] as String,
       zipCode: json['zip_code'] as String,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
-      date: const DateParser().fromJson(json['date'] as String),
-      dtRowIndex: (json['DT_RowIndex'] as num).toInt(),
+      createdAt: json['created_at'] == null
+          ? null
+          : DateTime.parse(json['created_at'] as String),
+      updatedAt: json['updated_at'] == null
+          ? null
+          : DateTime.parse(json['updated_at'] as String),
+      date: const DateParser().fromJson(json['date'] as String?),
+      dtRowIndex: (json['DT_RowIndex'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$CustomerModelToJson(CustomerModel instance) =>
@@ -44,8 +48,15 @@ Map<String, dynamic> _$CustomerModelToJson(CustomerModel instance) =>
       'country': instance.country,
       'state': instance.state,
       'zip_code': instance.zipCode,
-      'created_at': instance.createdAt.toIso8601String(),
-      'updated_at': instance.updatedAt.toIso8601String(),
-      'date': const DateParser().toJson(instance.date),
+      'created_at': instance.createdAt?.toIso8601String(),
+      'updated_at': instance.updatedAt?.toIso8601String(),
+      'date': _$JsonConverterToJson<String?, DateTime>(
+          instance.date, const DateParser().toJson),
       'DT_RowIndex': instance.dtRowIndex,
     };
+
+Json? _$JsonConverterToJson<Json, Value>(
+  Value? value,
+  Json? Function(Value value) toJson,
+) =>
+    value == null ? null : toJson(value);

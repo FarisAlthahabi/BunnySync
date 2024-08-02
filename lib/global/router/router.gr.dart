@@ -27,9 +27,13 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     AddCustomerRoute.name: (routeData) {
+      final args = routeData.argsAs<AddCustomerRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const AddCustomerView(),
+        child: AddCustomerView(
+          key: args.key,
+          customersCubit: args.customersCubit,
+        ),
       );
     },
     AddLitterRoute.name: (routeData) {
@@ -231,16 +235,40 @@ class AddBreederRouteArgs {
 
 /// generated route for
 /// [AddCustomerView]
-class AddCustomerRoute extends PageRouteInfo<void> {
-  const AddCustomerRoute({List<PageRouteInfo>? children})
-      : super(
+class AddCustomerRoute extends PageRouteInfo<AddCustomerRouteArgs> {
+  AddCustomerRoute({
+    Key? key,
+    required CustomersCubit customersCubit,
+    List<PageRouteInfo>? children,
+  }) : super(
           AddCustomerRoute.name,
+          args: AddCustomerRouteArgs(
+            key: key,
+            customersCubit: customersCubit,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'AddCustomerRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<AddCustomerRouteArgs> page =
+      PageInfo<AddCustomerRouteArgs>(name);
+}
+
+class AddCustomerRouteArgs {
+  const AddCustomerRouteArgs({
+    this.key,
+    required this.customersCubit,
+  });
+
+  final Key? key;
+
+  final CustomersCubit customersCubit;
+
+  @override
+  String toString() {
+    return 'AddCustomerRouteArgs{key: $key, customersCubit: $customersCubit}';
+  }
 }
 
 /// generated route for

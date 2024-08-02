@@ -55,7 +55,7 @@ class _CustomersPageState extends State<CustomersPage>
 
   @override
   void onAddTap() {
-    context.router.push(const AddCustomerRoute());
+    context.router.push(AddCustomerRoute(customersCubit: customersCubit));
   }
 
   @override
