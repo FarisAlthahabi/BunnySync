@@ -1,16 +1,22 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:bunny_sync/global/extensions/date_time_x.dart';
+import 'package:bunny_sync/features/customers/cubit/customers_cubit.dart';
+import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/element_tile.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
+import 'package:bunny_sync/global/widgets/main_error_widget.dart';
 import 'package:bunny_sync/global/widgets/texts/bordered_textual_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 abstract class CustomersViewCallBacks {
   void onAddTap();
+
+  void onTryAgainTap();
 }
 
 @RoutePage()
@@ -19,7 +25,10 @@ class CustomersView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CustomersPage();
+    return BlocProvider(
+      create: (context) => get<CustomersCubit>(),
+      child: const CustomersPage(),
+    );
   }
 }
 
@@ -32,6 +41,18 @@ class CustomersPage extends StatefulWidget {
 
 class _CustomersPageState extends State<CustomersPage>
     implements CustomersViewCallBacks {
+  late final CustomersCubit customersCubit = context.read();
+  @override
+  void initState() {
+    customersCubit.getCustomers();
+    super.initState();
+  }
+
+  @override
+  void onTryAgainTap() {
+    customersCubit.getCustomers();
+  }
+
   @override
   void onAddTap() {
     context.router.push(const AddCustomerRoute());
@@ -41,52 +62,74 @@ class _CustomersPageState extends State<CustomersPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const MainAppBar(),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: AppConstants.padding16,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'customers'.i18n,
-                style: Theme.of(context).textTheme.displayLarge,
-              ),
-              const SizedBox(height: 10),
-              ListView.separated(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  //TODO : from cubit
-                  return ElementTile(
-                    leading: BorderedTextualWidget(
-                      text: '${index + 1}',
-                    ),
-                    createdAt: DateTime.now().formatMMddYYYY,
-                    title: Text(
-                      strutStyle: const StrutStyle(height: 1.6),
-                      'Cupidatat consequat aute nostrud proident duis Lorem elit',
-                      style: context.tt.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w400,
+      body: BlocConsumer<CustomersCubit, GeneralCustomersState>(
+        listener: (context, state) {
+          // TODO: implement listener
+        },
+        builder: (context, state) {
+          if (state is CustomersFetch) {
+            return Skeletonizer(
+              enabled: state is CustomersLoading,
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: AppConstants.padding16,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'customers'.i18n,
+                        style: Theme.of(context).textTheme.displayLarge,
                       ),
-                    ),
-                    type: Text('lead'.i18n),
-                    tag: 'Company Name',
-                    secondaryTag: '+961353633',
-                    note:
-                        "This is note designed specifically for writing important stuff about the customer. It's not mandatory",
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return const SizedBox(
-                    height: 16,
-                  );
-                },
-                itemCount: 5,
+                      const SizedBox(height: 10),
+                      ListView.separated(
+                        itemCount: state.customers.length,
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          final item = state.customers[index];
+                          return ElementTile(
+                            leading: Skeleton.shade(
+                              child: BorderedTextualWidget(
+                                text: item.id.toString(),
+                              ),
+                            ),
+                            createdAt: item.date.toString(),
+                            title: Text(
+                              strutStyle: const StrutStyle(height: 1.6),
+                              item.name,
+                              style: context.tt.titleSmall?.copyWith(
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            type: Text(item.type),
+                            tag: item.companyName,
+                            secondaryTag: item.phone,
+                            note: item.note,
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return const SizedBox(
+                            height: 16,
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 50),
+                    ],
+                  ),
+                ),
               ),
-              const SizedBox(height: 50),
-            ],
-          ),
-        ),
+            );
+          } else if (state is CustomersEmpty) {
+            return MainErrorWidget(error: state.message);
+          } else if (state is CustomersFail) {
+            return MainErrorWidget(
+              error: state.message,
+              onTap: onTryAgainTap,
+            );
+          } else {
+            return const SizedBox.shrink();
+          }
+        },
       ),
       floatingActionButton: Padding(
         padding: AppConstants.padding16,

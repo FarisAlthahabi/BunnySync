@@ -24,7 +24,7 @@ CustomerModel _$CustomerModelFromJson(Map<String, dynamic> json) =>
       zipCode: json['zip_code'] as String,
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
-      date: DateTime.parse(json['date'] as String),
+      date: const DateParser().fromJson(json['date'] as String),
       dtRowIndex: (json['DT_RowIndex'] as num).toInt(),
     );
 
@@ -46,6 +46,6 @@ Map<String, dynamic> _$CustomerModelToJson(CustomerModel instance) =>
       'zip_code': instance.zipCode,
       'created_at': instance.createdAt.toIso8601String(),
       'updated_at': instance.updatedAt.toIso8601String(),
-      'date': instance.date.toIso8601String(),
+      'date': const DateParser().toJson(instance.date),
       'DT_RowIndex': instance.dtRowIndex,
     };

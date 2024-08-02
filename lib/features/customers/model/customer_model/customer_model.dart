@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bunny_sync/global/utils/json_converters/date_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -72,6 +73,7 @@ class CustomerModel {
   @JsonKey(name: 'updated_at')
   final DateTime updatedAt;
 
+  @DateParser()
   final DateTime date;
 
   @JsonKey(name: 'DT_RowIndex')
