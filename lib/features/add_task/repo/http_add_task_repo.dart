@@ -25,4 +25,27 @@ class HttpAddTaskRepo implements AddTaskRepo {
       rethrow;
     }
   }
+
+  @override
+  Future<TaskModel> updateTask(
+    TaskPostModel taskPostModel,
+    int taskId,
+  ) async {
+    try {
+      final response = await _dioClient.patch(
+        '/schedule/$taskId',
+        data: taskPostModel.toJson(),
+      );
+
+      final body = (response.data as Map<String, dynamic>)['data']
+          as Map<String, dynamic>;
+
+      return TaskModel.fromJson(body['task'] as Map<String, dynamic>);
+    } catch (e) {
+      if (e is NotFoundException) {
+        throw e.message ?? 'something_went_wrong'.i18n;
+      }
+      rethrow;
+    }
+  }
 }

@@ -8,6 +8,8 @@ import 'package:meta/meta.dart';
 
 part 'states/tasks_state.dart';
 
+part 'states/delete_task_state.dart';
+
 part 'states/general_tasks_state.dart';
 
 @injectable
@@ -16,10 +18,13 @@ class TasksCubit extends Cubit<GeneralTasksState> {
 
   final TasksRepo _tasksRepo;
 
+  List<TaskModel> tasks = [];
+
   Future<void> getTasks() async {
     emit(TasksLoading(fakeTasks));
     try {
       final response = await _tasksRepo.getTasks();
+      tasks = response;
       if (response.isEmpty) {
         emit(TasksEmpty("no_tasks".i18n));
       } else {
@@ -28,6 +33,41 @@ class TasksCubit extends Cubit<GeneralTasksState> {
     } catch (e, s) {
       addError(e, s);
       emit(TasksFail(e.toString()));
+    }
+  }
+
+  void addTask(TaskModel task) {
+    tasks.add(task);
+    emit(TasksSuccess(tasks));
+  }
+
+  void updateTask(TaskModel task) {
+    tasks = tasks.map((e) {
+      if (e.id == task.id) {
+        return task;
+      }
+      return e;
+    }).toList();
+    emit(TasksSuccess(tasks));
+  }
+
+  Future<void>deleteTask(int taskId)async{
+    emit(DeleteTaskLoading());
+    try {
+       await _tasksRepo.deleteTask(taskId);
+      tasks.removeWhere(
+        (element) => element.id == taskId,
+      );
+      emit(DeleteTaskSuccess());
+
+      if (tasks.isEmpty) {
+        emit(TasksEmpty("no_tasks".i18n));
+      } else {
+        emit(TasksSuccess(tasks));
+      }
+    } catch (e, s) {
+      addError(e, s);
+      emit(DeleteTaskFail(e.toString()));
     }
   }
 }

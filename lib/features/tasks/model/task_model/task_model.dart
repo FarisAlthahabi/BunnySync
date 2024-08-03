@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bunny_sync/global/utils/json_converters/date_parser.dart';
+import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -8,7 +9,7 @@ part 'task_model.g.dart';
 
 @JsonSerializable()
 @immutable
-class TaskModel {
+class TaskModel implements BottomSheetItemModel {
   const TaskModel({
     required this.id,
     required this.userId,

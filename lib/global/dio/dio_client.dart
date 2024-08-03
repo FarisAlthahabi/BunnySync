@@ -77,6 +77,18 @@ class DioClient {
     );
   }
 
+  Future<Response<dynamic>> patch(
+    String endpoint, {
+    dynamic data,
+    Map<String, dynamic>? headers,
+  }) async {
+    return _dio.patch(
+      endpoint,
+      data: data,
+      options: Options(headers: headers),
+    );
+  }
+
   Future<Response<dynamic>> delete(
     String endpoint, {
     dynamic data,

@@ -188,5 +188,12 @@
   "expenses_per_breeder": "Expenses per breeder",
   "no_tasks" : "There are no tasks",
   "taskType_empty" : "Task type can't be empty",
-  "recurring_empty" :"Recurring can't be empty"
+  "recurring_empty" :"Recurring can't be empty",
+  "select_litter" : "Select Litter",
+  "task_added" : "Task is added successfully",
+  "task_updated" : "Task is updated successfully",
+  "task_options" : "Task Options",
+  "are_you_sure_to_delete_task" : "Are you sure to delete task?",
+  "task_deleted" : "Task is deleted successfully",
+  "general" : "General"
 }

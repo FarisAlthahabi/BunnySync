@@ -44,9 +44,14 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     AddTaskRoute.name: (routeData) {
+      final args = routeData.argsAs<AddTaskRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const AddTaskView(),
+        child: AddTaskView(
+          key: args.key,
+          tasksCubit: args.tasksCubit,
+          task: args.task,
+        ),
       );
     },
     AuthenticationRoute.name: (routeData) {
@@ -282,16 +287,45 @@ class AddNoteRouteArgs {
 
 /// generated route for
 /// [AddTaskView]
-class AddTaskRoute extends PageRouteInfo<void> {
-  const AddTaskRoute({List<PageRouteInfo>? children})
-      : super(
+class AddTaskRoute extends PageRouteInfo<AddTaskRouteArgs> {
+  AddTaskRoute({
+    Key? key,
+    required TasksCubit tasksCubit,
+    TaskModel? task,
+    List<PageRouteInfo>? children,
+  }) : super(
           AddTaskRoute.name,
+          args: AddTaskRouteArgs(
+            key: key,
+            tasksCubit: tasksCubit,
+            task: task,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'AddTaskRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<AddTaskRouteArgs> page =
+      PageInfo<AddTaskRouteArgs>(name);
+}
+
+class AddTaskRouteArgs {
+  const AddTaskRouteArgs({
+    this.key,
+    required this.tasksCubit,
+    this.task,
+  });
+
+  final Key? key;
+
+  final TasksCubit tasksCubit;
+
+  final TaskModel? task;
+
+  @override
+  String toString() {
+    return 'AddTaskRouteArgs{key: $key, tasksCubit: $tasksCubit, task: $task}';
+  }
 }
 
 /// generated route for

@@ -24,4 +24,18 @@ class HttpTasksRepo implements TasksRepo {
       rethrow;
     }
   }
+
+  @override
+  Future<void> deleteTask(int taskId) async {
+    try {
+      await _dioClient.delete(
+        '/schedule/$taskId',
+      );
+    } catch (e) {
+      if (e is NotFoundException) {
+        throw e.message ?? 'something_went_wrong'.i18n;
+      }
+      rethrow;
+    }
+  }
 }

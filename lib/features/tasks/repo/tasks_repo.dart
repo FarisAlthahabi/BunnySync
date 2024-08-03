@@ -8,4 +8,6 @@ part 'http_tasks_repo.dart';
 
 abstract class TasksRepo {
   Future<List<TaskModel>> getTasks();
+
+  Future<void> deleteTask(int taskId);
 }

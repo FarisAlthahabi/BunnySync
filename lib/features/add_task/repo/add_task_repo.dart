@@ -11,4 +11,9 @@ abstract class AddTaskRepo {
   Future<TaskModel> addTask(
     TaskPostModel addTaskModel,
   );
+
+  Future<TaskModel> updateTask(
+    TaskPostModel taskPostModel,
+    int taskId,
+  );
 }

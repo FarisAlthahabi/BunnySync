@@ -13,6 +13,12 @@ class AddTaskSuccess extends AddTaskState {
   final TaskModel task;
 }
 
+class UpdateTaskSuccess extends AddTaskState {
+  UpdateTaskSuccess(this.task);
+
+  final TaskModel task;
+}
+
 class AddTaskFail extends AddTaskState {
   AddTaskFail(this.message);
 

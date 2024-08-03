@@ -19,19 +19,19 @@ class AddTaskCubit extends Cubit<GeneralAddTaskState> {
 
   TaskPostModel _taskPostModel = const TaskPostModel();
 
-  void setType(String type) {
+  void setType(String? type) {
     _taskPostModel = _taskPostModel.copyWith(
       type: () => type,
     );
   }
 
-  void setWho(String who) {
+  void setWho(String? who) {
     _taskPostModel = _taskPostModel.copyWith(
       who: () => who,
     );
   }
 
-  void setTaskType(String taskType) {
+  void setTaskType(String? taskType) {
     _taskPostModel = _taskPostModel.copyWith(
       taskType: () => taskType,
     );
@@ -49,7 +49,7 @@ class AddTaskCubit extends Cubit<GeneralAddTaskState> {
     );
   }
 
-  void setRecurring(String recurring) {
+  void setRecurring(String? recurring) {
     _taskPostModel = _taskPostModel.copyWith(
       recurring: () => recurring,
     );
@@ -83,6 +83,34 @@ class AddTaskCubit extends Cubit<GeneralAddTaskState> {
     try {
       final task = await _addTaskRepo.addTask(_taskPostModel);
       emit(AddTaskSuccess(task));
+    } catch (e, s) {
+      addError(e, s);
+      emit(AddTaskFail(e.toString()));
+    }
+  }
+
+  Future<void> updateTask(int taskId) async {
+    final taskTypeError = _taskPostModel.validateTaskType();
+    final nameError = _taskPostModel.validateName();
+    final recurringError = _taskPostModel.validateRecurring();
+    if (taskTypeError != null) {
+      emit(TaskTaskTypePostInvalid(taskTypeError));
+      return;
+    }
+    if (nameError != null) {
+      emit(TaskNamePostInvalid(nameError));
+      return;
+    }
+    if (recurringError != null) {
+      emit(TaskRecurringPostInvalid(recurringError));
+      return;
+    }
+
+    emit(AddTaskLoading());
+
+    try {
+      final task = await _addTaskRepo.updateTask(_taskPostModel, taskId);
+      emit(UpdateTaskSuccess(task));
     } catch (e, s) {
       addError(e, s);
       emit(AddTaskFail(e.toString()));
