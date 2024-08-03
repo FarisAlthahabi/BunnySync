@@ -18,43 +18,44 @@ import 'package:bunny_sync/features/add_litter/repo/add_litter_repo.dart'
     as _i4;
 import 'package:bunny_sync/features/add_note/cubit/add_note_cubit.dart' as _i23;
 import 'package:bunny_sync/features/add_note/repo/add_note_repo.dart' as _i5;
+import 'package:bunny_sync/features/add_task/cubit/add_task_cubit.dart' as _i24;
 import 'package:bunny_sync/features/add_task/repo/add_task_repo.dart' as _i6;
 import 'package:bunny_sync/features/authentication/bloc/authentication_bloc.dart'
-    as _i24;
+    as _i25;
 import 'package:bunny_sync/features/breeder_details/cubit/breeder_details_cubit.dart'
-    as _i26;
+    as _i27;
 import 'package:bunny_sync/features/breeder_details/repo/breeder_details_repo.dart'
     as _i7;
-import 'package:bunny_sync/features/breeders/cubit/breeders_cubit.dart' as _i28;
+import 'package:bunny_sync/features/breeders/cubit/breeders_cubit.dart' as _i29;
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart'
-    as _i27;
+    as _i28;
 import 'package:bunny_sync/features/breeders/repo/breeders_repo.dart' as _i8;
 import 'package:bunny_sync/features/dashboard/cubit/dashboard_cubit.dart'
     as _i9;
 import 'package:bunny_sync/features/litter_details/cubit/litter_details_cubit.dart'
-    as _i30;
+    as _i31;
 import 'package:bunny_sync/features/litter_details/repo/litter_details_repo.dart'
     as _i13;
-import 'package:bunny_sync/features/litters/cubit/litters_cubit.dart' as _i31;
+import 'package:bunny_sync/features/litters/cubit/litters_cubit.dart' as _i32;
 import 'package:bunny_sync/features/litters/repo/litters_repo.dart' as _i14;
 import 'package:bunny_sync/features/main_navigation/cubit/main_navigation_cubit.dart'
     as _i16;
-import 'package:bunny_sync/features/sign_in/cubit/sign_in_cubit.dart' as _i32;
+import 'package:bunny_sync/features/sign_in/cubit/sign_in_cubit.dart' as _i33;
 import 'package:bunny_sync/features/sign_in/repo/sign_in_repo.dart' as _i18;
-import 'package:bunny_sync/features/tasks/cubit/tasks_cubit.dart' as _i33;
+import 'package:bunny_sync/features/tasks/cubit/tasks_cubit.dart' as _i34;
 import 'package:bunny_sync/features/tasks/repo/tasks_repo.dart' as _i19;
 import 'package:bunny_sync/global/blocs/delete_breeder_cubit/delete_breeder_cubit.dart'
-    as _i29;
+    as _i30;
 import 'package:bunny_sync/global/blocs/permissions_cubit/permissions_cubit.dart'
     as _i17;
-import 'package:bunny_sync/global/di/modules/app_module.dart' as _i34;
+import 'package:bunny_sync/global/di/modules/app_module.dart' as _i35;
 import 'package:bunny_sync/global/dio/dio_client.dart' as _i11;
 import 'package:bunny_sync/global/localization/cubit/localization_cubit.dart'
     as _i15;
 import 'package:bunny_sync/global/localization/language_changer.dart' as _i12;
 import 'package:bunny_sync/global/repos/delete_breeder_repo/delete_breeder_repo.dart'
     as _i10;
-import 'package:bunny_sync/global/repos/repos.dart' as _i25;
+import 'package:bunny_sync/global/repos/repos.dart' as _i26;
 import 'package:bunny_sync/global/repos/user_repo.dart' as _i20;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
@@ -109,31 +110,33 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i22.AddLitterCubit(gh<_i4.AddLitterRepo>()));
     gh.factory<_i23.AddNoteCubit>(
         () => _i23.AddNoteCubit(gh<_i5.AddNoteRepo>()));
-    gh.singleton<_i24.AuthenticationBloc>(
-        () => _i24.AuthenticationBloc(gh<_i25.UserRepo>()));
-    gh.factoryParam<_i26.BreederDetailsCubit, _i27.BreederEntryModel, dynamic>((
+    gh.factory<_i24.AddTaskCubit>(
+        () => _i24.AddTaskCubit(gh<_i6.AddTaskRepo>()));
+    gh.singleton<_i25.AuthenticationBloc>(
+        () => _i25.AuthenticationBloc(gh<_i26.UserRepo>()));
+    gh.factoryParam<_i27.BreederDetailsCubit, _i28.BreederEntryModel, dynamic>((
       breeder,
       _,
     ) =>
-        _i26.BreederDetailsCubit(
+        _i27.BreederDetailsCubit(
           gh<_i7.BreederDetailsRepo>(),
           breeder,
         ));
-    gh.factory<_i28.BreedersCubit>(
-        () => _i28.BreedersCubit(gh<_i8.BreedersRepo>()));
-    gh.factory<_i29.DeleteBreederCubit>(
-        () => _i29.DeleteBreederCubit(gh<_i10.DeleteBreederRepo>()));
-    gh.factory<_i30.LitterDetailsCubit>(
-        () => _i30.LitterDetailsCubit(gh<_i13.LitterDetailsRepo>()));
-    gh.factory<_i31.LittersCubit>(
-        () => _i31.LittersCubit(gh<_i14.LittersRepo>()));
-    gh.factory<_i32.SignInCubit>(() => _i32.SignInCubit(
+    gh.factory<_i29.BreedersCubit>(
+        () => _i29.BreedersCubit(gh<_i8.BreedersRepo>()));
+    gh.factory<_i30.DeleteBreederCubit>(
+        () => _i30.DeleteBreederCubit(gh<_i10.DeleteBreederRepo>()));
+    gh.factory<_i31.LitterDetailsCubit>(
+        () => _i31.LitterDetailsCubit(gh<_i13.LitterDetailsRepo>()));
+    gh.factory<_i32.LittersCubit>(
+        () => _i32.LittersCubit(gh<_i14.LittersRepo>()));
+    gh.factory<_i33.SignInCubit>(() => _i33.SignInCubit(
           gh<_i18.SignInRepo>(),
-          gh<_i24.AuthenticationBloc>(),
+          gh<_i25.AuthenticationBloc>(),
         ));
-    gh.factory<_i33.TasksCubit>(() => _i33.TasksCubit(gh<_i19.TasksRepo>()));
+    gh.factory<_i34.TasksCubit>(() => _i34.TasksCubit(gh<_i19.TasksRepo>()));
     return this;
   }
 }
 
-class _$AppModule extends _i34.AppModule {}
+class _$AppModule extends _i35.AppModule {}
