@@ -172,17 +172,17 @@ class _CategoriesPageState extends State<CategoriesPage>
                         itemBuilder: (context, index) {
                           final item = state.categories[index];
                           return ElementTile(
-                            categoryModel: item,
+                            model: item,
                             onTap: onCategoryTap,
                             leading: Skeleton.shade(
                               child: BorderedTextualWidget(
-                                text: item.id.toString(),
+                                text: (index + 1).toString(),
                               ),
                             ),
                             title: Text(
                               strutStyle: const StrutStyle(height: 1.6),
                               item.description ?? 'description'.i18n,
-                              style: context.tt.titleSmall?.copyWith(
+                              style: context.tt.titleMedium?.copyWith(
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
