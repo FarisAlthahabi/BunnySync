@@ -185,5 +185,6 @@
   "select_recurring": "Select Recurring",
   "lead": "Lead",
   "income_per_breeder": "Income per breeder",
-  "expenses_per_breeder": "Expenses per breeder"
+  "expenses_per_breeder": "Expenses per breeder",
+  "no_tasks" : "There are no tasks"
 }
