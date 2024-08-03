@@ -186,5 +186,7 @@
   "lead": "Lead",
   "income_per_breeder": "Income per breeder",
   "expenses_per_breeder": "Expenses per breeder",
-  "no_tasks" : "There are no tasks"
+  "no_tasks" : "There are no tasks",
+  "taskType_empty" : "Task type can't be empty",
+  "recurring_empty" :"Recurring can't be empty"
 }
