@@ -15,6 +15,7 @@ import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:bunny_sync/global/widgets/texts/bordered_textual_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 abstract class CategoriesViewCallBacks {
@@ -127,17 +128,28 @@ class _CategoriesPageState extends State<CategoriesPage>
       body: BlocConsumer<CategoriesCubit, GeneralCategoriesState>(
         listener: (context, state) {
           if (state is DeleteCategorySuccess) {
+            context.loaderOverlay.hide();
             MainSnackBar.showSuccessMessageBar(
               context,
               'category_deleted'.i18n,
             );
-          }else if(state is CategoriesFail){
-             MainSnackBar.showErrorMessageBar(
+          } else if (state is CategoriesFail) {
+            context.loaderOverlay.hide();
+            MainSnackBar.showErrorMessageBar(
+              context,
+              state.message,
+            );
+          } else if (state is DeleteCategoryLoading) {
+            context.loaderOverlay.show();
+          } else if (state is DeleteCategoryFail) {
+            context.loaderOverlay.hide();
+            MainSnackBar.showErrorMessageBar(
               context,
               state.message,
             );
           }
         },
+        buildWhen: (prev, curr) => curr is CategoriesState,
         builder: (context, state) {
           if (state is CategoriesFetch) {
             return Skeletonizer(
