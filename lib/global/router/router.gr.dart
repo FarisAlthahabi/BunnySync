@@ -26,6 +26,17 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    AddCategoryRoute.name: (routeData) {
+      final args = routeData.argsAs<AddCategoryRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: AddCategoryView(
+          key: args.key,
+          categoriesCubit: args.categoriesCubit,
+          categoryModel: args.categoryModel,
+        ),
+      );
+    },
     AddLitterRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -220,6 +231,49 @@ class AddBreederRouteArgs {
   @override
   String toString() {
     return 'AddBreederRouteArgs{key: $key, breederEntryModel: $breederEntryModel}';
+  }
+}
+
+/// generated route for
+/// [AddCategoryView]
+class AddCategoryRoute extends PageRouteInfo<AddCategoryRouteArgs> {
+  AddCategoryRoute({
+    Key? key,
+    required CategoriesCubit categoriesCubit,
+    CategoryModel? categoryModel,
+    List<PageRouteInfo>? children,
+  }) : super(
+          AddCategoryRoute.name,
+          args: AddCategoryRouteArgs(
+            key: key,
+            categoriesCubit: categoriesCubit,
+            categoryModel: categoryModel,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'AddCategoryRoute';
+
+  static const PageInfo<AddCategoryRouteArgs> page =
+      PageInfo<AddCategoryRouteArgs>(name);
+}
+
+class AddCategoryRouteArgs {
+  const AddCategoryRouteArgs({
+    this.key,
+    required this.categoriesCubit,
+    this.categoryModel,
+  });
+
+  final Key? key;
+
+  final CategoriesCubit categoriesCubit;
+
+  final CategoryModel? categoryModel;
+
+  @override
+  String toString() {
+    return 'AddCategoryRouteArgs{key: $key, categoriesCubit: $categoriesCubit, categoryModel: $categoryModel}';
   }
 }
 
