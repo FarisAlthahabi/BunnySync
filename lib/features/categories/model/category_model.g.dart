@@ -11,6 +11,7 @@ CategoryModel _$CategoryModelFromJson(Map<String, dynamic> json) =>
       id: (json['id'] as num).toInt(),
       userId: (json['user_id'] as num).toInt(),
       name: json['name'] as String,
+      transactions: (json['transactions'] as num?)?.toDouble() ?? 0,
       description: json['desc'] as String?,
       createdAt: json['created_at'] == null
           ? null
@@ -18,7 +19,6 @@ CategoryModel _$CategoryModelFromJson(Map<String, dynamic> json) =>
       updatedAt: json['updated_at'] == null
           ? null
           : DateTime.parse(json['updated_at'] as String),
-      transactions: (json['transactions'] as num?)?.toDouble(),
       dtRowIndex: (json['DT_RowIndex'] as num?)?.toInt(),
     );
 
@@ -27,9 +27,9 @@ Map<String, dynamic> _$CategoryModelToJson(CategoryModel instance) =>
       'id': instance.id,
       'user_id': instance.userId,
       'name': instance.name,
+      'transactions': instance.transactions,
       'desc': instance.description,
       'created_at': instance.createdAt?.toIso8601String(),
       'updated_at': instance.updatedAt?.toIso8601String(),
-      'transactions': instance.transactions,
       'DT_RowIndex': instance.dtRowIndex,
     };

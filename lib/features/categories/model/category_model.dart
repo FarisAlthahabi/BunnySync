@@ -13,10 +13,10 @@ class CategoryModel implements BottomSheetItemModel {
     required this.id,
     required this.userId,
     required this.name,
+    this.transactions = 0,
     this.description,
     this.createdAt,
     this.updatedAt,
-    this.transactions,
     this.dtRowIndex,
   });
 
@@ -33,6 +33,8 @@ class CategoryModel implements BottomSheetItemModel {
 
   final String name;
 
+  final double? transactions;
+
   @JsonKey(name: 'desc')
   final String? description;
 
@@ -41,8 +43,6 @@ class CategoryModel implements BottomSheetItemModel {
 
   @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
-
-  final double? transactions;
 
   @JsonKey(name: 'DT_RowIndex')
   final int? dtRowIndex;
