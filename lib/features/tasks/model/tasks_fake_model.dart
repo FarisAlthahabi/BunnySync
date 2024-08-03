@@ -10,7 +10,7 @@ final fakeTasks = List.generate(
     startDate: DateTime.now(),
     dueDate: DateTime.now(),
     type: 'breed',
-    recurring: 1,
+    recurring: "1",
     note: 'Please check',
     createdAt: DateTime.now(),
     updatedAt: DateTime.now(),

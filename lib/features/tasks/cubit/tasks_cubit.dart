@@ -16,7 +16,7 @@ class TasksCubit extends Cubit<GeneralTasksState> {
 
   final TasksRepo _tasksRepo;
 
-  Future<void> getBreeders() async {
+  Future<void> getTasks() async {
     emit(TasksLoading(fakeTasks));
     try {
       final response = await _tasksRepo.getTasks();

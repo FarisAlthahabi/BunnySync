@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bunny_sync/global/utils/json_converters/date_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -54,12 +55,13 @@ class TaskModel {
   @JsonKey(name: 'start_date')
   final DateTime startDate;
 
+  @DateParser()
   @JsonKey(name: 'due_date')
   final DateTime dueDate;
 
   final String type;
 
-  final int recurring;
+  final String recurring;
 
   final String note;
 
