@@ -83,6 +83,13 @@ class _AddCategoryPageState extends State<AddCategoryPage>
   }
 
   @override
+  void dispose() {
+    nameFocusNode.dispose();
+    descriptionFocusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   void onDescriptionChanged(String description) {
     addCategoryCubit.setDescription(description);
   }
