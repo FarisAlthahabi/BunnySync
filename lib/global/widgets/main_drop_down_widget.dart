@@ -25,6 +25,7 @@ class MainDropDownWidget<T extends DropDownItemModel> extends StatelessWidget {
   Widget build(BuildContext context) {
     return DropdownButtonHideUnderline(
       child: DropdownButton2<T>(
+        dropdownStyleData: const DropdownStyleData(maxHeight: 200),
         isExpanded: true,
         value: selectedValue,
         hint: Text(

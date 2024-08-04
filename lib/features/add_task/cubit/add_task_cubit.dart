@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:bunny_sync/features/add_task/model/task_post_model/task_post_model.dart';
 import 'package:bunny_sync/features/add_task/repo/add_task_repo.dart';
 import 'package:bunny_sync/features/tasks/model/task_model/task_model.dart';
+import 'package:bunny_sync/global/widgets/main_drop_down_widget.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
@@ -10,6 +11,8 @@ part 'states/add_task_state.dart';
 part 'states/general_add_task_state.dart';
 
 part 'states/task_property_post_state.dart';
+
+part 'states/drop_down_state.dart';
 
 @injectable
 class AddTaskCubit extends Cubit<GeneralAddTaskState> {
@@ -59,6 +62,10 @@ class AddTaskCubit extends Cubit<GeneralAddTaskState> {
     _taskPostModel = _taskPostModel.copyWith(
       note: () => note,
     );
+  }
+
+  void selectWhoType<T extends DropDownItemModel>(T? model) {
+    emit(WhoDropDownState(model));
   }
 
   Future<void> addTask() async {

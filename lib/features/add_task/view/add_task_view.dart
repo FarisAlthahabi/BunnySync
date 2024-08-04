@@ -20,6 +20,7 @@ import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:bunny_sync/global/widgets/main_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 abstract class AddTaskPageCallBacks {
@@ -139,7 +140,7 @@ class _AddTaskPageState extends State<AddTaskPage>
         task.litterId == null ? 'breeder'.i18n : 'litter'.i18n,
       );
       addTaskCubit.setTaskType(task.type);
-      //  addTaskCubit.setWho(task.who);
+      addTaskCubit.setWho(task.who);
       addTaskCubit.setName(task.name);
       addTaskCubit.setDate(task.startDate);
       addTaskCubit.setRecurring(task.recurring);
@@ -150,7 +151,6 @@ class _AddTaskPageState extends State<AddTaskPage>
 
   @override
   void onBreederSelected(BreederEntryModel? breeder) {
-    addTaskCubit.setWho(breeder?.name);
     setState(() {
       selectedBreeder = breeder;
     });
@@ -158,7 +158,6 @@ class _AddTaskPageState extends State<AddTaskPage>
 
   @override
   void onLitterSelected(LitterEntryModel? litter) {
-    addTaskCubit.setWho(litter?.litterId);
     setState(() {
       selectedLitter = litter;
     });
@@ -166,7 +165,12 @@ class _AddTaskPageState extends State<AddTaskPage>
 
   @override
   void onDateSelected(DateTime date, List<int> numbers) {
-    addTaskCubit.setDate(date);
+    print(date);
+    final formattedDateString = DateFormat('MM/dd/yyyy').format(date);
+    print(formattedDateString);
+    final formattedDate = DateFormat('dd/MM/yyyy').parse(formattedDateString);
+    print(formattedDate);
+    addTaskCubit.setDate(formattedDate);
   }
 
   @override
@@ -191,7 +195,7 @@ class _AddTaskPageState extends State<AddTaskPage>
 
   @override
   void onRecurringSelected(BreederByGenderModel? recurringPeriod) {
-      addTaskCubit.setRecurring(recurringPeriod?.id.toString());
+    addTaskCubit.setRecurring(recurringPeriod?.id.toString());
     setState(() {
       selectedRecurringPeriod = recurringPeriod;
     });
@@ -355,8 +359,8 @@ class _AddTaskPageState extends State<AddTaskPage>
                                         ),
                                       ],
                                     );
-                                  } else if (innerState is LittersFail) {
-                                    return Text(innerState.message);
+                                  } else if (innerState2 is LittersFail) {
+                                    return Text(innerState2.message);
                                   } else {
                                     return const SizedBox();
                                   }
@@ -438,6 +442,7 @@ class _AddTaskPageState extends State<AddTaskPage>
                                   GeneralAddTaskState>(
                                 listener: (context, state) {
                                   if (state is AddTaskSuccess) {
+                                    tasksCubit.addTask(state.task);
                                     MainSnackBar.showSuccessMessageBar(
                                       context,
                                       "task_added".i18n,
