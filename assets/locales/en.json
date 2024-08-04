@@ -228,5 +228,7 @@
   "select_schedule" : "select Schedule",
   "with_drawal_count" : "Withdrawal Count",
   "with_drawal" : "Withdrawal",
-  "select_with_drawal" : "Select Withdrawal"
+  "select_with_drawal" : "Select Withdrawal",
+  "ailments_empty" : "There are no ailments",
+  "treatments_empty" : "There are no treatments"
 }
