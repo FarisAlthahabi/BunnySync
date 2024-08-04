@@ -82,7 +82,7 @@ class TreatmentModel {
   @JsonKey(name: 'withdrawal_count')
   final int withDrawalCount;
 
-  @JsonKey(name: 'withdrawal_type')
+  @JsonKey(name: 'widthdrawal_type')
   final String withDrawalType;
 
   final String note;

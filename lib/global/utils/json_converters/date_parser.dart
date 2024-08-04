@@ -6,9 +6,21 @@ class DateParser implements JsonConverter<DateTime, String?> {
   
   @override
   DateTime fromJson(String? json) {
-    final DateTime now = DateTime.now();
-    final String formattedDate = DateFormat('dd/MM/yyyy').format(now);
-    return DateFormat('dd/MM/yyyy').parse(json ?? formattedDate);
+    if (json == null) {
+      throw ArgumentError('Cannot parse null date');
+    }
+    final formats = [
+      DateFormat('yyyy-MM-dd'),
+      DateFormat('MM/dd/yyyy'),
+    ];
+    for (final format in formats) {
+      try {
+        return format.parse(json);
+      } catch (e) {
+        // Ignore and try the next format
+      }
+    }
+    throw FormatException('Unable to parse date: $json');
   }
 
   @override
