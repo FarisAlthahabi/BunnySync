@@ -106,6 +106,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const DashboardView(),
       );
     },
+    HealthRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const HealthView(),
+      );
+    },
     HomeRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -466,6 +472,20 @@ class DashboardRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'DashboardRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [HealthView]
+class HealthRoute extends PageRouteInfo<void> {
+  const HealthRoute({List<PageRouteInfo>? children})
+      : super(
+          HealthRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'HealthRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

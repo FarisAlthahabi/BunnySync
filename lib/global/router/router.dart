@@ -15,6 +15,7 @@ import 'package:bunny_sync/features/categories/model/category_model.dart';
 import 'package:bunny_sync/features/categories/view/categories_view.dart';
 import 'package:bunny_sync/features/customers/view/customers_view.dart';
 import 'package:bunny_sync/features/dashboard/view/dashboard_view.dart';
+import 'package:bunny_sync/features/health/view/health_view.dart';
 import 'package:bunny_sync/features/home/view/home_view.dart';
 import 'package:bunny_sync/features/intro/view/intro_router.dart';
 import 'package:bunny_sync/features/intro/view/intro_view.dart';
@@ -119,6 +120,9 @@ class AppRouter extends _$AppRouter {
                 ),
                 AutoRoute(
                   page: AddCategoryRoute.page,
+                ),
+                 AutoRoute(
+                  page: HealthRoute.page,
                 ),
               ],
             ),
