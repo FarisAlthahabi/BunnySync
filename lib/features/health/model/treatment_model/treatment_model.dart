@@ -24,8 +24,8 @@ class TreatmentModel {
     required this.dosageTypePer,
     required this.scheduleCount,
     required this.scheduleType,
-    required this.widthDrawalCount,
-    required this.widthDrawalType,
+    required this.withDrawalCount,
+    required this.withDrawalType,
     required this.note,
     required this.createdAt,
     required this.updatedAt,
@@ -80,10 +80,10 @@ class TreatmentModel {
   final String scheduleType;
 
   @JsonKey(name: 'withdrawal_count')
-  final int widthDrawalCount;
+  final int withDrawalCount;
 
   @JsonKey(name: 'withdrawal_type')
-  final String widthDrawalType;
+  final String withDrawalType;
 
   final String note;
 

@@ -1,4 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/global/extensions/date_time_x.dart';
+import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/element_tile.dart';
@@ -9,12 +11,18 @@ abstract class TreatmentTabCallBacks {
   void onAddTap();
 }
 
-class TreatmentTab extends StatelessWidget implements TreatmentTabCallBacks {
+class TreatmentTab extends StatefulWidget {
   const TreatmentTab({super.key});
 
   @override
+  State<TreatmentTab> createState() => _TreatmentTabState();
+}
+
+class _TreatmentTabState extends State<TreatmentTab>
+    implements TreatmentTabCallBacks {
+  @override
   void onAddTap() {
-    // TODO: implement onAddTap
+    context.router.push(const AddTreatmentRoute());
   }
 
   @override

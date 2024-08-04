@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/breeders/models/breeder_by_gender_model/breeder_by_gender_model.dart';
-import 'package:bunny_sync/global/localization/localization.dart';
+import 'package:bunny_sync/global/localization/translations.i18n.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/buttons/main_action_button.dart';
@@ -10,20 +10,24 @@ import 'package:bunny_sync/global/widgets/main_drop_down_widget.dart';
 import 'package:bunny_sync/global/widgets/main_text_field.dart';
 import 'package:flutter/material.dart';
 
-abstract class AddTaskViewCallBacks {
+abstract class AddAilmentViewCallBacks {
   void onTypeSelected(BreederByGenderModel? type);
-
-  void onTaskTypeSelected(BreederByGenderModel? type);
-
-  void onNameChanged(String name);
-
-  void onNameSubmitted(String name);
 
   void onBreederSelected(BreederByGenderModel? breeder);
 
+  void onKitSelected(BreederByGenderModel? kit);
+
+  void onSymptomsChanged(String symptoms);
+
+  void onSymptomsSubmitted(String symptoms);
+
+  void onAilmentsChanged(String ailments);
+
+  void onAilmentsSubmitted(String ailments);
+
   void onDateSelected(DateTime date, List<int> numbers);
 
-  void onRecurringSelected(BreederByGenderModel? recurringPeriod);
+  void onStatusSelected(BreederByGenderModel? status);
 
   void onNoteChanged(String note);
 
@@ -33,43 +37,49 @@ abstract class AddTaskViewCallBacks {
 }
 
 @RoutePage()
-class AddTaskView extends StatelessWidget {
-  const AddTaskView({super.key});
+class AddAilmentView extends StatelessWidget {
+  const AddAilmentView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const AddTaskPage();
+    return const AddAilmentPage();
   }
 }
 
-class AddTaskPage extends StatefulWidget {
-  const AddTaskPage({super.key});
+class AddAilmentPage extends StatefulWidget {
+  const AddAilmentPage({super.key});
 
   @override
-  State<AddTaskPage> createState() => _AddTaskPageState();
+  State<AddAilmentPage> createState() => _AddAilmentPageState();
 }
 
-class _AddTaskPageState extends State<AddTaskPage>
-    implements AddTaskViewCallBacks {
-  final nameFocusNode = FocusNode();
+class _AddAilmentPageState extends State<AddAilmentPage>
+    implements AddAilmentViewCallBacks {
+  final ailmentsFocusNode = FocusNode();
+
+  final symptomsFocusNode = FocusNode();
 
   final noteFocusNode = FocusNode();
 
-  bool showSelectBreeder = false;
+  bool showSelectKit = false;
 
   // TODO: remove thess and get them from cubit
 
   final List<BreederByGenderModel> types = [
-    const BreederByGenderModel(id: 1, name: 'General'),
-    const BreederByGenderModel(id: 2, name: 'Breeder'),
-    const BreederByGenderModel(id: 3, name: 'Litter'),
+    BreederByGenderModel(id: 1, name: 'breeder'.i18n),
+    BreederByGenderModel(id: 2, name: 'kits'.i18n),
   ];
-  final List<BreederByGenderModel> taskTypes = [
-    const BreederByGenderModel(id: 1, name: 'General'),
-    const BreederByGenderModel(id: 2, name: 'Breeder'),
-    const BreederByGenderModel(id: 3, name: 'Litter'),
+  final List<BreederByGenderModel> status = [
+    BreederByGenderModel(id: 1, name: 'active'.i18n),
+    BreederByGenderModel(id: 2, name: 'suspended'.i18n),
+    BreederByGenderModel(id: 3, name: 'cured'.i18n),
   ];
   final List<BreederByGenderModel> breeders = [
+    const BreederByGenderModel(id: 1, name: 'nux1'),
+    const BreederByGenderModel(id: 2, name: 'nux2'),
+    const BreederByGenderModel(id: 3, name: 'nux3'),
+  ];
+  final List<BreederByGenderModel> kits = [
     const BreederByGenderModel(id: 1, name: 'nux1'),
     const BreederByGenderModel(id: 2, name: 'nux2'),
     const BreederByGenderModel(id: 3, name: 'nux3'),
@@ -81,13 +91,31 @@ class _AddTaskPageState extends State<AddTaskPage>
     const BreederByGenderModel(id: 4, name: 'Every Month'),
   ];
   BreederByGenderModel? selectedType;
-  BreederByGenderModel? selectedTaskType;
+  BreederByGenderModel? selectedKit;
   BreederByGenderModel? selectedBreeder;
-  BreederByGenderModel? selectedRecurringPeriod;
+  BreederByGenderModel? selectedStatus;
+
+  @override
+  void onAilmentsChanged(String ailments) {
+    // TODO: implement onAilmentsChanged
+  }
+
+  @override
+  void onAilmentsSubmitted(String ailments) {
+    symptomsFocusNode.requestFocus();
+  }
+
   @override
   void onBreederSelected(BreederByGenderModel? breeder) {
     setState(() {
       selectedBreeder = breeder;
+    });
+  }
+
+  @override
+  void onKitSelected(BreederByGenderModel? kit) {
+    setState(() {
+      selectedKit = kit;
     });
   }
 
@@ -97,13 +125,20 @@ class _AddTaskPageState extends State<AddTaskPage>
   }
 
   @override
-  void onNameChanged(String name) {
-    // TODO: implement onNameChanged
+  void onStatusSelected(BreederByGenderModel? status) {
+    setState(() {
+      selectedStatus = status;
+    });
   }
 
   @override
-  void onNameSubmitted(String name) {
-    // TODO: implement onNameSubmitted
+  void onSymptomsChanged(String symptoms) {
+    // TODO: implement onSymptomsChanged
+  }
+
+  @override
+  void onSymptomsSubmitted(String symptoms) {
+    noteFocusNode.requestFocus();
   }
 
   @override
@@ -113,31 +148,17 @@ class _AddTaskPageState extends State<AddTaskPage>
 
   @override
   void onNoteSubmitted(String note) {
-    // TODO: implement onNoteSubmitted
-  }
-
-  @override
-  void onRecurringSelected(BreederByGenderModel? recurringPeriod) {
-    setState(() {
-      selectedRecurringPeriod = recurringPeriod;
-    });
-  }
-
-  @override
-  void onTaskTypeSelected(BreederByGenderModel? type) {
-    setState(() {
-      selectedTaskType = type;
-    });
+    onSave();
   }
 
   @override
   void onTypeSelected(BreederByGenderModel? type) {
     setState(() {
       selectedType = type;
-      if (type?.name != 'General') {
-        showSelectBreeder = true;
-      }else{
-        showSelectBreeder = false;
+      if (type?.name == 'kits'.i18n) {
+        showSelectKit = true;
+      } else {
+        showSelectKit = false;
       }
     });
   }
@@ -152,7 +173,7 @@ class _AddTaskPageState extends State<AddTaskPage>
     return Scaffold(
       appBar: MainAppBar(
         title: Text(
-          'create_task'.i18n,
+          'create_ailment'.i18n,
         ),
         centerTitle: true,
       ),
@@ -187,35 +208,8 @@ class _AddTaskPageState extends State<AddTaskPage>
                     const SizedBox(
                       height: 25,
                     ),
-                    Visibility(
-                      visible: showSelectBreeder,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'who'.i18n,
-                            style: context.tt.bodyLarge?.copyWith(
-                              fontWeight: FontWeight.w700,
-                              color: context.cs.surfaceContainerHighest,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          MainDropDownWidget<BreederByGenderModel>(
-                            items: breeders,
-                            text: 'select_breeder'.i18n,
-                            onChanged: onBreederSelected,
-                            selectedValue: selectedBreeder,
-                          ),
-                          const SizedBox(
-                            height: 25,
-                          ),
-                        ],
-                      ),
-                    ),
                     Text(
-                      'task_type'.i18n,
+                      'breeders'.i18n,
                       style: context.tt.bodyLarge?.copyWith(
                         fontWeight: FontWeight.w700,
                         color: context.cs.surfaceContainerHighest,
@@ -225,20 +219,57 @@ class _AddTaskPageState extends State<AddTaskPage>
                       height: 8,
                     ),
                     MainDropDownWidget<BreederByGenderModel>(
-                      items: taskTypes,
-                      text: 'select_type'.i18n,
-                      onChanged: onTaskTypeSelected,
-                      selectedValue: selectedTaskType,
+                      items: kits,
+                      text: 'select_breeder'.i18n,
+                      onChanged: onBreederSelected,
+                      selectedValue: selectedBreeder,
+                    ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    Visibility(
+                      visible: showSelectKit,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'kits'.i18n,
+                            style: context.tt.bodyLarge?.copyWith(
+                              fontWeight: FontWeight.w700,
+                              color: context.cs.surfaceContainerHighest,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          MainDropDownWidget<BreederByGenderModel>(
+                            items: kits,
+                            text: 'select_kit'.i18n,
+                            onChanged: onKitSelected,
+                            selectedValue: selectedKit,
+                          ),
+                          const SizedBox(
+                            height: 25,
+                          ),
+                        ],
+                      ),
+                    ),
+                    MainTextField(
+                      onSubmitted: onAilmentsSubmitted,
+                      onChanged: onAilmentsChanged,
+                      focusNode: ailmentsFocusNode,
+                      hintText: 'ailments'.i18n,
+                      labelText: 'ailments'.i18n,
                     ),
                     const SizedBox(
                       height: 25,
                     ),
                     MainTextField(
-                      onSubmitted: onNameSubmitted,
-                      onChanged: onNameChanged,
-                      focusNode: nameFocusNode,
-                      hintText: 'name'.i18n,
-                      labelText: 'name'.i18n,
+                      onSubmitted: onSymptomsSubmitted,
+                      onChanged: onSymptomsChanged,
+                      focusNode: symptomsFocusNode,
+                      hintText: 'symptoms'.i18n,
+                      labelText: 'symptoms'.i18n,
                     ),
                     const SizedBox(
                       height: 25,
@@ -260,7 +291,7 @@ class _AddTaskPageState extends State<AddTaskPage>
                       height: 25,
                     ),
                     Text(
-                      'recurring'.i18n,
+                      'task_type'.i18n,
                       style: context.tt.bodyLarge?.copyWith(
                         fontWeight: FontWeight.w700,
                         color: context.cs.surfaceContainerHighest,
@@ -270,10 +301,10 @@ class _AddTaskPageState extends State<AddTaskPage>
                       height: 8,
                     ),
                     MainDropDownWidget<BreederByGenderModel>(
-                      items: recurringPeriods,
-                      text: 'select_recurring'.i18n,
-                      onChanged: onRecurringSelected,
-                      selectedValue: selectedRecurringPeriod,
+                      items: status,
+                      text: 'select_status'.i18n,
+                      onChanged: onStatusSelected,
+                      selectedValue: selectedStatus,
                     ),
                     const SizedBox(
                       height: 25,

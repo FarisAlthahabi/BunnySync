@@ -15,6 +15,12 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    AddAilmentRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AddAilmentView(),
+      );
+    },
     AddBreederRoute.name: (routeData) {
       final args = routeData.argsAs<AddBreederRouteArgs>(
           orElse: () => const AddBreederRouteArgs());
@@ -58,6 +64,12 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const AddTaskView(),
+      );
+    },
+    AddTreatmentRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AddTreatmentView(),
       );
     },
     AuthenticationRoute.name: (routeData) {
@@ -200,6 +212,20 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
   };
+}
+
+/// generated route for
+/// [AddAilmentView]
+class AddAilmentRoute extends PageRouteInfo<void> {
+  const AddAilmentRoute({List<PageRouteInfo>? children})
+      : super(
+          AddAilmentRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AddAilmentRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
@@ -350,6 +376,20 @@ class AddTaskRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'AddTaskRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [AddTreatmentView]
+class AddTreatmentRoute extends PageRouteInfo<void> {
+  const AddTreatmentRoute({List<PageRouteInfo>? children})
+      : super(
+          AddTreatmentRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AddTreatmentRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
