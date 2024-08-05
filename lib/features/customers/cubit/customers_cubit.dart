@@ -10,6 +10,8 @@ part 'states/customers_state.dart';
 
 part 'states/general_customers_state.dart';
 
+part 'states/delete_customer_state.dart';
+
 @injectable
 class CustomersCubit extends Cubit<GeneralCustomersState> {
   CustomersCubit(this._customersRepo) : super(CustomersInitial());
@@ -55,10 +57,12 @@ class CustomersCubit extends Cubit<GeneralCustomersState> {
       customers.removeWhere(
         (customer) => customer.id == customerId,
       );
+      emit(DeleteCustomerSuccess());
+
       if (customers.isEmpty) {
         emit(CustomersEmpty('customers_empty'.i18n));
       } else {
-        emit(DeleteCustomerSuccess(customers));
+        emit(CustomersSuccess(customers));
       }
     } catch (e, s) {
       addError(e, s);

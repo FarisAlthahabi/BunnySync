@@ -19,10 +19,6 @@ class CustomersSuccess extends CustomersFetch {
   CustomersSuccess(super.customers);
 }
 
-class DeleteCustomerSuccess extends CustomersFetch {
-  DeleteCustomerSuccess(super.customers);
-}
-
 class CustomersEmpty extends CustomersState {
   CustomersEmpty(this.message);
 
@@ -31,12 +27,6 @@ class CustomersEmpty extends CustomersState {
 
 class CustomersFail extends CustomersState {
   CustomersFail(this.message);
-
-  final String message;
-}
-
-class DeleteCustomerFail extends CustomersState {
-  DeleteCustomerFail(this.message);
 
   final String message;
 }
