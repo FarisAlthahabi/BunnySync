@@ -88,6 +88,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const BreedersView(),
       );
     },
+    CageCardsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const CageCardsView(),
+      );
+    },
     CategoriesRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -424,6 +430,20 @@ class BreedersRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'BreedersRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [CageCardsView]
+class CageCardsRoute extends PageRouteInfo<void> {
+  const CageCardsRoute({List<PageRouteInfo>? children})
+      : super(
+          CageCardsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'CageCardsRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

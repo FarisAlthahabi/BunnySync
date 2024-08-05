@@ -50,7 +50,7 @@ class _SettingsPageState extends State<SettingsPage>
     implements SettingsViewCallBacks {
   @override
   void onCageCardsTap() {
-    // TODO: implement onCageCardsTap
+    context.router.push(const CageCardsRoute());
   }
 
   @override

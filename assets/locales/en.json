@@ -201,5 +201,8 @@
   "are_you_sure_to_delete_customer" : "Are you sure to delete customer?",
   "customer_update" : "Customer is updated successfully",
   "customer_delete" : "Customer is deleted Successfully",
-  "customer_delete_fail" : "Failed to delete customer"
+  "customer_delete_fail" : "Failed to delete customer",
+  "cage_cards_empty" : "There are no cage cards",
+  "are_you_sure_to_delete_cage" : "Are you sure to delete cage?",
+  "cages_options" : "Cages Options"
 }
