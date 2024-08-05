@@ -45,4 +45,32 @@ class HttpHealthRepo implements HealthRepo {
       rethrow;
     }
   }
+  
+  @override
+  Future<void> deleteAilment(int ailmentId)async {
+    try {
+       await _dioClient.delete(
+        '/health/ailment/$ailmentId',
+      );
+    } catch (e) {
+      if (e is NotFoundException) {
+        throw e.message ?? 'something_went_wrong'.i18n;
+      }
+      rethrow;
+    }
+  }
+  
+  @override
+  Future<void> deleteTreatment(int treatmentId) async{
+    try {
+       await _dioClient.delete(
+        '/health/treatment/$treatmentId',
+      );
+    } catch (e) {
+      if (e is NotFoundException) {
+        throw e.message ?? 'something_went_wrong'.i18n;
+      }
+      rethrow;
+    }
+  }
 }

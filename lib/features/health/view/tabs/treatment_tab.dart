@@ -1,19 +1,31 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/health/cubit/health_cubit.dart';
+import 'package:bunny_sync/features/health/model/treatment_model/treatment_model.dart';
+import 'package:bunny_sync/global/localization/translations.i18n.dart';
 import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
+import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:bunny_sync/global/widgets/element_tile.dart';
 import 'package:bunny_sync/global/widgets/main_error_widget.dart';
+import 'package:bunny_sync/global/widgets/main_show_bottom_sheet.dart';
+import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:bunny_sync/global/widgets/texts/bordered_textual_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 abstract class TreatmentTabCallBacks {
   void onAddTap();
 
   void onTryAgainTap();
+
+  void onTreatmentTap(TreatmentModel treatmentModel);
+
+  void onEditTreatmentTap(TreatmentModel treatmentModel);
+
+  void onDeleteTreatmentTap(TreatmentModel treatmentModel);
 }
 
 class TreatmentTab extends StatefulWidget {
@@ -35,7 +47,58 @@ class _TreatmentTabState extends State<TreatmentTab>
 
   @override
   void onAddTap() {
-    context.router.push(const AddTreatmentRoute());
+    context.router.push(
+      AddTreatmentRoute(
+        healthCubit: healthCubit,
+      ),
+    );
+  }
+
+  @override
+  void onDeleteTreatmentTap(TreatmentModel treatmentModel) {
+    context.router.popForced();
+    mainShowBottomSheet(
+      context,
+      widget: BottomSheetWidget(
+        title: 'are_you_sure_to_delete_treatment'.i18n,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextButton(
+              onPressed: () {
+                context.router.popForced();
+                healthCubit.deleteTreatment(treatmentModel.id);
+              },
+              child: Text('yes'.i18n),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  void onEditTreatmentTap(TreatmentModel treatmentModel) {
+    context.router.popForced();
+    context.router.push(
+      AddTreatmentRoute(
+        healthCubit: healthCubit,
+        treatmentModel: treatmentModel,
+      ),
+    );
+  }
+
+  @override
+  void onTreatmentTap(TreatmentModel treatmentModel) {
+    mainShowBottomSheet(
+      context,
+      widget: BottomSheetWidget(
+        title: "ailments_options".i18n,
+        model: treatmentModel,
+        onEdit: onEditTreatmentTap,
+        onDelete: onDeleteTreatmentTap,
+      ),
+    );
   }
 
   @override
@@ -46,7 +109,31 @@ class _TreatmentTabState extends State<TreatmentTab>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<HealthCubit, GeneralHealthState>(
+      body: BlocConsumer<HealthCubit, GeneralHealthState>(
+        listener: (context, state) {
+          if (state is DeleteTreatmentSuccess) {
+            context.loaderOverlay.hide();
+            MainSnackBar.showSuccessMessageBar(
+              context,
+              'treatment_deleted'.i18n,
+            );
+          } else if (state is TreatmentsFail) {
+            context.loaderOverlay.hide();
+            MainSnackBar.showErrorMessageBar(
+              context,
+              state.message,
+            );
+          } else if (state is DeleteTreatmentLoading) {
+            context.loaderOverlay.show();
+          } else if (state is DeleteTreatmentFail) {
+            context.loaderOverlay.hide();
+            MainSnackBar.showErrorMessageBar(
+              context,
+              state.message,
+            );
+          }
+        },
+        buildWhen: (prev, curr) => curr is TreatmentsState,
         builder: (context, state) {
           if (state is TreatmentsFetch) {
             return Skeletonizer(
@@ -65,6 +152,8 @@ class _TreatmentTabState extends State<TreatmentTab>
                         itemBuilder: (context, index) {
                           final item = state.treatments[index];
                           return ElementTile(
+                            onTap: onTreatmentTap,
+                            model: item,
                             leading: Skeleton.shade(
                               child: BorderedTextualWidget(
                                 text: item.id.toString(),

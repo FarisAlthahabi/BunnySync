@@ -11,4 +11,8 @@ abstract class HealthRepo {
   Future<List<AilmentModel>> getAilments();
 
   Future<List<TreatmentModel>> getTreatments();
+
+  Future<void> deleteAilment(int ailmentId);
+
+  Future<void> deleteTreatment(int treatmentId);
 }

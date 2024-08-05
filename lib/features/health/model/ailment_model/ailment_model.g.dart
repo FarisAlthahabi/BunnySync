@@ -8,7 +8,6 @@ part of 'ailment_model.dart';
 
 AilmentModel _$AilmentModelFromJson(Map<String, dynamic> json) => AilmentModel(
       id: (json['id'] as num).toInt(),
-      breederId: (json['breeder_id'] as num).toInt(),
       userId: (json['user_id'] as num).toInt(),
       name: json['name'] as String,
       symptoms: json['symptoms'] as String,
@@ -20,6 +19,7 @@ AilmentModel _$AilmentModelFromJson(Map<String, dynamic> json) => AilmentModel(
       treatments: (json['treatments'] as List<dynamic>?)
           ?.map((e) => TreatmentModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      breederId: (json['breeder_id'] as num?)?.toInt(),
       kitId: (json['kit_id'] as num?)?.toInt(),
       rabbitName: json['rabbit'] as String?,
       dtRowIndex: (json['DT_RowIndex'] as num?)?.toInt(),

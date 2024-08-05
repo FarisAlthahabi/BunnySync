@@ -1,31 +1,47 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:bunny_sync/features/add_ailment/cubit/add_ailment_cubit.dart';
+import 'package:bunny_sync/features/breeders/cubit/breeders_cubit.dart';
 import 'package:bunny_sync/features/breeders/models/breeder_by_gender_model/breeder_by_gender_model.dart';
+import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
+import 'package:bunny_sync/features/health/cubit/health_cubit.dart';
+import 'package:bunny_sync/features/health/model/ailment_model/ailment_model.dart';
+import 'package:bunny_sync/features/litter_details/cubit/litter_details_cubit.dart';
+import 'package:bunny_sync/features/litter_details/model/kit_model/kit_model.dart';
+import 'package:bunny_sync/features/litters/cubit/litters_cubit.dart';
+import 'package:bunny_sync/features/litters/models/litter_entry_model/litter_entry_model.dart';
+import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/translations.i18n.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/buttons/main_action_button.dart';
+import 'package:bunny_sync/global/widgets/loading_indicator.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
 import 'package:bunny_sync/global/widgets/main_date_picker.dart';
 import 'package:bunny_sync/global/widgets/main_drop_down_widget.dart';
+import 'package:bunny_sync/global/widgets/main_error_widget.dart';
+import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:bunny_sync/global/widgets/main_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 abstract class AddAilmentViewCallBacks {
   void onTypeSelected(BreederByGenderModel? type);
 
-  void onBreederSelected(BreederByGenderModel? breeder);
+  void onBreederSelected(BreederEntryModel? breeder);
 
-  void onKitSelected(BreederByGenderModel? kit);
+  void onLitterSelected(LitterEntryModel? litter);
+
+  void onKitSelected(KitModel? kit);
 
   void onSymptomsChanged(String symptoms);
 
   void onSymptomsSubmitted(String symptoms);
 
-  void onAilmentsChanged(String ailments);
+  void onTitleChanged(String title);
 
-  void onAilmentsSubmitted(String ailments);
+  void onTitleSubmitted(String title);
 
-  void onDateSelected(DateTime date, List<int> numbers);
+  void onDateSelected(DateTime startDate, List<int> numbers);
 
   void onStatusSelected(BreederByGenderModel? status);
 
@@ -38,16 +54,49 @@ abstract class AddAilmentViewCallBacks {
 
 @RoutePage()
 class AddAilmentView extends StatelessWidget {
-  const AddAilmentView({super.key});
+  const AddAilmentView({
+    super.key,
+    required this.healthCubit,
+    this.ailmentModel,
+  });
+
+  final HealthCubit healthCubit;
+  final AilmentModel? ailmentModel;
 
   @override
   Widget build(BuildContext context) {
-    return const AddAilmentPage();
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider.value(
+          value: healthCubit,
+        ),
+        BlocProvider(
+          create: (context) => get<AddAilmentCubit>(),
+        ),
+        BlocProvider(
+          create: (context) => get<BreedersCubit>(),
+        ),
+        BlocProvider(
+          create: (context) => get<LittersCubit>(),
+        ),
+        BlocProvider(
+          create: (context) => get<LitterDetailsCubit>(),
+        ),
+      ],
+      child: AddAilmentPage(
+        ailmentModel: ailmentModel,
+      ),
+    );
   }
 }
 
 class AddAilmentPage extends StatefulWidget {
-  const AddAilmentPage({super.key});
+  const AddAilmentPage({
+    super.key,
+    this.ailmentModel,
+  });
+
+  final AilmentModel? ailmentModel;
 
   @override
   State<AddAilmentPage> createState() => _AddAilmentPageState();
@@ -55,7 +104,16 @@ class AddAilmentPage extends StatefulWidget {
 
 class _AddAilmentPageState extends State<AddAilmentPage>
     implements AddAilmentViewCallBacks {
-  final ailmentsFocusNode = FocusNode();
+  late final HealthCubit healthCubit = context.read();
+
+  late final BreedersCubit breedersCubit = context.read();
+
+  late final LittersCubit littersCubit = context.read();
+
+  late final AddAilmentCubit addAilmentCubit = context.read();
+
+  late final LitterDetailsCubit litterDetailsCubit = context.read();
+  final titleFocusNode = FocusNode();
 
   final symptomsFocusNode = FocusNode();
 
@@ -74,16 +132,6 @@ class _AddAilmentPageState extends State<AddAilmentPage>
     BreederByGenderModel(id: 2, name: 'suspended'.i18n),
     BreederByGenderModel(id: 3, name: 'cured'.i18n),
   ];
-  final List<BreederByGenderModel> breeders = [
-    const BreederByGenderModel(id: 1, name: 'nux1'),
-    const BreederByGenderModel(id: 2, name: 'nux2'),
-    const BreederByGenderModel(id: 3, name: 'nux3'),
-  ];
-  final List<BreederByGenderModel> kits = [
-    const BreederByGenderModel(id: 1, name: 'nux1'),
-    const BreederByGenderModel(id: 2, name: 'nux2'),
-    const BreederByGenderModel(id: 3, name: 'nux3'),
-  ];
   final List<BreederByGenderModel> recurringPeriods = [
     const BreederByGenderModel(id: 1, name: 'Once'),
     const BreederByGenderModel(id: 2, name: 'Every Week'),
@@ -91,41 +139,82 @@ class _AddAilmentPageState extends State<AddAilmentPage>
     const BreederByGenderModel(id: 4, name: 'Every Month'),
   ];
   BreederByGenderModel? selectedType;
-  BreederByGenderModel? selectedKit;
-  BreederByGenderModel? selectedBreeder;
+  KitModel? selectedKit;
+  BreederEntryModel? selectedBreeder;
+  LitterEntryModel? selectedLitter;
   BreederByGenderModel? selectedStatus;
 
   @override
-  void onAilmentsChanged(String ailments) {
-    // TODO: implement onAilmentsChanged
+  void initState() {
+    final ailmentModel = widget.ailmentModel;
+    if (ailmentModel != null) {
+      if (ailmentModel.breederId != null) {
+        showSelectKit = false;
+        addAilmentCubit.setType('off');
+        addAilmentCubit.setBreederId(ailmentModel.breederId);
+      }
+      if (ailmentModel.kitId != null) {
+        showSelectKit = true;
+        addAilmentCubit.setType('on');
+        addAilmentCubit.setKitId(ailmentModel.kitId);
+      }
+      addAilmentCubit.setStatus(ailmentModel.status);
+      addAilmentCubit.setTitle(ailmentModel.name);
+      addAilmentCubit.setSymptoms(ailmentModel.symptoms);
+      addAilmentCubit.setNote(ailmentModel.note);
+      addAilmentCubit.setStartDate(ailmentModel.startDate);
+    }
+    breedersCubit.getBreeders();
+    littersCubit.getLitters();
+
+    super.initState();
   }
 
   @override
-  void onAilmentsSubmitted(String ailments) {
+  void onTitleChanged(String title) {
+    addAilmentCubit.setTitle(title);
+  }
+
+  @override
+  void onTitleSubmitted(String title) {
     symptomsFocusNode.requestFocus();
   }
 
   @override
-  void onBreederSelected(BreederByGenderModel? breeder) {
+  void onBreederSelected(BreederEntryModel? breeder) {
+    addAilmentCubit.setBreederId(breeder?.id);
     setState(() {
       selectedBreeder = breeder;
     });
   }
 
   @override
-  void onKitSelected(BreederByGenderModel? kit) {
+  void onLitterSelected(LitterEntryModel? litter) {
+    setState(() {
+      selectedLitter = litter;
+    });
+    final litterModel = litter;
+    if (litterModel != null) {
+      litterDetailsCubit.getLitterDetails(litterModel.id);
+    }
+  }
+
+  @override
+  void onKitSelected(KitModel? kit) {
+    addAilmentCubit.setKitId(kit?.id);
     setState(() {
       selectedKit = kit;
     });
   }
 
   @override
-  void onDateSelected(DateTime date, List<int> numbers) {
-    // TODO: implement onDateSelected
+  void onDateSelected(DateTime startDate, List<int> numbers) {
+    addAilmentCubit.setStartDate(startDate);
   }
 
   @override
   void onStatusSelected(BreederByGenderModel? status) {
+    addAilmentCubit.setStatus(status?.name);
     setState(() {
       selectedStatus = status;
     });
@@ -133,7 +222,7 @@ class _AddAilmentPageState extends State<AddAilmentPage>
 
   @override
   void onSymptomsChanged(String symptoms) {
-    // TODO: implement onSymptomsChanged
+    addAilmentCubit.setSymptoms(symptoms);
   }
 
   @override
@@ -143,7 +232,7 @@ class _AddAilmentPageState extends State<AddAilmentPage>
 
   @override
   void onNoteChanged(String note) {
-    // TODO: implement onNoteChanged
+    addAilmentCubit.setNote(note);
   }
 
   @override
@@ -153,6 +242,12 @@ class _AddAilmentPageState extends State<AddAilmentPage>
 
   @override
   void onTypeSelected(BreederByGenderModel? type) {
+    if (type?.name == 'breeder'.i18n) {
+      addAilmentCubit.setType('off');
+    } else {
+      addAilmentCubit.setType('on');
+    }
+
     setState(() {
       selectedType = type;
       if (type?.name == 'kits'.i18n) {
@@ -165,7 +260,12 @@ class _AddAilmentPageState extends State<AddAilmentPage>
 
   @override
   void onSave() {
-    // TODO: implement onSave
+    final ailmentModel = widget.ailmentModel;
+    if (ailmentModel != null) {
+      addAilmentCubit.updateAilment(ailmentModel.id);
+    } else {
+      addAilmentCubit.addAilment();
+    }
   }
 
   @override
@@ -208,56 +308,132 @@ class _AddAilmentPageState extends State<AddAilmentPage>
                     const SizedBox(
                       height: 25,
                     ),
-                    Text(
-                      'breeders'.i18n,
-                      style: context.tt.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: context.cs.surfaceContainerHighest,
-                      ),
+                    BlocBuilder<BreedersCubit, GeneralBreedersState>(
+                      builder: (context, state) {
+                        if (state is BreedersLoading) {
+                          return Center(
+                            child: LoadingIndicator(
+                              color: context.cs.primary,
+                            ),
+                          );
+                        } else if (state is BreedersSuccess) {
+                          if (showSelectKit == false) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'breeders'.i18n,
+                                  style: context.tt.bodyLarge?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    color: context.cs.surfaceContainerHighest,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                MainDropDownWidget<BreederEntryModel>(
+                                  items: state.breedersStatusModel.all,
+                                  text: 'select_breeder'.i18n,
+                                  onChanged: onBreederSelected,
+                                  selectedValue: selectedBreeder,
+                                ),
+                                const SizedBox(
+                                  height: 25,
+                                ),
+                              ],
+                            );
+                          } else {
+                            return const SizedBox.shrink();
+                          }
+                        } else if (state is BreedersFail) {
+                          return MainErrorWidget(error: state.message);
+                        } else {
+                          return const SizedBox.shrink();
+                        }
+                      },
                     ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    MainDropDownWidget<BreederByGenderModel>(
-                      items: kits,
-                      text: 'select_breeder'.i18n,
-                      onChanged: onBreederSelected,
-                      selectedValue: selectedBreeder,
-                    ),
-                    const SizedBox(
-                      height: 25,
+                    BlocBuilder<LittersCubit, GeneralLittersState>(
+                      builder: (context, state) {
+                        if (state is LittersSuccess) {
+                          if (showSelectKit == true) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'litters'.i18n,
+                                  style: context.tt.bodyLarge?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    color: context.cs.surfaceContainerHighest,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                MainDropDownWidget<LitterEntryModel>(
+                                  items: state.littersStatusModel.all,
+                                  text: 'select_litter'.i18n,
+                                  onChanged: onLitterSelected,
+                                  selectedValue: selectedLitter,
+                                ),
+                                const SizedBox(
+                                  height: 25,
+                                ),
+                              ],
+                            );
+                          } else {
+                            return const SizedBox.shrink();
+                          }
+                        } else if (state is LittersFail) {
+                          return MainErrorWidget(error: state.message);
+                        } else {
+                          return const SizedBox.shrink();
+                        }
+                      },
                     ),
                     Visibility(
                       visible: showSelectKit,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'kits'.i18n,
-                            style: context.tt.bodyLarge?.copyWith(
-                              fontWeight: FontWeight.w700,
-                              color: context.cs.surfaceContainerHighest,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          MainDropDownWidget<BreederByGenderModel>(
-                            items: kits,
-                            text: 'select_kit'.i18n,
-                            onChanged: onKitSelected,
-                            selectedValue: selectedKit,
-                          ),
-                          const SizedBox(
-                            height: 25,
-                          ),
-                        ],
+                      child: BlocBuilder<LitterDetailsCubit,
+                          GeneralLitterDetailsState>(
+                        builder: (context, state) {
+                          if (state is LitterDetailsSuccess) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'kits'.i18n,
+                                  style: context.tt.bodyLarge?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    color: context.cs.surfaceContainerHighest,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                MainDropDownWidget<KitModel>(
+                                  items: state
+                                      .litterDetailsResponseModel.litter.kits,
+                                  text: 'select_kit'.i18n,
+                                  onChanged: onKitSelected,
+                                  selectedValue: selectedKit,
+                                ),
+                                const SizedBox(
+                                  height: 25,
+                                ),
+                              ],
+                            );
+                          } else if (state is LitterDetailsFail) {
+                            return const SizedBox.shrink();
+                          } else {
+                            return const SizedBox.shrink();
+                          }
+                        },
                       ),
                     ),
                     MainTextField(
-                      onSubmitted: onAilmentsSubmitted,
-                      onChanged: onAilmentsChanged,
-                      focusNode: ailmentsFocusNode,
+                      initialValue: widget.ailmentModel?.name,
+                      onSubmitted: onTitleSubmitted,
+                      onChanged: onTitleChanged,
+                      focusNode: titleFocusNode,
                       hintText: 'ailments'.i18n,
                       labelText: 'ailments'.i18n,
                     ),
@@ -265,6 +441,7 @@ class _AddAilmentPageState extends State<AddAilmentPage>
                       height: 25,
                     ),
                     MainTextField(
+                      initialValue: widget.ailmentModel?.symptoms,
                       onSubmitted: onSymptomsSubmitted,
                       onChanged: onSymptomsChanged,
                       focusNode: symptomsFocusNode,
@@ -284,6 +461,7 @@ class _AddAilmentPageState extends State<AddAilmentPage>
                     const SizedBox(height: 10),
                     Center(
                       child: MainDatePicker(
+                        initialDate: widget.ailmentModel?.startDate,
                         onChange: onDateSelected,
                       ),
                     ),
@@ -291,7 +469,7 @@ class _AddAilmentPageState extends State<AddAilmentPage>
                       height: 25,
                     ),
                     Text(
-                      'task_type'.i18n,
+                      'status'.i18n,
                       style: context.tt.bodyLarge?.copyWith(
                         fontWeight: FontWeight.w700,
                         color: context.cs.surfaceContainerHighest,
@@ -310,6 +488,7 @@ class _AddAilmentPageState extends State<AddAilmentPage>
                       height: 25,
                     ),
                     MainTextField(
+                      initialValue: widget.ailmentModel?.note,
                       onSubmitted: onNoteSubmitted,
                       onChanged: onNoteChanged,
                       focusNode: noteFocusNode,
@@ -331,9 +510,47 @@ class _AddAilmentPageState extends State<AddAilmentPage>
                   padding: AppConstants.paddingH16,
                   child: SizedBox(
                     width: double.maxFinite,
-                    child: MainActionButton(
-                      onTap: onSave,
-                      text: "save".i18n,
+                    child:
+                        BlocConsumer<AddAilmentCubit, GeneralAddAilmentState>(
+                      listener: (context, state) {
+                        if (state is AddAilmentSuccess) {
+                          MainSnackBar.showSuccessMessageBar(
+                            context,
+                            "ailment_added".i18n,
+                          );
+                          context.router.maybePop();
+                          healthCubit.addAilment(
+                            state.ailment,
+                          );
+                        } else if (state is UpdateAilmentSuccess) {
+                          MainSnackBar.showSuccessMessageBar(
+                            context,
+                            "ailment_updated".i18n,
+                          );
+                          context.router.maybePop();
+                          healthCubit.updateAilment(
+                            state.ailment,
+                          );
+                        } else if (state is AddAilmentFail) {
+                          MainSnackBar.showErrorMessageBar(
+                            context,
+                            state.message,
+                          );
+                        }
+                      },
+                      builder: (context, state) {
+                        var onTap = onSave;
+                        Widget? child;
+                        if (state is AddAilmentLoading) {
+                          onTap = () {};
+                          child = const LoadingIndicator();
+                        }
+                        return MainActionButton(
+                          onTap: onTap,
+                          text: "save".i18n,
+                          child: child,
+                        );
+                      },
                     ),
                   ),
                 ),

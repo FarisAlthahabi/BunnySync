@@ -14,11 +14,15 @@ part 'states/ailments_state.dart';
 
 part 'states/treatments_state.dart';
 
+part 'states/delete_ailment_state.dart';
+
+part 'states/delete_treatment_state.dart';
+
 @injectable
 class HealthCubit extends Cubit<GeneralHealthState> {
-  HealthCubit(this._healthCubit) : super(GeneralInitialState());
+  HealthCubit(this._healthRepo) : super(GeneralInitialState());
 
-  final HealthRepo _healthCubit;
+  final HealthRepo _healthRepo;
 
   List<AilmentModel> ailments = [];
 
@@ -28,7 +32,7 @@ class HealthCubit extends Cubit<GeneralHealthState> {
     emit(AilmentsLoading(fakeAilments));
 
     try {
-      final ailments = await _healthCubit.getAilments();
+      final ailments = await _healthRepo.getAilments();
       this.ailments = ailments;
       if (ailments.isEmpty) {
         emit(AilmentsEmpty("ailments_empty".i18n));
@@ -45,7 +49,7 @@ class HealthCubit extends Cubit<GeneralHealthState> {
     emit(TreatmentsLoading(fakeTreatments));
 
     try {
-      final treatments = await _healthCubit.getTreatments();
+      final treatments = await _healthRepo.getTreatments();
       this.treatments = treatments;
       if (treatments.isEmpty) {
         emit(TreatmentsEmpty("treatments_empty".i18n));
@@ -55,6 +59,76 @@ class HealthCubit extends Cubit<GeneralHealthState> {
     } catch (e, s) {
       addError(e, s);
       emit(TreatmentsFail(e.toString()));
+    }
+  }
+
+  void addAilment(AilmentModel ailment) {
+    ailments.add(ailment);
+    emit(AilmentsSuccess(ailments));
+  }
+
+  void addTreatment(TreatmentModel treatment) {
+    treatments.add(treatment);
+    emit(TreatmentsSuccess(treatments));
+  }
+
+  void updateAilment(AilmentModel ailment) {
+    ailments = ailments.map((e) {
+      if (e.id == ailment.id) {
+        return ailment;
+      }
+      return e;
+    }).toList();
+    emit(AilmentsSuccess(ailments));
+  }
+
+  void updateTreatment(TreatmentModel treatment) {
+    treatments = treatments.map((e) {
+      if (e.id == treatment.id) {
+        return treatment;
+      }
+      return e;
+    }).toList();
+    emit(TreatmentsSuccess(treatments));
+  }
+
+  Future<void> deleteAilment(int ailmentId) async {
+    emit(DeleteAilmentLoading());
+
+    try {
+      await _healthRepo.deleteAilment(ailmentId);
+      ailments.removeWhere(
+        (element) => element.id == ailmentId,
+      );
+      emit(DeleteAilmentSuccess());
+      if (ailments.isEmpty) {
+        emit(AilmentsEmpty("ailments_empty".i18n));
+      } else {
+        emit(AilmentsSuccess(ailments));
+      }
+    } catch (e, s) {
+      addError(e, s);
+      emit(DeleteAilmentFail(e.toString()));
+    }
+  }
+
+  Future<void> deleteTreatment(int treatmentId) async {
+    emit(DeleteTreatmentLoading());
+
+    try {
+      await _healthRepo.deleteTreatment(treatmentId);
+      treatments.removeWhere(
+        (element) => element.id == treatmentId,
+      );
+      emit(DeleteTreatmentSuccess());
+      if (treatments.isEmpty) {
+        emit(TreatmentsEmpty("treatments_empty".i18n));
+      } else {
+        emit(TreatmentsSuccess(treatments));
+      }
+    } catch (e, s) {
+      addError(e, s);
+      emit(DeleteTreatmentFail(e.toString()));
     }
   }
 }

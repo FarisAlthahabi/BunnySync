@@ -1,14 +1,23 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:bunny_sync/features/add_treatment/cubit/add_treatment_cubit.dart';
 import 'package:bunny_sync/features/breeders/models/breeder_by_gender_model/breeder_by_gender_model.dart';
+import 'package:bunny_sync/features/health/cubit/health_cubit.dart';
+import 'package:bunny_sync/features/health/model/ailment_model/ailment_model.dart';
+import 'package:bunny_sync/features/health/model/treatment_model/treatment_model.dart';
+import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/translations.i18n.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/buttons/main_action_button.dart';
+import 'package:bunny_sync/global/widgets/loading_indicator.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
 import 'package:bunny_sync/global/widgets/main_date_picker.dart';
 import 'package:bunny_sync/global/widgets/main_drop_down_widget.dart';
+import 'package:bunny_sync/global/widgets/main_error_widget.dart';
+import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:bunny_sync/global/widgets/main_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 abstract class AddTreatmentViewCallBacks {
   void onCategorySelected(BreederByGenderModel? type);
@@ -17,13 +26,13 @@ abstract class AddTreatmentViewCallBacks {
 
   void onKitSelected(BreederByGenderModel? kit);
 
-  void onAilmentSelected(BreederByGenderModel? ailments);
+  void onAilmentSelected(AilmentModel? ailments);
 
-  void onTreatmentChanged(String treatment);
+  void onTitleChanged(String title);
 
-  void onTreatmentSubmitted(String treatment);
+  void onTitleSubmitted(String title);
 
-  void onDateSelected(DateTime date, List<int> numbers);
+  void onDateSelected(DateTime startDate, List<int> numbers);
 
   void onMedicationChanged(String medication);
 
@@ -70,16 +79,40 @@ abstract class AddTreatmentViewCallBacks {
 
 @RoutePage()
 class AddTreatmentView extends StatelessWidget {
-  const AddTreatmentView({super.key});
+  const AddTreatmentView({
+    super.key,
+    required this.healthCubit,
+    this.treatmentModel,
+  });
+
+  final HealthCubit healthCubit;
+  final TreatmentModel? treatmentModel;
 
   @override
   Widget build(BuildContext context) {
-    return const AddTreatmentPage();
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider.value(
+          value: healthCubit,
+        ),
+        BlocProvider(
+          create: (context) => get<AddTreatmentCubit>(),
+        ),
+      ],
+      child: AddTreatmentPage(
+        treatmentModel: treatmentModel,
+      ),
+    );
   }
 }
 
 class AddTreatmentPage extends StatefulWidget {
-  const AddTreatmentPage({super.key});
+  const AddTreatmentPage({
+    super.key,
+    this.treatmentModel,
+  });
+
+  final TreatmentModel? treatmentModel;
 
   @override
   State<AddTreatmentPage> createState() => _AddTreatmentPageState();
@@ -87,7 +120,11 @@ class AddTreatmentPage extends StatefulWidget {
 
 class _AddTreatmentPageState extends State<AddTreatmentPage>
     implements AddTreatmentViewCallBacks {
-  final treatmentFocusNode = FocusNode();
+  late final HealthCubit healthCubit = context.read();
+
+  late final AddTreatmentCubit addTreatmentCubit = context.read();
+
+  final titleFocusNode = FocusNode();
 
   final medicationFocusNode = FocusNode();
 
@@ -112,11 +149,6 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
   final List<BreederByGenderModel> categories = [
     BreederByGenderModel(id: 1, name: 'breeder'.i18n),
     BreederByGenderModel(id: 2, name: 'kits'.i18n),
-  ];
-  final List<BreederByGenderModel> ailments = [
-    const BreederByGenderModel(id: 1, name: "can't walk"),
-    const BreederByGenderModel(id: 2, name: "can't walk"),
-    const BreederByGenderModel(id: 3, name: "can't walk"),
   ];
   final List<BreederByGenderModel> breeders = [
     const BreederByGenderModel(id: 1, name: 'nux1'),
@@ -156,14 +188,42 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
   BreederByGenderModel? selectedCategory;
   BreederByGenderModel? selectedBreeder;
   BreederByGenderModel? selectedKit;
-  BreederByGenderModel? selectedAilment;
+  AilmentModel? selectedAilment;
   BreederByGenderModel? selectedDosageType;
   BreederByGenderModel? selectedDosageTypePer;
   BreederByGenderModel? selectedScheduleType;
   BreederByGenderModel? selectedWithDrawalType;
 
   @override
-  void onAilmentSelected(BreederByGenderModel? ailment) {
+  void initState() {
+    final treatmentModel = widget.treatmentModel;
+    if (treatmentModel != null) {
+      addTreatmentCubit.setAilmentId(treatmentModel.ailmentId);
+      addTreatmentCubit.setTitle(treatmentModel.name);
+      addTreatmentCubit.setStartDate(treatmentModel.startDate);
+      addTreatmentCubit.setMedication(treatmentModel.medication);
+      addTreatmentCubit.setMethod(treatmentModel.method);
+      addTreatmentCubit.setType(treatmentModel.type);
+      addTreatmentCubit.setDosageCount(treatmentModel.dosageCount.toString());
+      addTreatmentCubit.setDosageType(treatmentModel.dosageType);
+      addTreatmentCubit
+          .setDosageCountPer(treatmentModel.dosageCountPer.toString());
+      addTreatmentCubit.setDosageTypePer(treatmentModel.dosageTypePer);
+      addTreatmentCubit
+          .setScheduleCount(treatmentModel.scheduleCount.toString());
+      addTreatmentCubit.setScheduleType(treatmentModel.scheduleType);
+      addTreatmentCubit
+          .setWithDrawalCount(treatmentModel.withDrawalCount.toString());
+      addTreatmentCubit.setWithDrawalType(treatmentModel.withDrawalType);
+      addTreatmentCubit.setNote(treatmentModel.note);
+    }
+    healthCubit.getAilments();
+    super.initState();
+  }
+
+  @override
+  void onAilmentSelected(AilmentModel? ailment) {
+    addTreatmentCubit.setAilmentId(ailment?.id);
     setState(() {
       selectedAilment = ailment;
     });
@@ -177,18 +237,18 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
   }
 
   @override
-  void onDateSelected(DateTime date, List<int> numbers) {
-    // TODO: implement onDateSelected
+  void onDateSelected(DateTime startDate, List<int> numbers) {
+    addTreatmentCubit.setStartDate(startDate);
   }
 
   @override
   void onDosageCountChanged(String dosageCount) {
-    // TODO: implement onDosageCountChanged
+    addTreatmentCubit.setDosageCount(dosageCount);
   }
 
   @override
   void onDosageCountPerChanged(String dosageCountPer) {
-    // TODO: implement onDosageCountPerChanged
+    addTreatmentCubit.setDosageCountPer(dosageCountPer);
   }
 
   @override
@@ -203,11 +263,15 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
 
   @override
   void onDosageTypePerSelected(BreederByGenderModel? dosageTypePer) {
-    selectedDosageTypePer = dosageTypePer;
+    addTreatmentCubit.setDosageTypePer(dosageTypePer?.name);
+    setState(() {
+      selectedDosageTypePer = dosageTypePer;
+    });
   }
 
   @override
   void onDosageTypeSelected(BreederByGenderModel? dosageType) {
+    addTreatmentCubit.setDosageType(dosageType?.name);
     setState(() {
       selectedDosageType = dosageType;
     });
@@ -222,7 +286,7 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
 
   @override
   void onMedicationChanged(String medication) {
-    // TODO: implement onMedicationChanged
+    addTreatmentCubit.setMedication(medication);
   }
 
   @override
@@ -232,7 +296,7 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
 
   @override
   void onMethodChanged(String method) {
-    // TODO: implement onMethodChanged
+    addTreatmentCubit.setMethod(method);
   }
 
   @override
@@ -242,7 +306,7 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
 
   @override
   void onNoteChanged(String note) {
-    // TODO: implement onNoteChanged
+    addTreatmentCubit.setNote(note);
   }
 
   @override
@@ -252,7 +316,7 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
 
   @override
   void onScheduleCountChanged(String scheduleCount) {
-    // TODO: implement onScheduleCountChanged
+    addTreatmentCubit.setScheduleCount(scheduleCount);
   }
 
   @override
@@ -262,24 +326,25 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
 
   @override
   void onScheduleTypeSelected(BreederByGenderModel? scheduleType) {
+    addTreatmentCubit.setScheduleType(scheduleType?.name);
     setState(() {
       selectedScheduleType = scheduleType;
     });
   }
 
   @override
-  void onTreatmentChanged(String treatment) {
-    // TODO: implement onTreatmentChanged
+  void onTitleChanged(String title) {
+    addTreatmentCubit.setTitle(title);
   }
 
   @override
-  void onTreatmentSubmitted(String treatment) {
+  void onTitleSubmitted(String title) {
     medicationFocusNode.requestFocus();
   }
 
   @override
   void onTypeChanged(String type) {
-    // TODO: implement onTypeChanged
+    addTreatmentCubit.setType(type);
   }
 
   @override
@@ -289,7 +354,7 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
 
   @override
   void onWithDrawalCountChanged(String withDrawalCount) {
-    // TODO: implement onWithDrawalCountChanged
+    addTreatmentCubit.setWithDrawalCount(withDrawalCount);
   }
 
   @override
@@ -299,6 +364,7 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
 
   @override
   void onWithDrawalTypeSelected(BreederByGenderModel? withDrawalType) {
+    addTreatmentCubit.setWithDrawalType(withDrawalType?.name);
     setState(() {
       selectedWithDrawalType = withDrawalType;
     });
@@ -318,7 +384,12 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
 
   @override
   void onSave() {
-    // TODO: implement onSave
+    final treatmentModel = widget.treatmentModel;
+    if (treatmentModel != null) {
+      addTreatmentCubit.updateTreatment(treatmentModel.id);
+    } else {
+      addTreatmentCubit.addTreatment();
+    }
   }
 
   @override
@@ -407,29 +478,53 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
                         ],
                       ),
                     ),
-                    Text(
-                      'ailments'.i18n,
-                      style: context.tt.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: context.cs.surfaceContainerHighest,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    MainDropDownWidget<BreederByGenderModel>(
-                      items: ailments,
-                      text: 'select_ailment'.i18n,
-                      onChanged: onAilmentSelected,
-                      selectedValue: selectedAilment,
-                    ),
-                    const SizedBox(
-                      height: 25,
+                    BlocBuilder<HealthCubit, GeneralHealthState>(
+                      builder: (context, state) {
+                        if (state is AilmentsLoading) {
+                          return  Center(
+                            child: LoadingIndicator(
+                              color: context.cs.primary,
+                            ),
+                          );
+                        } else if (state is AilmentsSuccess) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'ailments'.i18n,
+                                style: context.tt.bodyLarge?.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                  color: context.cs.surfaceContainerHighest,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              MainDropDownWidget<AilmentModel>(
+                                items: state.ailments,
+                                text: 'select_ailment'.i18n,
+                                onChanged: onAilmentSelected,
+                                selectedValue: selectedAilment,
+                              ),
+                              const SizedBox(
+                                height: 25,
+                              ),
+                            ],
+                          );
+                        } else if (state is AilmentsEmpty) {
+                          return MainErrorWidget(error: state.message);
+                        } else if (state is AilmentsFail) {
+                          return MainErrorWidget(error: state.message);
+                        } else {
+                          return const SizedBox.shrink();
+                        }
+                      },
                     ),
                     MainTextField(
-                      onSubmitted: onTreatmentSubmitted,
-                      onChanged: onTreatmentChanged,
-                      focusNode: treatmentFocusNode,
+                      initialValue: widget.treatmentModel?.name,
+                      onSubmitted: onTitleSubmitted,
+                      onChanged: onTitleChanged,
+                      focusNode: titleFocusNode,
                       hintText: 'treatment'.i18n,
                       labelText: 'treatment'.i18n,
                     ),
@@ -453,6 +548,7 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
                       height: 25,
                     ),
                     MainTextField(
+                      initialValue: widget.treatmentModel?.medication,
                       onSubmitted: onMedicationSubmitted,
                       onChanged: onMedicationChanged,
                       focusNode: medicationFocusNode,
@@ -463,6 +559,7 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
                       height: 25,
                     ),
                     MainTextField(
+                      initialValue: widget.treatmentModel?.method,
                       onSubmitted: onMethodSubmitted,
                       onChanged: onMethodChanged,
                       focusNode: methodFocusNode,
@@ -473,6 +570,7 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
                       height: 25,
                     ),
                     MainTextField(
+                      initialValue: widget.treatmentModel?.type,
                       onSubmitted: onTypeSubmitted,
                       onChanged: onTypeChanged,
                       focusNode: typeFocusNode,
@@ -488,6 +586,8 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
                         Expanded(
                           child: SizedBox(
                             child: MainTextField(
+                              initialValue:
+                                  widget.treatmentModel?.dosageCount.toString(),
                               onSubmitted: onDosageCountSubmitted,
                               onChanged: onDosageCountChanged,
                               focusNode: dosageCountFocusNode,
@@ -530,6 +630,8 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
                       children: [
                         Expanded(
                           child: MainTextField(
+                            initialValue:
+                                widget.treatmentModel?.dosageCount.toString(),
                             onSubmitted: onDosageCountPerSubmitted,
                             onChanged: onDosageCountPerChanged,
                             focusNode: dosageCountPerFocusNode,
@@ -571,6 +673,8 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
                       children: [
                         Expanded(
                           child: MainTextField(
+                            initialValue:
+                                widget.treatmentModel?.scheduleCount.toString(),
                             onSubmitted: onScheduleCountSubmitted,
                             onChanged: onScheduleCountChanged,
                             focusNode: scheduleCountFocusNode,
@@ -612,6 +716,8 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
                       children: [
                         Expanded(
                           child: MainTextField(
+                            initialValue: widget.treatmentModel?.withDrawalCount
+                                .toString(),
                             onSubmitted: onWithDrawalCountSubmitted,
                             onChanged: onWithDrawalCountChanged,
                             focusNode: withDrawalCountFocusNode,
@@ -637,8 +743,8 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
                               MainDropDownWidget<BreederByGenderModel>(
                                 items: withDrawalsTypes,
                                 text: 'select_with_drawal'.i18n,
-                                onChanged: onScheduleTypeSelected,
-                                selectedValue: selectedScheduleType,
+                                onChanged: onWithDrawalTypeSelected,
+                                selectedValue: selectedWithDrawalType,
                               ),
                             ],
                           ),
@@ -649,6 +755,7 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
                       height: 25,
                     ),
                     MainTextField(
+                      initialValue: widget.treatmentModel?.note,
                       onSubmitted: onNoteSubmitted,
                       onChanged: onNoteChanged,
                       focusNode: noteFocusNode,
@@ -670,9 +777,47 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
                   padding: AppConstants.paddingH16,
                   child: SizedBox(
                     width: double.maxFinite,
-                    child: MainActionButton(
-                      onTap: onSave,
-                      text: "save".i18n,
+                    child: BlocConsumer<AddTreatmentCubit,
+                        GeneralAddTreatmentState>(
+                      listener: (context, state) {
+                        if (state is AddTreatmentSuccess) {
+                          MainSnackBar.showSuccessMessageBar(
+                            context,
+                            "treatment_added".i18n,
+                          );
+                          context.router.maybePop();
+                          healthCubit.addTreatment(
+                            state.treatment,
+                          );
+                        } else if (state is UpdateTreatmentSuccess) {
+                          MainSnackBar.showSuccessMessageBar(
+                            context,
+                            "treatment_updated".i18n,
+                          );
+                          context.router.maybePop();
+                          healthCubit.updateTreatment(
+                            state.treatment,
+                          );
+                        } else if (state is AddTreatmentFail) {
+                          MainSnackBar.showErrorMessageBar(
+                            context,
+                            state.message,
+                          );
+                        }
+                      },
+                      builder: (context, state) {
+                        var onTap = onSave;
+                        Widget? child;
+                        if (state is AddTreatmentLoading) {
+                          onTap = () {};
+                          child = const LoadingIndicator();
+                        }
+                        return MainActionButton(
+                          onTap: onTap,
+                          text: "save".i18n,
+                          child: child,
+                        );
+                      },
                     ),
                   ),
                 ),
