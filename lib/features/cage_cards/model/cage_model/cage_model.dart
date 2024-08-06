@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bunny_sync/global/utils/enums/answer_types_enum.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -8,7 +9,7 @@ part 'cage_model.g.dart';
 
 @JsonSerializable()
 @immutable
-class CageModel implements BottomSheetItemModel{
+class CageModel implements BottomSheetItemModel {
   const CageModel({
     required this.id,
     required this.userId,
@@ -44,7 +45,11 @@ class CageModel implements BottomSheetItemModel{
 
   final String orientation;
 
-  final int hole;
+  @JsonKey(
+    fromJson: AnswerTypes.fromJson,
+    toJson: AnswerTypes.toJson,
+  )
+  final AnswerTypes hole;
 
   final String settings;
 

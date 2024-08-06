@@ -204,5 +204,18 @@
   "customer_delete_fail" : "Failed to delete customer",
   "cage_cards_empty" : "There are no cage cards",
   "are_you_sure_to_delete_cage" : "Are you sure to delete cage?",
-  "cages_options" : "Cages Options"
+  "cages_options" : "Cages Options",
+  "create_templet" : "Create Templet",
+  "orientation" : "Orientation",
+  "select_orientation" : "Select Orientation",
+  "vertical" : "Vertical",
+  "horizontal" : "Horizontal",
+  "cage_card_field_placement" : "Cage Card Field Placement",
+  "type_field" : "type field you would like to show in each spot below. Spots not chosen will be left blank",
+  "blank" : "Blank",
+  "no" : "No",
+  "yes" : "Yes",
+  "hole" : "Hole",
+  "cage_added" : "Cage is added successfully",
+  "cage_updated" : "Cage is updated successfully"
 }

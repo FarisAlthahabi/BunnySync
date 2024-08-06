@@ -3,6 +3,7 @@ import 'package:bunny_sync/features/cage_cards/cubit/cage_cards_cubit.dart';
 import 'package:bunny_sync/features/cage_cards/model/cage_model/cage_model.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
+import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
@@ -60,7 +61,7 @@ class _CageCardsPageState extends State<CageCardsPage>
 
   @override
   void onCageTap(CageModel cageModel) {
-     mainShowBottomSheet(
+    mainShowBottomSheet(
       context,
       widget: BottomSheetWidget(
         title: 'cages_options'.i18n,
@@ -70,19 +71,18 @@ class _CageCardsPageState extends State<CageCardsPage>
       ),
     );
   }
-  
+
   @override
   void onEditCageTap(CageModel cageModel) {
     Navigator.pop(context);
-    //TODO ......................
-    // context.router.push(
-    //   AddCageRoute(
-    //     cageCardsCubit: cageCardsCubit,
-    //     cageModel: cageModel,
-    //   ),
-    // );
+    context.router.push(
+      AddCageRoute(
+        cageCardsCubit: cageCardsCubit,
+        cageModel: cageModel,
+      ),
+    );
   }
-  
+
   @override
   void onDeleteCageTap(CageModel cageModel) {
     context.router.popForced();
@@ -108,7 +108,9 @@ class _CageCardsPageState extends State<CageCardsPage>
 
   @override
   void onAddTap() {
-    // TODO: implement onAddTap
+    context.router.push(
+      AddCageRoute(cageCardsCubit: cageCardsCubit),
+    );
   }
 
   @override
