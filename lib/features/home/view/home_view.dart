@@ -1,8 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/authentication/bloc/authentication_bloc.dart';
+import 'package:bunny_sync/features/home/cubit/home_cubit.dart';
 import 'package:bunny_sync/features/home/view/widgets/home_tile.dart';
 import 'package:bunny_sync/features/sign_in/cubit/sign_in_cubit.dart';
 import 'package:bunny_sync/global/di/di.dart';
+import 'package:bunny_sync/global/extensions/currency_display_x.dart';
 import 'package:bunny_sync/global/extensions/date_time_x.dart';
 import 'package:bunny_sync/global/gen/assets.gen.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
@@ -13,10 +15,12 @@ import 'package:bunny_sync/global/widgets/animation/indexed_grid_scale_fade_anim
 import 'package:bunny_sync/global/widgets/bunny_logo.dart';
 import 'package:bunny_sync/global/widgets/loading_indicator.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
+import 'package:bunny_sync/global/widgets/main_error_widget.dart';
 import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 abstract class HomeViewCallBacks {
   void onLogOutTap();
@@ -28,6 +32,8 @@ abstract class HomeViewCallBacks {
   void onKitsTap();
 
   void onFinancesTap();
+
+  void onTryAgainTap();
 }
 
 @RoutePage()
@@ -36,8 +42,15 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => get<SignInCubit>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => get<SignInCubit>(),
+        ),
+        BlocProvider(
+          create: (context) => get<HomeCubit>(),
+        ),
+      ],
       child: const HomePage(),
     );
   }
@@ -54,6 +67,14 @@ class _HomePageState extends State<HomePage> implements HomeViewCallBacks {
   late final AuthenticationBloc authenticationBloc = context.read();
 
   late final SignInCubit signInCubit = context.read();
+
+  late final HomeCubit homeCubit = context.read();
+
+  @override
+  void initState() {
+    homeCubit.getDashboardInfo();
+    super.initState();
+  }
 
   @override
   void onLogOutTap() {
@@ -78,6 +99,11 @@ class _HomePageState extends State<HomePage> implements HomeViewCallBacks {
   @override
   void onKitsTap() {
     context.router.push(const LedgerRoute());
+  }
+
+  @override
+  void onTryAgainTap() {
+    homeCubit.getDashboardInfo();
   }
 
   @override
@@ -136,61 +162,103 @@ class _HomePageState extends State<HomePage> implements HomeViewCallBacks {
                 'dashboard'.i18n,
                 style: Theme.of(context).textTheme.displayLarge,
               ),
-              AnimationLimiter(
-                child: GridView.count(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 16,
-                  mainAxisSpacing: 16,
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.only(top: 16),
-                  children: [
-                    IndexedGridScaleFadeAnimatedTile(
-                      onTap: onBreedersTap,
-                      index: 0,
-                      columnCount: 2,
-                      child: HomeTile(
-                        icon: Assets.icons.gendersThin.path,
-                        title: 'active_breeders'.i18n,
-                        subtitle: 'total'.i18n,
-                        secondSubtitle: '11 ${'does'.i18n} 5 ${'bucks'.i18n}',
+              BlocBuilder<HomeCubit, GeneralHomeState>(
+                builder: (context, state) {
+                  if (state is HomeFetch) {
+                    final Duration duration = state is HomeLoading
+                        ? Duration.zero
+                        : const Duration(seconds: 1);
+                    final item = state.dashboardModel;
+                    final male = item.activeBreeders.maleBreedersCount;
+                    final female = item.activeBreeders.femaleBreedersCount;
+
+                    return Skeletonizer(
+                      enabled: state is HomeLoading,
+                      child: AnimationLimiter(
+                        child: GridView.count(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 16,
+                          mainAxisSpacing: 16,
+                          shrinkWrap: true,
+                          padding: const EdgeInsets.only(top: 16),
+                          children: [
+                            Skeleton.shade(
+                              child: IndexedGridScaleFadeAnimatedTile(
+                                duration: duration,
+                                onTap: onBreedersTap,
+                                index: 0,
+                                columnCount: 2,
+                                child: HomeTile(
+                                  icon: Assets.icons.gendersThin.path,
+                                  title: 'active_breeders'.i18n,
+                                  subtitle:
+                                      '${item.activeBreeders.allBreedersCount} ${'total'.i18n}',
+                                  secondSubtitle:
+                                      '$male ${'does'.i18n} $female ${'bucks'.i18n}',
+                                ),
+                              ),
+                            ),
+                            Skeleton.shade(
+                              child: IndexedGridScaleFadeAnimatedTile(
+                                duration: duration,
+                                onTap: onLittersTap,
+                                index: 1,
+                                columnCount: 2,
+                                child: HomeTile(
+                                  icon: Assets.icons.apps.path,
+                                  title: 'active_litters'.i18n,
+                                  subtitle:
+                                      '${item.activeLitters.length} ${'total'.i18n}',
+                                  secondSubtitle:
+                                      '${item.kitsToDate} ${'kits'.i18n}',
+                                ),
+                              ),
+                            ),
+                            Skeleton.shade(
+                              child: IndexedGridScaleFadeAnimatedTile(
+                                duration: duration,
+                                onTap: onKitsTap,
+                                index: 2,
+                                columnCount: 2,
+                                child: HomeTile(
+                                  icon: Assets.icons.cake.path,
+                                  title:
+                                      '${item.diedKits.soldKitsCount} ${'kits_born'.i18n}',
+                                  subtitle: '${item.soldCount} ${'sold'.i18n}',
+                                  secondSubtitle:
+                                      '${item.butcherCount} ${'butchered'.i18n} ${item.diedCount} ${'died'.i18n}',
+                                ),
+                              ),
+                            ),
+                            Skeleton.shade(
+                              child: IndexedGridScaleFadeAnimatedTile(
+                                duration: duration,
+                                onTap: onFinancesTap,
+                                index: 3,
+                                columnCount: 2,
+                                child: HomeTile(
+                                  icon: Assets.icons.roundDollar.path,
+                                  title: 'monthly_finances'.i18n,
+                                  subtitle:
+                                      '${item.income.showAsCurrency(isSymbolAtStart: false)} ${'income'.i18n}',
+                                  secondSubtitle:
+                                      '${item.expense.showAsCurrency(isSymbolAtStart: false)} ${'expenses'.i18n}',
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    IndexedGridScaleFadeAnimatedTile(
-                      onTap: onLittersTap,
-                      index: 1,
-                      columnCount: 2,
-                      child: HomeTile(
-                        icon: Assets.icons.apps.path,
-                        title: 'active_litters'.i18n,
-                        subtitle: 'total'.i18n,
-                        secondSubtitle: '12 ${'kits'.i18n}',
-                      ),
-                    ),
-                    IndexedGridScaleFadeAnimatedTile(
-                      onTap: onKitsTap,
-                      index: 2,
-                      columnCount: 2,
-                      child: HomeTile(
-                        icon: Assets.icons.cake.path,
-                        title: 'kits_born'.i18n,
-                        subtitle: 'sold'.i18n,
-                        secondSubtitle:
-                            '11 ${'butchered'.i18n} 5 ${'died'.i18n}',
-                      ),
-                    ),
-                    IndexedGridScaleFadeAnimatedTile(
-                      onTap: onFinancesTap,
-                      index: 3,
-                      columnCount: 2,
-                      child: HomeTile(
-                        icon: Assets.icons.roundDollar.path,
-                        title: 'monthly_finances'.i18n,
-                        subtitle: 'income'.i18n,
-                        secondSubtitle: '90\$ ${'expenses'.i18n}',
-                      ),
-                    ),
-                  ],
-                ),
+                    );
+                  } else if (state is HomeFail) {
+                    return MainErrorWidget(
+                      error: state.message,
+                      onTap: onTryAgainTap,
+                    );
+                  } else {
+                    return const SizedBox.shrink();
+                  }
+                },
               ),
             ],
           ),

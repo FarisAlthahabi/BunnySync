@@ -49,7 +49,7 @@ class HomeTile extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            '156 $subtitle',
+            subtitle,
             style: context.tt.headlineMedium?.copyWith(
               color: context.cs.surface,
             ),
