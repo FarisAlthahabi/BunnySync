@@ -11,7 +11,7 @@ part 'ailment_model.g.dart';
 
 @JsonSerializable()
 @immutable
-class AilmentModel implements BottomSheetItemModel , DropDownItemModel{
+class AilmentModel implements BottomSheetItemModel, DropDownItemModel {
   const AilmentModel({
     required this.id,
     required this.userId,

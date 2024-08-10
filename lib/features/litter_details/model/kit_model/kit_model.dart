@@ -16,15 +16,15 @@ class KitModel implements DropDownItemModel {
     required this.litterId,
     required this.createdAt,
     required this.updatedAt,
-    this.code,
-    String? name,
+    required this.code,
+    this.kitName,
     this.prefix,
     this.color,
     this.breed,
     this.cage,
     this.gender,
     this.note,
-  }) : _name = name;
+  });
 
   factory KitModel.fromJsonStr(String str) =>
       KitModel.fromJson(jsonDecode(str) as Map<String, dynamic>);
@@ -41,11 +41,12 @@ class KitModel implements DropDownItemModel {
   @JsonKey(name: 'litter_id')
   final int litterId;
 
-  final String? _name;
+  final String code;
+
+  @JsonKey(name: 'name')
+  final String? kitName;
 
   final String? prefix;
-
-  final String? code;
 
   final String? color;
 
@@ -68,7 +69,5 @@ class KitModel implements DropDownItemModel {
   Map<String, dynamic> toJson() => _$KitModelToJson(this);
 
   @override
-  String get name {
-    return _name ?? '';
-  }
+  String get name => code;
 }

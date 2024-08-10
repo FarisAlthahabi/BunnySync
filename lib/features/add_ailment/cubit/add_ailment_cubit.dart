@@ -2,12 +2,19 @@ import 'package:bloc/bloc.dart';
 import 'package:bunny_sync/features/add_ailment/model/ailment_post_model/ailment_post_model.dart';
 import 'package:bunny_sync/features/add_ailment/repo/add_ailment_repo.dart';
 import 'package:bunny_sync/features/health/model/ailment_model/ailment_model.dart';
+import 'package:bunny_sync/global/localization/localization.dart';
+import 'package:bunny_sync/global/utils/enums/rabbit_types.dart';
+import 'package:bunny_sync/global/utils/json_utils.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
 part 'states/add_ailment_state.dart';
 
 part 'states/general_add_ailment_state.dart';
+
+part 'states/show_rabbit_type_state.dart';
+
+part 'states/show_select_kit_state.dart';
 
 @injectable
 class AddAilmentCubit extends Cubit<GeneralAddAilmentState> {
@@ -17,20 +24,46 @@ class AddAilmentCubit extends Cubit<GeneralAddAilmentState> {
 
   AilmentPostModel _ailmentPostModel = const AilmentPostModel();
 
-  void setType(String? type) {
+  void setType(RabbitTypes? type) {
+    if (type == null) {
+      emit(AddAilmentFail('rabbit_type_null'.i18n));
+      return;
+    }
+
+    String result;
+
+    ///on represent of create ailment for kits
+    if (type.isBreeder == true) {
+      result = 'off';
+    } else {
+      result = 'on';
+    }
+
     _ailmentPostModel = _ailmentPostModel.copyWith(
-      type: () => type,
+      type: () => result,
     );
+
+    emit(ShowRabbitTypeState(type));
+
+    if (type.isBreeder == true) {
+      setKitId(null);
+    }
   }
 
   void setBreederId(int? breederId) {
     _ailmentPostModel = _ailmentPostModel.copyWith(
       breederId: () => breederId,
+      kitId: () => null,
     );
+  }
+
+  void setLitter(int litterId) {
+    emit(ShowSelectKitState(litterId, showSelectKit: true));
   }
 
   void setKitId(int? kitId) {
     _ailmentPostModel = _ailmentPostModel.copyWith(
+      breederId: () => null,
       kitId: () => kitId,
     );
   }

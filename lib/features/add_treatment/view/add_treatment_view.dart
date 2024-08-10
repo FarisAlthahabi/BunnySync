@@ -481,7 +481,7 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
                     BlocBuilder<HealthCubit, GeneralHealthState>(
                       builder: (context, state) {
                         if (state is AilmentsLoading) {
-                          return  Center(
+                          return Center(
                             child: LoadingIndicator(
                               color: context.cs.primary,
                             ),
