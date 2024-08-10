@@ -4,7 +4,6 @@ import 'package:bunny_sync/features/add_ailment/repo/add_ailment_repo.dart';
 import 'package:bunny_sync/features/health/model/ailment_model/ailment_model.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/utils/enums/rabbit_types.dart';
-import 'package:bunny_sync/global/utils/json_utils.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
