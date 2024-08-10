@@ -20,9 +20,9 @@ AilmentPostModel _$AilmentPostModelFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$AilmentPostModelToJson(AilmentPostModel instance) =>
     <String, dynamic>{
-      'type': instance.type,
       'breeder': instance.breederId,
       'kits': instance.kitId,
+      'type': instance.type,
       'title': instance.title,
       'symptoms': instance.symptoms,
       'start_date': const DateParser().toJson(instance.startDate),

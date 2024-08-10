@@ -1,8 +1,8 @@
 part of '../add_ailment_cubit.dart';
 
 class ShowSelectKitState extends GeneralAddAilmentState {
-  ShowSelectKitState(this.litterId, {required this.showSelectKit});
+  ShowSelectKitState({required this.showSelectKit, this.litterId});
 
-  final int litterId;
+  final int? litterId;
   final bool showSelectKit;
 }

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:bunny_sync/global/utils/enums/gender_types_enum.dart';
 import 'package:bunny_sync/global/widgets/main_drop_down_widget.dart';
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
@@ -9,7 +10,7 @@ part 'kit_model.g.dart';
 
 @JsonSerializable()
 @immutable
-class KitModel implements DropDownItemModel {
+class KitModel extends Equatable implements DropDownItemModel {
   const KitModel({
     required this.id,
     required this.userId,
@@ -70,4 +71,7 @@ class KitModel implements DropDownItemModel {
 
   @override
   String get name => code;
+
+  @override
+  List<Object?> get props => [id];
 }

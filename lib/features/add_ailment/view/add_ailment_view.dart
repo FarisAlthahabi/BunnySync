@@ -11,6 +11,7 @@ import 'package:bunny_sync/features/litters/cubit/litters_cubit.dart';
 import 'package:bunny_sync/features/litters/models/litter_entry_model/litter_entry_model.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/translations.i18n.dart';
+import 'package:bunny_sync/global/mixins/mixins.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/utils/enums/rabbit_types.dart';
@@ -105,6 +106,7 @@ class AddAilmentPage extends StatefulWidget {
 }
 
 class _AddAilmentPageState extends State<AddAilmentPage>
+    with PostFrameMixin
     implements AddAilmentViewCallBacks {
   late final HealthCubit healthCubit = context.read();
 
@@ -121,31 +123,6 @@ class _AddAilmentPageState extends State<AddAilmentPage>
   final symptomsFocusNode = FocusNode();
 
   final noteFocusNode = FocusNode();
-
-  @override
-  void initState() {
-    final ailmentModel = widget.ailmentModel;
-    if (ailmentModel != null) {
-      if (ailmentModel.breederId != null) {
-        addAilmentCubit.setType(RabbitTypes.breeder);
-        addAilmentCubit.setBreederId(ailmentModel.breederId);
-      } else if (ailmentModel.kitId != null) {
-        addAilmentCubit.setType(RabbitTypes.litter);
-        addAilmentCubit.setKitId(ailmentModel.kitId);
-      }
-
-      addAilmentCubit.setStatus(ailmentModel.status);
-      addAilmentCubit.setTitle(ailmentModel.name);
-      addAilmentCubit.setSymptoms(ailmentModel.symptoms);
-      addAilmentCubit.setNote(ailmentModel.note);
-      addAilmentCubit.setStartDate(ailmentModel.startDate);
-    }
-
-    breedersCubit.getBreeders();
-    littersCubit.getLitters();
-
-    super.initState();
-  }
 
   @override
   void dispose() {
@@ -175,8 +152,14 @@ class _AddAilmentPageState extends State<AddAilmentPage>
   void onLitterSelected(LitterEntryModel? litter) {
     final litterModel = litter;
     if (litterModel != null) {
-      litterDetailsCubit.getLitterDetails(litterModel.id);
-      addAilmentCubit.setLitter(litterModel.id);
+      addAilmentCubit.setLitter(
+        litterModel.id,
+        onSuccess: () {
+          litterDetailsCubit.getLitterDetails(
+            litterModel.id,
+          );
+        },
+      );
     }
   }
 
@@ -228,6 +211,29 @@ class _AddAilmentPageState extends State<AddAilmentPage>
     } else {
       addAilmentCubit.addAilment();
     }
+  }
+
+  @override
+  void onPostFrame() {
+    final ailmentModel = widget.ailmentModel;
+    if (ailmentModel != null) {
+      if (ailmentModel.breederId != null) {
+        addAilmentCubit.setType(RabbitTypes.breeder);
+        addAilmentCubit.setBreederId(ailmentModel.breederId);
+      } else if (ailmentModel.kitId != null) {
+        addAilmentCubit.setType(RabbitTypes.litter);
+        addAilmentCubit.setKitId(ailmentModel.kitId);
+      }
+
+      addAilmentCubit.setStatus(ailmentModel.status);
+      addAilmentCubit.setTitle(ailmentModel.name);
+      addAilmentCubit.setSymptoms(ailmentModel.symptoms);
+      addAilmentCubit.setNote(ailmentModel.note);
+      addAilmentCubit.setStartDate(ailmentModel.startDate);
+    }
+
+    breedersCubit.getBreeders();
+    littersCubit.getLitters();
   }
 
   @override
@@ -315,6 +321,10 @@ class _AddAilmentPageState extends State<AddAilmentPage>
                                         items: state.breedersStatusModel.all,
                                         text: 'select_breeder'.i18n,
                                         onChanged: onBreederSelected,
+                                        selectedValue:
+                                            addAilmentCubit.getSelectedBreeder(
+                                          state.breedersStatusModel.all,
+                                        ),
                                       ),
                                       const SizedBox(
                                         height: 25,
@@ -329,8 +339,27 @@ class _AddAilmentPageState extends State<AddAilmentPage>
                               },
                             );
                           } else if (state.rabbitType.isLitter) {
-                            return BlocBuilder<LittersCubit,
+                            return BlocConsumer<LittersCubit,
                                 GeneralLittersState>(
+                              listener: (context, state) {
+                                if (state is LittersSuccess) {
+                                  final selectedLitter =
+                                      addAilmentCubit.getSelectedLitter(
+                                    state.littersStatusModel.all,
+                                  );
+
+                                  if (selectedLitter != null) {
+                                    addAilmentCubit.setLitter(
+                                      selectedLitter.id,
+                                      onSuccess: () {
+                                        litterDetailsCubit.getLitterDetails(
+                                          selectedLitter.id,
+                                        );
+                                      },
+                                    );
+                                  }
+                                }
+                              },
                               builder: (context, state) {
                                 if (state is LittersSuccess) {
                                   return Column(
@@ -352,11 +381,19 @@ class _AddAilmentPageState extends State<AddAilmentPage>
                                         items: state.littersStatusModel.all,
                                         text: 'select_litter'.i18n,
                                         onChanged: onLitterSelected,
+                                        selectedValue:
+                                            addAilmentCubit.getSelectedLitter(
+                                          state.littersStatusModel.all,
+                                        ),
                                       ),
                                       const SizedBox(
                                         height: 25,
                                       ),
                                     ],
+                                  );
+                                } else if (state is LittersLoading) {
+                                  return LoadingIndicator(
+                                    color: context.cs.primary,
                                   );
                                 } else if (state is LittersFail) {
                                   return MainErrorWidget(error: state.message);
@@ -372,6 +409,8 @@ class _AddAilmentPageState extends State<AddAilmentPage>
                       },
                     ),
                     BlocBuilder<AddAilmentCubit, GeneralAddAilmentState>(
+                      buildWhen: (previous, current) =>
+                          current is ShowSelectKitState,
                       builder: (context, state) {
                         return state is ShowSelectKitState &&
                                 state.showSelectKit
@@ -402,6 +441,13 @@ class _AddAilmentPageState extends State<AddAilmentPage>
                                               .kits,
                                           text: 'select_kit'.i18n,
                                           onChanged: onKitSelected,
+                                          selectedValue:
+                                              addAilmentCubit.getSelectedKit(
+                                            innerState
+                                                .litterDetailsResponseModel
+                                                .litter
+                                                .kits,
+                                          ),
                                         ),
                                         const SizedBox(
                                           height: 25,
@@ -417,9 +463,13 @@ class _AddAilmentPageState extends State<AddAilmentPage>
                                     child = MainErrorWidget(
                                       error: innerState.message,
                                       onTap: () {
-                                        litterDetailsCubit.getLitterDetails(
-                                          state.litterId,
-                                        );
+                                        final litterId = state.litterId;
+
+                                        if (litterId != null) {
+                                          litterDetailsCubit.getLitterDetails(
+                                            litterId,
+                                          );
+                                        }
                                       },
                                     );
                                   } else {

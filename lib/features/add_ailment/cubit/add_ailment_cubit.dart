@@ -2,9 +2,14 @@ import 'package:bloc/bloc.dart';
 import 'package:bunny_sync/features/add_ailment/model/ailment_post_model/ailment_post_model.dart';
 import 'package:bunny_sync/features/add_ailment/model/ailment_types/ailment_status_types.dart';
 import 'package:bunny_sync/features/add_ailment/repo/add_ailment_repo.dart';
+import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
 import 'package:bunny_sync/features/health/model/ailment_model/ailment_model.dart';
+import 'package:bunny_sync/features/litter_details/model/kit_model/kit_model.dart';
+import 'package:bunny_sync/features/litters/models/litter_entry_model/litter_entry_model.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/utils/enums/rabbit_types.dart';
+import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
@@ -49,6 +54,7 @@ class AddAilmentCubit extends Cubit<GeneralAddAilmentState> {
 
     if (type.isBreeder == true) {
       setKitId(null);
+      emit(ShowSelectKitState(showSelectKit: false));
     }
   }
 
@@ -59,14 +65,34 @@ class AddAilmentCubit extends Cubit<GeneralAddAilmentState> {
     );
   }
 
-  void setLitter(int litterId) {
-    emit(ShowSelectKitState(litterId, showSelectKit: true));
+  BreederEntryModel? getSelectedBreeder(List<BreederEntryModel> breeders) {
+    return breeders.firstWhereOrNull(
+      (element) => element.id == _ailmentPostModel.breederId,
+    );
+  }
+
+  void setLitter(int litterId, {VoidCallback? onSuccess}) {
+    emit(ShowSelectKitState(showSelectKit: true, litterId: litterId));
+
+    onSuccess?.call();
+  }
+
+  LitterEntryModel? getSelectedLitter(List<LitterEntryModel> litters) {
+    return litters.firstWhereOrNull(
+      (element) => element.allKits.any((e) => e.id == _ailmentPostModel.kitId),
+    );
   }
 
   void setKitId(int? kitId) {
     _ailmentPostModel = _ailmentPostModel.copyWith(
       breederId: () => null,
       kitId: () => kitId,
+    );
+  }
+
+  KitModel? getSelectedKit(List<KitModel> kits) {
+    return kits.firstWhereOrNull(
+      (element) => element.id == _ailmentPostModel.kitId,
     );
   }
 

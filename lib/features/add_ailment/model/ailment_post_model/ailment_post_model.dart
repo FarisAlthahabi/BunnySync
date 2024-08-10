@@ -13,16 +13,14 @@ part 'ailment_post_model.g.dart';
 class AilmentPostModel {
   const AilmentPostModel({
     String? type,
-    int? breederId,
-    int? kitId,
+    this.breederId,
+    this.kitId,
     String? title,
     String? symptoms,
     DateTime? startDate,
     AilmentStatusTypes? status,
     String? note,
   })  : _type = type,
-        _breederId = breederId,
-        _kitId = kitId,
         _title = title,
         _symptoms = symptoms,
         _startDate = startDate,
@@ -37,9 +35,11 @@ class AilmentPostModel {
 
   final String? _type;
 
-  final int? _breederId;
+  @JsonKey(name: 'breeder')
+  final int? breederId;
 
-  final int? _kitId;
+  @JsonKey(name: 'kits')
+  final int? kitId;
 
   final String? _title;
 
@@ -63,8 +63,8 @@ class AilmentPostModel {
   }) {
     return AilmentPostModel(
       type: type != null ? type() : _type,
-      breederId: breederId != null ? breederId() : _breederId,
-      kitId: kitId != null ? kitId() : _kitId,
+      breederId: breederId != null ? breederId() : this.breederId,
+      kitId: kitId != null ? kitId() : this.kitId,
       title: title != null ? title() : _title,
       symptoms: symptoms != null ? symptoms() : _symptoms,
       startDate: startDate != null ? startDate() : _startDate,
@@ -79,22 +79,6 @@ class AilmentPostModel {
 
   String get type {
     return _type ?? (throw Exception("type can't be null"));
-  }
-
-  @JsonKey(name: 'breeder')
-  int? get breederId {
-    if (_type == 'off') {
-      return _breederId ?? (throw Exception("breeder can't be null"));
-    }
-    return null;
-  }
-
-  @JsonKey(name: 'kits')
-  int? get kitId {
-    if (_type == 'on') {
-      return _kitId ?? (throw Exception("kit can't be null"));
-    }
-    return null;
   }
 
   String get title {
