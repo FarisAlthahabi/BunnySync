@@ -26,7 +26,6 @@ Map<String, dynamic> _$KitModelToJson(KitModel instance) => <String, dynamic>{
       'id': instance.id,
       'user_id': instance.userId,
       'litter_id': instance.litterId,
-      'name': instance.name,
       'prefix': instance.prefix,
       'code': instance.code,
       'color': instance.color,
@@ -36,6 +35,7 @@ Map<String, dynamic> _$KitModelToJson(KitModel instance) => <String, dynamic>{
       'note': instance.note,
       'created_at': instance.createdAt.toIso8601String(),
       'updated_at': instance.updatedAt.toIso8601String(),
+      'name': instance.name,
     };
 
 const _$GenderTypesEnumMap = {
