@@ -136,7 +136,7 @@ class _AddTaskPageState extends State<AddTaskPage>
       selectedType = type;
       if (type?.name != 'General') {
         showSelectBreeder = true;
-      }else{
+      } else {
         showSelectBreeder = false;
       }
     });
