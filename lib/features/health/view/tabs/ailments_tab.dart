@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/health/cubit/health_cubit.dart';
 import 'package:bunny_sync/features/health/model/ailment_model/ailment_model.dart';
+import 'package:bunny_sync/global/extensions/date_time_x.dart';
 import 'package:bunny_sync/global/localization/translations.i18n.dart';
 import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
@@ -156,29 +157,24 @@ class _AilmentsTabState extends State<AilmentsTab>
                             model: item,
                             leading: Skeleton.shade(
                               child: BorderedTextualWidget(
-                                text: item.id.toString(),
+                                text: (index + 1).toString(),
                               ),
                             ),
                             tag: item.rabbitName,
-                            createdAt: item.startDate.toString(),
+                            createdAt: item.startDate.formatMMMMMDoYYYY,
                             title: Text(
                               strutStyle: const StrutStyle(height: 1.6),
                               item.name,
-                              style: context.tt.titleSmall?.copyWith(
-                                fontWeight: FontWeight.w400,
+                              style: context.tt.titleMedium?.copyWith(
+                                fontWeight: FontWeight.w700,
                               ),
                             ),
                             type: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(
-                                  Icons.favorite_outline_outlined,
-                                  color: context.cs.onSurface,
-                                ),
-                                const SizedBox(width: 5),
                                 Text(
                                   item.symptoms,
-                                  style: context.tt.labelSmall
+                                  style: context.tt.labelMedium
                                       ?.copyWith(color: context.cs.tertiary),
                                 ),
                               ],
