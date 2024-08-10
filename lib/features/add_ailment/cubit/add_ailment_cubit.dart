@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:bunny_sync/features/add_ailment/model/ailment_post_model/ailment_post_model.dart';
+import 'package:bunny_sync/features/add_ailment/model/ailment_types/ailment_status_types.dart';
 import 'package:bunny_sync/features/add_ailment/repo/add_ailment_repo.dart';
 import 'package:bunny_sync/features/health/model/ailment_model/ailment_model.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
@@ -10,6 +11,8 @@ import 'package:meta/meta.dart';
 part 'states/add_ailment_state.dart';
 
 part 'states/general_add_ailment_state.dart';
+
+part 'states/set_selected_status_state.dart';
 
 part 'states/show_rabbit_type_state.dart';
 
@@ -85,10 +88,12 @@ class AddAilmentCubit extends Cubit<GeneralAddAilmentState> {
     );
   }
 
-  void setStatus(String? status) {
+  void setStatus(AilmentStatusTypes? status) {
     _ailmentPostModel = _ailmentPostModel.copyWith(
       status: () => status,
     );
+
+    emit(SetSelectedStatusState(status));
   }
 
   void setNote(String? note) {

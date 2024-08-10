@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bunny_sync/features/add_ailment/model/ailment_types/ailment_status_types.dart';
 import 'package:bunny_sync/features/health/model/treatment_model/treatment_model.dart';
 import 'package:bunny_sync/global/utils/json_converters/date_parser.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
@@ -59,7 +60,8 @@ class AilmentModel implements BottomSheetItemModel, DropDownItemModel {
 
   final String note;
 
-  final String status;
+  @JsonKey(fromJson: AilmentStatusTypes.fromJson)
+  final AilmentStatusTypes status;
 
   @JsonKey(name: 'created_at')
   final DateTime createdAt;

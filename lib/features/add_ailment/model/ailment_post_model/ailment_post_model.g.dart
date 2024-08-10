@@ -14,7 +14,7 @@ AilmentPostModel _$AilmentPostModelFromJson(Map<String, dynamic> json) =>
       title: json['title'] as String?,
       symptoms: json['symptoms'] as String?,
       startDate: const DateParser().fromJson(json['start_date'] as String?),
-      status: json['status'] as String?,
+      status: $enumDecodeNullable(_$AilmentStatusTypesEnumMap, json['status']),
       note: json['note'] as String?,
     );
 
@@ -26,6 +26,12 @@ Map<String, dynamic> _$AilmentPostModelToJson(AilmentPostModel instance) =>
       'title': instance.title,
       'symptoms': instance.symptoms,
       'start_date': const DateParser().toJson(instance.startDate),
-      'status': instance.status,
+      'status': _$AilmentStatusTypesEnumMap[instance.status]!,
       'note': instance.note,
     };
+
+const _$AilmentStatusTypesEnumMap = {
+  AilmentStatusTypes.active: 'active',
+  AilmentStatusTypes.suspended: 'suspended',
+  AilmentStatusTypes.cured: 'cured',
+};

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bunny_sync/features/add_ailment/model/ailment_types/ailment_status_types.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/utils/json_converters/date_parser.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -17,7 +18,7 @@ class AilmentPostModel {
     String? title,
     String? symptoms,
     DateTime? startDate,
-    String? status,
+    AilmentStatusTypes? status,
     String? note,
   })  : _type = type,
         _breederId = breederId,
@@ -46,7 +47,7 @@ class AilmentPostModel {
 
   final DateTime? _startDate;
 
-  final String? _status;
+  final AilmentStatusTypes? _status;
 
   final String? _note;
 
@@ -57,7 +58,7 @@ class AilmentPostModel {
     String? Function()? title,
     String? Function()? symptoms,
     DateTime? Function()? startDate,
-    String? Function()? status,
+    AilmentStatusTypes? Function()? status,
     String? Function()? note,
   }) {
     return AilmentPostModel(
@@ -122,8 +123,8 @@ class AilmentPostModel {
     }
   }
 
-  String get status {
-    if (_status == null || _status.isEmpty) {
+  AilmentStatusTypes get status {
+    if (_status == null) {
       throw Exception("Status can't be empty");
     } else {
       return _status;

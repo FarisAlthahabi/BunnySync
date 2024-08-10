@@ -197,6 +197,7 @@
   "ailments": "Ailments",
   "treatments": "Treatments",
   "create_ailment": "Create Ailment",
+  "update_ailment": "Update Ailment",
   "select_kit": "Select kit",
   "symptoms": "Symptoms",
   "suspended": "Suspended",

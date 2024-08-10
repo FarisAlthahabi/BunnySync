@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/add_ailment/cubit/add_ailment_cubit.dart';
-import 'package:bunny_sync/features/add_ailment/model/ailment_types/ailment_types.dart';
+import 'package:bunny_sync/features/add_ailment/model/ailment_types/ailment_status_types.dart';
 import 'package:bunny_sync/features/breeders/cubit/breeders_cubit.dart';
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
 import 'package:bunny_sync/features/health/cubit/health_cubit.dart';
@@ -45,7 +45,7 @@ abstract class AddAilmentViewCallBacks {
 
   void onDateSelected(DateTime startDate, List<int> numbers);
 
-  void onStatusSelected(AilmentTypes? status);
+  void onStatusSelected(AilmentStatusTypes? status);
 
   void onNoteChanged(String note);
 
@@ -191,8 +191,8 @@ class _AddAilmentPageState extends State<AddAilmentPage>
   }
 
   @override
-  void onStatusSelected(AilmentTypes? status) {
-    addAilmentCubit.setStatus(status?.name);
+  void onStatusSelected(AilmentStatusTypes? status) {
+    addAilmentCubit.setStatus(status);
   }
 
   @override
@@ -235,7 +235,9 @@ class _AddAilmentPageState extends State<AddAilmentPage>
     return Scaffold(
       appBar: MainAppBar(
         title: Text(
-          'create_ailment'.i18n,
+          widget.ailmentModel == null
+              ? 'create_ailment'.i18n
+              : 'update_ailment'.i18n,
         ),
         centerTitle: true,
       ),
@@ -481,10 +483,19 @@ class _AddAilmentPageState extends State<AddAilmentPage>
                     const SizedBox(
                       height: 8,
                     ),
-                    MainDropDownWidget<AilmentTypes>(
-                      items: AilmentTypes.values,
-                      text: 'select_status'.i18n,
-                      onChanged: onStatusSelected,
+                    BlocBuilder<AddAilmentCubit, GeneralAddAilmentState>(
+                      buildWhen: (previous, current) =>
+                          current is SetSelectedStatusState,
+                      builder: (context, state) {
+                        return MainDropDownWidget<AilmentStatusTypes>(
+                          items: AilmentStatusTypes.values,
+                          text: 'select_status'.i18n,
+                          onChanged: onStatusSelected,
+                          selectedValue: state is SetSelectedStatusState
+                              ? state.status
+                              : null,
+                        );
+                      },
                     ),
                     const SizedBox(
                       height: 25,

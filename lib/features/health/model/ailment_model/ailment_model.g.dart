@@ -13,7 +13,7 @@ AilmentModel _$AilmentModelFromJson(Map<String, dynamic> json) => AilmentModel(
       symptoms: json['symptoms'] as String,
       startDate: const DateParser().fromJson(json['start_date'] as String?),
       note: json['note'] as String,
-      status: json['status'] as String,
+      status: AilmentStatusTypes.fromJson(json['status'] as String),
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
       treatments: (json['treatments'] as List<dynamic>?)
@@ -35,10 +35,16 @@ Map<String, dynamic> _$AilmentModelToJson(AilmentModel instance) =>
       'symptoms': instance.symptoms,
       'start_date': const DateParser().toJson(instance.startDate),
       'note': instance.note,
-      'status': instance.status,
+      'status': _$AilmentStatusTypesEnumMap[instance.status]!,
       'created_at': instance.createdAt.toIso8601String(),
       'updated_at': instance.updatedAt.toIso8601String(),
       'rabbit': instance.rabbitName,
       'treatments': instance.treatments,
       'DT_RowIndex': instance.dtRowIndex,
     };
+
+const _$AilmentStatusTypesEnumMap = {
+  AilmentStatusTypes.active: 'active',
+  AilmentStatusTypes.suspended: 'suspended',
+  AilmentStatusTypes.cured: 'cured',
+};
