@@ -1,13 +1,13 @@
-
 import 'dart:convert';
 
+import 'package:bunny_sync/global/utils/json_converters/limit_bool_converter.dart';
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart';
 
 part 'modules_model.g.dart';
 
-@immutable
 @JsonSerializable()
+@immutable
 class ModulesModel {
   const ModulesModel({
     required this.limit,
@@ -32,7 +32,8 @@ class ModulesModel {
   factory ModulesModel.fromJson(Map<String, dynamic> json) =>
       _$ModulesModelFromJson(json);
 
-  final String limit;
+  @LimitBoolConverter()
+  final bool limit;
 
   final bool health;
 
@@ -44,22 +45,22 @@ class ModulesModel {
 
   final bool finance;
 
-  @JsonKey(name: 'qr_code')
+  @JsonKey(name:'qr_code')
   final bool qrCode;
 
   final bool pedigree;
 
   final bool schedule;
 
-  @JsonKey(name: 'cage_card')
+  @JsonKey(name:'cage_card')
   final bool cageCard;
 
   final bool attachment;
 
-  @JsonKey(name: 'marketplace')
+  @JsonKey(name:'marketplace')
   final bool marketPlace;
 
-  @JsonKey(name: 'contact_list')
+  @JsonKey(name:'contact_list')
   final bool contactList;
 
   final bool notification;

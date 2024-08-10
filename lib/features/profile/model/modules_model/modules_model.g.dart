@@ -7,7 +7,7 @@ part of 'modules_model.dart';
 // **************************************************************************
 
 ModulesModel _$ModulesModelFromJson(Map<String, dynamic> json) => ModulesModel(
-      limit: json['limit'] as String,
+      limit: const LimitBoolConverter().fromJson(json['limit'] as String),
       health: json['health'] as bool,
       litter: json['litter'] as bool,
       report: json['report'] as bool,
@@ -25,7 +25,7 @@ ModulesModel _$ModulesModelFromJson(Map<String, dynamic> json) => ModulesModel(
 
 Map<String, dynamic> _$ModulesModelToJson(ModulesModel instance) =>
     <String, dynamic>{
-      'limit': instance.limit,
+      'limit': const LimitBoolConverter().toJson(instance.limit),
       'health': instance.health,
       'litter': instance.litter,
       'report': instance.report,

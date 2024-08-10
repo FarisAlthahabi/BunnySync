@@ -27,6 +27,8 @@ abstract class SettingsViewCallBacks {
   void onQueueHistoryTap();
 
   void onHealthTap();
+
+  void onPhotoTap();
 }
 
 @RoutePage()
@@ -48,6 +50,12 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage>
     implements SettingsViewCallBacks {
+
+      @override
+  void onPhotoTap() {
+    context.router.push(const ProfileRoute());
+  }
+
   @override
   void onCageCardsTap() {
     // TODO: implement onCageCardsTap
@@ -149,8 +157,11 @@ class _SettingsPageState extends State<SettingsPage>
           ),
         ),
         actions: [
-          CircleAvatar(
-            backgroundColor: context.cs.tertiaryFixed,
+          InkWell(
+            onTap: onPhotoTap,
+            child: CircleAvatar(
+              backgroundColor: context.cs.tertiaryFixed,
+            ),
           ),
         ],
       ),

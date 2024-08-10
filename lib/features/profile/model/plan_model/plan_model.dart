@@ -1,25 +1,24 @@
-
 import 'dart:convert';
 
+import 'package:bunny_sync/features/profile/model/options_model/options_model.dart';
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart';
 
 part 'plan_model.g.dart';
 
-@immutable
 @JsonSerializable()
+@immutable
 class PlanModel {
   const PlanModel({
     required this.id,
     required this.name,
     required this.monthlyId,
     required this.yearlyId,
-    required this.shortDescription,
+    required this.description,
     required this.features,
     required this.options,
     required this.archived,
-    this.createdAt,
-    this.updatedAt,
+    this.chooseDate,
   });
 
   factory PlanModel.fromJsonStr(String str) =>
@@ -39,21 +38,19 @@ class PlanModel {
   final String yearlyId;
 
   @JsonKey(name: 'short_description')
-  final String shortDescription;
+  final String description;
 
-  final String features;
+  final List<String> features;
 
-  final String options;
+  final OptionsModel options;
 
   final int archived;
 
   @JsonKey(name: 'created_at')
-  final DateTime? createdAt;
+  final DateTime? chooseDate;
 
-  @JsonKey(name: 'updated_at')
-  final DateTime? updatedAt;
-
-  String toJsonStr() => jsonEncode(toJson());
+   String toJsonStr() => jsonEncode(toJson());
 
   Map<String, dynamic> toJson() => _$PlanModelToJson(this);
+
 }

@@ -1,27 +1,24 @@
 import 'dart:convert';
 
-import 'package:bunny_sync/features/breeder_details/models/breeder_details_response_model/plan_model/plan_model.dart';
-import 'package:bunny_sync/features/breeder_details/models/breeder_details_response_model/user_role_model.dart/user_role_model.dart';
+import 'package:bunny_sync/features/profile/model/plan_model/plan_model.dart';
+import 'package:bunny_sync/features/profile/model/subscription_model/subscription_model.dart';
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart';
 
 part 'user_model.g.dart';
 
-@immutable
 @JsonSerializable()
+@immutable
 class UserModel {
   const UserModel({
     required this.id,
     required this.name,
     required this.email,
-    required this.createdAt,
-    required this.updatedAt,
+    required this.registeredAt,
     required this.planId,
-    required this.trails,
-    required this.roles,
+    required this.trials,
     required this.subscriptions,
     required this.plan,
-    this.emailVerifiedAt,
   });
 
   factory UserModel.fromJsonStr(String str) =>
@@ -36,23 +33,15 @@ class UserModel {
 
   final String email;
 
-  @JsonKey(name: 'email_verified_at')
-  final DateTime? emailVerifiedAt;
-
   @JsonKey(name: 'created_at')
-  final DateTime createdAt;
-
-  @JsonKey(name: 'updated_at')
-  final DateTime updatedAt;
+  final DateTime registeredAt;
 
   @JsonKey(name: 'plan_id')
   final int planId;
 
-  final int trails;
+  final int trials;
 
-  final List<UserRoleModel> roles;
-
-  final List<dynamic> subscriptions;
+  final List<SubscriptionModel> subscriptions;
 
   final PlanModel plan;
 

@@ -1,8 +1,8 @@
 import 'package:bunny_sync/features/select_subscription_plan/models/feature_model.dart';
 import 'package:equatable/equatable.dart';
 
-class PlanModel extends Equatable {
-  const PlanModel({
+class PlanViewModel extends Equatable {
+  const PlanViewModel({
     required this.id,
     required this.title,
     required this.colorHex,
