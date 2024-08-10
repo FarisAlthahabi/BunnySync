@@ -11,7 +11,7 @@ part 'ailment_post_model.g.dart';
 @immutable
 class AilmentPostModel {
   const AilmentPostModel({
-    String? type = 'off',
+    String? type,
     int? breederId,
     int? kitId,
     String? title,

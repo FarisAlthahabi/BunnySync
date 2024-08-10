@@ -8,7 +8,7 @@ part of 'ailment_post_model.dart';
 
 AilmentPostModel _$AilmentPostModelFromJson(Map<String, dynamic> json) =>
     AilmentPostModel(
-      type: json['type'] as String? ?? 'off',
+      type: json['type'] as String?,
       breederId: (json['breeder'] as num?)?.toInt(),
       kitId: (json['kits'] as num?)?.toInt(),
       title: json['title'] as String?,
