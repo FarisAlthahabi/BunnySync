@@ -1,3 +1,6 @@
+import 'package:bunny_sync/features/add_treatment/model/dosage_per_types/dosage_per_types.dart';
+import 'package:bunny_sync/features/add_treatment/model/dosage_types/dosage_types.dart';
+import 'package:bunny_sync/features/add_treatment/model/period_types/period_types.dart';
 import 'package:bunny_sync/features/health/model/treatment_model/treatment_model.dart';
 
 final fakeTreatments = List.generate(
@@ -12,13 +15,13 @@ final fakeTreatments = List.generate(
     method: 'method',
     type: 'type',
     dosageCount: 2,
-    dosageType: 'dosageType',
+    dosageType: DosageTypes.litter,
     dosageCountPer: 1,
-    dosageTypePer: '1lb',
+    dosageTypePer: DosagePerTypes.kg,
     scheduleCount: 2,
-    scheduleType: 'scheduleType',
-    widthDrawalCount: 2,
-    widthDrawalType: 'widthDrawalType',
+    scheduleType: PeriodTypes.days,
+    withDrawalCount: 2,
+    withDrawalType: PeriodTypes.days,
     note: 'note',
     createdAt: DateTime.now(),
     updatedAt: DateTime.now(),

@@ -1,6 +1,10 @@
 import 'dart:convert';
 
-import 'package:bunny_sync/global/utils/json_converters/date_parser.dart';
+import 'package:bunny_sync/features/add_treatment/model/dosage_per_types/dosage_per_types.dart';
+import 'package:bunny_sync/features/add_treatment/model/dosage_types/dosage_types.dart';
+import 'package:bunny_sync/features/add_treatment/model/period_types/period_types.dart';
+import 'package:bunny_sync/global/utils/json_converters/date_time_converter.dart';
+import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -8,7 +12,7 @@ part 'treatment_model.g.dart';
 
 @JsonSerializable()
 @immutable
-class TreatmentModel {
+class TreatmentModel implements BottomSheetItemModel {
   const TreatmentModel({
     required this.id,
     required this.userId,
@@ -24,11 +28,13 @@ class TreatmentModel {
     required this.dosageTypePer,
     required this.scheduleCount,
     required this.scheduleType,
-    required this.widthDrawalCount,
-    required this.widthDrawalType,
+    required this.withDrawalCount,
+    required this.withDrawalType,
     required this.note,
     required this.createdAt,
     required this.updatedAt,
+    this.breederId,
+    this.kitId,
     this.rabbitName,
     this.ailment,
     this.symptoms,
@@ -51,7 +57,7 @@ class TreatmentModel {
 
   final String name;
 
-  @DateParser()
+  @DateTimeConverter()
   @JsonKey(name: 'start_date')
   final DateTime startDate;
 
@@ -61,29 +67,41 @@ class TreatmentModel {
 
   final String type;
 
-   @JsonKey(name: 'dosage_count')
+  @JsonKey(name: 'dosage_count')
   final int dosageCount;
 
-   @JsonKey(name: 'dosage_type')
-  final String dosageType;
+  @JsonKey(
+    name: 'dosage_type',
+    fromJson: DosageTypes.fromJson,
+  )
+  final DosageTypes dosageType;
 
-   @JsonKey(name: 'dosage_count_per')
+  @JsonKey(name: 'dosage_count_per')
   final int dosageCountPer;
 
-   @JsonKey(name: 'dosage_type_per')
-  final String dosageTypePer;
+  @JsonKey(
+    name: 'dosage_type_per',
+    fromJson: DosagePerTypes.fromJson,
+  )
+  final DosagePerTypes dosageTypePer;
 
-   @JsonKey(name: 'schedule_count')
+  @JsonKey(name: 'schedule_count')
   final int scheduleCount;
 
-  @JsonKey(name: 'schedule_type')
-  final String scheduleType;
+  @JsonKey(
+    name: 'schedule_type',
+    fromJson: PeriodTypes.fromJson,
+  )
+  final PeriodTypes scheduleType;
 
   @JsonKey(name: 'withdrawal_count')
-  final int widthDrawalCount;
+  final int withDrawalCount;
 
-  @JsonKey(name: 'withdrawal_type')
-  final String widthDrawalType;
+  @JsonKey(
+    name: 'widthdrawal_type',
+    fromJson: PeriodTypes.fromJson,
+  )
+  final PeriodTypes withDrawalType;
 
   final String note;
 
@@ -92,6 +110,12 @@ class TreatmentModel {
 
   @JsonKey(name: 'updated_at')
   final DateTime updatedAt;
+
+  @JsonKey(name: 'breeder_id')
+  final int? breederId;
+
+  @JsonKey(name: 'kit_id')
+  final int? kitId;
 
   @JsonKey(name: 'rabbit')
   final String? rabbitName;

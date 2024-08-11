@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:bunny_sync/global/utils/enums/gender_types_enum.dart';
+import 'package:bunny_sync/global/widgets/main_drop_down_widget.dart';
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
@@ -8,15 +10,15 @@ part 'kit_model.g.dart';
 
 @JsonSerializable()
 @immutable
-class KitModel {
+class KitModel extends Equatable implements DropDownItemModel {
   const KitModel({
     required this.id,
     required this.userId,
     required this.litterId,
     required this.createdAt,
     required this.updatedAt,
-    this.code,
-    this.name,
+    required this.code,
+    this.kitName,
     this.prefix,
     this.color,
     this.breed,
@@ -31,6 +33,7 @@ class KitModel {
   factory KitModel.fromJson(Map<String, dynamic> json) =>
       _$KitModelFromJson(json);
 
+  @override
   final int id;
 
   @JsonKey(name: 'user_id', defaultValue: -1)
@@ -39,11 +42,12 @@ class KitModel {
   @JsonKey(name: 'litter_id')
   final int litterId;
 
-  final String? name;
+  final String code;
+
+  @JsonKey(name: 'name')
+  final String? kitName;
 
   final String? prefix;
-
-  final String? code;
 
   final String? color;
 
@@ -64,4 +68,10 @@ class KitModel {
   String toJsonStr() => jsonEncode(toJson());
 
   Map<String, dynamic> toJson() => _$KitModelToJson(this);
+
+  @override
+  String get name => code;
+
+  @override
+  List<Object?> get props => [id];
 }

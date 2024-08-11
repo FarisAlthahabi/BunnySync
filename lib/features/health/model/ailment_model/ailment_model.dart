@@ -1,7 +1,10 @@
 import 'dart:convert';
 
+import 'package:bunny_sync/features/add_ailment/model/ailment_types/ailment_status_types.dart';
 import 'package:bunny_sync/features/health/model/treatment_model/treatment_model.dart';
-import 'package:bunny_sync/global/utils/json_converters/date_parser.dart';
+import 'package:bunny_sync/global/utils/json_converters/date_time_converter.dart';
+import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
+import 'package:bunny_sync/global/widgets/main_drop_down_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -9,10 +12,9 @@ part 'ailment_model.g.dart';
 
 @JsonSerializable()
 @immutable
-class AilmentModel {
+class AilmentModel implements BottomSheetItemModel, DropDownItemModel {
   const AilmentModel({
     required this.id,
-    required this.breederId,
     required this.userId,
     required this.name,
     required this.symptoms,
@@ -22,6 +24,7 @@ class AilmentModel {
     required this.createdAt,
     required this.updatedAt,
     required this.treatments,
+    this.breederId,
     this.kitId,
     this.rabbitName,
     this.dtRowIndex,
@@ -33,11 +36,12 @@ class AilmentModel {
   factory AilmentModel.fromJson(Map<String, dynamic> json) =>
       _$AilmentModelFromJson(json);
 
+  @override
   @JsonKey(name: 'id')
   final int id;
 
   @JsonKey(name: 'breeder_id')
-  final int breederId;
+  final int? breederId;
 
   @JsonKey(name: 'kit_id')
   final int? kitId;
@@ -45,17 +49,19 @@ class AilmentModel {
   @JsonKey(name: 'user_id')
   final int userId;
 
+  @override
   final String name;
 
   final String symptoms;
 
-  @DateParser()
+  @DateTimeConverter()
   @JsonKey(name: 'start_date')
   final DateTime startDate;
 
   final String note;
 
-  final String status;
+  @JsonKey(fromJson: AilmentStatusTypes.fromJson)
+  final AilmentStatusTypes status;
 
   @JsonKey(name: 'created_at')
   final DateTime createdAt;

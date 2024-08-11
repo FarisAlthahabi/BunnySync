@@ -1,12 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/breeders/view/widgets/tab_header.dart';
+import 'package:bunny_sync/features/health/cubit/health_cubit.dart';
 import 'package:bunny_sync/features/health/view/tabs/ailments_tab.dart';
 import 'package:bunny_sync/features/health/view/tabs/treatment_tab.dart';
+import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/translations.i18n.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/widgets/custom_app_bar.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 @RoutePage()
 class HealthView extends StatelessWidget {
@@ -14,7 +17,10 @@ class HealthView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const HealthPage();
+    return BlocProvider(
+      create: (context) => get<HealthCubit>(),
+      child: const HealthPage(),
+    );
   }
 }
 
@@ -42,7 +48,7 @@ class _HealthPageState extends State<HealthPage> {
         appBar: MainAppBar(
           title: Padding(
             padding: const EdgeInsets.only(top: 10),
-            child: Text('health'.i18n,style: context.tt.displayLarge),
+            child: Text('health'.i18n, style: context.tt.displayLarge),
           ),
           toolbarHeight: 120,
           bottom: PreferredSize(
