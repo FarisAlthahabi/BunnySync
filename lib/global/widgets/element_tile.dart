@@ -1,6 +1,5 @@
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
-import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:bunny_sync/global/widgets/main_tile.dart';
 import 'package:flutter/material.dart';
 
