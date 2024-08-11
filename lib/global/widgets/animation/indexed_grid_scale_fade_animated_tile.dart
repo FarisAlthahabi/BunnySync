@@ -8,12 +8,14 @@ class IndexedGridScaleFadeAnimatedTile extends StatelessWidget {
     required this.columnCount,
     required this.child,
     required this.onTap,
+    this.duration,
   });
 
   final int index;
   final int columnCount;
   final Widget child;
   final VoidCallback onTap;
+  final Duration? duration;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,9 @@ class IndexedGridScaleFadeAnimatedTile extends StatelessWidget {
         duration: const Duration(milliseconds: 700),
         columnCount: columnCount,
         child: ScaleAnimation(
+          duration: duration,
           child: FadeInAnimation(
+            duration: duration,
             child: child,
           ),
         ),

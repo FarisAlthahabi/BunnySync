@@ -4,7 +4,7 @@ import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:bunny_sync/global/widgets/main_tile.dart';
 import 'package:flutter/material.dart';
 
-class ElementTile<T extends BottomSheetItemModel> extends StatelessWidget {
+class ElementTile<T> extends StatelessWidget {
   const ElementTile({
     super.key,
     required this.leading,
@@ -35,10 +35,11 @@ class ElementTile<T extends BottomSheetItemModel> extends StatelessWidget {
     final secondaryTag = this.secondaryTag;
     final tag = this.tag;
     final note = this.note;
+    final onTap = this.onTap;
+    final model = this.model;
 
     return MainTile(
-      onEdit: onTap,
-      model: model,
+      onTap: onTap == null || model == null ? null : () => onTap(model),
       boxShadow: AppShadows.getTaskTileShadow(context),
       child: Column(
         children: [

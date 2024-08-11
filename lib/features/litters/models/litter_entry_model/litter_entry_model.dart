@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bunny_sync/features/litter_details/model/kit_model/kit_model.dart';
 import 'package:bunny_sync/global/utils/bunny_sync_json_utils.dart';
 import 'package:bunny_sync/global/utils/json_converters/string_converter.dart';
 import 'package:bunny_sync/global/utils/json_utils.dart';
@@ -11,7 +12,7 @@ part 'litter_entry_model.g.dart';
 
 @JsonSerializable()
 @immutable
-class LitterEntryModel implements DropDownItemModel{
+class LitterEntryModel implements DropDownItemModel {
   const LitterEntryModel({
     required this.id,
     required this.userId,
@@ -34,6 +35,7 @@ class LitterEntryModel implements DropDownItemModel{
     required this.sold,
     required this.dtRowIndex,
     required this.isActive,
+    this.allKits = const [],
     this.prefix,
     this.cage,
     this.breedText,
@@ -55,7 +57,7 @@ class LitterEntryModel implements DropDownItemModel{
 
   @JsonKey(name: 'breed_pair_id')
   final int breedPairId;
-  
+
   @JsonKey(name: 'litter_id')
   final String litterId;
 
@@ -108,6 +110,9 @@ class LitterEntryModel implements DropDownItemModel{
   @JsonKey(name: 'DT_RowIndex')
   final int dtRowIndex;
 
+  @JsonKey(name: 'all_kits', defaultValue: [])
+  final List<KitModel> allKits;
+
   @JsonKey(
     fromJson: BunnySyncJsonUtils.isActiveFromJson,
     readValue: JsonUtils.readValue,
@@ -117,7 +122,7 @@ class LitterEntryModel implements DropDownItemModel{
   String toJsonStr() => jsonEncode(toJson());
 
   Map<String, dynamic> toJson() => _$LitterEntryModelToJson(this);
-  
+
   @override
   String get name => litterId;
 }

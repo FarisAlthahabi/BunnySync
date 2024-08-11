@@ -23,7 +23,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-abstract class AddTaskPageCallBacks {
+abstract class AddTaskViewCallBacks {
   void onTypeSelected(BreederByGenderModel? type);
 
   void onTaskTypeSelected(BreederByGenderModel? type);
@@ -82,7 +82,7 @@ class AddTaskPage extends StatefulWidget {
 }
 
 class _AddTaskPageState extends State<AddTaskPage>
-    implements AddTaskPageCallBacks {
+    implements AddTaskViewCallBacks {
   late final AddTaskCubit addTaskCubit = context.read();
 
   late final TasksCubit tasksCubit = context.read();
@@ -90,7 +90,6 @@ class _AddTaskPageState extends State<AddTaskPage>
   late final BreedersCubit breedersCubit = context.read();
 
   late final LittersCubit littersCubit = context.read();
-
   final nameFocusNode = FocusNode();
 
   final noteFocusNode = FocusNode();
