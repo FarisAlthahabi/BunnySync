@@ -13,6 +13,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.centerTitle,
     this.actions,
     this.backgroundColor,
+    this.bottom,
   });
 
   final double toolbarHeight;
@@ -23,6 +24,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool? centerTitle;
   final List<Widget>? actions;
   final Color? backgroundColor;
+  final PreferredSizeWidget? bottom;
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +46,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
         ...?actions,
         const SizedBox(width: 16),
       ],
+      bottom: bottom,
     );
   }
 

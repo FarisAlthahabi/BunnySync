@@ -10,7 +10,7 @@ import 'package:bunny_sync/global/widgets/main_drop_down_widget.dart';
 import 'package:bunny_sync/global/widgets/main_text_field.dart';
 import 'package:flutter/material.dart';
 
-abstract class AddTaskPageCallBacks {
+abstract class AddTaskViewCallBacks {
   void onTypeSelected(BreederByGenderModel? type);
 
   void onTaskTypeSelected(BreederByGenderModel? type);
@@ -50,7 +50,7 @@ class AddTaskPage extends StatefulWidget {
 }
 
 class _AddTaskPageState extends State<AddTaskPage>
-    implements AddTaskPageCallBacks {
+    implements AddTaskViewCallBacks {
   final nameFocusNode = FocusNode();
 
   final noteFocusNode = FocusNode();
@@ -136,7 +136,7 @@ class _AddTaskPageState extends State<AddTaskPage>
       selectedType = type;
       if (type?.name != 'General') {
         showSelectBreeder = true;
-      }else{
+      } else {
         showSelectBreeder = false;
       }
     });

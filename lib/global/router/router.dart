@@ -1,9 +1,11 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:bunny_sync/features/add_ailment/view/add_ailment_view.dart';
 import 'package:bunny_sync/features/add_breeder/view/add_breeder_view.dart';
 import 'package:bunny_sync/features/add_category/view/add_category_view.dart';
 import 'package:bunny_sync/features/add_litter/view/add_litter_view.dart';
 import 'package:bunny_sync/features/add_note/view/add_note_view.dart';
 import 'package:bunny_sync/features/add_task/view/add_task_view.dart';
+import 'package:bunny_sync/features/add_treatment/view/add_treatment_view.dart';
 import 'package:bunny_sync/features/authentication/view/authentication_view.dart';
 import 'package:bunny_sync/features/breeder_details/cubit/breeder_details_cubit.dart';
 import 'package:bunny_sync/features/breeder_details/view/breeder_details_view.dart';
@@ -15,6 +17,10 @@ import 'package:bunny_sync/features/categories/model/category_model.dart';
 import 'package:bunny_sync/features/categories/view/categories_view.dart';
 import 'package:bunny_sync/features/customers/view/customers_view.dart';
 import 'package:bunny_sync/features/dashboard/view/dashboard_view.dart';
+import 'package:bunny_sync/features/health/cubit/health_cubit.dart';
+import 'package:bunny_sync/features/health/model/ailment_model/ailment_model.dart';
+import 'package:bunny_sync/features/health/model/treatment_model/treatment_model.dart';
+import 'package:bunny_sync/features/health/view/health_view.dart';
 import 'package:bunny_sync/features/home/view/home_view.dart';
 import 'package:bunny_sync/features/intro/view/intro_router.dart';
 import 'package:bunny_sync/features/intro/view/intro_view.dart';
@@ -119,6 +125,15 @@ class AppRouter extends _$AppRouter {
                 ),
                 AutoRoute(
                   page: AddCategoryRoute.page,
+                ),
+                 AutoRoute(
+                  page: HealthRoute.page,
+                ),
+                AutoRoute(
+                  page: AddAilmentRoute.page,
+                ),
+                AutoRoute(
+                  page: AddTreatmentRoute.page,
                 ),
               ],
             ),
