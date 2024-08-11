@@ -1,13 +1,26 @@
 import 'package:bloc/bloc.dart';
+import 'package:bunny_sync/features/add_treatment/model/dosage_per_types/dosage_per_types.dart';
+import 'package:bunny_sync/features/add_treatment/model/dosage_types/dosage_types.dart';
+import 'package:bunny_sync/features/add_treatment/model/period_types/period_types.dart';
 import 'package:bunny_sync/features/add_treatment/model/treatment_post_model/treatment_post_model.dart';
 import 'package:bunny_sync/features/add_treatment/repo/add_treatment_repo.dart';
+import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
 import 'package:bunny_sync/features/health/model/treatment_model/treatment_model.dart';
+import 'package:bunny_sync/features/litter_details/model/kit_model/kit_model.dart';
+import 'package:bunny_sync/features/litters/models/litter_entry_model/litter_entry_model.dart';
+import 'package:bunny_sync/global/localization/translations.i18n.dart';
+import 'package:bunny_sync/global/utils/enums/rabbit_types.dart';
+import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:meta/meta.dart';
 
 part 'states/add_treatment_state.dart';
 
 part 'states/general_add_treatment_state.dart';
+
+part 'states/show_rabbit_type_state.dart';
+
+part 'states/show_select_kit_state.dart';
 
 @injectable
 class AddTreatmentCubit extends Cubit<GeneralAddTreatmentState> {
@@ -16,6 +29,73 @@ class AddTreatmentCubit extends Cubit<GeneralAddTreatmentState> {
   final AddTreatmentRepo _addTreatmentRepo;
 
   TreatmentPostModel _treatmentPostModel = const TreatmentPostModel();
+
+  void setRabbitType(RabbitTypes? type) {
+    if (type == null) {
+      emit(AddTreatmentFail('rabbit_type_null'.i18n));
+      return;
+    }
+
+    String result;
+
+    ///on represent of create ailment for kits
+    if (type.isBreeder == true) {
+      result = 'off';
+    } else {
+      result = 'on';
+    }
+
+    _treatmentPostModel = _treatmentPostModel.copyWith(
+      type: () => result,
+    );
+
+    emit(ShowRabbitTypeState(type));
+
+    if (type.isBreeder == true) {
+      setKitId(null);
+      emit(ShowSelectKitState(showSelectKit: false));
+    }
+  }
+
+  void setBreederId(int? breederId) {
+    _treatmentPostModel = _treatmentPostModel.copyWith(
+      breederId: () => breederId,
+      kitId: () => null,
+    );
+  }
+
+  BreederEntryModel? getSelectedBreeder(List<BreederEntryModel> breeders) {
+    return breeders.firstWhereOrNull(
+      (element) => element.id == _treatmentPostModel.breederId,
+    );
+  }
+
+  void setLitter(int litterId, {VoidCallback? onSuccess}) {
+    emit(ShowSelectKitState(showSelectKit: true, litterId: litterId));
+
+    onSuccess?.call();
+  }
+
+  LitterEntryModel? getSelectedLitter(List<LitterEntryModel> litters) {
+    return litters.firstWhereOrNull(
+      (element) => element.allKits.any(
+        (e) => e.id == _treatmentPostModel.kitId,
+      ),
+    );
+  }
+
+  void setKitId(int? kitId) {
+    _treatmentPostModel = _treatmentPostModel.copyWith(
+      breederId: () => null,
+      kitId: () => kitId,
+    );
+  }
+
+  KitModel? getSelectedKit(List<KitModel> kits) {
+    return kits.firstWhereOrNull(
+      (element) => element.id == _treatmentPostModel.kitId,
+    );
+  }
 
   void setAilmentId(int? ailmentId) {
     _treatmentPostModel = _treatmentPostModel.copyWith(
@@ -59,7 +139,7 @@ class AddTreatmentCubit extends Cubit<GeneralAddTreatmentState> {
     );
   }
 
-  void setDosageType(String? dosageType) {
+  void setDosageType(DosageTypes? dosageType) {
     _treatmentPostModel = _treatmentPostModel.copyWith(
       dosageType: () => dosageType,
     );
@@ -71,7 +151,7 @@ class AddTreatmentCubit extends Cubit<GeneralAddTreatmentState> {
     );
   }
 
-  void setDosageTypePer(String? dosageTypePer) {
+  void setDosageTypePer(DosagePerTypes? dosageTypePer) {
     _treatmentPostModel = _treatmentPostModel.copyWith(
       dosageTypePer: () => dosageTypePer,
     );
@@ -83,7 +163,7 @@ class AddTreatmentCubit extends Cubit<GeneralAddTreatmentState> {
     );
   }
 
-  void setScheduleType(String? scheduleType) {
+  void setScheduleType(PeriodTypes? scheduleType) {
     _treatmentPostModel = _treatmentPostModel.copyWith(
       scheduleType: () => scheduleType,
     );
@@ -95,7 +175,7 @@ class AddTreatmentCubit extends Cubit<GeneralAddTreatmentState> {
     );
   }
 
-  void setWithDrawalType(String? withDrawalType) {
+  void setWithDrawalType(PeriodTypes? withDrawalType) {
     _treatmentPostModel = _treatmentPostModel.copyWith(
       withDrawalType: () => withDrawalType,
     );

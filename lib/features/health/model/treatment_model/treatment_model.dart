@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:bunny_sync/features/add_treatment/model/dosage_per_types/dosage_per_types.dart';
+import 'package:bunny_sync/features/add_treatment/model/dosage_types/dosage_types.dart';
+import 'package:bunny_sync/features/add_treatment/model/period_types/period_types.dart';
 import 'package:bunny_sync/global/utils/json_converters/date_parser.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +33,8 @@ class TreatmentModel implements BottomSheetItemModel {
     required this.note,
     required this.createdAt,
     required this.updatedAt,
+    this.breederId,
+    this.kitId,
     this.rabbitName,
     this.ailment,
     this.symptoms,
@@ -62,29 +67,41 @@ class TreatmentModel implements BottomSheetItemModel {
 
   final String type;
 
-   @JsonKey(name: 'dosage_count')
+  @JsonKey(name: 'dosage_count')
   final int dosageCount;
 
-   @JsonKey(name: 'dosage_type')
-  final String dosageType;
+  @JsonKey(
+    name: 'dosage_type',
+    fromJson: DosageTypes.fromJson,
+  )
+  final DosageTypes dosageType;
 
-   @JsonKey(name: 'dosage_count_per')
+  @JsonKey(name: 'dosage_count_per')
   final int dosageCountPer;
 
-   @JsonKey(name: 'dosage_type_per')
-  final String dosageTypePer;
+  @JsonKey(
+    name: 'dosage_type_per',
+    fromJson: DosagePerTypes.fromJson,
+  )
+  final DosagePerTypes dosageTypePer;
 
-   @JsonKey(name: 'schedule_count')
+  @JsonKey(name: 'schedule_count')
   final int scheduleCount;
 
-  @JsonKey(name: 'schedule_type')
-  final String scheduleType;
+  @JsonKey(
+    name: 'schedule_type',
+    fromJson: PeriodTypes.fromJson,
+  )
+  final PeriodTypes scheduleType;
 
   @JsonKey(name: 'withdrawal_count')
   final int withDrawalCount;
 
-  @JsonKey(name: 'widthdrawal_type')
-  final String withDrawalType;
+  @JsonKey(
+    name: 'widthdrawal_type',
+    fromJson: PeriodTypes.fromJson,
+  )
+  final PeriodTypes withDrawalType;
 
   final String note;
 
@@ -93,6 +110,12 @@ class TreatmentModel implements BottomSheetItemModel {
 
   @JsonKey(name: 'updated_at')
   final DateTime updatedAt;
+
+  @JsonKey(name: 'breeder_id')
+  final int? breederId;
+
+  @JsonKey(name: 'kit_id')
+  final int? kitId;
 
   @JsonKey(name: 'rabbit')
   final String? rabbitName;

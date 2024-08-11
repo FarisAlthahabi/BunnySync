@@ -1,13 +1,24 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/add_treatment/cubit/add_treatment_cubit.dart';
-import 'package:bunny_sync/features/breeders/models/breeder_by_gender_model/breeder_by_gender_model.dart';
+import 'package:bunny_sync/features/add_treatment/model/dosage_per_types/dosage_per_types.dart';
+import 'package:bunny_sync/features/add_treatment/model/dosage_types/dosage_types.dart';
+import 'package:bunny_sync/features/add_treatment/model/period_types/period_types.dart';
+import 'package:bunny_sync/features/breeders/cubit/breeders_cubit.dart';
+import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
 import 'package:bunny_sync/features/health/cubit/health_cubit.dart';
 import 'package:bunny_sync/features/health/model/ailment_model/ailment_model.dart';
 import 'package:bunny_sync/features/health/model/treatment_model/treatment_model.dart';
+import 'package:bunny_sync/features/litter_details/cubit/litter_details_cubit.dart';
+import 'package:bunny_sync/features/litter_details/model/kit_model/kit_model.dart';
+import 'package:bunny_sync/features/litters/cubit/litters_cubit.dart';
+import 'package:bunny_sync/features/litters/models/litter_entry_model/litter_entry_model.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/translations.i18n.dart';
+import 'package:bunny_sync/global/mixins/mixins.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
+import 'package:bunny_sync/global/utils/enums/rabbit_types.dart';
+import 'package:bunny_sync/global/widgets/animation/animated_switchers/animated_switchers.dart';
 import 'package:bunny_sync/global/widgets/buttons/main_action_button.dart';
 import 'package:bunny_sync/global/widgets/loading_indicator.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
@@ -20,11 +31,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 abstract class AddTreatmentViewCallBacks {
-  void onCategorySelected(BreederByGenderModel? type);
+  void onTypeSelected(RabbitTypes? type);
 
-  void onBreederSelected(BreederByGenderModel? breeder);
+  void onBreederSelected(BreederEntryModel? breeder);
 
-  void onKitSelected(BreederByGenderModel? kit);
+  void onLitterSelected(LitterEntryModel? litter);
+
+  void onKitSelected(KitModel? kit);
 
   void onAilmentSelected(AilmentModel? ailments);
 
@@ -50,25 +63,25 @@ abstract class AddTreatmentViewCallBacks {
 
   void onDosageCountSubmitted(String dosageCount);
 
-  void onDosageTypeSelected(BreederByGenderModel? dosageType);
+  void onDosageTypeSelected(DosageTypes? dosageType);
 
   void onDosageCountPerChanged(String dosageCountPer);
 
   void onDosageCountPerSubmitted(String dosageCountPer);
 
-  void onDosageTypePerSelected(BreederByGenderModel? dosageTypePer);
+  void onDosageTypePerSelected(DosagePerTypes? dosageTypePer);
 
   void onScheduleCountChanged(String scheduleCount);
 
   void onScheduleCountSubmitted(String scheduleCount);
 
-  void onScheduleTypeSelected(BreederByGenderModel? scheduleType);
+  void onScheduleTypeSelected(PeriodTypes? scheduleType);
 
   void onWithDrawalCountChanged(String withDrawalCount);
 
   void onWithDrawalCountSubmitted(String withDrawalCount);
 
-  void onWithDrawalTypeSelected(BreederByGenderModel? withDrawalType);
+  void onWithDrawalTypeSelected(PeriodTypes? withDrawalType);
 
   void onNoteChanged(String note);
 
@@ -98,6 +111,15 @@ class AddTreatmentView extends StatelessWidget {
         BlocProvider(
           create: (context) => get<AddTreatmentCubit>(),
         ),
+        BlocProvider(
+          create: (context) => get<BreedersCubit>(),
+        ),
+        BlocProvider(
+          create: (context) => get<LittersCubit>(),
+        ),
+        BlocProvider(
+          create: (context) => get<LitterDetailsCubit>(),
+        ),
       ],
       child: AddTreatmentPage(
         treatmentModel: treatmentModel,
@@ -119,8 +141,15 @@ class AddTreatmentPage extends StatefulWidget {
 }
 
 class _AddTreatmentPageState extends State<AddTreatmentPage>
+    with PostFrameMixin
     implements AddTreatmentViewCallBacks {
   late final HealthCubit healthCubit = context.read();
+
+  late final BreedersCubit breedersCubit = context.read();
+
+  late final LittersCubit littersCubit = context.read();
+
+  late final LitterDetailsCubit litterDetailsCubit = context.read();
 
   late final AddTreatmentCubit addTreatmentCubit = context.read();
 
@@ -142,98 +171,49 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
 
   final noteFocusNode = FocusNode();
 
-  bool showSelectKit = false;
+  @override
+  void dispose() {
+    titleFocusNode.dispose();
+    medicationFocusNode.dispose();
+    methodFocusNode.dispose();
+    typeFocusNode.dispose();
+    dosageCountFocusNode.dispose();
+    dosageCountPerFocusNode.dispose();
+    scheduleCountFocusNode.dispose();
+    withDrawalCountFocusNode.dispose();
+    noteFocusNode.dispose();
 
-  // TODO: remove thess and get them from cubit
-
-  final List<BreederByGenderModel> categories = [
-    BreederByGenderModel(id: 1, name: 'breeder'.i18n),
-    BreederByGenderModel(id: 2, name: 'kits'.i18n),
-  ];
-  final List<BreederByGenderModel> breeders = [
-    const BreederByGenderModel(id: 1, name: 'nux1'),
-    const BreederByGenderModel(id: 2, name: 'nux2'),
-    const BreederByGenderModel(id: 3, name: 'nux3'),
-  ];
-  final List<BreederByGenderModel> kits = [
-    const BreederByGenderModel(id: 1, name: 'nux1'),
-    const BreederByGenderModel(id: 2, name: 'nux2'),
-    const BreederByGenderModel(id: 3, name: 'nux3'),
-  ];
-  final List<BreederByGenderModel> dosageTypes = [
-    BreederByGenderModel(id: 1, name: 'ml'.i18n),
-    BreederByGenderModel(id: 2, name: 'litter'.i18n),
-    BreederByGenderModel(id: 3, name: 'oz'.i18n),
-  ];
-  final List<BreederByGenderModel> dosageTypesPer = [
-    BreederByGenderModel(id: 1, name: 'lbs'.i18n),
-    BreederByGenderModel(id: 2, name: 'oz'.i18n),
-    BreederByGenderModel(id: 3, name: 'kg'.i18n),
-    BreederByGenderModel(id: 4, name: 'grams'.i18n),
-  ];
-  final List<BreederByGenderModel> scheduleTypes = [
-    BreederByGenderModel(id: 1, name: 'days'.i18n),
-    BreederByGenderModel(id: 2, name: 'weeks'.i18n),
-    BreederByGenderModel(id: 3, name: 'months'.i18n),
-    BreederByGenderModel(id: 4, name: 'years'.i18n),
-  ];
-
-  final List<BreederByGenderModel> withDrawalsTypes = [
-    BreederByGenderModel(id: 1, name: 'days'.i18n),
-    BreederByGenderModel(id: 2, name: 'weeks'.i18n),
-    BreederByGenderModel(id: 3, name: 'months'.i18n),
-    BreederByGenderModel(id: 4, name: 'years'.i18n),
-  ];
-
-  BreederByGenderModel? selectedCategory;
-  BreederByGenderModel? selectedBreeder;
-  BreederByGenderModel? selectedKit;
-  AilmentModel? selectedAilment;
-  BreederByGenderModel? selectedDosageType;
-  BreederByGenderModel? selectedDosageTypePer;
-  BreederByGenderModel? selectedScheduleType;
-  BreederByGenderModel? selectedWithDrawalType;
+    super.dispose();
+  }
 
   @override
-  void initState() {
-    final treatmentModel = widget.treatmentModel;
-    if (treatmentModel != null) {
-      addTreatmentCubit.setAilmentId(treatmentModel.ailmentId);
-      addTreatmentCubit.setTitle(treatmentModel.name);
-      addTreatmentCubit.setStartDate(treatmentModel.startDate);
-      addTreatmentCubit.setMedication(treatmentModel.medication);
-      addTreatmentCubit.setMethod(treatmentModel.method);
-      addTreatmentCubit.setType(treatmentModel.type);
-      addTreatmentCubit.setDosageCount(treatmentModel.dosageCount.toString());
-      addTreatmentCubit.setDosageType(treatmentModel.dosageType);
-      addTreatmentCubit
-          .setDosageCountPer(treatmentModel.dosageCountPer.toString());
-      addTreatmentCubit.setDosageTypePer(treatmentModel.dosageTypePer);
-      addTreatmentCubit
-          .setScheduleCount(treatmentModel.scheduleCount.toString());
-      addTreatmentCubit.setScheduleType(treatmentModel.scheduleType);
-      addTreatmentCubit
-          .setWithDrawalCount(treatmentModel.withDrawalCount.toString());
-      addTreatmentCubit.setWithDrawalType(treatmentModel.withDrawalType);
-      addTreatmentCubit.setNote(treatmentModel.note);
+  void onBreederSelected(BreederEntryModel? breeder) {
+    addTreatmentCubit.setBreederId(breeder?.id);
+  }
+
+  @override
+  void onLitterSelected(LitterEntryModel? litter) {
+    final litterModel = litter;
+    if (litterModel != null) {
+      addTreatmentCubit.setLitter(
+        litterModel.id,
+        onSuccess: () {
+          litterDetailsCubit.getLitterDetails(
+            litterModel.id,
+          );
+        },
+      );
     }
-    healthCubit.getAilments();
-    super.initState();
+  }
+
+  @override
+  void onKitSelected(KitModel? kit) {
+    addTreatmentCubit.setKitId(kit?.id);
   }
 
   @override
   void onAilmentSelected(AilmentModel? ailment) {
     addTreatmentCubit.setAilmentId(ailment?.id);
-    setState(() {
-      selectedAilment = ailment;
-    });
-  }
-
-  @override
-  void onBreederSelected(BreederByGenderModel? breeder) {
-    setState(() {
-      selectedBreeder = breeder;
-    });
   }
 
   @override
@@ -262,26 +242,13 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
   }
 
   @override
-  void onDosageTypePerSelected(BreederByGenderModel? dosageTypePer) {
-    addTreatmentCubit.setDosageTypePer(dosageTypePer?.name);
-    setState(() {
-      selectedDosageTypePer = dosageTypePer;
-    });
+  void onDosageTypePerSelected(DosagePerTypes? dosageTypePer) {
+    addTreatmentCubit.setDosageTypePer(dosageTypePer);
   }
 
   @override
-  void onDosageTypeSelected(BreederByGenderModel? dosageType) {
-    addTreatmentCubit.setDosageType(dosageType?.name);
-    setState(() {
-      selectedDosageType = dosageType;
-    });
-  }
-
-  @override
-  void onKitSelected(BreederByGenderModel? kit) {
-    setState(() {
-      selectedKit = kit;
-    });
+  void onDosageTypeSelected(DosageTypes? dosageType) {
+    addTreatmentCubit.setDosageType(dosageType);
   }
 
   @override
@@ -325,11 +292,8 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
   }
 
   @override
-  void onScheduleTypeSelected(BreederByGenderModel? scheduleType) {
-    addTreatmentCubit.setScheduleType(scheduleType?.name);
-    setState(() {
-      selectedScheduleType = scheduleType;
-    });
+  void onScheduleTypeSelected(PeriodTypes? scheduleType) {
+    addTreatmentCubit.setScheduleType(scheduleType);
   }
 
   @override
@@ -363,23 +327,13 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
   }
 
   @override
-  void onWithDrawalTypeSelected(BreederByGenderModel? withDrawalType) {
-    addTreatmentCubit.setWithDrawalType(withDrawalType?.name);
-    setState(() {
-      selectedWithDrawalType = withDrawalType;
-    });
+  void onWithDrawalTypeSelected(PeriodTypes? withDrawalType) {
+    addTreatmentCubit.setWithDrawalType(withDrawalType);
   }
 
   @override
-  void onCategorySelected(BreederByGenderModel? category) {
-    setState(() {
-      selectedCategory = category;
-      if (category?.name == 'kits'.i18n) {
-        showSelectKit = true;
-      } else {
-        showSelectKit = false;
-      }
-    });
+  void onTypeSelected(RabbitTypes? type) {
+    addTreatmentCubit.setRabbitType(type);
   }
 
   @override
@@ -393,11 +347,50 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
   }
 
   @override
+  void onPostFrame() {
+    final treatmentModel = widget.treatmentModel;
+    if (treatmentModel != null) {
+      if (treatmentModel.breederId != null) {
+        addTreatmentCubit.setRabbitType(RabbitTypes.breeder);
+        addTreatmentCubit.setBreederId(treatmentModel.breederId);
+      } else if (treatmentModel.kitId != null) {
+        addTreatmentCubit.setRabbitType(RabbitTypes.litter);
+        addTreatmentCubit.setKitId(treatmentModel.kitId);
+      }
+
+      addTreatmentCubit.setAilmentId(treatmentModel.ailmentId);
+      addTreatmentCubit.setTitle(treatmentModel.name);
+      addTreatmentCubit.setStartDate(treatmentModel.startDate);
+      addTreatmentCubit.setMedication(treatmentModel.medication);
+      addTreatmentCubit.setMethod(treatmentModel.method);
+      addTreatmentCubit.setType(treatmentModel.type);
+      addTreatmentCubit.setDosageCount(treatmentModel.dosageCount.toString());
+      addTreatmentCubit.setDosageType(treatmentModel.dosageType);
+      addTreatmentCubit
+          .setDosageCountPer(treatmentModel.dosageCountPer.toString());
+      addTreatmentCubit.setDosageTypePer(treatmentModel.dosageTypePer);
+      addTreatmentCubit
+          .setScheduleCount(treatmentModel.scheduleCount.toString());
+      addTreatmentCubit.setScheduleType(treatmentModel.scheduleType);
+      addTreatmentCubit
+          .setWithDrawalCount(treatmentModel.withDrawalCount.toString());
+      addTreatmentCubit.setWithDrawalType(treatmentModel.withDrawalType);
+      addTreatmentCubit.setNote(treatmentModel.note);
+    }
+
+    breedersCubit.getBreeders();
+    littersCubit.getLitters();
+    healthCubit.getAilments();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MainAppBar(
         title: Text(
-          'create_treatment'.i18n,
+          widget.treatmentModel == null
+              ? 'create_treatment'.i18n
+              : 'update_treatment'.i18n,
         ),
         centerTitle: true,
       ),
@@ -414,7 +407,7 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
                       height: 30,
                     ),
                     Text(
-                      'category'.i18n,
+                      'rabbit_type'.i18n,
                       style: context.tt.bodyLarge?.copyWith(
                         fontWeight: FontWeight.w700,
                         color: context.cs.surfaceContainerHighest,
@@ -423,71 +416,232 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
                     const SizedBox(
                       height: 8,
                     ),
-                    MainDropDownWidget<BreederByGenderModel>(
-                      items: categories,
-                      text: 'select_category'.i18n,
-                      onChanged: onCategorySelected,
-                      selectedValue: selectedCategory,
+                    BlocBuilder<AddTreatmentCubit, GeneralAddTreatmentState>(
+                      buildWhen: (previous, current) =>
+                          current is ShowRabbitTypeState,
+                      builder: (context, state) {
+                        return MainDropDownWidget<RabbitTypes>(
+                          items: RabbitTypes.values,
+                          text: 'select_type'.i18n,
+                          onChanged: onTypeSelected,
+                          selectedValue: state is ShowRabbitTypeState
+                              ? state.rabbitType
+                              : null,
+                        );
+                      },
                     ),
                     const SizedBox(
                       height: 25,
                     ),
-                    Text(
-                      'breeders'.i18n,
-                      style: context.tt.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: context.cs.surfaceContainerHighest,
-                      ),
+                    BlocBuilder<AddTreatmentCubit, GeneralAddTreatmentState>(
+                      buildWhen: (previous, current) =>
+                          current is ShowRabbitTypeState,
+                      builder: (context, state) {
+                        if (state is ShowRabbitTypeState) {
+                          if (state.rabbitType.isBreeder) {
+                            return BlocBuilder<BreedersCubit,
+                                GeneralBreedersState>(
+                              builder: (context, state) {
+                                if (state is BreedersLoading) {
+                                  return Center(
+                                    child: LoadingIndicator(
+                                      color: context.cs.primary,
+                                    ),
+                                  );
+                                } else if (state is BreedersSuccess) {
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'breeders'.i18n,
+                                        style: context.tt.bodyLarge?.copyWith(
+                                          fontWeight: FontWeight.w700,
+                                          color: context
+                                              .cs.surfaceContainerHighest,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 8,
+                                      ),
+                                      MainDropDownWidget<BreederEntryModel>(
+                                        items: state.breedersStatusModel.all,
+                                        text: 'select_breeder'.i18n,
+                                        onChanged: onBreederSelected,
+                                        selectedValue: addTreatmentCubit
+                                            .getSelectedBreeder(
+                                          state.breedersStatusModel.all,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 25,
+                                      ),
+                                    ],
+                                  );
+                                } else if (state is BreedersFail) {
+                                  return MainErrorWidget(error: state.message);
+                                } else {
+                                  return const SizedBox.shrink();
+                                }
+                              },
+                            );
+                          } else if (state.rabbitType.isLitter) {
+                            return BlocConsumer<LittersCubit,
+                                GeneralLittersState>(
+                              listener: (context, state) {
+                                if (state is LittersSuccess) {
+                                  final selectedLitter =
+                                      addTreatmentCubit.getSelectedLitter(
+                                    state.littersStatusModel.all,
+                                  );
+
+                                  if (selectedLitter != null) {
+                                    addTreatmentCubit.setLitter(
+                                      selectedLitter.id,
+                                      onSuccess: () {
+                                        litterDetailsCubit.getLitterDetails(
+                                          selectedLitter.id,
+                                        );
+                                      },
+                                    );
+                                  }
+                                }
+                              },
+                              builder: (context, state) {
+                                if (state is LittersSuccess) {
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'litters'.i18n,
+                                        style: context.tt.bodyLarge?.copyWith(
+                                          fontWeight: FontWeight.w700,
+                                          color: context
+                                              .cs.surfaceContainerHighest,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 8,
+                                      ),
+                                      MainDropDownWidget<LitterEntryModel>(
+                                        items: state.littersStatusModel.all,
+                                        text: 'select_litter'.i18n,
+                                        onChanged: onLitterSelected,
+                                        selectedValue:
+                                            addTreatmentCubit.getSelectedLitter(
+                                          state.littersStatusModel.all,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 25,
+                                      ),
+                                    ],
+                                  );
+                                } else if (state is LittersLoading) {
+                                  return LoadingIndicator(
+                                    color: context.cs.primary,
+                                  );
+                                } else if (state is LittersFail) {
+                                  return MainErrorWidget(error: state.message);
+                                } else {
+                                  return const SizedBox.shrink();
+                                }
+                              },
+                            );
+                          }
+                        }
+
+                        return const SizedBox();
+                      },
                     ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    MainDropDownWidget<BreederByGenderModel>(
-                      items: kits,
-                      text: 'select_breeder'.i18n,
-                      onChanged: onBreederSelected,
-                      selectedValue: selectedBreeder,
-                    ),
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    Visibility(
-                      visible: showSelectKit,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'kits'.i18n,
-                            style: context.tt.bodyLarge?.copyWith(
-                              fontWeight: FontWeight.w700,
-                              color: context.cs.surfaceContainerHighest,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          MainDropDownWidget<BreederByGenderModel>(
-                            items: kits,
-                            text: 'select_kit'.i18n,
-                            onChanged: onKitSelected,
-                            selectedValue: selectedKit,
-                          ),
-                          const SizedBox(
-                            height: 25,
-                          ),
-                        ],
-                      ),
+                    BlocBuilder<AddTreatmentCubit, GeneralAddTreatmentState>(
+                      buildWhen: (previous, current) =>
+                          current is ShowSelectKitState,
+                      builder: (context, state) {
+                        return state is ShowSelectKitState &&
+                                state.showSelectKit
+                            ? BlocBuilder<LitterDetailsCubit,
+                                GeneralLitterDetailsState>(
+                                builder: (context, innerState) {
+                                  Widget child;
+                                  if (innerState is LitterDetailsSuccess) {
+                                    child = Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'kits'.i18n,
+                                          style: context.tt.bodyLarge?.copyWith(
+                                            fontWeight: FontWeight.w700,
+                                            color: context
+                                                .cs.surfaceContainerHighest,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 8,
+                                        ),
+                                        MainDropDownWidget<KitModel>(
+                                          items: innerState
+                                              .litterDetailsResponseModel
+                                              .litter
+                                              .kits,
+                                          text: 'select_kit'.i18n,
+                                          onChanged: onKitSelected,
+                                          selectedValue:
+                                              addTreatmentCubit.getSelectedKit(
+                                            innerState
+                                                .litterDetailsResponseModel
+                                                .litter
+                                                .kits,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 25,
+                                        ),
+                                      ],
+                                    );
+                                  } else if (innerState
+                                      is LitterDetailsLoading) {
+                                    child = LoadingIndicator(
+                                      color: context.cs.primary,
+                                    );
+                                  } else if (innerState is LitterDetailsFail) {
+                                    child = MainErrorWidget(
+                                      error: innerState.message,
+                                      onTap: () {
+                                        final litterId = state.litterId;
+
+                                        if (litterId != null) {
+                                          litterDetailsCubit.getLitterDetails(
+                                            litterId,
+                                          );
+                                        }
+                                      },
+                                    );
+                                  } else {
+                                    child = const SizedBox();
+                                  }
+
+                                  return AnimatedSwitcherWithSize(
+                                    child: child,
+                                  );
+                                },
+                              )
+                            : const SizedBox();
+                      },
                     ),
                     BlocBuilder<HealthCubit, GeneralHealthState>(
                       builder: (context, state) {
+                        Widget child;
                         if (state is AilmentsLoading) {
-                          return Center(
+                          child = Center(
                             child: LoadingIndicator(
                               color: context.cs.primary,
                             ),
                           );
                         } else if (state is AilmentsSuccess) {
-                          return Column(
+                          child = Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
@@ -504,7 +658,6 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
                                 items: state.ailments,
                                 text: 'select_ailment'.i18n,
                                 onChanged: onAilmentSelected,
-                                selectedValue: selectedAilment,
                               ),
                               const SizedBox(
                                 height: 25,
@@ -512,12 +665,16 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
                             ],
                           );
                         } else if (state is AilmentsEmpty) {
-                          return MainErrorWidget(error: state.message);
+                          child = MainErrorWidget(error: state.message);
                         } else if (state is AilmentsFail) {
-                          return MainErrorWidget(error: state.message);
+                          child = MainErrorWidget(error: state.message);
                         } else {
-                          return const SizedBox.shrink();
+                          child = const SizedBox.shrink();
                         }
+
+                        return AnimatedSwitcherWithSize(
+                          child: child,
+                        );
                       },
                     ),
                     MainTextField(
@@ -611,11 +768,10 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
                               const SizedBox(
                                 height: 8,
                               ),
-                              MainDropDownWidget<BreederByGenderModel>(
-                                items: dosageTypes,
+                              MainDropDownWidget<DosageTypes>(
+                                items: DosageTypes.values,
                                 text: 'select_Dosage'.i18n,
                                 onChanged: onDosageTypeSelected,
-                                selectedValue: selectedDosageType,
                               ),
                             ],
                           ),
@@ -654,11 +810,10 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
                               const SizedBox(
                                 height: 8,
                               ),
-                              MainDropDownWidget<BreederByGenderModel>(
-                                items: dosageTypesPer,
+                              MainDropDownWidget<DosagePerTypes>(
+                                items: DosagePerTypes.values,
                                 text: 'select_dosage_type_per'.i18n,
                                 onChanged: onDosageTypePerSelected,
-                                selectedValue: selectedDosageTypePer,
                               ),
                             ],
                           ),
@@ -697,11 +852,10 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
                               const SizedBox(
                                 height: 8,
                               ),
-                              MainDropDownWidget<BreederByGenderModel>(
-                                items: scheduleTypes,
+                              MainDropDownWidget<PeriodTypes>(
+                                items: PeriodTypes.values,
                                 text: 'select_schedule'.i18n,
                                 onChanged: onScheduleTypeSelected,
-                                selectedValue: selectedScheduleType,
                               ),
                             ],
                           ),
@@ -740,11 +894,10 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
                               const SizedBox(
                                 height: 8,
                               ),
-                              MainDropDownWidget<BreederByGenderModel>(
-                                items: withDrawalsTypes,
+                              MainDropDownWidget<PeriodTypes>(
+                                items: PeriodTypes.values,
                                 text: 'select_with_drawal'.i18n,
                                 onChanged: onWithDrawalTypeSelected,
-                                selectedValue: selectedWithDrawalType,
                               ),
                             ],
                           ),

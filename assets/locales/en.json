@@ -213,6 +213,7 @@
   "months": "months",
   "years": "years",
   "create_treatment": "Create Treatment",
+  "update_treatment": "Update Treatment",
   "category": "Category",
   "select_category": "Select Category",
   "select_ailment": "Select Ailment",
@@ -248,5 +249,6 @@
   "once": "Once",
   "every_week": "Every Week",
   "every_2_weeks": "Every 2 Weeks",
-  "every_month": "Every Month"
+  "every_month": "Every Month",
+  "rabbit_type": "Rabbit Type"
 }

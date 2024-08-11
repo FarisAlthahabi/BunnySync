@@ -11,7 +11,6 @@ import 'package:bunny_sync/global/utils/enums/rabbit_types.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:meta/meta.dart';
 
 part 'states/add_ailment_state.dart';
 

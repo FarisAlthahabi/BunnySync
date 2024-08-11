@@ -8,6 +8,8 @@ part of 'treatment_post_model.dart';
 
 TreatmentPostModel _$TreatmentPostModelFromJson(Map<String, dynamic> json) =>
     TreatmentPostModel(
+      breederId: (json['breeder'] as num?)?.toInt(),
+      kitId: (json['kits'] as num?)?.toInt(),
       ailmentId: (json['ailments'] as num?)?.toInt(),
       title: json['title'] as String?,
       startDate: const DateParser().fromJson(json['start_date'] as String?),
@@ -15,18 +17,24 @@ TreatmentPostModel _$TreatmentPostModelFromJson(Map<String, dynamic> json) =>
       method: json['method'] as String?,
       type: json['type'] as String?,
       dosageCount: (json['dosage_count'] as num?)?.toInt(),
-      dosageType: json['dosage_type'] as String?,
+      dosageType:
+          $enumDecodeNullable(_$DosageTypesEnumMap, json['dosage_type']),
       dosageCountPer: (json['dosage_count_per'] as num?)?.toInt(),
-      dosageTypePer: json['dosage_type_per'] as String?,
+      dosageTypePer:
+          $enumDecodeNullable(_$DosagePerTypesEnumMap, json['dosage_type_per']),
       scheduleCount: (json['schedule_count'] as num?)?.toInt(),
-      scheduleType: json['schedule_type'] as String?,
+      scheduleType:
+          $enumDecodeNullable(_$PeriodTypesEnumMap, json['schedule_type']),
       withDrawalCount: (json['withdrawal_count'] as num?)?.toInt(),
-      withDrawalType: json['widthdrawal_type'] as String?,
+      withDrawalType:
+          $enumDecodeNullable(_$PeriodTypesEnumMap, json['widthdrawal_type']),
       note: json['note'] as String?,
     );
 
 Map<String, dynamic> _$TreatmentPostModelToJson(TreatmentPostModel instance) =>
     <String, dynamic>{
+      'breeder': instance.breederId,
+      'kits': instance.kitId,
       'ailments': instance.ailmentId,
       'title': instance.title,
       'start_date': _$JsonConverterToJson<String?, DateTime>(
@@ -35,15 +43,35 @@ Map<String, dynamic> _$TreatmentPostModelToJson(TreatmentPostModel instance) =>
       'method': instance.method,
       'type': instance.type,
       'dosage_count': instance.dosageCount,
-      'dosage_type': instance.dosageType,
+      'dosage_type': _$DosageTypesEnumMap[instance.dosageType]!,
       'dosage_count_per': instance.dosageCountPer,
-      'dosage_type_per': instance.dosageTypePer,
+      'dosage_type_per': _$DosagePerTypesEnumMap[instance.dosageTypePer]!,
       'schedule_count': instance.scheduleCount,
-      'schedule_type': instance.scheduleType,
+      'schedule_type': _$PeriodTypesEnumMap[instance.scheduleType]!,
       'withdrawal_count': instance.withDrawalCount,
-      'widthdrawal_type': instance.withDrawalType,
+      'widthdrawal_type': _$PeriodTypesEnumMap[instance.withDrawalType]!,
       'note': instance.note,
     };
+
+const _$DosageTypesEnumMap = {
+  DosageTypes.ml: 'ml',
+  DosageTypes.litter: 'litter',
+  DosageTypes.oz: 'oz',
+};
+
+const _$DosagePerTypesEnumMap = {
+  DosagePerTypes.lbs: 'lbs',
+  DosagePerTypes.oz: 'oz',
+  DosagePerTypes.kg: 'kg',
+  DosagePerTypes.grams: 'grams',
+};
+
+const _$PeriodTypesEnumMap = {
+  PeriodTypes.days: 'days',
+  PeriodTypes.weeks: 'weeks',
+  PeriodTypes.months: 'months',
+  PeriodTypes.years: 'years',
+};
 
 Json? _$JsonConverterToJson<Json, Value>(
   Value? value,
