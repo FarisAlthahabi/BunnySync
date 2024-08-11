@@ -19,6 +19,7 @@ import 'package:bunny_sync/global/widgets/main_error_widget.dart';
 import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -72,8 +73,9 @@ class _HomePageState extends State<HomePage> implements HomeViewCallBacks {
 
   @override
   void initState() {
-    homeCubit.getDashboardInfo();
     super.initState();
+
+    homeCubit.getDashboardInfo();
   }
 
   @override
@@ -252,6 +254,7 @@ class _HomePageState extends State<HomePage> implements HomeViewCallBacks {
                     );
                   } else if (state is HomeFail) {
                     return MainErrorWidget(
+                      height: 0.5.sh,
                       error: state.message,
                       onTap: onTryAgainTap,
                     );
