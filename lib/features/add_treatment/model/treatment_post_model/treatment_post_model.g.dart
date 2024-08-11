@@ -12,7 +12,8 @@ TreatmentPostModel _$TreatmentPostModelFromJson(Map<String, dynamic> json) =>
       kitId: (json['kits'] as num?)?.toInt(),
       ailmentId: (json['ailments'] as num?)?.toInt(),
       title: json['title'] as String?,
-      startDate: const DateParser().fromJson(json['start_date'] as String?),
+      startDate:
+          const DateTimeConverter().fromJson(json['start_date'] as String?),
       medication: json['medication'] as String?,
       method: json['method'] as String?,
       type: json['type'] as String?,
@@ -38,7 +39,7 @@ Map<String, dynamic> _$TreatmentPostModelToJson(TreatmentPostModel instance) =>
       'ailments': instance.ailmentId,
       'title': instance.title,
       'start_date': _$JsonConverterToJson<String?, DateTime>(
-          instance.startDate, const DateParser().toJson),
+          instance.startDate, const DateTimeConverter().toJson),
       'medication': instance.medication,
       'method': instance.method,
       'type': instance.type,
