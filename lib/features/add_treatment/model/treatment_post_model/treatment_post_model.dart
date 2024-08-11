@@ -4,7 +4,7 @@ import 'package:bunny_sync/features/add_treatment/model/dosage_per_types/dosage_
 import 'package:bunny_sync/features/add_treatment/model/dosage_types/dosage_types.dart';
 import 'package:bunny_sync/features/add_treatment/model/period_types/period_types.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
-import 'package:bunny_sync/global/utils/json_converters/date_parser.dart';
+import 'package:bunny_sync/global/utils/json_converters/date_time_converter.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
@@ -145,7 +145,7 @@ class TreatmentPostModel {
     return _title ?? (throw "Treatments can't be empty");
   }
 
-  @DateParser()
+  @DateTimeConverter()
   @JsonKey(name: 'start_date')
   DateTime? get startDate {
     return _startDate ?? (throw "Start Date can't be empty");

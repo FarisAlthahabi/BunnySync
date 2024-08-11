@@ -1,9 +1,9 @@
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-class DateParser implements JsonConverter<DateTime, String?> {
-  const DateParser();
-  
+class DateTimeConverter implements JsonConverter<DateTime, String?> {
+  const DateTimeConverter();
+
   @override
   DateTime fromJson(String? json) {
     if (json == null) {

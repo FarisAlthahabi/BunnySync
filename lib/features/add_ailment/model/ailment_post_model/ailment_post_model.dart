@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:bunny_sync/features/add_ailment/model/ailment_types/ailment_status_types.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
-import 'package:bunny_sync/global/utils/json_converters/date_parser.dart';
+import 'package:bunny_sync/global/utils/json_converters/date_time_converter.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
@@ -97,7 +97,7 @@ class AilmentPostModel {
     }
   }
 
-  @DateParser()
+  @DateTimeConverter()
   @JsonKey(name: 'start_date')
   DateTime get startDate {
     if (_startDate == null || _startDate.toString().isEmpty) {
