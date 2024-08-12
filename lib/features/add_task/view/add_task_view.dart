@@ -1,7 +1,9 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:bunny_sync/features/add_ailment/model/recurring_periods_types/recurring_periods_types.dart';
 import 'package:bunny_sync/features/add_task/cubit/add_task_cubit.dart';
+import 'package:bunny_sync/features/add_task/model/task_genres/task_genres.dart';
+import 'package:bunny_sync/features/add_task/model/task_types/task_types.dart';
 import 'package:bunny_sync/features/breeders/cubit/breeders_cubit.dart';
-import 'package:bunny_sync/features/breeders/models/breeder_by_gender_model/breeder_by_gender_model.dart';
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
 import 'package:bunny_sync/features/litters/cubit/litters_cubit.dart';
 import 'package:bunny_sync/features/litters/models/litter_entry_model/litter_entry_model.dart';
@@ -9,6 +11,7 @@ import 'package:bunny_sync/features/tasks/cubit/tasks_cubit.dart';
 import 'package:bunny_sync/features/tasks/model/task_model/task_model.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
+import 'package:bunny_sync/global/mixins/mixins.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/buttons/main_action_button.dart';
@@ -20,13 +23,12 @@ import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:bunny_sync/global/widgets/main_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 abstract class AddTaskViewCallBacks {
-  void onTypeSelected(BreederByGenderModel? type);
+  void onTypeSelected(TaskTypes? type);
 
-  void onTaskTypeSelected(BreederByGenderModel? type);
+  void onTaskGenreSelected(TaskGenres genre);
 
   void onNameChanged(String name);
 
@@ -38,7 +40,7 @@ abstract class AddTaskViewCallBacks {
 
   void onDateSelected(DateTime date, List<int> numbers);
 
-  void onRecurringSelected(BreederByGenderModel? recurringPeriod);
+  void onRecurringSelected(RecurringPeriodsTypes? recurringPeriod);
 
   void onNoteChanged(String note);
 
@@ -62,10 +64,18 @@ class AddTaskView extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider.value(value: tasksCubit),
-        BlocProvider(create: (context) => get<AddTaskCubit>()),
-        BlocProvider(create: (context) => get<BreedersCubit>()),
-        BlocProvider(create: (context) => get<LittersCubit>()),
+        BlocProvider.value(
+          value: tasksCubit,
+        ),
+        BlocProvider(
+          create: (context) => get<AddTaskCubit>(),
+        ),
+        BlocProvider(
+          create: (context) => get<BreedersCubit>(),
+        ),
+        BlocProvider(
+          create: (context) => get<LittersCubit>(),
+        ),
       ],
       child: AddTaskPage(task: task),
     );
@@ -82,6 +92,7 @@ class AddTaskPage extends StatefulWidget {
 }
 
 class _AddTaskPageState extends State<AddTaskPage>
+    with PostFrameMixin
     implements AddTaskViewCallBacks {
   late final AddTaskCubit addTaskCubit = context.read();
 
@@ -90,86 +101,36 @@ class _AddTaskPageState extends State<AddTaskPage>
   late final BreedersCubit breedersCubit = context.read();
 
   late final LittersCubit littersCubit = context.read();
+
   final nameFocusNode = FocusNode();
 
   final noteFocusNode = FocusNode();
 
-  bool showSelectBreeder = false;
-
-  // TODO: remove thess and get them from cubit
-
-  final List<BreederByGenderModel> types = [
-    BreederByGenderModel(id: 1, name: 'general'.i18n),
-    BreederByGenderModel(id: 2, name: 'breeder'.i18n),
-    BreederByGenderModel(id: 3, name: 'litter'.i18n),
-  ];
-  final List<BreederByGenderModel> taskTypes = [
-    const BreederByGenderModel(id: 1, name: 'Breed'),
-    const BreederByGenderModel(id: 2, name: 'Pregnancy check'),
-    const BreederByGenderModel(id: 3, name: 'Birth'),
-    const BreederByGenderModel(id: 4, name: 'Weight'),
-    const BreederByGenderModel(id: 5, name: 'Nest box'),
-    const BreederByGenderModel(id: 6, name: 'Medical'),
-    const BreederByGenderModel(id: 7, name: 'Calendar'),
-    const BreederByGenderModel(id: 8, name: 'Heart'),
-    const BreederByGenderModel(id: 9, name: 'Ribbon'),
-    const BreederByGenderModel(id: 10, name: 'Eye'),
-    const BreederByGenderModel(id: 11, name: 'Flag'),
-    const BreederByGenderModel(id: 12, name: 'Paw'),
-    const BreederByGenderModel(id: 13, name: 'Trophy'),
-  ];
-  final List<BreederByGenderModel> recurringPeriods = [
-    const BreederByGenderModel(id: 1, name: 'Once'),
-    const BreederByGenderModel(id: 2, name: 'Every Week'),
-    const BreederByGenderModel(id: 3, name: 'Every 2 Weeks'),
-    const BreederByGenderModel(id: 4, name: 'Every Month'),
-  ];
-  BreederByGenderModel? selectedType;
-  BreederByGenderModel? selectedTaskType;
-  BreederEntryModel? selectedBreeder;
-  LitterEntryModel? selectedLitter;
-  BreederByGenderModel? selectedRecurringPeriod;
   @override
-  void initState() {
-    breedersCubit.getBreeders();
-    littersCubit.getLitters();
-    final task = widget.task;
-    if (task != null) {
-      addTaskCubit.setType(
-        task.litterId == null ? 'breeder'.i18n : 'litter'.i18n,
-      );
-      addTaskCubit.setTaskType(task.type);
-      addTaskCubit.setWho(task.who);
-      addTaskCubit.setName(task.name);
-      addTaskCubit.setDate(task.startDate);
-      addTaskCubit.setRecurring(task.recurring);
-      addTaskCubit.setNote(task.note);
-    }
-    super.initState();
+  void dispose() {
+    nameFocusNode.dispose();
+    noteFocusNode.dispose();
+    super.dispose();
+  }
+
+  @override
+  void onTypeSelected(TaskTypes? type) {
+    addTaskCubit.setType(type);
   }
 
   @override
   void onBreederSelected(BreederEntryModel? breeder) {
-    setState(() {
-      selectedBreeder = breeder;
-    });
+    addTaskCubit.setBreederId(breeder?.id);
   }
 
   @override
   void onLitterSelected(LitterEntryModel? litter) {
-    setState(() {
-      selectedLitter = litter;
-    });
+    addTaskCubit.setLitterId(litter?.id);
   }
 
   @override
   void onDateSelected(DateTime date, List<int> numbers) {
-    print(date);
-    final formattedDateString = DateFormat('MM/dd/yyyy').format(date);
-    print(formattedDateString);
-    final formattedDate = DateFormat('dd/MM/yyyy').parse(formattedDateString);
-    print(formattedDate);
-    addTaskCubit.setDate(formattedDate);
+    addTaskCubit.setDate(date);
   }
 
   @override
@@ -193,44 +154,48 @@ class _AddTaskPageState extends State<AddTaskPage>
   }
 
   @override
-  void onRecurringSelected(BreederByGenderModel? recurringPeriod) {
-    addTaskCubit.setRecurring(recurringPeriod?.id.toString());
-    setState(() {
-      selectedRecurringPeriod = recurringPeriod;
-    });
+  void onRecurringSelected(RecurringPeriodsTypes? recurringPeriod) {
+    addTaskCubit.setRecurring(recurringPeriod);
   }
 
   @override
-  void onTaskTypeSelected(BreederByGenderModel? taskType) {
-    addTaskCubit.setTaskType(taskType?.name);
-    setState(() {
-      selectedTaskType = taskType;
-    });
-  }
-
-  @override
-  void onTypeSelected(BreederByGenderModel? type) {
-    addTaskCubit.setType(type?.name);
-    setState(() {
-      selectedType = type;
-      if (type?.name != 'general'.i18n) {
-        showSelectBreeder = true;
-      } else {
-        showSelectBreeder = false;
-      }
-    });
+  void onTaskGenreSelected(TaskGenres? genre) {
+    addTaskCubit.setTaskGenre(genre);
   }
 
   @override
   void onSave() {
-    addTaskCubit.addTask();
+    final task = widget.task;
+    if (task != null) {
+      addTaskCubit.updateTask(task.id);
+    } else {
+      addTaskCubit.addTask();
+    }
   }
 
   @override
-  void dispose() {
-    nameFocusNode.dispose();
-    noteFocusNode.dispose();
-    super.dispose();
+  void onPostFrame() {
+    final task = widget.task;
+    if (task != null) {
+      if (task.breederId != null) {
+        addTaskCubit.setType(TaskTypes.breeder);
+        addTaskCubit.setBreederId(task.breederId);
+      } else if (task.litterId != null) {
+        addTaskCubit.setType(TaskTypes.litter);
+        addTaskCubit.setLitterId(task.litterId);
+      } else {
+        addTaskCubit.setType(TaskTypes.general);
+      }
+
+      addTaskCubit.setTaskGenre(task.type);
+      addTaskCubit.setName(task.name);
+      addTaskCubit.setDate(task.startDate);
+      addTaskCubit.setRecurring(task.recurring);
+      addTaskCubit.setNote(task.note);
+    }
+
+    breedersCubit.getBreeders();
+    littersCubit.getLitters();
   }
 
   @override
@@ -238,7 +203,7 @@ class _AddTaskPageState extends State<AddTaskPage>
     return Scaffold(
       appBar: MainAppBar(
         title: Text(
-          'create_task'.i18n,
+          widget.task == null ? 'create_task'.i18n : 'update_task'.i18n,
         ),
         centerTitle: true,
       ),
@@ -258,112 +223,138 @@ class _AddTaskPageState extends State<AddTaskPage>
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              BlocBuilder<LittersCubit, GeneralLittersState>(
-                                builder: (context, innerState2) {
-                                  if (innerState2 is LittersSuccess &&
-                                      state is BreedersSuccess) {
-                                    return Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const SizedBox(
-                                          height: 30,
-                                        ),
-                                        Text(
-                                          'type'.i18n,
-                                          style: context.tt.bodyLarge?.copyWith(
-                                            fontWeight: FontWeight.w700,
-                                            color: context
-                                                .cs.surfaceContainerHighest,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
-                                        MainDropDownWidget<
-                                            BreederByGenderModel>(
-                                          items: types,
-                                          text: 'select_type'.i18n,
-                                          onChanged: onTypeSelected,
-                                          selectedValue: selectedType,
-                                        ),
-                                        const SizedBox(
-                                          height: 25,
-                                        ),
-                                        Visibility(
-                                          visible: showSelectBreeder,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                'who'.i18n,
-                                                style: context.tt.bodyLarge
-                                                    ?.copyWith(
-                                                  fontWeight: FontWeight.w700,
-                                                  color: context.cs
-                                                      .surfaceContainerHighest,
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 8,
-                                              ),
-                                              if (selectedType?.name ==
-                                                  'breeder'.i18n)
-                                                MainDropDownWidget<
-                                                    BreederEntryModel>(
-                                                  items: state
-                                                      .breedersStatusModel.all,
-                                                  text: 'select_breeder'.i18n,
-                                                  onChanged: onBreederSelected,
-                                                  selectedValue:
-                                                      selectedBreeder,
-                                                ),
-                                              if (selectedType?.name ==
-                                                  'litter'.i18n)
-                                                MainDropDownWidget<
-                                                    LitterEntryModel>(
-                                                  items: innerState2
-                                                      .littersStatusModel.all,
-                                                  text: 'select_litter'.i18n,
-                                                  onChanged: onLitterSelected,
-                                                  selectedValue: selectedLitter,
-                                                ),
-                                              const SizedBox(
-                                                height: 25,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Text(
-                                          'task_type'.i18n,
-                                          style: context.tt.bodyLarge?.copyWith(
-                                            fontWeight: FontWeight.w700,
-                                            color: context
-                                                .cs.surfaceContainerHighest,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
-                                        MainDropDownWidget<
-                                            BreederByGenderModel>(
-                                          items: taskTypes,
-                                          text: 'select_type'.i18n,
-                                          onChanged: onTaskTypeSelected,
-                                          selectedValue: selectedTaskType,
-                                        ),
-                                        const SizedBox(
-                                          height: 25,
-                                        ),
-                                      ],
-                                    );
-                                  } else if (innerState2 is LittersFail) {
-                                    return Text(innerState2.message);
-                                  } else {
-                                    return const SizedBox();
-                                  }
+                              const SizedBox(
+                                height: 30,
+                              ),
+                              Text(
+                                'type'.i18n,
+                                style: context.tt.bodyLarge?.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                  color: context.cs.surfaceContainerHighest,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              BlocBuilder<AddTaskCubit, GeneralAddTaskState>(
+                                buildWhen: (previous, current) =>
+                                    current is ShowTaskTypeState,
+                                builder: (context, state) {
+                                  return MainDropDownWidget<TaskTypes>(
+                                    items: TaskTypes.values,
+                                    text: 'select_type'.i18n,
+                                    onChanged: onTypeSelected,
+                                    selectedValue: state is ShowTaskTypeState
+                                        ? state.taskType
+                                        : null,
+                                  );
                                 },
+                              ),
+                              const SizedBox(
+                                height: 25,
+                              ),
+                              BlocBuilder<AddTaskCubit, GeneralAddTaskState>(
+                                buildWhen: (previous, current) =>
+                                    current is ShowTaskTypeState,
+                                builder: (context, innerState3) {
+                                  if (innerState3 is ShowTaskTypeState) {
+                                    if (innerState3.taskType.isBreeder) {
+                                      if (state is BreedersSuccess) {
+                                        return Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'breeders'.i18n,
+                                              style: context.tt.bodyLarge
+                                                  ?.copyWith(
+                                                fontWeight: FontWeight.w700,
+                                                color: context
+                                                    .cs.surfaceContainerHighest,
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 8,
+                                            ),
+                                            MainDropDownWidget<
+                                                BreederEntryModel>(
+                                              items:
+                                                  state.breedersStatusModel.all,
+                                              text: 'select_breeder'.i18n,
+                                              onChanged: onBreederSelected,
+                                              selectedValue: addTaskCubit
+                                                  .getSelectedBreeder(
+                                                state.breedersStatusModel.all,
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 25,
+                                            ),
+                                          ],
+                                        );
+                                      }
+
+                                      return const SizedBox();
+                                    } else if (innerState3.taskType.isLitter) {
+                                      if (innerState is LittersSuccess) {
+                                        return Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'litters'.i18n,
+                                              style: context.tt.bodyLarge
+                                                  ?.copyWith(
+                                                fontWeight: FontWeight.w700,
+                                                color: context
+                                                    .cs.surfaceContainerHighest,
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 8,
+                                            ),
+                                            MainDropDownWidget<
+                                                LitterEntryModel>(
+                                              items: innerState
+                                                  .littersStatusModel.all,
+                                              text: 'select_litter'.i18n,
+                                              onChanged: onLitterSelected,
+                                              selectedValue: addTaskCubit
+                                                  .getSelectedLitter(
+                                                innerState
+                                                    .littersStatusModel.all,
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 25,
+                                            ),
+                                          ],
+                                        );
+                                      }
+                                    }
+                                  }
+
+                                  return const SizedBox();
+                                },
+                              ),
+                              Text(
+                                'task_type'.i18n,
+                                style: context.tt.bodyLarge?.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                  color: context.cs.surfaceContainerHighest,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              MainDropDownWidget<TaskGenres>(
+                                items: TaskGenres.values,
+                                text: 'select_type'.i18n,
+                                onChanged: onTaskGenreSelected,
+                                selectedValue: addTaskCubit.getTaskGenre(),
+                              ),
+                              const SizedBox(
+                                height: 25,
                               ),
                               MainTextField(
                                 initialValue: widget.task?.name,
@@ -405,11 +396,12 @@ class _AddTaskPageState extends State<AddTaskPage>
                               const SizedBox(
                                 height: 8,
                               ),
-                              MainDropDownWidget<BreederByGenderModel>(
-                                items: recurringPeriods,
+                              MainDropDownWidget<RecurringPeriodsTypes>(
+                                items: RecurringPeriodsTypes.values,
                                 text: 'select_recurring'.i18n,
                                 onChanged: onRecurringSelected,
-                                selectedValue: selectedRecurringPeriod,
+                                selectedValue:
+                                    addTaskCubit.getSelectedRecurringType(),
                               ),
                               const SizedBox(
                                 height: 25,

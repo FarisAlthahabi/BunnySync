@@ -1,8 +1,14 @@
 import 'package:bloc/bloc.dart';
+import 'package:bunny_sync/features/add_ailment/model/recurring_periods_types/recurring_periods_types.dart';
+import 'package:bunny_sync/features/add_task/model/task_genres/task_genres.dart';
 import 'package:bunny_sync/features/add_task/model/task_post_model/task_post_model.dart';
+import 'package:bunny_sync/features/add_task/model/task_types/task_types.dart';
 import 'package:bunny_sync/features/add_task/repo/add_task_repo.dart';
+import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
+import 'package:bunny_sync/features/litters/models/litter_entry_model/litter_entry_model.dart';
 import 'package:bunny_sync/features/tasks/model/task_model/task_model.dart';
-import 'package:bunny_sync/global/widgets/main_drop_down_widget.dart';
+import 'package:bunny_sync/global/localization/translations.i18n.dart';
+import 'package:collection/collection.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
@@ -10,9 +16,9 @@ part 'states/add_task_state.dart';
 
 part 'states/general_add_task_state.dart';
 
-part 'states/task_property_post_state.dart';
+part 'states/show_task_type_state.dart';
 
-part 'states/drop_down_state.dart';
+part 'states/task_property_post_state.dart';
 
 @injectable
 class AddTaskCubit extends Cubit<GeneralAddTaskState> {
@@ -22,21 +28,62 @@ class AddTaskCubit extends Cubit<GeneralAddTaskState> {
 
   TaskPostModel _taskPostModel = const TaskPostModel();
 
-  void setType(String? type) {
+  void setType(TaskTypes? type) {
+    if (type == null) {
+      emit(AddTaskFail('task_type_null'.i18n));
+      return;
+    }
+
     _taskPostModel = _taskPostModel.copyWith(
       type: () => type,
     );
+
+    emit(ShowTaskTypeState(type));
   }
 
-  void setWho(String? who) {
+  void setBreederId(int? breederId) {
     _taskPostModel = _taskPostModel.copyWith(
-      who: () => who,
+      who: () => breederId.toString(),
     );
   }
 
-  void setTaskType(String? taskType) {
+  BreederEntryModel? getSelectedBreeder(List<BreederEntryModel> breeders) {
+    final who = _taskPostModel.who;
+    if (_taskPostModel.type.isBreeder && who != null) {
+      return breeders.firstWhereOrNull(
+        (element) => element.id == int.parse(who),
+      );
+    }
+
+    return null;
+  }
+
+  void setLitterId(int? litterId) {
     _taskPostModel = _taskPostModel.copyWith(
-      taskType: () => taskType,
+      who: () => litterId.toString(),
+    );
+  }
+
+  LitterEntryModel? getSelectedLitter(List<LitterEntryModel> litters) {
+    final who = _taskPostModel.who;
+    if (_taskPostModel.type.isLitter && who != null) {
+      return litters.firstWhereOrNull(
+        (element) => element.id == int.parse(who),
+      );
+    }
+
+    return null;
+  }
+
+  void setTaskGenre(TaskGenres? genre) {
+    _taskPostModel = _taskPostModel.copyWith(
+      taskType: () => genre,
+    );
+  }
+
+  TaskGenres? getTaskGenre() {
+    return TaskGenres.values.firstWhereOrNull(
+      (element) => element == _taskPostModel.taskType,
     );
   }
 
@@ -52,9 +99,15 @@ class AddTaskCubit extends Cubit<GeneralAddTaskState> {
     );
   }
 
-  void setRecurring(String? recurring) {
+  void setRecurring(RecurringPeriodsTypes? recurring) {
     _taskPostModel = _taskPostModel.copyWith(
       recurring: () => recurring,
+    );
+  }
+
+  RecurringPeriodsTypes? getSelectedRecurringType() {
+    return RecurringPeriodsTypes.values.firstWhereOrNull(
+      (element) => element == _taskPostModel.recurring,
     );
   }
 
@@ -62,10 +115,6 @@ class AddTaskCubit extends Cubit<GeneralAddTaskState> {
     _taskPostModel = _taskPostModel.copyWith(
       note: () => note,
     );
-  }
-
-  void selectWhoType<T extends DropDownItemModel>(T? model) {
-    emit(WhoDropDownState(model));
   }
 
   Future<void> addTask() async {

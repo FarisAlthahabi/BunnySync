@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/tasks/cubit/tasks_cubit.dart';
 import 'package:bunny_sync/features/tasks/model/task_model/task_model.dart';
 import 'package:bunny_sync/global/di/di.dart';
+import 'package:bunny_sync/global/extensions/date_time_x.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
@@ -65,6 +66,7 @@ class TasksPage extends StatefulWidget {
 
 class _TasksPageState extends State<TasksPage> implements TasksViewCallBacks {
   late final TasksCubit tasksCubit = context.read();
+
   @override
   void initState() {
     tasksCubit.getTasks();
@@ -184,32 +186,27 @@ class _TasksPageState extends State<TasksPage> implements TasksViewCallBacks {
                           final item = state.tasks[index];
                           return ElementTile(
                             onTap: onTaskTap,
-                            model: item ,
+                            model: item,
                             leading: Skeleton.shade(
                               child: BorderedTextualWidget(
-                                text: item.id.toString(),
+                                text: (index + 1).toString(),
                               ),
                             ),
                             tag: item.who,
-                            createdAt: item.startDate.toString(),
+                            createdAt: item.startDate.formatMMMMMDoYYYY,
                             title: Text(
                               strutStyle: const StrutStyle(height: 1.6),
                               item.name,
-                              style: context.tt.titleSmall?.copyWith(
-                                fontWeight: FontWeight.w400,
+                              style: context.tt.titleMedium?.copyWith(
+                                fontWeight: FontWeight.w700,
                               ),
                             ),
                             type: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(
-                                  Icons.favorite_outline_outlined,
-                                  color: context.cs.onSurface,
-                                ),
-                                const SizedBox(width: 5),
                                 Text(
-                                  item.type,
-                                  style: context.tt.labelSmall
+                                  item.type.name,
+                                  style: context.tt.labelMedium
                                       ?.copyWith(color: context.cs.tertiary),
                                 ),
                               ],
@@ -231,7 +228,10 @@ class _TasksPageState extends State<TasksPage> implements TasksViewCallBacks {
           } else if (state is TasksEmpty) {
             return MainErrorWidget(error: state.message);
           } else if (state is TasksFail) {
-            return MainErrorWidget(error: state.message);
+            return MainErrorWidget(
+              error: state.message,
+              onTap: onTryAgain,
+            );
           } else {
             return const SizedBox.shrink();
           }
