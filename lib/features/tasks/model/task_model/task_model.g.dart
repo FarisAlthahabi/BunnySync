@@ -20,8 +20,8 @@ TaskModel _$TaskModelFromJson(Map<String, dynamic> json) => TaskModel(
       updatedAt: DateTime.parse(json['updated_at'] as String),
       breedPairId: (json['breed_pair_id'] as num?)?.toInt(),
       status: json['status'] as String?,
-      breederId: const IntConverter().fromJson(json['breeder_id']),
-      litterId: const IntConverter().fromJson(json['litter_id']),
+      breederId: const IntNullableConverter().fromJson(json['breeder_id']),
+      litterId: const IntNullableConverter().fromJson(json['litter_id']),
       who: TaskModel._whoFromJson(json['who']),
       dtRowIndex: (json['DT_RowIndex'] as num?)?.toInt(),
     );
@@ -29,8 +29,8 @@ TaskModel _$TaskModelFromJson(Map<String, dynamic> json) => TaskModel(
 Map<String, dynamic> _$TaskModelToJson(TaskModel instance) => <String, dynamic>{
       'id': instance.id,
       'user_id': instance.userId,
-      'breeder_id': const IntConverter().toJson(instance.breederId),
-      'litter_id': const IntConverter().toJson(instance.litterId),
+      'breeder_id': const IntNullableConverter().toJson(instance.breederId),
+      'litter_id': const IntNullableConverter().toJson(instance.litterId),
       'breed_pair_id': instance.breedPairId,
       'name': instance.name,
       'status': instance.status,

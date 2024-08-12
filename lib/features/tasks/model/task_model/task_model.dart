@@ -5,6 +5,7 @@ import 'package:bunny_sync/features/add_task/model/task_genres/task_genres.dart'
 import 'package:bunny_sync/global/localization/translations.i18n.dart';
 import 'package:bunny_sync/global/utils/json_converters/date_time_converter.dart';
 import 'package:bunny_sync/global/utils/json_converters/int_converter.dart';
+import 'package:bunny_sync/global/utils/json_converters/int_nullable_converter.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -44,11 +45,11 @@ class TaskModel implements BottomSheetItemModel {
   @JsonKey(name: 'user_id')
   final int userId;
 
-  @IntConverter()
+  @IntNullableConverter()
   @JsonKey(name: 'breeder_id')
   final int? breederId;
 
-  @IntConverter()
+  @IntNullableConverter()
   @JsonKey(name: 'litter_id')
   final int? litterId;
 
