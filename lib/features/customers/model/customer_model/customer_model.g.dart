@@ -28,7 +28,7 @@ CustomerModel _$CustomerModelFromJson(Map<String, dynamic> json) =>
       updatedAt: json['updated_at'] == null
           ? null
           : DateTime.parse(json['updated_at'] as String),
-      date: const DateParser().fromJson(json['date'] as String?),
+      date: const DateTimeConverter().fromJson(json['date'] as String?),
       dtRowIndex: (json['DT_RowIndex'] as num?)?.toInt(),
     );
 
@@ -51,7 +51,7 @@ Map<String, dynamic> _$CustomerModelToJson(CustomerModel instance) =>
       'created_at': instance.createdAt?.toIso8601String(),
       'updated_at': instance.updatedAt?.toIso8601String(),
       'date': _$JsonConverterToJson<String?, DateTime>(
-          instance.date, const DateParser().toJson),
+          instance.date, const DateTimeConverter().toJson),
       'DT_RowIndex': instance.dtRowIndex,
     };
 

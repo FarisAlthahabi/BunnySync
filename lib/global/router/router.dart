@@ -131,7 +131,7 @@ class AppRouter extends _$AppRouter {
                 AutoRoute(
                   page: AddCategoryRoute.page,
                 ),
-                 AutoRoute(
+                AutoRoute(
                   page: HealthRoute.page,
                 ),
                 AutoRoute(
