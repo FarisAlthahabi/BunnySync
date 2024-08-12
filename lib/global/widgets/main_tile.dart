@@ -11,8 +11,8 @@ class MainTile<T extends BottomSheetItemModel> extends StatelessWidget {
     this.borderRadius = AppConstants.borderRadius8,
     this.onTap,
     this.boxShadow,
+    this.onEdit,
     this.model,
-    this.onEditTap,
   });
 
   final Widget child;
@@ -20,13 +20,13 @@ class MainTile<T extends BottomSheetItemModel> extends StatelessWidget {
   final VoidCallback? onTap;
   final List<BoxShadow>? boxShadow;
   final BorderRadius borderRadius;
-  final ValueSetter<T>? onEditTap;
+  final ValueSetter<T>? onEdit;
   final T? model;
 
   @override
   Widget build(BuildContext context) {
-    final onEditTap = this.onEditTap;
     final model = this.model;
+    final onEdit = this.onEdit;
     return Container(
       decoration: BoxDecoration(
         color: context.cs.surface,
@@ -37,9 +37,7 @@ class MainTile<T extends BottomSheetItemModel> extends StatelessWidget {
         type: MaterialType.transparency,
         child: InkWell(
           borderRadius: borderRadius,
-          onTap: onEditTap != null && model != null
-              ? () => onEditTap(model)
-              : onTap,
+          onTap: model == null || onEdit == null ? onTap : ()=> onEdit(model),
           child: Padding(
             padding: padding,
             child: child,

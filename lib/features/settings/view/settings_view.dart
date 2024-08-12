@@ -65,7 +65,7 @@ class _SettingsPageState extends State<SettingsPage>
 
   @override
   void onHealthTap() {
-    // TODO: implement onHealthTap
+    context.router.push(const HealthRoute());
   }
 
   @override

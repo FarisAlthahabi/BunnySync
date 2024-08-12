@@ -30,6 +30,10 @@ LitterEntryModel _$LitterEntryModelFromJson(Map<String, dynamic> json) =>
       dtRowIndex: (json['DT_RowIndex'] as num).toInt(),
       isActive: BunnySyncJsonUtils.isActiveFromJson(
           JsonUtils.readValue(json, 'isActive') as Map<String, dynamic>),
+      allKits: (json['all_kits'] as List<dynamic>?)
+              ?.map((e) => KitModel.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
       prefix: json['prefix'] as String?,
       cage: json['cage'] as String?,
       breedText: json['breed_text'] as String?,
@@ -64,5 +68,6 @@ Map<String, dynamic> _$LitterEntryModelToJson(LitterEntryModel instance) =>
       'dead': instance.dead,
       'sold': const StringConverter().toJson(instance.sold),
       'DT_RowIndex': instance.dtRowIndex,
+      'all_kits': instance.allKits,
       'isActive': instance.isActive,
     };
