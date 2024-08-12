@@ -30,7 +30,7 @@
   "pricing_plan": "Pricing plan",
   "details": "Details",
   "features": "Features",
-  "and": "and",
+  "and": "and ",
   "by_joining": "By joining, you agree to our ",
   "privacy_policy": "privacy policy ",
   "term_of_service": "term of service",
@@ -282,5 +282,18 @@
   "select_country" : "Select Country",
   "select_language" : "Select Language",
   "select_time_zone" : "Select Time Zone",
-  "select_currency" : "Select Currency"
+  "select_currency" : "Select Currency",
+  "city" : "City",
+  "existing_customer" : "Existing Customer",
+  "other_person" : "Other Person",
+  "google" : "Google",
+  "facebook" : "Facebook",
+  "social_media" : "Social Media",
+  "article" : "Article",
+  "advertisment" : "Advertisment",
+  "convention" : "Convention",
+  "sale" : "Sale",
+  "types" : "Types",
+  "my_friends" : "My Friends",
+  "read_our" : "Read our "
 }

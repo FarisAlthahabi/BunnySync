@@ -22,7 +22,6 @@ class DetailTextWidget extends StatelessWidget {
   }
 }
 
-
 @override
 Widget build(BuildContext context) {
   return Text.rich(
@@ -52,12 +51,17 @@ Widget build(BuildContext context) {
 }
 
 class PrivacyPolicyTextWidget extends StatelessWidget {
-  const PrivacyPolicyTextWidget({super.key});
+  const PrivacyPolicyTextWidget({
+    super.key,
+    this.text,
+  });
+
+  final String? text;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 15 , right: 15),
+      padding: const EdgeInsets.only(left: 15, right: 15),
       child: Text.rich(
         style: TextStyle(
           fontFamily: GoogleFonts.manrope().fontFamily,
@@ -66,7 +70,7 @@ class PrivacyPolicyTextWidget extends StatelessWidget {
           color: const Color.fromRGBO(144, 149, 161, 1),
         ),
         TextSpan(
-          text: 'by_joining'.i18n,
+          text: text ?? 'by_joining'.i18n,
           children: [
             TextSpan(
               text: 'privacy_policy'.i18n,

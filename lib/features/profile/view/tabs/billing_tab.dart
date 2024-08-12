@@ -77,7 +77,9 @@ class _BillingPageState extends State<BillingPage> {
                 planModel: widget.plan,
               ),
               const SizedBox(height: 20),
-              const PrivacyPolicyTextWidget(),
+              PrivacyPolicyTextWidget(
+                text: 'read_our'.i18n,
+              ),
               const SizedBox(height: 20),
             ],
           ),

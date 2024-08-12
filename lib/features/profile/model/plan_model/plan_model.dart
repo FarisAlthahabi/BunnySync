@@ -40,8 +40,16 @@ class PlanModel {
   @JsonKey(name: 'short_description')
   final String description;
 
+  // @JsonKey(
+  //   fromJson: BunnySyncJsonUtils.featuresFromJson,
+  //   readValue: JsonUtils.readValue,
+  // )
   final List<String> features;
 
+  // @JsonKey(
+  //   fromJson: BunnySyncJsonUtils.optionsFromJson,
+  //   readValue: JsonUtils.readValue,
+  // )
   final OptionsModel options;
 
   final int archived;

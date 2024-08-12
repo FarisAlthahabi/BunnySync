@@ -1,5 +1,5 @@
-import 'package:bunny_sync/features/breeders/models/breeder_by_gender_model/breeder_by_gender_model.dart';
 import 'package:bunny_sync/features/profile/cubit/profile_cubit.dart';
+import 'package:bunny_sync/features/profile/model/profile_types/profile_types.dart';
 import 'package:bunny_sync/features/profile/model/user_model/user_model.dart';
 import 'package:bunny_sync/global/extensions/date_time_x.dart';
 import 'package:bunny_sync/global/gen/assets.gen.dart';
@@ -23,37 +23,31 @@ abstract class InfoTabCallBacks {
 
   void onLastNameChanged(String lastName);
 
-  void onRabbitryNameChanged(String rabbitryName);
-
   void onPhoneNumberChanged(String phoneNumber);
 
   void onAddressChanged(String address);
 
+  void onCityChanged(String city);
+
   void onStateChanged(String state);
 
-  void onZipCodeChanged(String zipCode);
+  void onSearchChanged(String search);
 
   void onFirstNameSubmitted(String firstName);
 
   void onLastNameSubmitted(String lastName);
 
-  void onRabbitryNameSubmitted(String rabbitryName);
-
   void onPhoneNumberSubmitted(String phoneNumber);
 
   void onAddressSubmitted(String address);
 
+  void onCitySubmitted(String city);
+
   void onStateSubmitted(String state);
 
-  void onZipCodeSubmitted(String zipCode);
+  void onSearchSubmitted(String search);
 
-  void onCountrySelected(BreederByGenderModel? country);
-
-  void onLanguageSelected(BreederByGenderModel? language);
-
-  void onTimeZoneSelected(BreederByGenderModel? timeZone);
-
-  void onCurrencySelected(BreederByGenderModel? currency);
+  void onTypeSelected(ProfileTypes? type);
 }
 
 class InfoTab extends StatelessWidget {
@@ -83,77 +77,31 @@ class _InfoPageState extends State<InfoPage> implements InfoTabCallBacks {
   late final ProfileCubit profileCubit = context.read();
 
   final focusNodes = List.generate(
-    8,
+    7,
     (index) => FocusNode(),
   );
+  final searchFocusNode = FocusNode();
 
-  BreederByGenderModel? selectedCountry;
-  BreederByGenderModel? selectedLanguage;
-  BreederByGenderModel? selectedTimeZone;
-  BreederByGenderModel? selectedCurrency;
-
-  final languages = [
-    BreederByGenderModel(id: 1, name: 'english'.i18n),
-    BreederByGenderModel(id: 2, name: 'french'.i18n),
-    BreederByGenderModel(id: 3, name: 'german'.i18n),
-    BreederByGenderModel(id: 4, name: 'portugeuse'.i18n),
-  ];
-
-  final countries = [
-    const BreederByGenderModel(id: 1, name: 'Australia'),
-    const BreederByGenderModel(id: 2, name: 'Bangladesh'),
-    const BreederByGenderModel(id: 3, name: 'Belarus'),
-    const BreederByGenderModel(id: 4, name: 'Brazil'),
-  ];
-
-  final timeZones = [
-    const BreederByGenderModel(id: 1, name: '(GMT-10:00) Hawaii'),
-    const BreederByGenderModel(id: 2, name: '(GMT-09:00) Alaska'),
-    const BreederByGenderModel(id: 3, name: '(GMT-07:00) Arizona'),
-    const BreederByGenderModel(id: 4, name: '(GMT-06:00) Central America'),
-  ];
-
-  final currencies = [
-    const BreederByGenderModel(id: 1, name: 'USD'),
-    const BreederByGenderModel(id: 2, name: 'Euro'),
-    const BreederByGenderModel(id: 3, name: 'Pound'),
-    const BreederByGenderModel(id: 4, name: 'Bitcoin'),
-  ];
-
-  late final items = [
-    languages,
-    countries,
-    timeZones,
-    currencies,
-  ];
-
-  late final List<BreederByGenderModel?> selectedValue = [
-    selectedCountry,
-    selectedLanguage,
-    selectedTimeZone,
-    selectedCurrency,
-  ];
-
-  late final List<ValueSetter<BreederByGenderModel?>> onValueSelected = [
-    onCountrySelected,
-    onLanguageSelected,
-    onTimeZoneSelected,
-    onCurrencySelected,
-  ];
+  @override
+  void initState() {
+    profileCubit.setFirstName(widget.user.name);
+    profileCubit.setLastName('Co');
+    super.initState();
+  }
 
   @override
   void onAddressChanged(String address) {
-    // TODO: implement onAddressChanged
+    profileCubit.setAddress(address);
   }
 
   @override
   void onAddressSubmitted(String address) {
-    focusNodes[6].requestFocus();
+    focusNodes[4].requestFocus();
   }
 
   @override
   void onFirstNameChanged(String firstName) {
-    // TODO: implement onFirstNameChanged
+    profileCubit.setFirstName(firstName);
   }
 
   @override
@@ -163,7 +111,7 @@ class _InfoPageState extends State<InfoPage> implements InfoTabCallBacks {
 
   @override
   void onLastNameChanged(String lastName) {
-    // TODO: implement onLastNameChanged
+    profileCubit.setLastName(lastName);
   }
 
   @override
@@ -173,7 +121,7 @@ class _InfoPageState extends State<InfoPage> implements InfoTabCallBacks {
 
   @override
   void onPhoneNumberChanged(String phoneNumber) {
-    // TODO: implement onPhoneNumberChanged
+    profileCubit.setPhoneNumber(phoneNumber);
   }
 
   @override
@@ -182,131 +130,88 @@ class _InfoPageState extends State<InfoPage> implements InfoTabCallBacks {
   }
 
   @override
-  void onRabbitryNameChanged(String rabbitryName) {
-    // TODO: implement onRabbitryNameChanged
+  void onCityChanged(String city) {
+    profileCubit.setCity(city);
   }
 
   @override
-  void onRabbitryNameSubmitted(String rabbitryName) {
-    focusNodes[4].requestFocus();
+  void onCitySubmitted(String city) {
+    focusNodes[6].requestFocus();
   }
 
   @override
   void onStateChanged(String state) {
-    // TODO: implement onStateChanged
+    profileCubit.setState(state);
   }
 
   @override
   void onStateSubmitted(String state) {
-    focusNodes[7].requestFocus();
+    searchFocusNode.requestFocus();
   }
 
   @override
-  void onZipCodeChanged(String zipCode) {
-    // TODO: implement onZipCodeChanged
+  void onSearchChanged(String search) {
+    profileCubit.setSearch(search);
   }
 
   @override
-  void onZipCodeSubmitted(String zipCode) {
-    focusNodes[7].unfocus();
+  void onSearchSubmitted(String search) {
+    searchFocusNode.unfocus();
   }
 
   @override
-  void onCountrySelected(BreederByGenderModel? country) {
-    setState(() {
-      selectedValue[0] = country;
-    });
-  }
-
-  @override
-  void onCurrencySelected(BreederByGenderModel? currency) {
-    setState(() {
-      selectedValue[3] = currency;
-    });
-  }
-
-  @override
-  void onLanguageSelected(BreederByGenderModel? language) {
-    setState(() {
-      selectedValue[1] = language;
-    });
-  }
-
-  @override
-  void onTimeZoneSelected(BreederByGenderModel? timeZone) {
-    setState(() {
-      selectedValue[2] = timeZone;
-    });
+  void onTypeSelected(ProfileTypes? type) {
+    profileCubit.setType(type);
   }
 
   @override
   void onSave() {
-    //TODO ......................
-    //profileCubit.updateProfileInfo();
+    profileCubit.updateProfileInfo();
   }
 
   late final onChanged = [
     onFirstNameChanged,
     onLastNameChanged,
     null,
-    onRabbitryNameChanged,
-    onPhoneNumberChanged,
     onAddressChanged,
+    onPhoneNumberChanged,
+    onCityChanged,
     onStateChanged,
-    onZipCodeChanged,
   ];
 
   late final onSubmitted = [
     onFirstNameSubmitted,
     onLastNameSubmitted,
     null,
-    onRabbitryNameSubmitted,
-    onPhoneNumberSubmitted,
     onAddressSubmitted,
+    onPhoneNumberSubmitted,
+    onCitySubmitted,
     onStateSubmitted,
-    onZipCodeSubmitted,
-  ];
-
-  final dropDownLabels = [
-    'country'.i18n,
-    'language'.i18n,
-    'time_zone'.i18n,
-    'currency'.i18n,
-  ];
-
-  final dropDownSelect = [
-    'select_country'.i18n,
-    'select_language'.i18n,
-    'select_time_zone'.i18n,
-    'select_currency'.i18n,
   ];
 
   final textFieldLabels = [
     'first_name'.i18n,
     'last_name'.i18n,
     'email'.i18n,
-    'rabbitry_name'.i18n,
-    'phone_number'.i18n,
     'address'.i18n,
+    'phone_number'.i18n,
+    'city'.i18n,
     'state'.i18n,
-    'zip_code'.i18n,
   ];
 
   final hintTexts = [
     'kevins',
     'Co',
     'example@gmail.com',
-    'XYZ Rabbitry',
-    '202 555 0111',
     'address'.i18n,
+    '202 555 0111',
+    'New York',
     'California',
-    '231456',
   ];
   late final initialValue = [
     widget.user.name,
     'Co',
     widget.user.email,
-    null,
     null,
     null,
     null,
@@ -357,38 +262,42 @@ class _InfoPageState extends State<InfoPage> implements InfoTabCallBacks {
                   const SizedBox(
                     height: 25,
                   ),
-                  ListView.separated(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: items.length,
-                    itemBuilder: (context, index) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            dropDownLabels[index],
-                            style: context.tt.bodyLarge?.copyWith(
-                              fontWeight: FontWeight.w700,
-                              color: context.cs.surfaceContainerHighest,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          MainDropDownWidget<BreederByGenderModel>(
-                            items: items[index],
-                            text: dropDownSelect[index],
-                            onChanged: onValueSelected[index],
-                            selectedValue: selectedValue[index],
-                          ),
-                        ],
+                  Text(
+                    'types'.i18n,
+                    style: context.tt.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: context.cs.surfaceContainerHighest,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  BlocBuilder<ProfileCubit, GeneralProfileState>(
+                    buildWhen: (previous, current) =>
+                        current is SetSelectedTypeState,
+                    builder: (context, state) {
+                      return MainDropDownWidget<ProfileTypes>(
+                        items: ProfileTypes.values,
+                        text: 'select_type'.i18n,
+                        onChanged: onTypeSelected,
+                        selectedValue:
+                            state is SetSelectedTypeState ? state.status : null,
                       );
                     },
-                    separatorBuilder: (context, index) {
-                      return const SizedBox(height: 10);
-                    },
                   ),
-                  const SizedBox(height: 25),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  MainTextField(
+                    focusNode: searchFocusNode,
+                    onChanged: onSearchChanged,
+                    onSubmitted: onSearchSubmitted,
+                    labelText: 'search'.i18n,
+                    hintText: 'my_friends'.i18n,
+                  ),
+                  const SizedBox(
+                    height: 25,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

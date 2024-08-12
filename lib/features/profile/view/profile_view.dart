@@ -98,6 +98,7 @@ class _ProfilePageState extends State<ProfilePage>
         body: SafeArea(
           top: false,
           child: BlocBuilder<ProfileCubit, GeneralProfileState>(
+            buildWhen: (previous, current) => current is ProfileState,
             builder: (context, state) {
               if (state is ProfileFetch) {
                 return Skeletonizer(
