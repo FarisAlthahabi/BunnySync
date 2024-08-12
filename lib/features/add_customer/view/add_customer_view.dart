@@ -107,7 +107,17 @@ class _AddCustomerPageState extends State<AddCustomerPage>
   late final CustomersCubit customersCubit = context.read();
 
   final focusNode = List.generate(11, (index) => FocusNode());
+
   List<String?> initialValue = List.generate(11, (_) => null);
+
+  @override
+  void dispose() {
+    for (final element in focusNode) {
+      element.dispose();
+    }
+
+    super.dispose();
+  }
 
   @override
   void onNameChanged(String name) {

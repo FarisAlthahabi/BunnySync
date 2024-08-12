@@ -98,6 +98,7 @@ class AddCustomerCubit extends Cubit<GeneralAddCustomerState> {
       emit(CustomerEmailPostInvalid(emailError));
       return;
     }
+
     emit(AddCustomerLoading());
     try {
       final customer = await _addCustomerRepo.addCustomer(_customerPostModel);
@@ -109,6 +110,17 @@ class AddCustomerCubit extends Cubit<GeneralAddCustomerState> {
   }
 
   Future<void> updateCustomer(int customerId) async {
+    final nameError = _customerPostModel.validateName();
+    final emailError = _customerPostModel.validateEmail();
+    if (nameError != null) {
+      emit(CustomerNamePostInvalid(nameError));
+      return;
+    }
+    if (emailError != null) {
+      emit(CustomerEmailPostInvalid(emailError));
+      return;
+    }
+
     emit(AddCustomerLoading());
     try {
       final customer = await _addCustomerRepo.updateCustomer(
