@@ -9,7 +9,7 @@ part of 'breeder_image_model.dart';
 BreederImageModel _$BreederImageModelFromJson(Map<String, dynamic> json) =>
     BreederImageModel(
       id: (json['id'] as num).toInt(),
-      breederId: const IntConverter().fromJson(json['breeder_id']),
+      breederId: (json['breeder_id'] as num).toInt(),
       path: json['path'] as String,
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
@@ -20,7 +20,7 @@ BreederImageModel _$BreederImageModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$BreederImageModelToJson(BreederImageModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'breeder_id': const IntConverter().toJson(instance.breederId),
+      'breeder_id': instance.breederId,
       'path': instance.path,
       'imageUrl': instance.imageUrl,
       'created_at': instance.createdAt.toIso8601String(),
