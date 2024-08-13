@@ -22,7 +22,6 @@ class DetailTextWidget extends StatelessWidget {
   }
 }
 
-
 @override
 Widget build(BuildContext context) {
   return Text.rich(
@@ -42,6 +41,7 @@ Widget build(BuildContext context) {
         TextSpan(
           text: 'and'.i18n,
         ),
+        const TextSpan(text: ' '),
         TextSpan(
           text: 'term_of_service'.i18n,
           style: const TextStyle(color: Color.fromRGBO(109, 49, 237, 1)),
@@ -57,7 +57,7 @@ class PrivacyPolicyTextWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 15 , right: 15),
+      padding: const EdgeInsets.only(left: 15, right: 15),
       child: Text.rich(
         style: TextStyle(
           fontFamily: GoogleFonts.manrope().fontFamily,
@@ -75,6 +75,7 @@ class PrivacyPolicyTextWidget extends StatelessWidget {
             TextSpan(
               text: 'and'.i18n,
             ),
+            const TextSpan(text: ' '),
             TextSpan(
               text: 'term_of_service'.i18n,
               style: const TextStyle(color: Color.fromRGBO(109, 49, 237, 1)),
