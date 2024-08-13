@@ -15,6 +15,7 @@ class BreederByGenderModel
     required this.id,
     required this.name,
   });
+
   factory BreederByGenderModel.fromJsonStr(String str) =>
       BreederByGenderModel.fromJson(jsonDecode(str) as Map<String, dynamic>);
 
@@ -31,8 +32,7 @@ class BreederByGenderModel
   Map<String, dynamic> toJson() => _$BreederByGenderModelToJson(this);
 
   @override
-  // TODO: implement displayName
-  String get displayName => name ;
+  String get displayName => name;
 
   @override
   dynamic get value => this;

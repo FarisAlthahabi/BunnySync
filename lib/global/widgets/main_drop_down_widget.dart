@@ -46,7 +46,7 @@ class _MainDropDownWidgetState<T extends DropDownItemModel>
         dropdownStyleData: const DropdownStyleData(maxHeight: 200),
         buttonStyleData: ButtonStyleData(
           decoration: BoxDecoration(
-            border: Border.all(color: AppColors.greyShade),
+            border: Border.all(color: context.cs.onSurface),
             borderRadius: AppConstants.borderRadius12,
           ),
         ),

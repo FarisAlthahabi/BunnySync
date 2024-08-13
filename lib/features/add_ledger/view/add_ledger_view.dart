@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:bunny_sync/features/add_ledger/models/ledger_types/ledger_types.dart';
+import 'package:bunny_sync/features/add_task/model/task_types/task_types.dart';
 import 'package:bunny_sync/features/breeders/models/breeder_by_gender_model/breeder_by_gender_model.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
@@ -15,7 +17,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 abstract class AddLedgerViewCallBacks {
-  void onTypeSelected(BreederByGenderModel? type);
+  void onTypeSelected(LedgerTypes? type);
 
   void onNameChanged(String name);
 
@@ -27,7 +29,7 @@ abstract class AddLedgerViewCallBacks {
 
   void onAmountSubmitted(String amount);
 
-  void onCategorySelected(BreederByGenderModel? category);
+  void onCategorySelected(TaskTypes? category);
 
   void onContactSelected(BreederByGenderModel? contact);
 
@@ -65,27 +67,14 @@ class _AddLedgerPageState extends State<AddLedgerPage>
 
   final noteFocusNode = FocusNode();
 
-  String fileText = "";
+  @override
+  void dispose() {
+    nameFocusNode.dispose();
+    amountFocusNode.dispose();
+    noteFocusNode.dispose();
 
-  // TODO: remove thess and get them from cubit
-
-  final List<BreederByGenderModel> categories = [
-    const BreederByGenderModel(id: 1, name: 'General'),
-    const BreederByGenderModel(id: 2, name: 'Breeder'),
-    const BreederByGenderModel(id: 3, name: 'Litter'),
-  ];
-  final List<BreederByGenderModel> types = [
-    BreederByGenderModel(id: 1, name: 'expense'.i18n),
-    BreederByGenderModel(id: 2, name: 'income'.i18n),
-  ];
-  final List<BreederByGenderModel> contacts = [
-    const BreederByGenderModel(id: 1, name: 'john'),
-    const BreederByGenderModel(id: 2, name: 'kevin'),
-    const BreederByGenderModel(id: 3, name: 'mark'),
-  ];
-  BreederByGenderModel? selectedCategory;
-  BreederByGenderModel? selectedContact;
-  BreederByGenderModel? selectedType;
+    super.dispose();
+  }
 
   @override
   void onAmountChanged(String amount) {
@@ -98,18 +87,10 @@ class _AddLedgerPageState extends State<AddLedgerPage>
   }
 
   @override
-  void onCategorySelected(BreederByGenderModel? category) {
-    setState(() {
-      selectedCategory = category;
-    });
-  }
+  void onCategorySelected(TaskTypes? category) {}
 
   @override
-  void onContactSelected(BreederByGenderModel? contact) {
-    setState(() {
-      selectedContact = contact;
-    });
-  }
+  void onContactSelected(BreederByGenderModel? contact) {}
 
   @override
   void onDateSelected(DateTime date, List<int> numbers) {
@@ -122,9 +103,6 @@ class _AddLedgerPageState extends State<AddLedgerPage>
     final path = result?.files.single.path;
     if (result != null && path != null) {
       final File file = File(path);
-      setState(() {
-        fileText = file.path;
-      });
     }
     // TODO: implement onFilePicked
   }
@@ -155,7 +133,7 @@ class _AddLedgerPageState extends State<AddLedgerPage>
   }
 
   @override
-  void onTypeSelected(BreederByGenderModel? type) {
+  void onTypeSelected(LedgerTypes? type) {
     // TODO: implement onTypeSelected
   }
 
@@ -210,9 +188,8 @@ class _AddLedgerPageState extends State<AddLedgerPage>
                     const SizedBox(
                       height: 5,
                     ),
-                    RadioSelectorWidget<BreederByGenderModel>(
-                      items: types,
-                      selected: selectedType,
+                    RadioSelectorWidget<LedgerTypes>(
+                      items: LedgerTypes.values,
                       onSelected: onTypeSelected,
                     ),
                     const SizedBox(
@@ -228,11 +205,10 @@ class _AddLedgerPageState extends State<AddLedgerPage>
                     const SizedBox(
                       height: 8,
                     ),
-                    MainDropDownWidget<BreederByGenderModel>(
-                      items: categories,
+                    MainDropDownWidget<TaskTypes>(
+                      items: TaskTypes.values,
                       text: 'select_category'.i18n,
                       onChanged: onCategorySelected,
-                      selectedValue: selectedCategory,
                     ),
                     const SizedBox(
                       height: 25,
@@ -247,11 +223,11 @@ class _AddLedgerPageState extends State<AddLedgerPage>
                     const SizedBox(
                       height: 8,
                     ),
+                    //TODO: Creating model for that and don't forget to remove implement models from BreederByGenderModel
                     MainDropDownWidget<BreederByGenderModel>(
-                      items: contacts,
+                      items: const [],
                       text: 'select_contact'.i18n,
                       onChanged: onContactSelected,
-                      selectedValue: selectedContact,
                     ),
                     const SizedBox(
                       height: 25,
@@ -311,9 +287,8 @@ class _AddLedgerPageState extends State<AddLedgerPage>
                             const SizedBox(width: 20),
                             Expanded(
                               child: Text(
-                                fileText.isEmpty
-                                    ? 'no_file_choosen'.i18n
-                                    : fileText,
+                                //TODO: To be handled.
+                                true ? 'no_file_choosen'.i18n : '',
                               ),
                             ),
                           ],
