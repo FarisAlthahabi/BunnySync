@@ -25,8 +25,6 @@ abstract class SettingsViewCallBacks {
 
   void onReportsTap();
 
-  void onQueueHistoryTap();
-
   void onHealthTap();
 
   void onPhotoTap();
@@ -82,11 +80,6 @@ class _SettingsPageState extends State<SettingsPage>
   }
 
   @override
-  void onQueueHistoryTap() {
-    // TODO: implement onQueueHistoryTap
-  }
-
-  @override
   void onReportsTap() {
     // TODO: implement onReportsTap
   }
@@ -135,11 +128,6 @@ class _SettingsPageState extends State<SettingsPage>
         icon: Assets.icons.chart.path,
         title: 'reports'.i18n,
         call: onReportsTap,
-      ),
-      SettingsTileModel(
-        icon: Assets.icons.question.path,
-        title: 'queue_history'.i18n,
-        call: onQueueHistoryTap,
       ),
       SettingsTileModel(
         icon: Assets.icons.heart.path,
