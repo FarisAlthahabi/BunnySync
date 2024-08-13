@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/customers/cubit/customers_cubit.dart';
 import 'package:bunny_sync/features/customers/model/customer_model/customer_model.dart';
 import 'package:bunny_sync/global/di/di.dart';
+import 'package:bunny_sync/global/extensions/date_time_x.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
@@ -53,6 +54,7 @@ class CustomersPage extends StatefulWidget {
 class _CustomersPageState extends State<CustomersPage>
     implements CustomersViewCallBacks {
   late final CustomersCubit customersCubit = context.read();
+
   @override
   void initState() {
     customersCubit.getCustomers();
@@ -171,18 +173,18 @@ class _CustomersPageState extends State<CustomersPage>
                             onTap: onCustomerTap,
                             leading: Skeleton.shade(
                               child: BorderedTextualWidget(
-                                text: item.id.toString(),
+                                text: (index + 1).toString(),
                               ),
                             ),
-                            createdAt: item.date.toString(),
+                            createdAt: item.date?.formatMMMMMDoYYYY,
                             title: Text(
                               strutStyle: const StrutStyle(height: 1.6),
                               item.name,
-                              style: context.tt.titleSmall?.copyWith(
-                                fontWeight: FontWeight.w400,
+                              style: context.tt.titleMedium?.copyWith(
+                                fontWeight: FontWeight.w700,
                               ),
                             ),
-                            type: Text(item.type),
+                            type: Text(item.type.name),
                             tag: item.companyName,
                             secondaryTag: item.phone,
                             note: item.note,

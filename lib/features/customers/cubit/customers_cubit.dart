@@ -52,6 +52,7 @@ class CustomersCubit extends Cubit<GeneralCustomersState> {
   }
 
   Future<void> deleteCustomer(int customerId) async {
+    emit(DeleteCustomerLoading());
     try {
       await _customersRepo.deleteCustomer(customerId);
       customers.removeWhere(

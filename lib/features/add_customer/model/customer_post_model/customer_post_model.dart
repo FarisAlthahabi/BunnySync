@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:bunny_sync/features/add_customer/model/customer_types/customer_types.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -12,7 +14,7 @@ class CustomerPostModel {
   const CustomerPostModel({
     String? name,
     String? email,
-    String? type,
+    CustomerTypes? type,
     String? companyName,
     String? phone,
     String? note,
@@ -43,7 +45,7 @@ class CustomerPostModel {
 
   final String? _email;
 
-  final String? _type;
+  final CustomerTypes? _type;
 
   final String? _companyName;
 
@@ -64,7 +66,7 @@ class CustomerPostModel {
   CustomerPostModel copyWith({
     String? Function()? name,
     String? Function()? email,
-    String? Function()? type,
+    CustomerTypes? Function()? type,
     String? Function()? companyName,
     String? Function()? phone,
     String? Function()? note,
@@ -97,8 +99,10 @@ class CustomerPostModel {
   }
 
   String? validateEmail() {
-    if (_email == null || _email.isEmpty) {
+    if (_email == null) {
       return 'email_empty'.i18n;
+    } else if (!EmailValidator.validate(_email)) {
+      return 'email_invalid'.i18n;
     }
     return null;
   }
@@ -116,12 +120,8 @@ class CustomerPostModel {
     return _email ?? (throw Exception('email is null'));
   }
 
-  String get type {
-    if (_type == null || _type.isEmpty) {
-      return 'unknown'.i18n;
-    } else {
-      return _type;
-    }
+  CustomerTypes get type {
+    return _type ?? (throw 'type is null');
   }
 
   @JsonKey(name: 'company_name')
@@ -180,8 +180,9 @@ class CustomerPostModel {
       return _state;
     }
   }
+
   @JsonKey(name: 'zip_code')
-   String get zipCode {
+  String get zipCode {
     if (_zipCode == null || _zipCode.isEmpty) {
       return 'unknown'.i18n;
     } else {

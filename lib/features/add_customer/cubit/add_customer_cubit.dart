@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:bunny_sync/features/add_customer/model/customer_post_model.dart';
+import 'package:bunny_sync/features/add_customer/model/customer_post_model/customer_post_model.dart';
+import 'package:bunny_sync/features/add_customer/model/customer_types/customer_types.dart';
 import 'package:bunny_sync/features/add_customer/repo/add_customer_repo.dart';
 import 'package:bunny_sync/features/customers/model/customer_model/customer_model.dart';
 import 'package:injectable/injectable.dart';
@@ -33,7 +34,7 @@ class AddCustomerCubit extends Cubit<GeneralAddCustomerState> {
     );
   }
 
-  void setType(String type) {
+  void setType(CustomerTypes? type) {
     _customerPostModel = _customerPostModel.copyWith(
       type: () => type,
     );
@@ -75,7 +76,7 @@ class AddCustomerCubit extends Cubit<GeneralAddCustomerState> {
     );
   }
 
-  void setState(String state) {
+  void setState(String? state) {
     _customerPostModel = _customerPostModel.copyWith(
       state: () => state,
     );

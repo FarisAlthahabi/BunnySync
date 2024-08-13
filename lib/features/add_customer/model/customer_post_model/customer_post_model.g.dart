@@ -10,7 +10,7 @@ CustomerPostModel _$CustomerPostModelFromJson(Map<String, dynamic> json) =>
     CustomerPostModel(
       name: json['contact_name'] as String?,
       email: json['email'] as String?,
-      type: json['type'] as String?,
+      type: $enumDecodeNullable(_$CustomerTypesEnumMap, json['type']),
       companyName: json['company_name'] as String?,
       phone: json['phone'] as String?,
       note: json['note'] as String?,
@@ -25,7 +25,7 @@ Map<String, dynamic> _$CustomerPostModelToJson(CustomerPostModel instance) =>
     <String, dynamic>{
       'contact_name': instance.name,
       'email': instance.email,
-      'type': instance.type,
+      'type': _$CustomerTypesEnumMap[instance.type]!,
       'company_name': instance.companyName,
       'phone': instance.phone,
       'note': instance.note,
@@ -35,3 +35,9 @@ Map<String, dynamic> _$CustomerPostModelToJson(CustomerPostModel instance) =>
       'state': instance.state,
       'zip_code': instance.zipCode,
     };
+
+const _$CustomerTypesEnumMap = {
+  CustomerTypes.lead: 'lead',
+  CustomerTypes.vendor: 'vendor',
+  CustomerTypes.customer: 'customer',
+};
