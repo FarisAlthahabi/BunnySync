@@ -22,7 +22,7 @@ final fakeSubscription = SubscriptionModel(
   type: 'default',
   status: 'active',
   subscriptionDate: DateTime.now(),
-  subscribtionItems: [fakeSubscribtionItem],
+  subscriptionItems: [fakeSubscribtionItem],
   isActive: true,
 );
 

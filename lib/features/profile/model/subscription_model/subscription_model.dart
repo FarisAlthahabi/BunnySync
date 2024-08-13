@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 import 'package:bunny_sync/features/profile/model/subscription_item_model/subscription_item_model.dart';
@@ -19,7 +18,7 @@ class SubscriptionModel {
     required this.type,
     required this.status,
     required this.subscriptionDate,
-    required this.subscribtionItems,
+    required this.subscriptionItems,
     required this.isActive,
     this.trailEndDate,
     this.pausedDate,
@@ -57,7 +56,7 @@ class SubscriptionModel {
   final DateTime subscriptionDate;
 
   @JsonKey(name: 'items')
-  final List<SubscriptionItemModel> subscribtionItems;
+  final List<SubscriptionItemModel> subscriptionItems;
 
   @JsonKey(
     fromJson: BunnySyncJsonUtils.isActiveFromJson,
