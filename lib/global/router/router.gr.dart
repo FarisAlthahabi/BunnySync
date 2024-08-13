@@ -59,6 +59,12 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    AddLedgerRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AddLedgerView(),
+      );
+    },
     AddLitterRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -411,6 +417,20 @@ class AddCustomerRouteArgs {
   String toString() {
     return 'AddCustomerRouteArgs{key: $key, customersCubit: $customersCubit, customerModel: $customerModel}';
   }
+}
+
+/// generated route for
+/// [AddLedgerView]
+class AddLedgerRoute extends PageRouteInfo<void> {
+  const AddLedgerRoute({List<PageRouteInfo>? children})
+      : super(
+          AddLedgerRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AddLedgerRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for

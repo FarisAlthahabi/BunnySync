@@ -47,7 +47,7 @@ class _MainDropDownWidgetState<T extends DropDownItemModel>
         buttonStyleData: ButtonStyleData(
           decoration: BoxDecoration(
             border: Border.all(color: AppColors.greyShade),
-            borderRadius:AppConstants.borderRadius12,
+            borderRadius: AppConstants.borderRadius12,
           ),
         ),
         isExpanded: true,
