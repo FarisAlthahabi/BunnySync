@@ -50,8 +50,7 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage>
     implements SettingsViewCallBacks {
-
-      @override
+  @override
   void onPhotoTap() {
     context.router.push(const ProfileRoute());
   }
@@ -161,6 +160,9 @@ class _SettingsPageState extends State<SettingsPage>
             onTap: onPhotoTap,
             child: CircleAvatar(
               backgroundColor: context.cs.tertiaryFixed,
+              child: Assets.icons.profile.svg(
+                color: context.cs.surfaceContainerHighest,
+              ),
             ),
           ),
         ],

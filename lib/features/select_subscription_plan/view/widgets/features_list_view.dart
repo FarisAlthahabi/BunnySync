@@ -51,10 +51,10 @@ class _FeaturesListViewState extends State<FeaturesListView> {
             const SizedBox(width: 10),
             Text(
               isShowMore ? 'show_less_features'.i18n : 'show_all_features'.i18n,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
-                color: Color.fromRGBO(50, 55, 67, 1),
+                color: context.cs.primaryFixed,
               ),
             ),
           ],
@@ -70,10 +70,10 @@ class _FeaturesListViewState extends State<FeaturesListView> {
             children: [
               Text(
                 'features'.i18n,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
-                  color: Color.fromRGBO(50, 55, 67, 1),
+                  color: context.cs.primaryFixed,
                 ),
               ),
             ],

@@ -8,6 +8,7 @@ import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/breeder_image_widget.dart';
 import 'package:bunny_sync/global/widgets/buttons/main_action_button.dart';
+import 'package:bunny_sync/global/widgets/images/app_image_widget.dart';
 import 'package:bunny_sync/global/widgets/loading_indicator.dart';
 import 'package:bunny_sync/global/widgets/main_drop_down_widget.dart';
 import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
@@ -232,10 +233,17 @@ class _InfoPageState extends State<InfoPage> implements InfoTabCallBacks {
                   const SizedBox(height: 30),
                   Center(
                     child: Skeleton.shade(
-                      child: BreederImageWidget(
-                        url: Assets.icons.logo.path,
-                        color: context.cs.primary,
-                        size: 100,
+                      child: CircleAvatar(
+                        radius: 40,
+                        backgroundColor: context.cs.tertiaryFixed,
+                        child: Padding(
+                          padding: const EdgeInsets.all(14.0),
+                          child: Assets.icons.profile.svg(
+                            width: 80,
+                            height: 80,
+                            color: context.cs.surfaceContainerHighest,
+                          ),
+                        ),
                       ),
                     ),
                   ),
