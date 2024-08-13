@@ -13,12 +13,14 @@ class MainDropDownWidget<T extends DropDownItemModel> extends StatefulWidget {
     required this.text,
     required this.onChanged,
     required this.items,
+    this.expandedHeight = 200,
     this.selectedValue,
   });
 
   final String text;
   final ValueSetter<T?> onChanged;
   final List<T> items;
+  final double expandedHeight;
   final T? selectedValue;
 
   @override
@@ -41,7 +43,9 @@ class _MainDropDownWidgetState<T extends DropDownItemModel>
   Widget build(BuildContext context) {
     return DropdownButtonHideUnderline(
       child: DropdownButton2<T>(
-        dropdownStyleData: const DropdownStyleData(maxHeight: 200),
+        dropdownStyleData: DropdownStyleData(
+          maxHeight: widget.expandedHeight,
+        ),
         isExpanded: true,
         value: selectedValue,
         hint: Text(
