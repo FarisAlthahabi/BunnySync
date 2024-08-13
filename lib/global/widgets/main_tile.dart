@@ -37,7 +37,7 @@ class MainTile<T extends BottomSheetItemModel> extends StatelessWidget {
         type: MaterialType.transparency,
         child: InkWell(
           borderRadius: borderRadius,
-          onTap: model == null || onEdit == null ? onTap : ()=> onEdit(model),
+          onTap: model == null || onEdit == null ? onTap : () => onEdit(model),
           child: Padding(
             padding: padding,
             child: child,

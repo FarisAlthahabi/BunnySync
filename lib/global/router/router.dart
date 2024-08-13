@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/add_ailment/view/add_ailment_view.dart';
 import 'package:bunny_sync/features/add_breeder/view/add_breeder_view.dart';
 import 'package:bunny_sync/features/add_category/view/add_category_view.dart';
+import 'package:bunny_sync/features/add_customer/view/add_customer_view.dart';
 import 'package:bunny_sync/features/add_litter/view/add_litter_view.dart';
 import 'package:bunny_sync/features/add_note/view/add_note_view.dart';
 import 'package:bunny_sync/features/add_task/view/add_task_view.dart';
@@ -15,6 +16,8 @@ import 'package:bunny_sync/features/breeders/view/widgets/scanner_view/scanner_v
 import 'package:bunny_sync/features/categories/cubit/categories_cubit.dart';
 import 'package:bunny_sync/features/categories/model/category_model.dart';
 import 'package:bunny_sync/features/categories/view/categories_view.dart';
+import 'package:bunny_sync/features/customers/cubit/customers_cubit.dart';
+import 'package:bunny_sync/features/customers/model/customer_model/customer_model.dart';
 import 'package:bunny_sync/features/customers/view/customers_view.dart';
 import 'package:bunny_sync/features/dashboard/view/dashboard_view.dart';
 import 'package:bunny_sync/features/health/cubit/health_cubit.dart';
@@ -128,7 +131,7 @@ class AppRouter extends _$AppRouter {
                 AutoRoute(
                   page: AddCategoryRoute.page,
                 ),
-                 AutoRoute(
+                AutoRoute(
                   page: HealthRoute.page,
                 ),
                 AutoRoute(
@@ -136,6 +139,9 @@ class AppRouter extends _$AppRouter {
                 ),
                 AutoRoute(
                   page: AddTreatmentRoute.page,
+                ),
+                AutoRoute(
+                  page: AddCustomerRoute.page,
                 ),
               ],
             ),
