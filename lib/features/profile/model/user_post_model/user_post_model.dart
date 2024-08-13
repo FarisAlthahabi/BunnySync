@@ -109,7 +109,7 @@ class UserPostModel {
   @JsonKey(name: 'first_name')
   String get firstName {
     if (_firstName == null || _firstName.isEmpty) {
-      throw Exception("First name can't be empty");
+      throw "First name can't be empty";
     } else {
       return _firstName;
     }
@@ -118,7 +118,7 @@ class UserPostModel {
   @JsonKey(name: 'last_name')
   String get lastName {
     if (_lastName == null || _lastName.isEmpty) {
-      throw Exception("Last name can't be empty");
+      throw "Last name can't be empty";
     } else {
       return _lastName;
     }
@@ -161,25 +161,25 @@ class UserPostModel {
     return _pets ?? false;
   }
 
-   bool get show {
+  bool get show {
     return _show ?? false;
   }
 
-   bool get wool {
+  bool get wool {
     return _wool ?? false;
   }
 
-   bool get pelts {
+  bool get pelts {
     return _pelts ?? false;
   }
 
-   bool get meat {
+  bool get meat {
     return _meat ?? false;
   }
 
   ProfileTypes get type {
-    if (_type == null ) {
-      throw Exception("Type can't be empty");
+    if (_type == null) {
+      throw "Type can't be empty";
     } else {
       return _type;
     }
@@ -187,7 +187,7 @@ class UserPostModel {
 
   String get search {
     if (_search == null || _search.isEmpty) {
-      throw Exception("Search can't be empty");
+      throw "Search can't be empty";
     } else {
       return _search;
     }

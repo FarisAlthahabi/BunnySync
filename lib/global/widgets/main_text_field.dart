@@ -6,6 +6,7 @@ class MainTextField extends StatefulWidget {
     super.key,
     required this.hintText,
     this.isPassword = false,
+    this.readOnly = false,
     this.focusNode,
     this.errorText,
     this.onSubmitted,
@@ -34,6 +35,7 @@ class MainTextField extends StatefulWidget {
   final int? maxLines;
   final Color? fillColor;
   final bool? enabled;
+  final bool readOnly;
 
   @override
   State<MainTextField> createState() => _MainTextFieldState();
@@ -74,6 +76,7 @@ class _MainTextFieldState extends State<MainTextField> {
           focusNode: widget.focusNode,
           keyboardType: widget.keyboardType,
           maxLines: widget.maxLines,
+          readOnly: widget.readOnly,
           decoration: InputDecoration(
             fillColor: widget.fillColor,
             prefixIconConstraints: const BoxConstraints(

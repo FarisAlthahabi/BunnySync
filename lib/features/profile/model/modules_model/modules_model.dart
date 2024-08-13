@@ -26,6 +26,22 @@ class ModulesModel {
     required this.notification,
   });
 
+  const ModulesModel.empty()
+      : limit = false,
+        health = false,
+        litter = false,
+        report = false,
+        breeder = false,
+        finance = false,
+        qrCode = false,
+        pedigree = false,
+        schedule = false,
+        cageCard = false,
+        attachment = false,
+        marketPlace = false,
+        contactList = false,
+        notification = false;
+
   factory ModulesModel.fromJsonStr(String str) =>
       ModulesModel.fromJson(jsonDecode(str) as Map<String, dynamic>);
 
@@ -45,22 +61,22 @@ class ModulesModel {
 
   final bool finance;
 
-  @JsonKey(name:'qr_code')
+  @JsonKey(name: 'qr_code')
   final bool qrCode;
 
   final bool pedigree;
 
   final bool schedule;
 
-  @JsonKey(name:'cage_card')
+  @JsonKey(name: 'cage_card')
   final bool cageCard;
 
   final bool attachment;
 
-  @JsonKey(name:'marketplace')
+  @JsonKey(name: 'marketplace')
   final bool marketPlace;
 
-  @JsonKey(name:'contact_list')
+  @JsonKey(name: 'contact_list')
   final bool contactList;
 
   final bool notification;

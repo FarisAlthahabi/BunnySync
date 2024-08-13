@@ -45,7 +45,7 @@ class _ProfilePageState extends State<ProfilePage>
 
   @override
   void initState() {
-    profileCubit.getprofile();
+    profileCubit.getProfile();
     super.initState();
   }
 
@@ -56,7 +56,7 @@ class _ProfilePageState extends State<ProfilePage>
 
   @override
   void onTryAgainTap() {
-    profileCubit.getprofile();
+    profileCubit.getProfile();
   }
 
   @override

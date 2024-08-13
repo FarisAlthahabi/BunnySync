@@ -75,7 +75,7 @@ class ProfileCubit extends Cubit<GeneralProfileState> {
     );
   }
 
-  Future<void> getprofile() async {
+  Future<void> getProfile() async {
     emit(ProfileLoading(fakeUser));
 
     try {
@@ -93,18 +93,18 @@ class ProfileCubit extends Cubit<GeneralProfileState> {
 
     try {
       final user = await _profileRepo.updateUserInfo(_userPostModel);
-      // userModel = user.copyWith(
-      //   email: user.email,
-      //   id: user.id,
-      //   planId: user.planId,
-      //   name: user.name,
-      //   registeredAt: user.registeredAt,
-      //   subscriptions: user.subscriptions,
-      //   trials: user.trials,
-      // );
+      userModel = user.copyWith(
+        email: user.email,
+        id: user.id,
+        planId: user.planId,
+        name: user.name,
+        registeredAt: user.registeredAt,
+        subscriptions: user.subscriptions,
+        trials: user.trials,
+      );
 
       emit(UpdateProfileSuccess());
-      emit(ProfileSuccess(user));
+      emit(ProfileSuccess(userModel));
     } catch (e, s) {
       addError(e, s);
       emit(UpdateProfileFail(e.toString()));

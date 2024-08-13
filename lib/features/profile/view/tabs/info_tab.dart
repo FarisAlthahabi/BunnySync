@@ -83,9 +83,20 @@ class _InfoPageState extends State<InfoPage> implements InfoTabCallBacks {
 
   @override
   void initState() {
-    profileCubit.setFirstName(widget.user.name);
-    profileCubit.setLastName('Co');
     super.initState();
+
+    profileCubit.setFirstName(widget.user.name);
+  }
+
+  @override
+  void dispose() {
+    for (final node in focusNodes) {
+      node.dispose();
+    }
+
+    searchFocusNode.dispose();
+
+    super.dispose();
   }
 
   @override
@@ -203,18 +214,29 @@ class _InfoPageState extends State<InfoPage> implements InfoTabCallBacks {
     'Co',
     'example@gmail.com',
     'address'.i18n,
-    '202 555 0111',
+    'xxx xxx xxxx',
     'New York',
     'California',
   ];
+
   late final initialValue = [
     widget.user.name,
-    'Co',
+    null,
     widget.user.email,
     null,
     null,
     null,
     null,
+  ];
+
+  final readOnly = [
+    false,
+    false,
+    true,
+    false,
+    false,
+    false,
+    false,
   ];
 
   @override
@@ -244,13 +266,13 @@ class _InfoPageState extends State<InfoPage> implements InfoTabCallBacks {
                     itemCount: textFieldLabels.length,
                     itemBuilder: (context, index) {
                       return MainTextField(
-                        enabled: index != 2,
                         focusNode: focusNodes[index],
                         onChanged: onChanged[index],
                         onSubmitted: onSubmitted[index],
                         labelText: textFieldLabels[index],
                         initialValue: initialValue[index],
                         hintText: hintTexts[index],
+                        readOnly: readOnly[index],
                       );
                     },
                     separatorBuilder: (context, index) {

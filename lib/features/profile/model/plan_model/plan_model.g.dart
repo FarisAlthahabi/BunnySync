@@ -12,9 +12,10 @@ PlanModel _$PlanModelFromJson(Map<String, dynamic> json) => PlanModel(
       monthlyId: json['monthly_id'] as String,
       yearlyId: json['yearly_id'] as String,
       description: json['short_description'] as String,
-      features:
-          (json['features'] as List<dynamic>).map((e) => e as String).toList(),
-      options: OptionsModel.fromJson(json['options'] as Map<String, dynamic>),
+      features: BunnySyncJsonUtils.featuresFromJson(
+          JsonUtils.readValue(json, 'features') as Map<String, dynamic>),
+      options: BunnySyncJsonUtils.optionsFromJson(
+          JsonUtils.readValue(json, 'options') as Map<String, dynamic>),
       archived: (json['archived'] as num).toInt(),
       chooseDate: json['created_at'] == null
           ? null

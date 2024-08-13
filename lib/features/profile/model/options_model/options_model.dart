@@ -13,6 +13,8 @@ class OptionsModel {
     required this.modules,
   });
 
+  const OptionsModel.empty() : modules = const ModulesModel.empty();
+
   factory OptionsModel.fromJsonStr(String str) =>
       OptionsModel.fromJson(jsonDecode(str) as Map<String, dynamic>);
 

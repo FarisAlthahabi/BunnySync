@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:bunny_sync/features/profile/model/options_model/options_model.dart';
+import 'package:bunny_sync/global/utils/bunny_sync_json_utils.dart';
+import 'package:bunny_sync/global/utils/json_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -40,16 +42,16 @@ class PlanModel {
   @JsonKey(name: 'short_description')
   final String description;
 
-  // @JsonKey(
-  //   fromJson: BunnySyncJsonUtils.featuresFromJson,
-  //   readValue: JsonUtils.readValue,
-  // )
+  @JsonKey(
+    fromJson: BunnySyncJsonUtils.featuresFromJson,
+    readValue: JsonUtils.readValue,
+  )
   final List<String> features;
 
-  // @JsonKey(
-  //   fromJson: BunnySyncJsonUtils.optionsFromJson,
-  //   readValue: JsonUtils.readValue,
-  // )
+  @JsonKey(
+    fromJson: BunnySyncJsonUtils.optionsFromJson,
+    readValue: JsonUtils.readValue,
+  )
   final OptionsModel options;
 
   final int archived;
@@ -57,8 +59,7 @@ class PlanModel {
   @JsonKey(name: 'created_at')
   final DateTime? chooseDate;
 
-   String toJsonStr() => jsonEncode(toJson());
+  String toJsonStr() => jsonEncode(toJson());
 
   Map<String, dynamic> toJson() => _$PlanModelToJson(this);
-
 }
