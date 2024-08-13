@@ -24,8 +24,6 @@ abstract class SettingsViewCallBacks {
 
   void onReportsTap();
 
-  void onQueueHistoryTap();
-
   void onHealthTap();
 }
 
@@ -71,11 +69,6 @@ class _SettingsPageState extends State<SettingsPage>
   @override
   void onLedgerTap() {
     context.router.push(const LedgerRoute());
-  }
-
-  @override
-  void onQueueHistoryTap() {
-    // TODO: implement onQueueHistoryTap
   }
 
   @override
@@ -127,11 +120,6 @@ class _SettingsPageState extends State<SettingsPage>
         icon: Assets.icons.chart.path,
         title: 'reports'.i18n,
         call: onReportsTap,
-      ),
-      SettingsTileModel(
-        icon: Assets.icons.question.path,
-        title: 'queue_history'.i18n,
-        call: onQueueHistoryTap,
       ),
       SettingsTileModel(
         icon: Assets.icons.heart.path,
