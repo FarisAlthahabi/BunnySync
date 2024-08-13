@@ -32,6 +32,7 @@ import 'package:bunny_sync/features/litter_details/view/litter_details_view.dart
 import 'package:bunny_sync/features/litters/models/litter_entry_model/litter_entry_model.dart';
 import 'package:bunny_sync/features/litters/view/litters_view.dart';
 import 'package:bunny_sync/features/main_navigation/view/main_navigation_view.dart';
+import 'package:bunny_sync/features/profile/view/profile_view.dart';
 import 'package:bunny_sync/features/select_subscription_plan/view/select_subscription_plan_view.dart';
 import 'package:bunny_sync/features/settings/view/settings_view.dart';
 import 'package:bunny_sync/features/sign_in/view/sign_in_view.dart';
@@ -142,6 +143,9 @@ class AppRouter extends _$AppRouter {
                 ),
                 AutoRoute(
                   page: AddCustomerRoute.page,
+                ),
+                AutoRoute(
+                  page: ProfileRoute.page,
                 ),
               ],
             ),

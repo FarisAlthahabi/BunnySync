@@ -8,6 +8,7 @@ import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/bunny_logo.dart';
+import 'package:bunny_sync/global/widgets/images/profile_placeholder_widget.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -27,6 +28,8 @@ abstract class SettingsViewCallBacks {
   void onQueueHistoryTap();
 
   void onHealthTap();
+
+  void onPhotoTap();
 }
 
 @RoutePage()
@@ -48,6 +51,11 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage>
     implements SettingsViewCallBacks {
+  @override
+  void onPhotoTap() {
+    context.router.push(const ProfileRoute());
+  }
+
   @override
   void onCageCardsTap() {
     // TODO: implement onCageCardsTap
@@ -149,8 +157,9 @@ class _SettingsPageState extends State<SettingsPage>
           ),
         ),
         actions: [
-          CircleAvatar(
-            backgroundColor: context.cs.tertiaryFixed,
+          InkWell(
+            onTap: onPhotoTap,
+            child: const ProfilePlaceholderWidget(size: 20),
           ),
         ],
       ),
