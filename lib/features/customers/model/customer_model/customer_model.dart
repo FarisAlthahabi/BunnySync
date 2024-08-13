@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-import 'package:bunny_sync/global/utils/json_converters/date_parser.dart';
+import 'package:bunny_sync/features/add_customer/model/customer_types/customer_types.dart';
+import 'package:bunny_sync/global/utils/json_converters/date_time_nullable_converter.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -9,7 +10,7 @@ part 'customer_model.g.dart';
 
 @JsonSerializable()
 @immutable
-class CustomerModel implements BottomSheetItemModel{
+class CustomerModel implements BottomSheetItemModel {
   const CustomerModel({
     required this.id,
     required this.userId,
@@ -23,12 +24,12 @@ class CustomerModel implements BottomSheetItemModel{
     required this.street,
     required this.city,
     required this.country,
-    required this.state,
     required this.zipCode,
     required this.createdAt,
     required this.updatedAt,
     required this.date,
-    required this.dtRowIndex,
+    this.dtRowIndex,
+    this.state,
   });
 
   factory CustomerModel.fromJsonStr(String str) =>
@@ -48,7 +49,8 @@ class CustomerModel implements BottomSheetItemModel{
 
   final String name;
 
-  final String type;
+  @JsonKey(fromJson: CustomerTypes.fromJson)
+  final CustomerTypes type;
 
   @JsonKey(name: 'company_name')
   final String companyName;
@@ -63,8 +65,6 @@ class CustomerModel implements BottomSheetItemModel{
 
   final String country;
 
-  final String state;
-
   @JsonKey(name: 'zip_code')
   final String zipCode;
 
@@ -74,11 +74,13 @@ class CustomerModel implements BottomSheetItemModel{
   @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
 
-  @DateParser()
+  @DateTimeNullableConverter()
   final DateTime? date;
 
   @JsonKey(name: 'DT_RowIndex')
   final int? dtRowIndex;
+
+  final String? state;
 
   String toJsonStr() => jsonEncode(toJson());
 

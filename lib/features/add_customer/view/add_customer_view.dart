@@ -1,13 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/add_customer/cubit/add_customer_cubit.dart';
+import 'package:bunny_sync/features/add_customer/model/customer_types/customer_types.dart';
 import 'package:bunny_sync/features/customers/cubit/customers_cubit.dart';
 import 'package:bunny_sync/features/customers/model/customer_model/customer_model.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
+import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/buttons/main_action_button.dart';
 import 'package:bunny_sync/global/widgets/loading_indicator.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
+import 'package:bunny_sync/global/widgets/main_drop_down_widget.dart';
 import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:bunny_sync/global/widgets/main_text_field.dart';
 import 'package:flutter/material.dart';
@@ -22,9 +25,7 @@ abstract class AddCustomerViewCallBack {
 
   void onEmailSubmitted(String email);
 
-  void onTypeChanged(String type);
-
-  void onTypeSubmitted(String type);
+  void onTypeSelected(CustomerTypes? type);
 
   void onCompanyNameChanged(String companyName);
 
@@ -106,8 +107,18 @@ class _AddCustomerPageState extends State<AddCustomerPage>
 
   late final CustomersCubit customersCubit = context.read();
 
-  final focusNode = List.generate(11, (index) => FocusNode());
-  List<String?> initialValue = List.generate(11, (_) => null);
+  final focusNode = List.generate(10, (index) => FocusNode());
+
+  List<String?> initialValue = List.generate(10, (_) => null);
+
+  @override
+  void dispose() {
+    for (final element in focusNode) {
+      element.dispose();
+    }
+
+    super.dispose();
+  }
 
   @override
   void onNameChanged(String name) {
@@ -200,13 +211,8 @@ class _AddCustomerPageState extends State<AddCustomerPage>
   }
 
   @override
-  void onTypeChanged(String type) {
+  void onTypeSelected(CustomerTypes? type) {
     addCustomerCubit.setType(type);
-  }
-
-  @override
-  void onTypeSubmitted(String type) {
-    focusNode[3].requestFocus();
   }
 
   @override
@@ -232,7 +238,6 @@ class _AddCustomerPageState extends State<AddCustomerPage>
   late final List<ValueSetter<String>> onPropertyChanged = [
     onNameChanged,
     onEmailChanged,
-    onTypeChanged,
     onCompanyNameChanged,
     onPhoneChanged,
     onNoteChanged,
@@ -246,7 +251,6 @@ class _AddCustomerPageState extends State<AddCustomerPage>
   late final List<ValueSetter<String>> onPropertySubmitted = [
     onNameSubmitted,
     onEmailSubmitted,
-    onTypeSubmitted,
     onCompanyNameSubmitted,
     onPhoneSubmitted,
     onNoteSubmitted,
@@ -260,7 +264,6 @@ class _AddCustomerPageState extends State<AddCustomerPage>
   final List<String> propertyLabelText = [
     '${"name".i18n} *',
     '${"email".i18n} *',
-    "type".i18n,
     "company_name".i18n,
     "phone".i18n,
     "note".i18n,
@@ -274,7 +277,6 @@ class _AddCustomerPageState extends State<AddCustomerPage>
   final propertyHintText = [
     "name".i18n,
     "email".i18n,
-    "type".i18n,
     "company_name".i18n,
     "phone".i18n,
     "note".i18n,
@@ -285,8 +287,36 @@ class _AddCustomerPageState extends State<AddCustomerPage>
     "zip_code".i18n,
   ];
 
+  final keyboardTypes = [
+    TextInputType.text,
+    TextInputType.emailAddress,
+    TextInputType.text,
+    TextInputType.phone,
+    TextInputType.text,
+    TextInputType.text,
+    TextInputType.text,
+    TextInputType.text,
+    TextInputType.text,
+    TextInputType.streetAddress,
+  ];
+
+  final maxLines = [
+    1,
+    1,
+    1,
+    1,
+    5,
+    1,
+    1,
+    1,
+    1,
+    1,
+  ];
+
   @override
   void initState() {
+    super.initState();
+
     final customer = widget.customerModel;
     if (customer != null) {
       addCustomerCubit.setName(customer.name);
@@ -300,10 +330,10 @@ class _AddCustomerPageState extends State<AddCustomerPage>
       addCustomerCubit.setCountry(customer.country);
       addCustomerCubit.setState(customer.state);
       addCustomerCubit.setZipCode(customer.zipCode);
+
       initialValue = [
         customer.name,
         customer.email,
-        customer.type,
         customer.companyName,
         customer.phone,
         customer.note,
@@ -314,7 +344,6 @@ class _AddCustomerPageState extends State<AddCustomerPage>
         customer.zipCode,
       ];
     }
-    super.initState();
   }
 
   @override
@@ -338,6 +367,25 @@ class _AddCustomerPageState extends State<AddCustomerPage>
                     const SizedBox(
                       height: 30,
                     ),
+                    Text(
+                      'task_type'.i18n,
+                      style: context.tt.bodyLarge?.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: context.cs.surfaceContainerHighest,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    MainDropDownWidget<CustomerTypes>(
+                      items: CustomerTypes.values,
+                      text: 'select_type'.i18n,
+                      onChanged: onTypeSelected,
+                      selectedValue: widget.customerModel?.type,
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
                     ListView.separated(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
@@ -350,6 +398,8 @@ class _AddCustomerPageState extends State<AddCustomerPage>
                           focusNode: focusNode[index],
                           hintText: propertyHintText[index],
                           labelText: propertyLabelText[index],
+                          keyboardType: keyboardTypes[index],
+                          maxLines: maxLines[index],
                         );
                       },
                       separatorBuilder: (context, index) {

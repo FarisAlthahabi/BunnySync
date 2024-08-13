@@ -8,6 +8,7 @@ import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/bunny_logo.dart';
+import 'package:bunny_sync/global/widgets/images/profile_placeholder_widget.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -24,9 +25,9 @@ abstract class SettingsViewCallBacks {
 
   void onReportsTap();
 
-  void onQueueHistoryTap();
-
   void onHealthTap();
+
+  void onPhotoTap();
 }
 
 @RoutePage()
@@ -49,6 +50,11 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage>
     implements SettingsViewCallBacks {
   @override
+  void onPhotoTap() {
+    context.router.push(const ProfileRoute());
+  }
+
+  @override
   void onCageCardsTap() {
     context.router.push(const CageCardsRoute());
   }
@@ -65,17 +71,12 @@ class _SettingsPageState extends State<SettingsPage>
 
   @override
   void onHealthTap() {
-    // TODO: implement onHealthTap
+    context.router.push(const HealthRoute());
   }
 
   @override
   void onLedgerTap() {
     context.router.push(const LedgerRoute());
-  }
-
-  @override
-  void onQueueHistoryTap() {
-    // TODO: implement onQueueHistoryTap
   }
 
   @override
@@ -129,11 +130,6 @@ class _SettingsPageState extends State<SettingsPage>
         call: onReportsTap,
       ),
       SettingsTileModel(
-        icon: Assets.icons.question.path,
-        title: 'queue_history'.i18n,
-        call: onQueueHistoryTap,
-      ),
-      SettingsTileModel(
         icon: Assets.icons.heart.path,
         title: 'health'.i18n,
         call: onHealthTap,
@@ -149,8 +145,9 @@ class _SettingsPageState extends State<SettingsPage>
           ),
         ),
         actions: [
-          CircleAvatar(
-            backgroundColor: context.cs.tertiaryFixed,
+          InkWell(
+            onTap: onPhotoTap,
+            child: const ProfilePlaceholderWidget(size: 20),
           ),
         ],
       ),

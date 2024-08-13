@@ -15,6 +15,17 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    AddAilmentRoute.name: (routeData) {
+      final args = routeData.argsAs<AddAilmentRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: AddAilmentView(
+          key: args.key,
+          healthCubit: args.healthCubit,
+          ailmentModel: args.ailmentModel,
+        ),
+      );
+    },
     AddBreederRoute.name: (routeData) {
       final args = routeData.argsAs<AddBreederRouteArgs>(
           orElse: () => const AddBreederRouteArgs());
@@ -26,14 +37,14 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
-    AddCageRoute.name: (routeData) {
-      final args = routeData.argsAs<AddCageRouteArgs>();
+    AddCategoryRoute.name: (routeData) {
+      final args = routeData.argsAs<AddCategoryRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: AddCageView(
+        child: AddCategoryView(
           key: args.key,
-          cageCardsCubit: args.cageCardsCubit,
-          cageModel: args.cageModel,
+          categoriesCubit: args.categoriesCubit,
+          categoryModel: args.categoryModel,
         ),
       );
     },
@@ -66,9 +77,25 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     AddTaskRoute.name: (routeData) {
+      final args = routeData.argsAs<AddTaskRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const AddTaskView(),
+        child: AddTaskView(
+          key: args.key,
+          tasksCubit: args.tasksCubit,
+          task: args.task,
+        ),
+      );
+    },
+    AddTreatmentRoute.name: (routeData) {
+      final args = routeData.argsAs<AddTreatmentRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: AddTreatmentView(
+          key: args.key,
+          healthCubit: args.healthCubit,
+          treatmentModel: args.treatmentModel,
+        ),
       );
     },
     AuthenticationRoute.name: (routeData) {
@@ -99,12 +126,6 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const BreedersView(),
       );
     },
-    CageCardsRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const CageCardsView(),
-      );
-    },
     CategoriesRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -121,6 +142,12 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const DashboardView(),
+      );
+    },
+    HealthRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const HealthView(),
       );
     },
     HomeRoute.name: (routeData) {
@@ -169,6 +196,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const MainNavigationView(),
       );
     },
+    ProfileRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ProfileView(),
+      );
+    },
     SelectSubscriptionPlanRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -214,6 +247,49 @@ abstract class _$AppRouter extends RootStackRouter {
 }
 
 /// generated route for
+/// [AddAilmentView]
+class AddAilmentRoute extends PageRouteInfo<AddAilmentRouteArgs> {
+  AddAilmentRoute({
+    Key? key,
+    required HealthCubit healthCubit,
+    AilmentModel? ailmentModel,
+    List<PageRouteInfo>? children,
+  }) : super(
+          AddAilmentRoute.name,
+          args: AddAilmentRouteArgs(
+            key: key,
+            healthCubit: healthCubit,
+            ailmentModel: ailmentModel,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'AddAilmentRoute';
+
+  static const PageInfo<AddAilmentRouteArgs> page =
+      PageInfo<AddAilmentRouteArgs>(name);
+}
+
+class AddAilmentRouteArgs {
+  const AddAilmentRouteArgs({
+    this.key,
+    required this.healthCubit,
+    this.ailmentModel,
+  });
+
+  final Key? key;
+
+  final HealthCubit healthCubit;
+
+  final AilmentModel? ailmentModel;
+
+  @override
+  String toString() {
+    return 'AddAilmentRouteArgs{key: $key, healthCubit: $healthCubit, ailmentModel: $ailmentModel}';
+  }
+}
+
+/// generated route for
 /// [AddBreederView]
 class AddBreederRoute extends PageRouteInfo<AddBreederRouteArgs> {
   AddBreederRoute({
@@ -252,45 +328,45 @@ class AddBreederRouteArgs {
 }
 
 /// generated route for
-/// [AddCageView]
-class AddCageRoute extends PageRouteInfo<AddCageRouteArgs> {
-  AddCageRoute({
+/// [AddCategoryView]
+class AddCategoryRoute extends PageRouteInfo<AddCategoryRouteArgs> {
+  AddCategoryRoute({
     Key? key,
-    required CageCardsCubit cageCardsCubit,
-    CageModel? cageModel,
+    required CategoriesCubit categoriesCubit,
+    CategoryModel? categoryModel,
     List<PageRouteInfo>? children,
   }) : super(
-          AddCageRoute.name,
-          args: AddCageRouteArgs(
+          AddCategoryRoute.name,
+          args: AddCategoryRouteArgs(
             key: key,
-            cageCardsCubit: cageCardsCubit,
-            cageModel: cageModel,
+            categoriesCubit: categoriesCubit,
+            categoryModel: categoryModel,
           ),
           initialChildren: children,
         );
 
-  static const String name = 'AddCageRoute';
+  static const String name = 'AddCategoryRoute';
 
-  static const PageInfo<AddCageRouteArgs> page =
-      PageInfo<AddCageRouteArgs>(name);
+  static const PageInfo<AddCategoryRouteArgs> page =
+      PageInfo<AddCategoryRouteArgs>(name);
 }
 
-class AddCageRouteArgs {
-  const AddCageRouteArgs({
+class AddCategoryRouteArgs {
+  const AddCategoryRouteArgs({
     this.key,
-    required this.cageCardsCubit,
-    this.cageModel,
+    required this.categoriesCubit,
+    this.categoryModel,
   });
 
   final Key? key;
 
-  final CageCardsCubit cageCardsCubit;
+  final CategoriesCubit categoriesCubit;
 
-  final CageModel? cageModel;
+  final CategoryModel? categoryModel;
 
   @override
   String toString() {
-    return 'AddCageRouteArgs{key: $key, cageCardsCubit: $cageCardsCubit, cageModel: $cageModel}';
+    return 'AddCategoryRouteArgs{key: $key, categoriesCubit: $categoriesCubit, categoryModel: $categoryModel}';
   }
 }
 
@@ -396,16 +472,88 @@ class AddNoteRouteArgs {
 
 /// generated route for
 /// [AddTaskView]
-class AddTaskRoute extends PageRouteInfo<void> {
-  const AddTaskRoute({List<PageRouteInfo>? children})
-      : super(
+class AddTaskRoute extends PageRouteInfo<AddTaskRouteArgs> {
+  AddTaskRoute({
+    Key? key,
+    required TasksCubit tasksCubit,
+    TaskModel? task,
+    List<PageRouteInfo>? children,
+  }) : super(
           AddTaskRoute.name,
+          args: AddTaskRouteArgs(
+            key: key,
+            tasksCubit: tasksCubit,
+            task: task,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'AddTaskRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<AddTaskRouteArgs> page =
+      PageInfo<AddTaskRouteArgs>(name);
+}
+
+class AddTaskRouteArgs {
+  const AddTaskRouteArgs({
+    this.key,
+    required this.tasksCubit,
+    this.task,
+  });
+
+  final Key? key;
+
+  final TasksCubit tasksCubit;
+
+  final TaskModel? task;
+
+  @override
+  String toString() {
+    return 'AddTaskRouteArgs{key: $key, tasksCubit: $tasksCubit, task: $task}';
+  }
+}
+
+/// generated route for
+/// [AddTreatmentView]
+class AddTreatmentRoute extends PageRouteInfo<AddTreatmentRouteArgs> {
+  AddTreatmentRoute({
+    Key? key,
+    required HealthCubit healthCubit,
+    TreatmentModel? treatmentModel,
+    List<PageRouteInfo>? children,
+  }) : super(
+          AddTreatmentRoute.name,
+          args: AddTreatmentRouteArgs(
+            key: key,
+            healthCubit: healthCubit,
+            treatmentModel: treatmentModel,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'AddTreatmentRoute';
+
+  static const PageInfo<AddTreatmentRouteArgs> page =
+      PageInfo<AddTreatmentRouteArgs>(name);
+}
+
+class AddTreatmentRouteArgs {
+  const AddTreatmentRouteArgs({
+    this.key,
+    required this.healthCubit,
+    this.treatmentModel,
+  });
+
+  final Key? key;
+
+  final HealthCubit healthCubit;
+
+  final TreatmentModel? treatmentModel;
+
+  @override
+  String toString() {
+    return 'AddTreatmentRouteArgs{key: $key, healthCubit: $healthCubit, treatmentModel: $treatmentModel}';
+  }
 }
 
 /// generated route for
@@ -489,20 +637,6 @@ class BreedersRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [CageCardsView]
-class CageCardsRoute extends PageRouteInfo<void> {
-  const CageCardsRoute({List<PageRouteInfo>? children})
-      : super(
-          CageCardsRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'CageCardsRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
 /// [CategoriesView]
 class CategoriesRoute extends PageRouteInfo<void> {
   const CategoriesRoute({List<PageRouteInfo>? children})
@@ -540,6 +674,20 @@ class DashboardRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'DashboardRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [HealthView]
+class HealthRoute extends PageRouteInfo<void> {
+  const HealthRoute({List<PageRouteInfo>? children})
+      : super(
+          HealthRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'HealthRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -662,6 +810,20 @@ class MainNavigationRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'MainNavigationRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ProfileView]
+class ProfileRoute extends PageRouteInfo<void> {
+  const ProfileRoute({List<PageRouteInfo>? children})
+      : super(
+          ProfileRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ProfileRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

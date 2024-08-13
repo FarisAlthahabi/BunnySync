@@ -1,3 +1,4 @@
+import 'package:bunny_sync/features/add_customer/model/customer_types/customer_types.dart';
 import 'package:bunny_sync/features/customers/model/customer_model/customer_model.dart';
 
 final customersFakeModel = List.generate(
@@ -8,7 +9,7 @@ final customersFakeModel = List.generate(
     status: 'active',
     email: 'bayuangkasa@gmail.com',
     name: 'Bayu Santoso',
-    type: 'Lead',
+    type: CustomerTypes.customer,
     companyName: 'Bayu Company',
     phone: '083493902',
     note: 'Customer from my friend',

@@ -13,14 +13,13 @@ CustomerModel _$CustomerModelFromJson(Map<String, dynamic> json) =>
       status: json['status'] as String,
       email: json['email'] as String,
       name: json['name'] as String,
-      type: json['type'] as String,
+      type: CustomerTypes.fromJson(json['type'] as String),
       companyName: json['company_name'] as String,
       phone: json['phone'] as String,
       note: json['note'] as String,
       street: json['street'] as String,
       city: json['city'] as String,
       country: json['country'] as String,
-      state: json['state'] as String,
       zipCode: json['zip_code'] as String,
       createdAt: json['created_at'] == null
           ? null
@@ -28,8 +27,9 @@ CustomerModel _$CustomerModelFromJson(Map<String, dynamic> json) =>
       updatedAt: json['updated_at'] == null
           ? null
           : DateTime.parse(json['updated_at'] as String),
-      date: const DateParser().fromJson(json['date'] as String?),
+      date: const DateTimeNullableConverter().fromJson(json['date'] as String?),
       dtRowIndex: (json['DT_RowIndex'] as num?)?.toInt(),
+      state: json['state'] as String?,
     );
 
 Map<String, dynamic> _$CustomerModelToJson(CustomerModel instance) =>
@@ -39,24 +39,23 @@ Map<String, dynamic> _$CustomerModelToJson(CustomerModel instance) =>
       'status': instance.status,
       'email': instance.email,
       'name': instance.name,
-      'type': instance.type,
+      'type': _$CustomerTypesEnumMap[instance.type]!,
       'company_name': instance.companyName,
       'phone': instance.phone,
       'note': instance.note,
       'street': instance.street,
       'city': instance.city,
       'country': instance.country,
-      'state': instance.state,
       'zip_code': instance.zipCode,
       'created_at': instance.createdAt?.toIso8601String(),
       'updated_at': instance.updatedAt?.toIso8601String(),
-      'date': _$JsonConverterToJson<String?, DateTime>(
-          instance.date, const DateParser().toJson),
+      'date': const DateTimeNullableConverter().toJson(instance.date),
       'DT_RowIndex': instance.dtRowIndex,
+      'state': instance.state,
     };
 
-Json? _$JsonConverterToJson<Json, Value>(
-  Value? value,
-  Json? Function(Value value) toJson,
-) =>
-    value == null ? null : toJson(value);
+const _$CustomerTypesEnumMap = {
+  CustomerTypes.lead: 'lead',
+  CustomerTypes.vendor: 'vendor',
+  CustomerTypes.customer: 'customer',
+};

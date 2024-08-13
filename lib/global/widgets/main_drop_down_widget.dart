@@ -7,13 +7,13 @@ abstract class DropDownItemModel {
   int get id;
 }
 
-class MainDropDownWidget<T extends DropDownItemModel> extends StatelessWidget {
+class MainDropDownWidget<T extends DropDownItemModel> extends StatefulWidget {
   const MainDropDownWidget({
     super.key,
     required this.text,
     required this.onChanged,
     required this.items,
-    required this.selectedValue,
+    this.selectedValue,
   });
 
   final String text;
@@ -22,19 +22,36 @@ class MainDropDownWidget<T extends DropDownItemModel> extends StatelessWidget {
   final T? selectedValue;
 
   @override
+  State<MainDropDownWidget<T>> createState() => _MainDropDownWidgetState<T>();
+}
+
+class _MainDropDownWidgetState<T extends DropDownItemModel>
+    extends State<MainDropDownWidget<T>> {
+  late T? selectedValue = widget.selectedValue;
+
+  @override
+  void didUpdateWidget(covariant MainDropDownWidget<T> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    setState(() {
+      selectedValue = widget.selectedValue;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DropdownButtonHideUnderline(
       child: DropdownButton2<T>(
+        dropdownStyleData: const DropdownStyleData(maxHeight: 200),
         isExpanded: true,
         value: selectedValue,
         hint: Text(
-          text,
+          widget.text,
           style: TextStyle(
             fontSize: 14,
             color: Theme.of(context).hintColor,
           ),
         ),
-        items: items
+        items: widget.items
             .map(
               (T item) => DropdownMenuItem<T>(
                 value: item,
@@ -47,7 +64,12 @@ class MainDropDownWidget<T extends DropDownItemModel> extends StatelessWidget {
               ),
             )
             .toList(),
-        onChanged: onChanged,
+        onChanged: (value) {
+          setState(() {
+            selectedValue = value;
+          });
+          widget.onChanged(value);
+        },
       ),
     );
   }
