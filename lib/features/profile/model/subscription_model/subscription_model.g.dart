@@ -14,7 +14,7 @@ SubscriptionModel _$SubscriptionModelFromJson(Map<String, dynamic> json) =>
       type: json['type'] as String,
       status: json['status'] as String,
       subscriptionDate: DateTime.parse(json['created_at'] as String),
-      subscribtionItems: (json['items'] as List<dynamic>)
+      subscriptionItems: (json['items'] as List<dynamic>)
           .map((e) => SubscriptionItemModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       isActive: BunnySyncJsonUtils.isActiveFromJson(
@@ -41,6 +41,6 @@ Map<String, dynamic> _$SubscriptionModelToJson(SubscriptionModel instance) =>
       'paused_at': instance.pausedDate?.toIso8601String(),
       'ends_at': instance.endDate?.toIso8601String(),
       'created_at': instance.subscriptionDate.toIso8601String(),
-      'items': instance.subscribtionItems,
+      'items': instance.subscriptionItems,
       'isActive': instance.isActive,
     };
