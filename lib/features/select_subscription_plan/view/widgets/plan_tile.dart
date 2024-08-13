@@ -1,4 +1,4 @@
-import 'package:bunny_sync/features/select_subscription_plan/models/plan_model.dart';
+import 'package:bunny_sync/features/select_subscription_plan/models/plan_view_model.dart';
 import 'package:bunny_sync/global/extensions/string_x.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/widgets/animation/animated_switchers/animated_switchers.dart';
@@ -13,9 +13,9 @@ class PlanTile extends StatelessWidget {
     this.onSelect,
   });
 
-  final PlanModel plan;
+  final PlanViewModel plan;
   final bool isSelected;
-  final ValueSetter<PlanModel>? onSelect;
+  final ValueSetter<PlanViewModel>? onSelect;
 
   @override
   Widget build(BuildContext context) {

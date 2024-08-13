@@ -3,7 +3,7 @@ import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/main_tile.dart';
 import 'package:flutter/material.dart';
 
-class ElementTile extends StatelessWidget {
+class ElementTile<T> extends StatelessWidget {
   const ElementTile({
     super.key,
     required this.leading,
@@ -13,6 +13,8 @@ class ElementTile extends StatelessWidget {
     this.createdAt,
     this.secondaryTag,
     this.note,
+    this.onTap,
+    this.model,
   });
 
   final Widget leading;
@@ -22,6 +24,8 @@ class ElementTile extends StatelessWidget {
   final String? createdAt;
   final String? secondaryTag;
   final String? note;
+  final ValueSetter<T>? onTap;
+  final T? model;
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +34,11 @@ class ElementTile extends StatelessWidget {
     final secondaryTag = this.secondaryTag;
     final tag = this.tag;
     final note = this.note;
+    final onTap = this.onTap;
+    final model = this.model;
 
     return MainTile(
+      onTap: onTap == null || model == null ? null : () => onTap(model),
       boxShadow: AppShadows.getTaskTileShadow(context),
       child: Column(
         children: [

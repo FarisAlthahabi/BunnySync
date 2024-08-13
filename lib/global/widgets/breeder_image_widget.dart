@@ -9,16 +9,18 @@ class BreederImageWidget extends StatelessWidget {
     required this.url,
     this.size = 70,
     this.gender,
+    this.color,
   });
 
   final String url;
   final double size;
   final GenderTypes? gender;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     final gender = this.gender;
-
+    final color = this.color;
     return AppImageWidget(
       url: url,
       width: size,
@@ -29,7 +31,12 @@ class BreederImageWidget extends StatelessWidget {
               width: 4.5,
               color: gender.color(context),
             )
-          : null,
+          : color != null
+              ? Border.all(
+                  width: 4.5,
+                  color: color,
+                )
+              : null,
       borderRadius: AppConstants.circularBorderRadius,
     );
   }
