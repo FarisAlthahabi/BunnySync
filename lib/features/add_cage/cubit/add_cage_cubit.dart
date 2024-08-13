@@ -1,14 +1,17 @@
 import 'package:bloc/bloc.dart';
+import 'package:bunny_sync/features/add_cage/model/cage_orientation_types/cage_orientation_types.dart';
+import 'package:bunny_sync/features/add_cage/model/cage_placement_types/cage_placement_types.dart';
 import 'package:bunny_sync/features/add_cage/model/cage_post_model/cage_post_model.dart';
+import 'package:bunny_sync/features/add_cage/model/cage_size_types/cage_size_types.dart';
 import 'package:bunny_sync/features/add_cage/repo/add_cage_repo.dart';
 import 'package:bunny_sync/features/cage_cards/model/cage_model/cage_model.dart';
-import 'package:bunny_sync/global/utils/enums/answer_types_enum.dart';
-import 'package:bunny_sync/global/utils/enums/cage_placement_enum.dart';
+import 'package:bunny_sync/global/localization/localization.dart';
+import 'package:bunny_sync/global/utils/enums/answer_types.dart';
+import 'package:bunny_sync/global/utils/enums/rabbit_types.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
 part 'states/add_cage_state.dart';
-
 part 'states/general_add_cage_state.dart';
 
 @injectable
@@ -17,7 +20,7 @@ class AddCageCubit extends Cubit<GeneralAddCageState> {
 
   final AddCageRepo _addCageRepo;
 
-  Set<CagePlacementTypes?> settings = {};
+  Set<CagePlacementTypes> settings = {};
 
   CagePostModel _cagePostModel = const CagePostModel();
 
@@ -27,19 +30,19 @@ class AddCageCubit extends Cubit<GeneralAddCageState> {
     );
   }
 
-  void setType(String? type) {
+  void setType(RabbitTypes? type) {
     _cagePostModel = _cagePostModel.copyWith(
       type: () => type,
     );
   }
 
-  void setSize(String? size) {
+  void setSize(CageSizeTypes? size) {
     _cagePostModel = _cagePostModel.copyWith(
       size: () => size,
     );
   }
 
-  void setOrientation(String? orientation) {
+  void setOrientation(CageOrientationTypes? orientation) {
     _cagePostModel = _cagePostModel.copyWith(
       orientation: () => orientation,
     );
@@ -52,10 +55,14 @@ class AddCageCubit extends Cubit<GeneralAddCageState> {
   }
 
   void setSettings(CagePlacementTypes? value) {
-    settings.add(value);
-    _cagePostModel = _cagePostModel.copyWith(
-      settings: () => settings.map(toElement),
-    );
+    if (value != null) {
+      settings.add(value);
+      _cagePostModel = _cagePostModel.copyWith(
+        settings: () => settings.toList(),
+      );
+    } else {
+      emit(AddCageFail('please_select_setting'.i18n));
+    }
   }
 
   Future<void> addCage() async {

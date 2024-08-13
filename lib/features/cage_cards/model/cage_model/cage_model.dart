@@ -1,6 +1,9 @@
 import 'dart:convert';
 
-import 'package:bunny_sync/global/utils/enums/answer_types_enum.dart';
+import 'package:bunny_sync/features/add_cage/model/cage_orientation_types/cage_orientation_types.dart';
+import 'package:bunny_sync/features/add_cage/model/cage_size_types/cage_size_types.dart';
+import 'package:bunny_sync/global/utils/enums/answer_types.dart';
+import 'package:bunny_sync/global/utils/enums/rabbit_types.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -39,16 +42,14 @@ class CageModel implements BottomSheetItemModel {
 
   final String name;
 
-  final String type;
+  final RabbitTypes type;
 
-  final String size;
+  @JsonKey(fromJson: CageSizeTypes.fromJson)
+  final CageSizeTypes size;
 
-  final String orientation;
+  final CageOrientationTypes orientation;
 
-  @JsonKey(
-    fromJson: AnswerTypes.fromJson,
-    toJson: AnswerTypes.toJson,
-  )
+  @JsonKey(fromJson: AnswerTypes.fromJson)
   final AnswerTypes hole;
 
   final String settings;

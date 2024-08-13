@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/add_cage/cubit/add_cage_cubit.dart';
+import 'package:bunny_sync/features/add_cage/model/cage_orientation_types/cage_orientation_types.dart';
+import 'package:bunny_sync/features/add_cage/model/cage_size_types/cage_size_types.dart';
 import 'package:bunny_sync/features/breeders/models/breeder_by_gender_model/breeder_by_gender_model.dart';
 import 'package:bunny_sync/features/cage_cards/cubit/cage_cards_cubit.dart';
 import 'package:bunny_sync/features/cage_cards/model/cage_model/cage_model.dart';
@@ -7,8 +9,9 @@ import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
-import 'package:bunny_sync/global/utils/enums/answer_types_enum.dart';
-import 'package:bunny_sync/global/utils/enums/cage_placement_enum.dart';
+import 'package:bunny_sync/global/utils/enums/answer_types.dart';
+import 'package:bunny_sync/features/add_cage/model/cage_placement_types/cage_placement_types.dart';
+import 'package:bunny_sync/global/utils/enums/rabbit_types.dart';
 import 'package:bunny_sync/global/widgets/buttons/main_action_button.dart';
 import 'package:bunny_sync/global/widgets/loading_indicator.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
@@ -24,13 +27,11 @@ abstract class AddCageViewCallBacks {
 
   void onTitleSubmitted(String title);
 
-  void onSizeChanged(String size);
+  void onSizeSelected(CageSizeTypes? size);
 
-  void onSizeSubmitted(String size);
+  void onTypeSelected(RabbitTypes? type);
 
-  void onTypeSelected(BreederByGenderModel? type);
-
-  void onOrientationSelected(BreederByGenderModel? orientation);
+  void onOrientationSelected(CageOrientationTypes? orientation);
 
   void onHoleSelected(AnswerTypes hole);
 
@@ -159,7 +160,7 @@ class _AddCagePageState extends State<AddCagePage>
       addCageCubit.setHole(cage.hole);
       addCageCubit.setOrientation(cage.orientation);
       //TODO ......................
-     // addCageCubit.setSettings(cage.settings)
+      // addCageCubit.setSettings(cage.settings)
     }
     super.initState();
   }
@@ -170,11 +171,8 @@ class _AddCagePageState extends State<AddCagePage>
   }
 
   @override
-  void onOrientationSelected(BreederByGenderModel? orientation) {
-    addCageCubit.setOrientation(orientation?.name);
-    setState(() {
-      selectedOrientation = orientation;
-    });
+  void onOrientationSelected(CageOrientationTypes? orientation) {
+    addCageCubit.setOrientation(orientation);
   }
 
   @override
@@ -183,13 +181,8 @@ class _AddCagePageState extends State<AddCagePage>
   }
 
   @override
-  void onSizeChanged(String size) {
+  void onSizeSelected(CageSizeTypes? size) {
     addCageCubit.setSize(size);
-  }
-
-  @override
-  void onSizeSubmitted(String size) {
-    sizeFocusNode.unfocus();
   }
 
   @override
@@ -203,11 +196,8 @@ class _AddCagePageState extends State<AddCagePage>
   }
 
   @override
-  void onTypeSelected(BreederByGenderModel? type) {
-    addCageCubit.setType(type?.name);
-    setState(() {
-      selectedType = type;
-    });
+  void onTypeSelected(RabbitTypes? type) {
+    addCageCubit.setType(type);
   }
 
   @override
@@ -301,12 +291,21 @@ class _AddCagePageState extends State<AddCagePage>
                     const SizedBox(
                       height: 25,
                     ),
-                    MainTextField(
-                      onSubmitted: onSizeSubmitted,
-                      onChanged: onSizeChanged,
-                      focusNode: sizeFocusNode,
-                      hintText: 'size'.i18n,
-                      labelText: 'size'.i18n,
+                    Text(
+                      'size'.i18n,
+                      style: context.tt.bodyLarge?.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: context.cs.surfaceContainerHighest,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    MainDropDownWidget<CageSizeTypes>(
+                      items: CageSizeTypes.values,
+                      text: 'select_size'.i18n,
+                      onChanged: onSizeSelected,
+                      selectedValue: widget.cageModel?.size,
                     ),
                     const SizedBox(
                       height: 25,
@@ -321,11 +320,11 @@ class _AddCagePageState extends State<AddCagePage>
                     const SizedBox(
                       height: 8,
                     ),
-                    MainDropDownWidget<BreederByGenderModel>(
-                      items: types,
+                    MainDropDownWidget<RabbitTypes>(
+                      items: RabbitTypes.values,
                       text: 'select_type'.i18n,
                       onChanged: onTypeSelected,
-                      selectedValue: selectedType,
+                      selectedValue: widget.cageModel?.type,
                     ),
                     const SizedBox(
                       height: 25,
@@ -340,11 +339,11 @@ class _AddCagePageState extends State<AddCagePage>
                     const SizedBox(
                       height: 8,
                     ),
-                    MainDropDownWidget<BreederByGenderModel>(
-                      items: orientations,
+                    MainDropDownWidget<CageOrientationTypes>(
+                      items: CageOrientationTypes.values,
                       text: 'select_orientation'.i18n,
                       onChanged: onOrientationSelected,
-                      selectedValue: selectedOrientation,
+                      selectedValue: widget.cageModel?.orientation,
                     ),
                     const SizedBox(
                       height: 25,
@@ -408,6 +407,7 @@ class _AddCagePageState extends State<AddCagePage>
                           text: 'blank'.i18n,
                           onChanged: onFieldSelected[index],
                           selectedValue: selectedValue[index],
+                          expandedHeight: 400,
                         );
                       },
                       separatorBuilder: (context, index) {

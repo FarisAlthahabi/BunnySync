@@ -33,4 +33,14 @@ extension StringX2 on String {
       );
 
   Color get color => Color(int.parse('0xff${trim()}'));
+
+  String get toSnakeCase => replaceAllMapped(
+        RegExp('(?<=[a-z])[A-Z]'),
+        (Match match) => '_${match.group(0)}',
+      ).toLowerCase();
+
+  String get toCamelCase => replaceAllMapped(
+        RegExp('_[a-z]'),
+        (Match match) => match.group(0)!.toUpperCase().substring(1),
+      );
 }

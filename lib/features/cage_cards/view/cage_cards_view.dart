@@ -176,7 +176,7 @@ class _CageCardsPageState extends State<CageCardsPage>
                                 text: item.id.toString(),
                               ),
                             ),
-                            tag: item.type,
+                            tag: item.type.name,
                             createdAt: item.createdAt.toString(),
                             title: Text(
                               strutStyle: const StrutStyle(height: 1.6),
@@ -194,7 +194,7 @@ class _CageCardsPageState extends State<CageCardsPage>
                                 ),
                                 const SizedBox(width: 5),
                                 Text(
-                                  item.orientation,
+                                  item.orientation.name,
                                   style: context.tt.labelSmall
                                       ?.copyWith(color: context.cs.tertiary),
                                 ),

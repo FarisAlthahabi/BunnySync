@@ -139,7 +139,9 @@ class _SelectSubscriptionPlanPageState extends State<SelectSubscriptionPlanPage>
                       planModel: fakePlan,
                     ),
                     const SizedBox(height: 20),
-                    const PrivacyPolicyTextWidget(),
+                    PrivacyPolicyTextWidget(
+                      text: 'by_joining'.i18n,
+                    ),
                     const SizedBox(height: 100),
                   ],
                 ),

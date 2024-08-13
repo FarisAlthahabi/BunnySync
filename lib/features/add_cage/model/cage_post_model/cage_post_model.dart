@@ -1,7 +1,10 @@
 import 'dart:convert';
 
-import 'package:bunny_sync/global/localization/localization.dart';
-import 'package:bunny_sync/global/utils/enums/answer_types_enum.dart';
+import 'package:bunny_sync/features/add_cage/model/cage_orientation_types/cage_orientation_types.dart';
+import 'package:bunny_sync/features/add_cage/model/cage_placement_types/cage_placement_types.dart';
+import 'package:bunny_sync/features/add_cage/model/cage_size_types/cage_size_types.dart';
+import 'package:bunny_sync/global/utils/enums/answer_types.dart';
+import 'package:bunny_sync/global/utils/enums/rabbit_types.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
@@ -12,11 +15,11 @@ part 'cage_post_model.g.dart';
 class CagePostModel {
   const CagePostModel({
     String? title,
-    String? type,
-    String? size,
-    String? orientation,
+    RabbitTypes? type,
+    CageSizeTypes? size,
+    CageOrientationTypes? orientation,
     AnswerTypes? hole,
-    List<String>? settings,
+    List<CagePlacementTypes>? settings,
   })  : _title = title,
         _type = type,
         _size = size,
@@ -32,23 +35,23 @@ class CagePostModel {
 
   final String? _title;
 
-  final String? _type;
+  final RabbitTypes? _type;
 
-  final String? _size;
+  final CageSizeTypes? _size;
 
-  final String? _orientation;
+  final CageOrientationTypes? _orientation;
 
   final AnswerTypes? _hole;
 
-  final List<String>? _settings;
+  final List<CagePlacementTypes>? _settings;
 
   CagePostModel copyWith({
     String? Function()? title,
-    String? Function()? type,
-    String? Function()? size,
-    String? Function()? orientation,
+    RabbitTypes? Function()? type,
+    CageSizeTypes? Function()? size,
+    CageOrientationTypes? Function()? orientation,
     AnswerTypes? Function()? hole,
-    List<String>? Function()? settings,
+    List<CagePlacementTypes>? Function()? settings,
   }) {
     return CagePostModel(
       title: title != null ? title() : _title,
@@ -66,33 +69,32 @@ class CagePostModel {
 
   String get title {
     return _title == null || _title.isEmpty
-        ? (throw Exception("Title can't be empty"))
+        ? (throw "Title can't be empty")
         : _title;
   }
 
-  String get type {
-    return _type ?? (throw Exception("Type can't be empty"));
+  RabbitTypes get type {
+    return _type ?? (throw "Type can't be empty");
   }
 
-  String get size {
-    return _size ?? (throw Exception("Size can't be empty"));
+  @JsonKey(toJson: CageSizeTypes.cageToJson)
+  CageSizeTypes get size {
+    return _size ?? (throw "Size can't be empty");
   }
 
-  String get orientation {
-    return _orientation ?? (throw Exception("Orientation can't be empty"));
+  CageOrientationTypes get orientation {
+    return _orientation ?? (throw "Orientation can't be empty");
   }
 
-  @JsonKey(
-    fromJson: AnswerTypes.fromJson,
-    toJson: AnswerTypes.toJson,
-  )
+  @JsonKey(fromJson: AnswerTypes.fromJson)
   AnswerTypes get hole {
     return _hole ?? AnswerTypes.no;
   }
 
-  List<String> get settings {
+  @JsonKey(toJson: CagePlacementTypes.toListJson)
+  List<CagePlacementTypes> get settings {
     if (_settings == null || _settings.isEmpty) {
-      return ['unknown'.i18n];
+      return [];
     } else {
       return _settings;
     }

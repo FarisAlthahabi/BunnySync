@@ -30,4 +30,3 @@ class CageCardsFail extends CageCardsState {
 
   final String message;
 }
-

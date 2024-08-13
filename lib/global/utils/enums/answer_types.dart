@@ -18,16 +18,7 @@ enum AnswerTypes implements RadioSelectorItemModel {
     }
   }
 
-  static String toJson(AnswerTypes value) {
-    switch (value){
-      case AnswerTypes.yes:
-        return 'yes'.i18n;
-      case AnswerTypes.no:
-        return 'no'.i18n;
-    }
-  }
-
-   static AnswerTypes fromJson(int value) {
+  static AnswerTypes fromJson(int value) {
     if (value == 0) {
       return AnswerTypes.no;
     } else if (value == 1) {
