@@ -9,7 +9,7 @@ extension ShowNumAsCurrency on num {
     bool spaceBetween = false,
   }) {
     // Define a custom pattern based on the position of the currency symbol
-    String pattern = isSymbolAtStart
+    final String pattern = isSymbolAtStart
         ? '¤${spaceBetween ? ' ' : ''}#,##0.${'0' * decimalDigits}' // ¤ represents the currency symbol
         : '#,##0.${'0' * decimalDigits}${spaceBetween ? ' ' : ''}¤'; // Place symbol at the end
 
@@ -32,7 +32,7 @@ extension ShowintAsCurrency on int {
     bool spaceBetween = false,
   }) {
     // Define a custom pattern based on the position of the currency symbol
-    String pattern = isSymbolAtStart
+    final String pattern = isSymbolAtStart
         ? '¤${spaceBetween ? ' ' : ''}#,##0' // ¤ represents the currency symbol
         : '#,##0${spaceBetween ? ' ' : ''}¤'; // Place symbol at the end
 

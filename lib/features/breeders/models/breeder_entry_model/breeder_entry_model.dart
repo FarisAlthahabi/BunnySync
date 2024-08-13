@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bunny_sync/features/litter_details/model/kit_model/kit_model.dart';
 import 'package:bunny_sync/global/utils/bunny_sync_json_utils.dart';
 import 'package:bunny_sync/global/utils/enums/gender_types_enum.dart';
 import 'package:bunny_sync/global/utils/json_converters/string_converter.dart';
@@ -154,6 +155,7 @@ class BreederEntryModel extends Equatable
     String? breed,
     int? categoryBreederId,
     String? cage,
+    List<KitModel>? allKits,
   }) {
     return BreederEntryModel(
       id: id ?? this.id,
