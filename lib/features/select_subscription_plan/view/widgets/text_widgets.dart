@@ -41,6 +41,7 @@ Widget build(BuildContext context) {
         TextSpan(
           text: 'and'.i18n,
         ),
+        const TextSpan(text: ' '),
         TextSpan(
           text: 'term_of_service'.i18n,
           style: const TextStyle(color: Color.fromRGBO(109, 49, 237, 1)),
@@ -79,6 +80,7 @@ class PrivacyPolicyTextWidget extends StatelessWidget {
             TextSpan(
               text: 'and'.i18n,
             ),
+            const TextSpan(text: ' '),
             TextSpan(
               text: 'term_of_service'.i18n,
               style: const TextStyle(color: Color.fromRGBO(109, 49, 237, 1)),
