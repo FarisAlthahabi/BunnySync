@@ -4,7 +4,7 @@ class IntNullableConverter implements JsonConverter<int?, dynamic> {
   const IntNullableConverter();
 
   @override
-  int? fromJson(dynamic json) => int.parse(json.toString());
+  int? fromJson(dynamic json) => int.tryParse(json.toString());
 
   @override
   dynamic toJson(int? object) => object;
