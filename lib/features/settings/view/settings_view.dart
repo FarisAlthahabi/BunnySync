@@ -8,6 +8,7 @@ import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/bunny_logo.dart';
+import 'package:bunny_sync/global/widgets/images/profile_placeholder_widget.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -158,12 +159,7 @@ class _SettingsPageState extends State<SettingsPage>
         actions: [
           InkWell(
             onTap: onPhotoTap,
-            child: CircleAvatar(
-              backgroundColor: context.cs.tertiaryFixed,
-              child: Assets.icons.profile.svg(
-                color: context.cs.surfaceContainerHighest,
-              ),
-            ),
+            child: const ProfilePlaceholderWidget(size: 20),
           ),
         ],
       ),

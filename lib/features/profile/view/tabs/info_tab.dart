@@ -2,13 +2,11 @@ import 'package:bunny_sync/features/profile/cubit/profile_cubit.dart';
 import 'package:bunny_sync/features/profile/model/profile_types/profile_types.dart';
 import 'package:bunny_sync/features/profile/model/user_model/user_model.dart';
 import 'package:bunny_sync/global/extensions/date_time_x.dart';
-import 'package:bunny_sync/global/gen/assets.gen.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
-import 'package:bunny_sync/global/widgets/breeder_image_widget.dart';
 import 'package:bunny_sync/global/widgets/buttons/main_action_button.dart';
-import 'package:bunny_sync/global/widgets/images/app_image_widget.dart';
+import 'package:bunny_sync/global/widgets/images/profile_placeholder_widget.dart';
 import 'package:bunny_sync/global/widgets/loading_indicator.dart';
 import 'package:bunny_sync/global/widgets/main_drop_down_widget.dart';
 import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
@@ -231,19 +229,11 @@ class _InfoPageState extends State<InfoPage> implements InfoTabCallBacks {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 30),
-                  Center(
+                  const Center(
                     child: Skeleton.shade(
-                      child: CircleAvatar(
-                        radius: 40,
-                        backgroundColor: context.cs.tertiaryFixed,
-                        child: Padding(
-                          padding: const EdgeInsets.all(14.0),
-                          child: Assets.icons.profile.svg(
-                            width: 80,
-                            height: 80,
-                            color: context.cs.surfaceContainerHighest,
-                          ),
-                        ),
+                      child: ProfilePlaceholderWidget(
+                        padding: 20,
+                        imageSize: 80,
                       ),
                     ),
                   ),
