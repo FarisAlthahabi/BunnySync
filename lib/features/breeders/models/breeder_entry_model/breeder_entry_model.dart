@@ -56,6 +56,7 @@ class BreederEntryModel extends Equatable
   final String uuid;
 
   @override
+  @JsonKey(name: 'name')
   final String displayName;
 
   @JsonKey(name: 'updated_at')
@@ -161,7 +162,7 @@ class BreederEntryModel extends Equatable
       id: id ?? this.id,
       userId: userId ?? this.userId,
       uuid: uuid ?? this.uuid,
-      displayName: name ?? this.displayName,
+      displayName: name ?? displayName,
       updatedAt: updatedAt ?? this.updatedAt,
       createdAt: createdAt ?? this.createdAt,
       isActive: isActive ?? this.isActive,
