@@ -14,12 +14,12 @@ class CustomerModel implements BottomSheetItemModel {
   const CustomerModel({
     required this.id,
     required this.userId,
-    required this.status,
-    required this.email,
-    required this.name,
     required this.type,
-    required this.companyName,
-    required this.phone,
+    required this.name,
+    required this.email,
+    this.status,
+    this.companyName,
+    this.phone,
     this.createdAt,
     this.updatedAt,
     this.date,
@@ -43,19 +43,19 @@ class CustomerModel implements BottomSheetItemModel {
   @JsonKey(name: 'user_id')
   final int userId;
 
-  final String status;
-
-  final String email;
-
-  final String name;
-
   @JsonKey(fromJson: CustomerTypes.fromJson)
   final CustomerTypes type;
 
-  @JsonKey(name: 'company_name')
-  final String companyName;
+  final String name;
 
-  final String phone;
+  final String email;
+
+  final String? status;
+
+  @JsonKey(name: 'company_name')
+  final String? companyName;
+
+  final String? phone;
 
   @JsonKey(name: 'created_at')
   final DateTime? createdAt;
