@@ -89,8 +89,6 @@ class _AddBreederPageState extends State<AddBreederPage>
 
   late final AddBreederCubit addBreederCubit = context.read();
 
-  DateTime selectedDate = DateTime.now();
-
   final nameFocusNode = FocusNode();
 
   final prefixFocusNode = FocusNode();
@@ -105,6 +103,8 @@ class _AddBreederPageState extends State<AddBreederPage>
 
   @override
   void initState() {
+    super.initState();
+
     final breederEntryModel = widget.breederEntryModel;
     if (breederEntryModel != null) {
       addBreederCubit.breeder = breederEntryModel;
@@ -116,9 +116,9 @@ class _AddBreederPageState extends State<AddBreederPage>
       addBreederCubit.setTatto(breederEntryModel.tatto);
       addBreederCubit.setWeight(breederEntryModel.weight);
       addBreederCubit.setDate(breederEntryModel.updatedAt);
+    } else {
+      addBreederCubit.setDate(DateTime.now());
     }
-
-    super.initState();
   }
 
   @override
@@ -181,9 +181,6 @@ class _AddBreederPageState extends State<AddBreederPage>
 
   @override
   void onDatePicked(DateTime date, List<int> numbers) {
-    setState(() {
-      selectedDate = date;
-    });
     addBreederCubit.setDate(date);
   }
 
@@ -312,7 +309,7 @@ class _AddBreederPageState extends State<AddBreederPage>
                       focusNode: weightFocusNode,
                       hintText: "35",
                       labelText: "weight".i18n,
-                      keyboardType: TextInputType.text,
+                      keyboardType: TextInputType.number,
                     ),
                     const SizedBox(
                       height: 25,

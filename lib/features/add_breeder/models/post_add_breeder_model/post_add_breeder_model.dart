@@ -84,34 +84,34 @@ class PostAddBreederModel {
   }
 
   String get name {
-    return _name ?? (throw Exception('name is null'));
+    return _name ?? (throw 'name is null');
   }
 
   String get prefix {
-    return _prefix ?? (throw Exception('prefix is null'));
+    return _prefix ?? (throw 'prefix is null');
   }
 
   String get cage {
-    return _cage ?? (throw Exception('cage is null'));
+    return _cage ?? (throw 'cage is null');
   }
 
   String get gender {
-    return _gender ?? (throw Exception('gender is null'));
+    return _gender ?? (throw 'gender is null');
   }
 
   String get color {
-    return _color ?? (throw Exception('color is null'));
+    return _color ?? (throw 'color is null');
   }
 
   DateTime get date {
-    return _date ?? (throw Exception('date is null'));
+    return _date ?? (throw 'date is null');
   }
 
   String get tatto {
-    return _tatto ?? (throw Exception('tatto is null'));
+    return _tatto ?? (throw 'tatto is null');
   }
 
   double get weight {
-    return _weight ?? (throw Exception('weight is null'));
+    return _weight ?? (throw 'weight is null');
   }
 }
