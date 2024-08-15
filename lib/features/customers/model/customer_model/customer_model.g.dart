@@ -16,11 +16,6 @@ CustomerModel _$CustomerModelFromJson(Map<String, dynamic> json) =>
       type: CustomerTypes.fromJson(json['type'] as String),
       companyName: json['company_name'] as String,
       phone: json['phone'] as String,
-      note: json['note'] as String,
-      street: json['street'] as String,
-      city: json['city'] as String,
-      country: json['country'] as String,
-      zipCode: json['zip_code'] as String,
       createdAt: json['created_at'] == null
           ? null
           : DateTime.parse(json['created_at'] as String),
@@ -28,6 +23,11 @@ CustomerModel _$CustomerModelFromJson(Map<String, dynamic> json) =>
           ? null
           : DateTime.parse(json['updated_at'] as String),
       date: const DateTimeNullableConverter().fromJson(json['date'] as String?),
+      street: json['street'] as String?,
+      city: json['city'] as String?,
+      country: json['country'] as String?,
+      zipCode: json['zip_code'] as String?,
+      note: json['note'] as String?,
       dtRowIndex: (json['DT_RowIndex'] as num?)?.toInt(),
       state: json['state'] as String?,
     );
@@ -42,14 +42,14 @@ Map<String, dynamic> _$CustomerModelToJson(CustomerModel instance) =>
       'type': _$CustomerTypesEnumMap[instance.type]!,
       'company_name': instance.companyName,
       'phone': instance.phone,
-      'note': instance.note,
+      'created_at': instance.createdAt?.toIso8601String(),
+      'updated_at': instance.updatedAt?.toIso8601String(),
+      'date': const DateTimeNullableConverter().toJson(instance.date),
       'street': instance.street,
       'city': instance.city,
       'country': instance.country,
       'zip_code': instance.zipCode,
-      'created_at': instance.createdAt?.toIso8601String(),
-      'updated_at': instance.updatedAt?.toIso8601String(),
-      'date': const DateTimeNullableConverter().toJson(instance.date),
+      'note': instance.note,
       'DT_RowIndex': instance.dtRowIndex,
       'state': instance.state,
     };

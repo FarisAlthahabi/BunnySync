@@ -20,14 +20,14 @@ class CustomerModel implements BottomSheetItemModel {
     required this.type,
     required this.companyName,
     required this.phone,
-    required this.note,
-    required this.street,
-    required this.city,
-    required this.country,
-    required this.zipCode,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.date,
+    this.createdAt,
+    this.updatedAt,
+    this.date,
+    this.street,
+    this.city,
+    this.country,
+    this.zipCode,
+    this.note,
     this.dtRowIndex,
     this.state,
   });
@@ -57,17 +57,6 @@ class CustomerModel implements BottomSheetItemModel {
 
   final String phone;
 
-  final String note;
-
-  final String street;
-
-  final String city;
-
-  final String country;
-
-  @JsonKey(name: 'zip_code')
-  final String zipCode;
-
   @JsonKey(name: 'created_at')
   final DateTime? createdAt;
 
@@ -76,6 +65,17 @@ class CustomerModel implements BottomSheetItemModel {
 
   @DateTimeNullableConverter()
   final DateTime? date;
+
+  final String? street;
+
+  final String? city;
+
+  final String? country;
+
+  @JsonKey(name: 'zip_code')
+  final String? zipCode;
+
+  final String? note;
 
   @JsonKey(name: 'DT_RowIndex')
   final int? dtRowIndex;

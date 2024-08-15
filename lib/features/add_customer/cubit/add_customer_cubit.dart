@@ -52,25 +52,25 @@ class AddCustomerCubit extends Cubit<GeneralAddCustomerState> {
     );
   }
 
-  void setNote(String note) {
+  void setNote(String? note) {
     _customerPostModel = _customerPostModel.copyWith(
       note: () => note,
     );
   }
 
-  void setStreet(String street) {
+  void setStreet(String? street) {
     _customerPostModel = _customerPostModel.copyWith(
       street: () => street,
     );
   }
 
-  void setCity(String city) {
+  void setCity(String? city) {
     _customerPostModel = _customerPostModel.copyWith(
       city: () => city,
     );
   }
 
-  void setCountry(String country) {
+  void setCountry(String? country) {
     _customerPostModel = _customerPostModel.copyWith(
       country: () => country,
     );
@@ -82,7 +82,7 @@ class AddCustomerCubit extends Cubit<GeneralAddCustomerState> {
     );
   }
 
-  void setZipCode(String zipCode) {
+  void setZipCode(String? zipCode) {
     _customerPostModel = _customerPostModel.copyWith(
       zipCode: () => zipCode,
     );
