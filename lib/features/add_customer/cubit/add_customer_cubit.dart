@@ -40,13 +40,13 @@ class AddCustomerCubit extends Cubit<GeneralAddCustomerState> {
     );
   }
 
-  void setCompanyName(String companyName) {
+  void setCompanyName(String? companyName) {
     _customerPostModel = _customerPostModel.copyWith(
       companyName: () => companyName,
     );
   }
 
-  void setPhone(String phone) {
+  void setPhone(String? phone) {
     _customerPostModel = _customerPostModel.copyWith(
       phone: () => phone,
     );

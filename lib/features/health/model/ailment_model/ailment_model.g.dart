@@ -13,13 +13,13 @@ AilmentModel _$AilmentModelFromJson(Map<String, dynamic> json) => AilmentModel(
       symptoms: json['symptoms'] as String,
       startDate:
           const DateTimeConverter().fromJson(json['start_date'] as String?),
-      note: json['note'] as String,
       status: AilmentStatusTypes.fromJson(json['status'] as String),
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
       treatments: (json['treatments'] as List<dynamic>?)
           ?.map((e) => TreatmentModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      note: json['note'] as String?,
       breederId: (json['breeder_id'] as num?)?.toInt(),
       kitId: (json['kit_id'] as num?)?.toInt(),
       rabbitName: json['rabbit'] as String?,

@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:bunny_sync/features/add_ailment/model/ailment_types/ailment_status_types.dart';
-import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/utils/json_converters/date_time_converter.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
@@ -19,13 +18,12 @@ class AilmentPostModel {
     String? symptoms,
     DateTime? startDate,
     AilmentStatusTypes? status,
-    String? note,
+    this.note,
   })  : _type = type,
         _title = title,
         _symptoms = symptoms,
         _startDate = startDate,
-        _status = status,
-        _note = note;
+        _status = status;
 
   factory AilmentPostModel.fromJsonStr(String str) =>
       AilmentPostModel.fromJson(jsonDecode(str) as Map<String, dynamic>);
@@ -49,7 +47,7 @@ class AilmentPostModel {
 
   final AilmentStatusTypes? _status;
 
-  final String? _note;
+  final String? note;
 
   AilmentPostModel copyWith({
     String? Function()? type,
@@ -69,7 +67,7 @@ class AilmentPostModel {
       symptoms: symptoms != null ? symptoms() : _symptoms,
       startDate: startDate != null ? startDate() : _startDate,
       status: status != null ? status() : _status,
-      note: note != null ? note() : _note,
+      note: note != null ? note() : this.note,
     );
   }
 
@@ -78,12 +76,12 @@ class AilmentPostModel {
   Map<String, dynamic> toJson() => _$AilmentPostModelToJson(this);
 
   String get type {
-    return _type ?? (throw Exception("type can't be null"));
+    return _type ?? (throw "type can't be null");
   }
 
   String get title {
     if (_title == null || _title.isEmpty) {
-      throw Exception("Ailments can't be empty");
+      throw "Ailments can't be empty";
     } else {
       return _title;
     }
@@ -91,7 +89,7 @@ class AilmentPostModel {
 
   String get symptoms {
     if (_symptoms == null || _symptoms.isEmpty) {
-      throw Exception("Symptoms can't be empty");
+      throw "Symptoms can't be empty";
     } else {
       return _symptoms;
     }
@@ -101,7 +99,7 @@ class AilmentPostModel {
   @JsonKey(name: 'start_date')
   DateTime get startDate {
     if (_startDate == null || _startDate.toString().isEmpty) {
-      throw Exception("Start date can't be empty");
+      throw "Start date can't be empty";
     } else {
       return _startDate;
     }
@@ -109,17 +107,9 @@ class AilmentPostModel {
 
   AilmentStatusTypes get status {
     if (_status == null) {
-      throw Exception("Status can't be empty");
+      throw "Status can't be empty";
     } else {
       return _status;
-    }
-  }
-
-  String get note {
-    if (_note == null || _note.isEmpty) {
-      return 'no_note'.i18n;
-    } else {
-      return _note;
     }
   }
 }

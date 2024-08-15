@@ -230,6 +230,8 @@ class _AddAilmentPageState extends State<AddAilmentPage>
       addAilmentCubit.setSymptoms(ailmentModel.symptoms);
       addAilmentCubit.setNote(ailmentModel.note);
       addAilmentCubit.setStartDate(ailmentModel.startDate);
+    } else {
+      addAilmentCubit.setStartDate(DateTime.now());
     }
 
     breedersCubit.getBreeders();
