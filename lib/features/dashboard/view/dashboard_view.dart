@@ -105,14 +105,16 @@ class _DashboardPageState extends State<DashboardPage>
     if (tabsRouter.activeIndex != 0) {
       tabsRouter.setActiveIndex(0);
     } else {
-      if (clickToExit) {
-        Navigator.of(context).pop();
-      } else {
-        clickToExit = true;
+      if (!clickToExit) {
+        setState(() {
+          clickToExit = true;
+        });
         Fluttertoast.showToast(msg: 'click_again_to_exit'.i18n);
         Future.delayed(
           const Duration(seconds: 2),
-          () => clickToExit = false,
+          () => setState(
+            () => clickToExit = false,
+          ),
         );
       }
     }
@@ -143,7 +145,7 @@ class _DashboardPageState extends State<DashboardPage>
           resizeToAvoidBottomInset: true,
           bottomNavigationBuilder: (context, tabsRouter) {
             return PopScope(
-              canPop: false,
+              canPop: clickToExit,
               onPopInvoked: (_) => onBackButton(tabsRouter),
               child: DecoratedBox(
                 decoration: BoxDecoration(
