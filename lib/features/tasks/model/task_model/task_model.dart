@@ -4,7 +4,6 @@ import 'package:bunny_sync/features/add_ailment/model/recurring_periods_types/re
 import 'package:bunny_sync/features/add_task/model/task_genres/task_genres.dart';
 import 'package:bunny_sync/global/localization/translations.i18n.dart';
 import 'package:bunny_sync/global/utils/json_converters/date_time_converter.dart';
-import 'package:bunny_sync/global/utils/json_converters/int_converter.dart';
 import 'package:bunny_sync/global/utils/json_converters/int_nullable_converter.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:flutter/material.dart';
@@ -22,10 +21,10 @@ class TaskModel implements BottomSheetItemModel {
     required this.startDate,
     required this.dueDate,
     required this.type,
-    required this.recurring,
-    required this.note,
-    required this.createdAt,
-    required this.updatedAt,
+    this.createdAt,
+    this.updatedAt,
+    this.recurring,
+    this.note,
     this.breedPairId,
     this.status,
     this.breederId,
@@ -68,21 +67,22 @@ class TaskModel implements BottomSheetItemModel {
   @JsonKey(name: 'due_date')
   final DateTime dueDate;
 
+  @JsonKey(fromJson: TaskGenres.fromJson)
   final TaskGenres type;
+
+  @JsonKey(name: 'created_at')
+  final DateTime? createdAt;
+
+  @JsonKey(name: 'updated_at')
+  final DateTime? updatedAt;
 
   @JsonKey(
     fromJson: RecurringPeriodsTypes.fromId,
     toJson: RecurringPeriodsTypes.toId,
   )
-  final RecurringPeriodsTypes recurring;
+  final RecurringPeriodsTypes? recurring;
 
-  final String note;
-
-  @JsonKey(name: 'created_at')
-  final DateTime createdAt;
-
-  @JsonKey(name: 'updated_at')
-  final DateTime updatedAt;
+  final String? note;
 
   @JsonKey(fromJson: _whoFromJson)
   final String? who;

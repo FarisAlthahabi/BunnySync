@@ -35,7 +35,7 @@ enum RecurringPeriodsTypes implements DropDownItemModel {
     }
   }
 
-  static RecurringPeriodsTypes fromId(String id) {
+  static RecurringPeriodsTypes? fromId(String? id) {
     switch (id) {
       case '1':
         return RecurringPeriodsTypes.once;
@@ -46,7 +46,7 @@ enum RecurringPeriodsTypes implements DropDownItemModel {
       case '4':
         return RecurringPeriodsTypes.everyMonth;
       default:
-        throw Exception('Unknown RecurringPeriodsTypes id: $id');
+        return null;
     }
   }
 

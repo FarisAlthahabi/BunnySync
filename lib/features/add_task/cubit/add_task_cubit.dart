@@ -111,7 +111,7 @@ class AddTaskCubit extends Cubit<GeneralAddTaskState> {
     );
   }
 
-  void setNote(String note) {
+  void setNote(String? note) {
     _taskPostModel = _taskPostModel.copyWith(
       note: () => note,
     );
