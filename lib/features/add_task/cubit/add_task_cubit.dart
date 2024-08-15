@@ -121,6 +121,7 @@ class AddTaskCubit extends Cubit<GeneralAddTaskState> {
     final taskTypeError = _taskPostModel.validateTaskType();
     final nameError = _taskPostModel.validateName();
     final recurringError = _taskPostModel.validateRecurring();
+
     if (taskTypeError != null) {
       emit(TaskTaskTypePostInvalid(taskTypeError));
       return;

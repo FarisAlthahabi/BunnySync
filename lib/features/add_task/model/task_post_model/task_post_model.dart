@@ -109,9 +109,9 @@ class TaskPostModel {
     }
   }
 
-  String get note {
+  String? get note {
     if (_note == null || _note.isEmpty) {
-      return 'there_is_no_note'.i18n;
+      return null;
     } else {
       return _note;
     }
