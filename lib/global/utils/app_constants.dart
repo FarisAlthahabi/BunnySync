@@ -104,6 +104,11 @@ abstract class AppConstants {
     bottom: 16,
   );
 
+  static const paddingTE16 = EdgeInsetsDirectional.only(
+    top: 16,
+    end: 16,
+  );
+
   static const paddingB10 = EdgeInsetsDirectional.only(
     bottom: 10,
   );
