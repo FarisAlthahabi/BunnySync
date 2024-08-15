@@ -22,7 +22,7 @@ enum RecurringPeriodsTypes implements DropDownItemModel {
   }
 
   @override
-  String get name {
+  String get displayName {
     switch (this) {
       case RecurringPeriodsTypes.once:
         return 'once'.i18n;

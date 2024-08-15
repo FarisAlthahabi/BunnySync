@@ -12,7 +12,7 @@ enum CustomerTypes implements DropDownItemModel {
   }
 
   @override
-  String get name {
+  String get displayName {
     switch (this) {
       case CustomerTypes.lead:
         return 'lead'.i18n;

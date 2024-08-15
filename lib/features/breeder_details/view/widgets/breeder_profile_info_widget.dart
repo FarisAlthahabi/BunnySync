@@ -33,7 +33,7 @@ class BreederProfileInfoWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  breeder.name,
+                  breeder.displayName,
                   style: context.tt.headlineSmall,
                 ),
                 const SizedBox(height: 15),

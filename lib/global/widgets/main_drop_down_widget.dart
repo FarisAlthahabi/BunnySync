@@ -2,7 +2,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 
 abstract class DropDownItemModel {
-  String get name;
+  String get displayName;
 
   int get id;
 }
@@ -56,7 +56,7 @@ class _MainDropDownWidgetState<T extends DropDownItemModel>
               (T item) => DropdownMenuItem<T>(
                 value: item,
                 child: Text(
-                  item.name,
+                  item.displayName,
                   style: const TextStyle(
                     fontSize: 14,
                   ),

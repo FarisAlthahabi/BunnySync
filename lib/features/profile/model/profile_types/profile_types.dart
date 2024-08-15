@@ -40,7 +40,7 @@ enum ProfileTypes implements DropDownItemModel {
   }
 
   @override
-  String get name {
+  String get displayName {
     switch (this) {
       case ProfileTypes.existingCustomer:
         return 'existing_customer'.i18n;

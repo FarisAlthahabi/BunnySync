@@ -11,7 +11,7 @@ part 'breeder_by_gender_model.g.dart';
 class BreederByGenderModel implements DropDownItemModel {
   const BreederByGenderModel({
     required this.id,
-    required this.name,
+    required this.displayName,
   });
   factory BreederByGenderModel.fromJsonStr(String str) =>
       BreederByGenderModel.fromJson(jsonDecode(str) as Map<String, dynamic>);
@@ -22,7 +22,7 @@ class BreederByGenderModel implements DropDownItemModel {
   @override
   final int id;
   @override
-  final String name;
+  final String displayName;
 
   String toJsonStr() => jsonEncode(toJson());
 

@@ -108,7 +108,7 @@ class _AddBreederPageState extends State<AddBreederPage>
     final breederEntryModel = widget.breederEntryModel;
     if (breederEntryModel != null) {
       addBreederCubit.breeder = breederEntryModel;
-      addBreederCubit.setName(breederEntryModel.name);
+      addBreederCubit.setName(breederEntryModel.displayName);
       addBreederCubit.setPrefix(breederEntryModel.prefix);
       addBreederCubit.setCage(breederEntryModel.cage);
       addBreederCubit.setColor(breederEntryModel.color);
@@ -225,7 +225,7 @@ class _AddBreederPageState extends State<AddBreederPage>
                       height: 30,
                     ),
                     MainTextField(
-                      initialValue: widget.breederEntryModel?.name,
+                      initialValue: widget.breederEntryModel?.displayName,
                       onSubmitted: onNameSubmitted,
                       onChanged: onNameChanged,
                       focusNode: nameFocusNode,

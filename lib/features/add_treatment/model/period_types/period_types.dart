@@ -13,7 +13,7 @@ enum PeriodTypes implements DropDownItemModel {
   }
 
   @override
-  String get name {
+  String get displayName {
     switch (this) {
       case PeriodTypes.days:
         return 'days'.i18n;

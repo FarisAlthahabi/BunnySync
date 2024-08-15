@@ -16,7 +16,7 @@ class AilmentModel implements BottomSheetItemModel, DropDownItemModel {
   const AilmentModel({
     required this.id,
     required this.userId,
-    required this.name,
+    required this.displayName,
     required this.symptoms,
     required this.startDate,
     required this.note,
@@ -50,7 +50,7 @@ class AilmentModel implements BottomSheetItemModel, DropDownItemModel {
   final int userId;
 
   @override
-  final String name;
+  final String displayName;
 
   final String symptoms;
 

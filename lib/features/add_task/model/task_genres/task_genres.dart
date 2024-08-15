@@ -20,7 +20,7 @@ enum TaskGenres implements DropDownItemModel {
   int get id => index;
 
   @override
-  String get name {
+  String get displayName {
     switch (this) {
       case TaskGenres.breed:
         return 'breed'.i18n;

@@ -21,7 +21,7 @@ class BreederEntryModel extends Equatable
     required this.id,
     required this.userId,
     required this.uuid,
-    required this.name,
+    required this.displayName,
     required this.updatedAt,
     required this.createdAt,
     required this.gender,
@@ -56,7 +56,7 @@ class BreederEntryModel extends Equatable
   final String uuid;
 
   @override
-  final String name;
+  final String displayName;
 
   @JsonKey(name: 'updated_at')
   final DateTime updatedAt;
@@ -112,7 +112,7 @@ class BreederEntryModel extends Equatable
       id: model?.id ?? id,
       userId: model?.userId ?? userId,
       uuid: model?.uuid ?? uuid,
-      name: model?.name ?? name,
+      displayName: model?.displayName ?? displayName,
       updatedAt: model?.updatedAt ?? updatedAt,
       createdAt: model?.createdAt ?? createdAt,
       isActive: model?.isActive ?? isActive,
@@ -161,7 +161,7 @@ class BreederEntryModel extends Equatable
       id: id ?? this.id,
       userId: userId ?? this.userId,
       uuid: uuid ?? this.uuid,
-      name: name ?? this.name,
+      displayName: name ?? this.displayName,
       updatedAt: updatedAt ?? this.updatedAt,
       createdAt: createdAt ?? this.createdAt,
       isActive: isActive ?? this.isActive,

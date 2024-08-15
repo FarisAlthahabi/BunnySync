@@ -205,7 +205,7 @@ class _TasksPageState extends State<TasksPage> implements TasksViewCallBacks {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text(
-                                  item.type.name,
+                                  item.type.displayName,
                                   style: context.tt.labelMedium
                                       ?.copyWith(color: context.cs.tertiary),
                                 ),

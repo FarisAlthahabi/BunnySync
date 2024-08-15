@@ -60,7 +60,7 @@ class BreederTile extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Text(
-                              breeder.name,
+                              breeder.displayName,
                               style: context.tt.headlineSmall,
                             ),
                             Wrap(

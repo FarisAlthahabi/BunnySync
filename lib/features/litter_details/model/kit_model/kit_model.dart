@@ -70,7 +70,7 @@ class KitModel extends Equatable implements DropDownItemModel {
   Map<String, dynamic> toJson() => _$KitModelToJson(this);
 
   @override
-  String get name => code;
+  String get displayName => code;
 
   @override
   List<Object?> get props => [id];
