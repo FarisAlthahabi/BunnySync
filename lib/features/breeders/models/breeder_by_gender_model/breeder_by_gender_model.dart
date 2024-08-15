@@ -21,7 +21,9 @@ class BreederByGenderModel implements DropDownItemModel {
 
   @override
   final int id;
+
   @override
+  @JsonKey(name: 'name')
   final String displayName;
 
   String toJsonStr() => jsonEncode(toJson());
