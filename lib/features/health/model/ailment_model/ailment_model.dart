@@ -50,6 +50,7 @@ class AilmentModel implements BottomSheetItemModel, DropDownItemModel {
   final int userId;
 
   @override
+  @JsonKey(name: 'name')
   final String displayName;
 
   final String symptoms;

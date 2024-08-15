@@ -9,7 +9,7 @@ part of 'ailment_model.dart';
 AilmentModel _$AilmentModelFromJson(Map<String, dynamic> json) => AilmentModel(
       id: (json['id'] as num).toInt(),
       userId: (json['user_id'] as num).toInt(),
-      name: json['name'] as String,
+      displayName: json['name'] as String,
       symptoms: json['symptoms'] as String,
       startDate:
           const DateTimeConverter().fromJson(json['start_date'] as String?),
@@ -32,7 +32,7 @@ Map<String, dynamic> _$AilmentModelToJson(AilmentModel instance) =>
       'breeder_id': instance.breederId,
       'kit_id': instance.kitId,
       'user_id': instance.userId,
-      'name': instance.name,
+      'name': instance.displayName,
       'symptoms': instance.symptoms,
       'start_date': const DateTimeConverter().toJson(instance.startDate),
       'note': instance.note,
