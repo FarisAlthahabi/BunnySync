@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/add_cage/cubit/add_cage_cubit.dart';
 import 'package:bunny_sync/features/add_cage/model/cage_orientation_types/cage_orientation_types.dart';
+import 'package:bunny_sync/features/add_cage/model/cage_placement_types/cage_placement_types.dart';
 import 'package:bunny_sync/features/add_cage/model/cage_size_types/cage_size_types.dart';
-import 'package:bunny_sync/features/breeders/models/breeder_by_gender_model/breeder_by_gender_model.dart';
 import 'package:bunny_sync/features/cage_cards/cubit/cage_cards_cubit.dart';
 import 'package:bunny_sync/features/cage_cards/model/cage_model/cage_model.dart';
 import 'package:bunny_sync/global/di/di.dart';
@@ -10,7 +10,6 @@ import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/utils/enums/answer_types.dart';
-import 'package:bunny_sync/features/add_cage/model/cage_placement_types/cage_placement_types.dart';
 import 'package:bunny_sync/global/utils/enums/rabbit_types.dart';
 import 'package:bunny_sync/global/widgets/buttons/main_action_button.dart';
 import 'package:bunny_sync/global/widgets/loading_indicator.dart';
@@ -19,6 +18,7 @@ import 'package:bunny_sync/global/widgets/main_drop_down_widget.dart';
 import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:bunny_sync/global/widgets/main_text_field.dart';
 import 'package:bunny_sync/global/widgets/radio_selector_widget.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -57,7 +57,7 @@ abstract class AddCageViewCallBacks {
 
   void onEleventhSelected(CagePlacementTypes? value);
 
-  void onTwelvthSelected(CagePlacementTypes? value);
+  void onTwelveSelected(CagePlacementTypes? value);
 
   void onSave();
 }
@@ -130,28 +130,13 @@ class _AddCagePageState extends State<AddCagePage>
     onNinthSelected,
     onTenthSelected,
     onEleventhSelected,
-    onTwelvthSelected,
+    onTwelveSelected,
   ];
-
-  final types = [
-    BreederByGenderModel(id: 1, name: 'breeder'.i18n),
-    BreederByGenderModel(id: 2, name: 'litter'.i18n),
-  ];
-
-  final orientations = [
-    BreederByGenderModel(id: 1, name: 'vertical'.i18n),
-    BreederByGenderModel(id: 2, name: 'horizontal'.i18n),
-  ];
-
-  BreederByGenderModel? selectedType;
-  BreederByGenderModel? selectedOrientation;
-  List<CagePlacementTypes?> selectedValue = List.generate(
-    21,
-    (index) => CagePlacementTypes.blank,
-  );
 
   @override
   void initState() {
+    super.initState();
+
     final cage = widget.cageModel;
     if (cage != null) {
       addCageCubit.setTitle(cage.name);
@@ -159,10 +144,11 @@ class _AddCagePageState extends State<AddCagePage>
       addCageCubit.setType(cage.type);
       addCageCubit.setHole(cage.hole);
       addCageCubit.setOrientation(cage.orientation);
-      //TODO ......................
-      // addCageCubit.setSettings(cage.settings)
+
+      for (final oneSetting in cage.settings) {
+        addCageCubit.setOneSetting(oneSetting);
+      }
     }
-    super.initState();
   }
 
   @override
@@ -202,62 +188,62 @@ class _AddCagePageState extends State<AddCagePage>
 
   @override
   void onEighthSelected(CagePlacementTypes? value) {
-    addCageCubit.setSettings(value);
+    addCageCubit.setOneSetting(value);
   }
 
   @override
   void onEleventhSelected(CagePlacementTypes? value) {
-    addCageCubit.setSettings(value);
+    addCageCubit.setOneSetting(value);
   }
 
   @override
   void onFifthSelected(CagePlacementTypes? value) {
-    addCageCubit.setSettings(value);
+    addCageCubit.setOneSetting(value);
   }
 
   @override
   void onFirstSelected(CagePlacementTypes? value) {
-    addCageCubit.setSettings(value);
+    addCageCubit.setOneSetting(value);
   }
 
   @override
   void onFourthSelected(CagePlacementTypes? value) {
-    addCageCubit.setSettings(value);
+    addCageCubit.setOneSetting(value);
   }
 
   @override
   void onNinthSelected(CagePlacementTypes? value) {
-    addCageCubit.setSettings(value);
+    addCageCubit.setOneSetting(value);
   }
 
   @override
   void onSecondSelected(CagePlacementTypes? value) {
-    addCageCubit.setSettings(value);
+    addCageCubit.setOneSetting(value);
   }
 
   @override
   void onSeventhSelected(CagePlacementTypes? value) {
-    addCageCubit.setSettings(value);
+    addCageCubit.setOneSetting(value);
   }
 
   @override
   void onSixthSelected(CagePlacementTypes? value) {
-    addCageCubit.setSettings(value);
+    addCageCubit.setOneSetting(value);
   }
 
   @override
   void onTenthSelected(CagePlacementTypes? value) {
-    addCageCubit.setSettings(value);
+    addCageCubit.setOneSetting(value);
   }
 
   @override
   void onThirdSelected(CagePlacementTypes? value) {
-    addCageCubit.setSettings(value);
+    addCageCubit.setOneSetting(value);
   }
 
   @override
-  void onTwelvthSelected(CagePlacementTypes? value) {
-    addCageCubit.setSettings(value);
+  void onTwelveSelected(CagePlacementTypes? value) {
+    addCageCubit.setOneSetting(value);
   }
 
   @override
@@ -265,7 +251,9 @@ class _AddCagePageState extends State<AddCagePage>
     return Scaffold(
       appBar: MainAppBar(
         title: Text(
-          'create_templet'.i18n,
+          widget.cageModel == null
+              ? 'create_template'.i18n
+              : 'update_template'.i18n,
         ),
         centerTitle: true,
       ),
@@ -406,7 +394,10 @@ class _AddCagePageState extends State<AddCagePage>
                           items: CagePlacementTypes.values,
                           text: 'blank'.i18n,
                           onChanged: onFieldSelected[index],
-                          selectedValue: selectedValue[index],
+                          selectedValue:
+                              widget.cageModel?.settings.firstWhereOrNull(
+                            (element) => element.index == index,
+                          ),
                           expandedHeight: 400,
                         );
                       },

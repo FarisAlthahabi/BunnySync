@@ -54,7 +54,7 @@ class AddCageCubit extends Cubit<GeneralAddCageState> {
     );
   }
 
-  void setSettings(CagePlacementTypes? value) {
+  void setOneSetting(CagePlacementTypes? value) {
     if (value != null) {
       settings.add(value);
       _cagePostModel = _cagePostModel.copyWith(

@@ -17,4 +17,19 @@ enum CageOrientationTypes implements DropDownItemModel {
         return 'vertical'.i18n;
     }
   }
+
+  static CageOrientationTypes fromJson(String value) {
+    return values.byName(value.toLowerCase());
+  }
+
+  static String cageToJson(CageOrientationTypes value) {
+    switch (value) {
+      case CageOrientationTypes.horizontal:
+        return 'horizontal';
+      case CageOrientationTypes.vertical:
+        return 'vertical';
+      default:
+        throw Exception('Cage orientation type is not supported');
+    }
+  }
 }

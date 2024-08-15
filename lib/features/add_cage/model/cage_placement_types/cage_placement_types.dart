@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bunny_sync/global/extensions/string_x.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/widgets/main_drop_down_widget.dart';
@@ -76,6 +78,20 @@ enum CagePlacementTypes implements DropDownItemModel {
   @override
   int get id {
     return CagePlacementTypes.idType.id;
+  }
+
+  static List<CagePlacementTypes> fromJsonStr(String json) {
+    final decoded = jsonDecode(
+      json
+          .replaceAll('"', '')
+          .replaceAll('&quot;', '"')
+          .replaceAll(', ', ',')
+          .replaceAll(' ', '_')
+          .toLowerCase(),
+    );
+    return (decoded as List<dynamic>)
+        .map((e) => CagePlacementTypes.values.byName((e as String).toCamelCase))
+        .toList();
   }
 
   static CagePlacementTypes fromJson(String json) {

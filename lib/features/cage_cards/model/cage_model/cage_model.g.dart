@@ -10,12 +10,11 @@ CageModel _$CageModelFromJson(Map<String, dynamic> json) => CageModel(
       id: (json['id'] as num).toInt(),
       userId: (json['user_id'] as num).toInt(),
       name: json['name'] as String,
-      type: $enumDecode(_$RabbitTypesEnumMap, json['type']),
+      type: RabbitTypes.fromJson(json['type'] as String),
       size: CageSizeTypes.fromJson(json['size'] as String),
-      orientation:
-          $enumDecode(_$CageOrientationTypesEnumMap, json['orientation']),
+      orientation: CageOrientationTypes.fromJson(json['orientation'] as String),
       hole: AnswerTypes.fromJson((json['hole'] as num).toInt()),
-      settings: json['settings'] as String,
+      settings: CagePlacementTypes.fromJsonStr(json['settings'] as String),
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
       table: (json['table'] as num?)?.toInt(),
@@ -31,7 +30,7 @@ Map<String, dynamic> _$CageModelToJson(CageModel instance) => <String, dynamic>{
       'size': _$CageSizeTypesEnumMap[instance.size]!,
       'orientation': _$CageOrientationTypesEnumMap[instance.orientation]!,
       'hole': _$AnswerTypesEnumMap[instance.hole]!,
-      'settings': instance.settings,
+      'settings': CagePlacementTypes.toListJson(instance.settings),
       'table': instance.table,
       'settings_table': instance.settingsTable,
       'created_at': instance.createdAt.toIso8601String(),
@@ -44,15 +43,15 @@ const _$RabbitTypesEnumMap = {
   RabbitTypes.litter: 'litter',
 };
 
-const _$CageOrientationTypesEnumMap = {
-  CageOrientationTypes.horizontal: 'horizontal',
-  CageOrientationTypes.vertical: 'vertical',
-};
-
 const _$CageSizeTypesEnumMap = {
   CageSizeTypes.business2X3: 'business2X3',
   CageSizeTypes.index3X5: 'index3X5',
   CageSizeTypes.large4x7: 'large4x7',
+};
+
+const _$CageOrientationTypesEnumMap = {
+  CageOrientationTypes.horizontal: 'horizontal',
+  CageOrientationTypes.vertical: 'vertical',
 };
 
 const _$AnswerTypesEnumMap = {

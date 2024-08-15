@@ -61,7 +61,7 @@ class CageCardsCubit extends Cubit<GeneralCageCardsState> {
       emit(DeleteCageCardSuccess());
 
       if (cages.isEmpty) {
-        emit(CageCardsEmpty('CageCards_empty'.i18n));
+        emit(CageCardsEmpty('cage_cards_empty'.i18n));
       } else {
         emit(CageCardsSuccess(cages));
       }

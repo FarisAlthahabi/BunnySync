@@ -14,8 +14,7 @@ final fakeCages = List.generate(
     size: CageSizeTypes.index3X5,
     orientation: CageOrientationTypes.horizontal,
     hole: AnswerTypes.yes,
-    settings:
-        '["blank","prefix","name","breed","cage","tattoo","sex","father","mother","color","weight","acquired","date_of_birth","images","culled","kits","category","genotype","current_weight","weight_date","v_w_du_genotype"]',
+    settings: const [],
     createdAt: DateTime.now(),
     updatedAt: DateTime.now(),
   ),
