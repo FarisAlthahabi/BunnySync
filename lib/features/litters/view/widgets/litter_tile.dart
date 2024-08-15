@@ -96,30 +96,32 @@ class LitterTile extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 24),
-                InfoPropertiesWidget(
-                  properties: properties.sublist(0, 5),
-                  propertyStructures: [
-                    PropertyStructure(
-                      mainAxisCellCount: 1.6,
-                      crossAxisCellCount: 3,
-                    ),
-                    PropertyStructure(
-                      mainAxisCellCount: 1.6,
-                      crossAxisCellCount: 3,
-                    ),
-                    PropertyStructure(
-                      mainAxisCellCount: 1.6,
-                      crossAxisCellCount: 2,
-                    ),
-                    PropertyStructure(
-                      mainAxisCellCount: 1.6,
-                      crossAxisCellCount: 2,
-                    ),
-                    PropertyStructure(
-                      mainAxisCellCount: 1.6,
-                      crossAxisCellCount: 2,
-                    ),
-                  ],
+                Center(
+                  child: InfoPropertiesWidget(
+                    properties: properties.sublist(0, 5),
+                    propertyStructures: [
+                      PropertyStructure(
+                        mainAxisCellCount: 1.6,
+                        crossAxisCellCount: 3,
+                      ),
+                      PropertyStructure(
+                        mainAxisCellCount: 1.6,
+                        crossAxisCellCount: 3,
+                      ),
+                      PropertyStructure(
+                        mainAxisCellCount: 1.6,
+                        crossAxisCellCount: 2,
+                      ),
+                      PropertyStructure(
+                        mainAxisCellCount: 1.6,
+                        crossAxisCellCount: 2,
+                      ),
+                      PropertyStructure(
+                        mainAxisCellCount: 1.6,
+                        crossAxisCellCount: 2,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
