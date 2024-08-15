@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:bunny_sync/features/add_treatment/model/dosage_per_types/dosage_per_types.dart';
 import 'package:bunny_sync/features/add_treatment/model/dosage_types/dosage_types.dart';
 import 'package:bunny_sync/features/add_treatment/model/period_types/period_types.dart';
-import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/utils/json_converters/date_time_converter.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
@@ -19,9 +18,9 @@ class TreatmentPostModel {
     int? ailmentId,
     String? title,
     DateTime? startDate,
-    String? medication,
-    String? method,
-    String? type,
+    this.medication,
+    this.method,
+    this.type,
     int? dosageCount,
     DosageTypes? dosageType,
     int? dosageCountPer,
@@ -30,13 +29,10 @@ class TreatmentPostModel {
     PeriodTypes? scheduleType,
     int? withDrawalCount,
     PeriodTypes? withDrawalType,
-    String? note,
+    this.note,
   })  : _ailmentId = ailmentId,
         _title = title,
         _startDate = startDate,
-        _medication = medication,
-        _method = method,
-        _type = type,
         _dosageCount = dosageCount,
         _dosageType = dosageType,
         _dosageCountPer = dosageCountPer,
@@ -44,8 +40,7 @@ class TreatmentPostModel {
         _scheduleCount = scheduleCount,
         _scheduleType = scheduleType,
         _withDrawalCount = withDrawalCount,
-        _withDrawalType = withDrawalType,
-        _note = note;
+        _withDrawalType = withDrawalType;
 
   factory TreatmentPostModel.fromJsonStr(String str) =>
       TreatmentPostModel.fromJson(jsonDecode(str) as Map<String, dynamic>);
@@ -65,11 +60,11 @@ class TreatmentPostModel {
 
   final DateTime? _startDate;
 
-  final String? _medication;
+  final String? medication;
 
-  final String? _method;
+  final String? method;
 
-  final String? _type;
+  final String? type;
 
   final int? _dosageCount;
 
@@ -87,7 +82,7 @@ class TreatmentPostModel {
 
   final PeriodTypes? _withDrawalType;
 
-  final String? _note;
+  final String? note;
 
   TreatmentPostModel copyWith({
     int? Function()? breederId,
@@ -114,9 +109,9 @@ class TreatmentPostModel {
       ailmentId: ailmentId != null ? ailmentId() : _ailmentId,
       title: title != null ? title() : _title,
       startDate: startDate != null ? startDate() : _startDate,
-      method: method != null ? method() : _method,
-      medication: medication != null ? medication() : _medication,
-      type: type != null ? type() : _type,
+      method: method != null ? method() : this.method,
+      medication: medication != null ? medication() : this.medication,
+      type: type != null ? type() : this.type,
       dosageCount: dosageCount != null ? dosageCount() : _dosageCount,
       dosageType: dosageType != null ? dosageType() : _dosageType,
       dosageCountPer:
@@ -128,7 +123,7 @@ class TreatmentPostModel {
           withDrawalCount != null ? withDrawalCount() : _withDrawalCount,
       withDrawalType:
           withDrawalType != null ? withDrawalType() : _withDrawalType,
-      note: note != null ? note() : _note,
+      note: note != null ? note() : this.note,
     );
   }
 
@@ -151,33 +146,9 @@ class TreatmentPostModel {
     return _startDate ?? (throw "Start Date can't be empty");
   }
 
-  String get medication {
-    if (_medication == null || _medication.isEmpty) {
-      return 'unknown'.i18n;
-    } else {
-      return _medication;
-    }
-  }
-
-  String get method {
-    if (_method == null || _method.isEmpty) {
-      return 'unknown'.i18n;
-    } else {
-      return _method;
-    }
-  }
-
-  String get type {
-    if (_type == null || _type.isEmpty) {
-      return 'unknown'.i18n;
-    } else {
-      return _type;
-    }
-  }
-
   @JsonKey(name: 'dosage_count')
   int get dosageCount {
-    return _dosageCount ?? 0;
+    return _dosageCount ?? (throw "Dosage Count can't be empty");
   }
 
   @JsonKey(name: 'dosage_type')
@@ -186,7 +157,7 @@ class TreatmentPostModel {
 
   @JsonKey(name: 'dosage_count_per')
   int get dosageCountPer {
-    return _dosageCountPer ?? 0;
+    return _dosageCountPer ?? (throw "Dosage Count Per can't be empty");
   }
 
   @JsonKey(name: 'dosage_type_per')
@@ -195,7 +166,7 @@ class TreatmentPostModel {
 
   @JsonKey(name: 'schedule_count')
   int get scheduleCount {
-    return _scheduleCount ?? 0;
+    return _scheduleCount ?? (throw "Schedule Count can't be empty");
   }
 
   @JsonKey(name: 'schedule_type')
@@ -204,18 +175,10 @@ class TreatmentPostModel {
 
   @JsonKey(name: 'withdrawal_count')
   int get withDrawalCount {
-    return _withDrawalCount ?? 0;
+    return _withDrawalCount ?? (throw "Withdrawal Count can't be empty");
   }
 
   @JsonKey(name: 'widthdrawal_type')
   PeriodTypes get withDrawalType =>
       _withDrawalType ?? (throw "Withdrawal Type can't be empty");
-
-  String get note {
-    if (_note == null || _note.isEmpty) {
-      return 'no_note'.i18n;
-    } else {
-      return _note;
-    }
-  }
 }
