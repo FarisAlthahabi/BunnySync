@@ -362,7 +362,7 @@ class _AddTaskPageState extends State<AddTaskPage>
                                 onChanged: onNameChanged,
                                 focusNode: nameFocusNode,
                                 hintText: 'name'.i18n,
-                                labelText: 'name'.i18n,
+                                labelText: '${'name'.i18n} *',
                               ),
                               const SizedBox(
                                 height: 25,
@@ -447,6 +447,22 @@ class _AddTaskPageState extends State<AddTaskPage>
                                     );
                                     context.router.maybePop();
                                   } else if (state is AddTaskFail) {
+                                    MainSnackBar.showErrorMessageBar(
+                                      context,
+                                      state.message,
+                                    );
+                                  } else if (state is TaskTaskTypePostInvalid) {
+                                    MainSnackBar.showErrorMessageBar(
+                                      context,
+                                      state.message,
+                                    );
+                                  } else if (state is TaskNamePostInvalid) {
+                                    MainSnackBar.showErrorMessageBar(
+                                      context,
+                                      state.message,
+                                    );
+                                  } else if (state
+                                      is TaskRecurringPostInvalid) {
                                     MainSnackBar.showErrorMessageBar(
                                       context,
                                       state.message,

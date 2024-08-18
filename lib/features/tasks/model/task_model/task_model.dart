@@ -21,10 +21,10 @@ class TaskModel implements BottomSheetItemModel {
     required this.startDate,
     required this.dueDate,
     required this.type,
-    required this.recurring,
-    required this.note,
-    required this.createdAt,
-    required this.updatedAt,
+    this.createdAt,
+    this.updatedAt,
+    this.recurring,
+    this.note,
     this.breedPairId,
     this.status,
     this.breederId,
@@ -67,21 +67,22 @@ class TaskModel implements BottomSheetItemModel {
   @JsonKey(name: 'due_date')
   final DateTime dueDate;
 
+  @JsonKey(fromJson: TaskGenres.fromJson)
   final TaskGenres type;
+
+  @JsonKey(name: 'created_at')
+  final DateTime? createdAt;
+
+  @JsonKey(name: 'updated_at')
+  final DateTime? updatedAt;
 
   @JsonKey(
     fromJson: RecurringPeriodsTypes.fromId,
     toJson: RecurringPeriodsTypes.toId,
   )
-  final RecurringPeriodsTypes recurring;
+  final RecurringPeriodsTypes? recurring;
 
-  final String note;
-
-  @JsonKey(name: 'created_at')
-  final DateTime createdAt;
-
-  @JsonKey(name: 'updated_at')
-  final DateTime updatedAt;
+  final String? note;
 
   @JsonKey(fromJson: _whoFromJson)
   final String? who;

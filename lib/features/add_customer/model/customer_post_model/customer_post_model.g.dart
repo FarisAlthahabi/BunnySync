@@ -23,9 +23,6 @@ CustomerPostModel _$CustomerPostModelFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$CustomerPostModelToJson(CustomerPostModel instance) =>
     <String, dynamic>{
-      'contact_name': instance.name,
-      'email': instance.email,
-      'type': _$CustomerTypesEnumMap[instance.type]!,
       'company_name': instance.companyName,
       'phone': instance.phone,
       'note': instance.note,
@@ -34,6 +31,9 @@ Map<String, dynamic> _$CustomerPostModelToJson(CustomerPostModel instance) =>
       'country': instance.country,
       'state': instance.state,
       'zip_code': instance.zipCode,
+      'contact_name': instance.name,
+      'email': instance.email,
+      'type': _$CustomerTypesEnumMap[instance.type]!,
     };
 
 const _$CustomerTypesEnumMap = {

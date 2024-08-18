@@ -12,7 +12,7 @@ enum CustomerTypes implements DropDownItemModel {
   }
 
   @override
-  String get name {
+  String get displayName {
     switch (this) {
       case CustomerTypes.lead:
         return 'lead'.i18n;
@@ -32,7 +32,8 @@ enum CustomerTypes implements DropDownItemModel {
       case 'customer':
         return CustomerTypes.customer;
       default:
-        throw Exception('Unknown CustomerTypes value: $value');
+        // throw Exception('Unknown CustomerTypes value: $value');
+        return CustomerTypes.lead;
     }
   }
 }

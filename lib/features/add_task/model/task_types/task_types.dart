@@ -19,7 +19,7 @@ enum TaskTypes implements DropDownItemModel {
   }
 
   @override
-  String get name {
+  String get displayName {
     switch (this) {
       case TaskTypes.breeder:
         return 'breeder'.i18n;

@@ -164,7 +164,7 @@ class _AilmentsTabState extends State<AilmentsTab>
                             createdAt: item.startDate.formatMMMMMDoYYYY,
                             title: Text(
                               strutStyle: const StrutStyle(height: 1.6),
-                              item.name,
+                              item.displayName,
                               style: context.tt.titleMedium?.copyWith(
                                 fontWeight: FontWeight.w700,
                               ),

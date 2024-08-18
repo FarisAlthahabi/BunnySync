@@ -16,7 +16,7 @@ enum RabbitTypes implements DropDownItemModel {
   }
 
   @override
-  String get name {
+  String get displayName {
     switch (this) {
       case RabbitTypes.breeder:
         return 'breeder'.i18n;

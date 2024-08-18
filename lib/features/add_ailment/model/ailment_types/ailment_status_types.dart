@@ -19,7 +19,7 @@ enum AilmentStatusTypes implements DropDownItemModel {
   }
 
   @override
-  String get name {
+  String get displayName {
     switch (this) {
       case AilmentStatusTypes.active:
         return 'active'.i18n;

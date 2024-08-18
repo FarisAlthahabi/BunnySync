@@ -15,25 +15,17 @@ class CustomerPostModel {
     String? name,
     String? email,
     CustomerTypes? type,
-    String? companyName,
-    String? phone,
-    String? note,
-    String? street,
-    String? city,
-    String? country,
-    String? state,
-    String? zipCode,
+    this.companyName,
+    this.phone,
+    this.note,
+    this.street,
+    this.city,
+    this.country,
+    this.state,
+    this.zipCode,
   })  : _name = name,
         _email = email,
-        _type = type,
-        _companyName = companyName,
-        _phone = phone,
-        _note = note,
-        _street = street,
-        _city = city,
-        _country = country,
-        _state = state,
-        _zipCode = zipCode;
+        _type = type;
 
   factory CustomerPostModel.fromJsonStr(String str) =>
       CustomerPostModel.fromJson(jsonDecode(str) as Map<String, dynamic>);
@@ -47,21 +39,23 @@ class CustomerPostModel {
 
   final CustomerTypes? _type;
 
-  final String? _companyName;
+  @JsonKey(name: 'company_name')
+  final String? companyName;
 
-  final String? _phone;
+  final String? phone;
 
-  final String? _note;
+  final String? note;
 
-  final String? _street;
+  final String? street;
 
-  final String? _city;
+  final String? city;
 
-  final String? _country;
+  final String? country;
 
-  final String? _state;
+  final String? state;
 
-  final String? _zipCode;
+  @JsonKey(name: 'zip_code')
+  final String? zipCode;
 
   CustomerPostModel copyWith({
     String? Function()? name,
@@ -80,14 +74,14 @@ class CustomerPostModel {
       name: name != null ? name() : _name,
       email: email != null ? email() : _email,
       type: type != null ? type() : _type,
-      companyName: companyName != null ? companyName() : _companyName,
-      phone: phone != null ? phone() : _phone,
-      note: note != null ? note() : _note,
-      street: street != null ? street() : _street,
-      city: city != null ? city() : _city,
-      country: country != null ? country() : _country,
-      state: state != null ? state() : _state,
-      zipCode: zipCode != null ? zipCode() : _zipCode,
+      companyName: companyName != null ? companyName() : this.companyName,
+      phone: phone != null ? phone() : this.phone,
+      note: note != null ? note() : this.note,
+      street: street != null ? street() : this.street,
+      city: city != null ? city() : this.city,
+      country: country != null ? country() : this.country,
+      state: state != null ? state() : this.state,
+      zipCode: zipCode != null ? zipCode() : this.zipCode,
     );
   }
 
@@ -113,80 +107,14 @@ class CustomerPostModel {
 
   @JsonKey(name: 'contact_name')
   String get name {
-    return _name ?? (throw Exception('name is null'));
+    return _name ?? (throw 'name is null');
   }
 
   String get email {
-    return _email ?? (throw Exception('email is null'));
+    return _email ?? (throw 'email is null');
   }
 
   CustomerTypes get type {
     return _type ?? (throw 'type is null');
-  }
-
-  @JsonKey(name: 'company_name')
-  String get companyName {
-    if (_companyName == null || _companyName.isEmpty) {
-      return 'unknown'.i18n;
-    } else {
-      return _companyName;
-    }
-  }
-
-  String get phone {
-    if (_phone == null || _phone.isEmpty) {
-      return 'unknown'.i18n;
-    } else {
-      return _phone;
-    }
-  }
-
-  String get note {
-    if (_note == null || _note.isEmpty) {
-      return 'there_is_no_note'.i18n;
-    } else {
-      return _note;
-    }
-  }
-
-  String get street {
-    if (_street == null || _street.isEmpty) {
-      return 'unknown'.i18n;
-    } else {
-      return _street;
-    }
-  }
-
-  String get city {
-    if (_city == null || _city.isEmpty) {
-      return 'unknown'.i18n;
-    } else {
-      return _city;
-    }
-  }
-
-  String get country {
-    if (_country == null || _country.isEmpty) {
-      return 'unknown'.i18n;
-    } else {
-      return _country;
-    }
-  }
-
-  String get state {
-    if (_state == null || _state.isEmpty) {
-      return 'unknown'.i18n;
-    } else {
-      return _state;
-    }
-  }
-
-  @JsonKey(name: 'zip_code')
-  String get zipCode {
-    if (_zipCode == null || _zipCode.isEmpty) {
-      return 'unknown'.i18n;
-    } else {
-      return _zipCode;
-    }
   }
 }

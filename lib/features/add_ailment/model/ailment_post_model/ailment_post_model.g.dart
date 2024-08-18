@@ -23,12 +23,12 @@ Map<String, dynamic> _$AilmentPostModelToJson(AilmentPostModel instance) =>
     <String, dynamic>{
       'breeder': instance.breederId,
       'kits': instance.kitId,
+      'note': instance.note,
       'type': instance.type,
       'title': instance.title,
       'symptoms': instance.symptoms,
       'start_date': const DateTimeConverter().toJson(instance.startDate),
       'status': _$AilmentStatusTypesEnumMap[instance.status]!,
-      'note': instance.note,
     };
 
 const _$AilmentStatusTypesEnumMap = {

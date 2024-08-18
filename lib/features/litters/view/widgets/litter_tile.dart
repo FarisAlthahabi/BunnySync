@@ -49,16 +49,21 @@ class LitterTile extends StatelessWidget {
       ),
     ];
     return MainTile(
+      padding: AppConstants.paddingSB16,
       onTap: () => onTap(litter),
       child: Column(
         children: [
           Stack(
             children: [
-              LitterProfileInfoWidget(
-                litter: litter,
+              Padding(
+                padding: AppConstants.paddingTE16,
+                child: LitterProfileInfoWidget(
+                  litter: litter,
+                ),
               ),
-              Align(
-                alignment: AlignmentDirectional.topEnd,
+              PositionedDirectional(
+                top: 0,
+                end: 0,
                 child: TextButton(
                   onPressed: () {},
                   style: TextButton.styleFrom(
@@ -71,45 +76,55 @@ class LitterTile extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          const Row(
-            children: [
-              Spacer(
-                flex: 15,
-              ),
-              Expanded(
-                flex: 70,
-                child: Skeleton.shade(child: Divider()),
-              ),
-              Spacer(
-                flex: 15,
-              ),
-            ],
-          ),
-          const SizedBox(height: 24),
-          InfoPropertiesWidget(
-            properties: properties.sublist(0, 5),
-            propertyStructures: [
-              PropertyStructure(
-                mainAxisCellCount: 1.6,
-                crossAxisCellCount: 3,
-              ),
-              PropertyStructure(
-                mainAxisCellCount: 1.6,
-                crossAxisCellCount: 3,
-              ),
-              PropertyStructure(
-                mainAxisCellCount: 1.6,
-                crossAxisCellCount: 2,
-              ),
-              PropertyStructure(
-                mainAxisCellCount: 1.6,
-                crossAxisCellCount: 2,
-              ),
-              PropertyStructure(
-                mainAxisCellCount: 1.6,
-                crossAxisCellCount: 2,
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsetsDirectional.only(end: 16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const Row(
+                  children: [
+                    Spacer(
+                      flex: 15,
+                    ),
+                    Expanded(
+                      flex: 70,
+                      child: Skeleton.shade(child: Divider()),
+                    ),
+                    Spacer(
+                      flex: 15,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 24),
+                Center(
+                  child: InfoPropertiesWidget(
+                    properties: properties.sublist(0, 5),
+                    propertyStructures: [
+                      PropertyStructure(
+                        mainAxisCellCount: 1.6,
+                        crossAxisCellCount: 3,
+                      ),
+                      PropertyStructure(
+                        mainAxisCellCount: 1.6,
+                        crossAxisCellCount: 3,
+                      ),
+                      PropertyStructure(
+                        mainAxisCellCount: 1.6,
+                        crossAxisCellCount: 2,
+                      ),
+                      PropertyStructure(
+                        mainAxisCellCount: 1.6,
+                        crossAxisCellCount: 2,
+                      ),
+                      PropertyStructure(
+                        mainAxisCellCount: 1.6,
+                        crossAxisCellCount: 2,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),

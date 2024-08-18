@@ -412,6 +412,7 @@ class _SignInPageState extends State<SignInPage> implements SignInViewCallback {
                     child: Text(
                       showSignInOrUp ? 'sign_up'.i18n : 'sign_in'.i18n,
                       style: context.tt.labelMedium?.copyWith(
+                        fontSize: 16,
                         color: context.cs.onSurfaceVariant,
                         decoration: TextDecoration.underline,
                       ),

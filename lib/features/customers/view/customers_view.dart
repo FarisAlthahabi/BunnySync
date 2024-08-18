@@ -184,7 +184,7 @@ class _CustomersPageState extends State<CustomersPage>
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
-                            type: Text(item.type.name),
+                            type: Text(item.type.displayName),
                             tag: item.companyName,
                             secondaryTag: item.phone,
                             note: item.note,

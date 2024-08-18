@@ -36,13 +36,14 @@ Map<String, dynamic> _$TreatmentPostModelToJson(TreatmentPostModel instance) =>
     <String, dynamic>{
       'breeder': instance.breederId,
       'kits': instance.kitId,
+      'medication': instance.medication,
+      'method': instance.method,
+      'type': instance.type,
+      'note': instance.note,
       'ailments': instance.ailmentId,
       'title': instance.title,
       'start_date': _$JsonConverterToJson<String?, DateTime>(
           instance.startDate, const DateTimeConverter().toJson),
-      'medication': instance.medication,
-      'method': instance.method,
-      'type': instance.type,
       'dosage_count': instance.dosageCount,
       'dosage_type': _$DosageTypesEnumMap[instance.dosageType]!,
       'dosage_count_per': instance.dosageCountPer,
@@ -51,7 +52,6 @@ Map<String, dynamic> _$TreatmentPostModelToJson(TreatmentPostModel instance) =>
       'schedule_type': _$PeriodTypesEnumMap[instance.scheduleType]!,
       'withdrawal_count': instance.withDrawalCount,
       'widthdrawal_type': _$PeriodTypesEnumMap[instance.withDrawalType]!,
-      'note': instance.note,
     };
 
 const _$DosageTypesEnumMap = {
