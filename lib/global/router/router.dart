@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/add_ailment/view/add_ailment_view.dart';
 import 'package:bunny_sync/features/add_breeder/view/add_breeder_view.dart';
+import 'package:bunny_sync/features/add_ledger/models/ledger_model/ledger_model.dart';
 import 'package:bunny_sync/features/add_ledger/view/add_ledger_view.dart';
 import 'package:bunny_sync/features/add_category/view/add_category_view.dart';
 import 'package:bunny_sync/features/add_customer/view/add_customer_view.dart';

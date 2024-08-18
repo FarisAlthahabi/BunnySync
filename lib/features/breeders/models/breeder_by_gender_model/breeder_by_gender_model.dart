@@ -34,8 +34,5 @@ class BreederByGenderModel
   Map<String, dynamic> toJson() => _$BreederByGenderModelToJson(this);
 
   @override
-  String get displayName => name;
-
-  @override
   dynamic get value => this;
 }

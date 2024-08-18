@@ -60,9 +60,14 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     AddLedgerRoute.name: (routeData) {
+      final args = routeData.argsAs<AddLedgerRouteArgs>(
+          orElse: () => const AddLedgerRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const AddLedgerView(),
+        child: AddLedgerView(
+          key: args.key,
+          ledger: args.ledger,
+        ),
       );
     },
     AddLitterRoute.name: (routeData) {
@@ -421,16 +426,40 @@ class AddCustomerRouteArgs {
 
 /// generated route for
 /// [AddLedgerView]
-class AddLedgerRoute extends PageRouteInfo<void> {
-  const AddLedgerRoute({List<PageRouteInfo>? children})
-      : super(
+class AddLedgerRoute extends PageRouteInfo<AddLedgerRouteArgs> {
+  AddLedgerRoute({
+    Key? key,
+    LedgerModel? ledger,
+    List<PageRouteInfo>? children,
+  }) : super(
           AddLedgerRoute.name,
+          args: AddLedgerRouteArgs(
+            key: key,
+            ledger: ledger,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'AddLedgerRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<AddLedgerRouteArgs> page =
+      PageInfo<AddLedgerRouteArgs>(name);
+}
+
+class AddLedgerRouteArgs {
+  const AddLedgerRouteArgs({
+    this.key,
+    this.ledger,
+  });
+
+  final Key? key;
+
+  final LedgerModel? ledger;
+
+  @override
+  String toString() {
+    return 'AddLedgerRouteArgs{key: $key, ledger: $ledger}';
+  }
 }
 
 /// generated route for

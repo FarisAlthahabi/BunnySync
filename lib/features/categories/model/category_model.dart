@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
+import 'package:bunny_sync/global/widgets/main_drop_down_widget.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
@@ -8,7 +9,7 @@ part 'category_model.g.dart';
 
 @JsonSerializable()
 @immutable
-class CategoryModel implements BottomSheetItemModel {
+class CategoryModel implements BottomSheetItemModel, DropDownItemModel {
   const CategoryModel({
     required this.id,
     required this.userId,
@@ -26,6 +27,7 @@ class CategoryModel implements BottomSheetItemModel {
   factory CategoryModel.fromJson(Map<String, dynamic> json) =>
       _$CategoryModelFromJson(json);
 
+  @override
   final int id;
 
   @JsonKey(name: 'user_id')
@@ -50,4 +52,7 @@ class CategoryModel implements BottomSheetItemModel {
   String toJsonStr() => jsonEncode(toJson());
 
   Map<String, dynamic> toJson() => _$CategoryModelToJson(this);
+
+  @override
+  String get displayName => name;
 }

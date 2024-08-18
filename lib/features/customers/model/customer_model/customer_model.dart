@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:bunny_sync/features/add_customer/model/customer_types/customer_types.dart';
 import 'package:bunny_sync/global/utils/json_converters/date_time_nullable_converter.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
+import 'package:bunny_sync/global/widgets/main_drop_down_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -10,7 +11,7 @@ part 'customer_model.g.dart';
 
 @JsonSerializable()
 @immutable
-class CustomerModel implements BottomSheetItemModel {
+class CustomerModel implements BottomSheetItemModel, DropDownItemModel {
   const CustomerModel({
     required this.id,
     required this.userId,
@@ -38,6 +39,7 @@ class CustomerModel implements BottomSheetItemModel {
   factory CustomerModel.fromJson(Map<String, dynamic> json) =>
       _$CustomerModelFromJson(json);
 
+  @override
   final int id;
 
   @JsonKey(name: 'user_id')
@@ -85,4 +87,7 @@ class CustomerModel implements BottomSheetItemModel {
   String toJsonStr() => jsonEncode(toJson());
 
   Map<String, dynamic> toJson() => _$CustomerModelToJson(this);
+
+  @override
+  String get displayName => name;
 }

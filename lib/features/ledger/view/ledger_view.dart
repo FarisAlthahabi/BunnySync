@@ -34,7 +34,7 @@ class _LedgerPageState extends State<LedgerPage>
     implements LedgerViewCallBacks {
   @override
   void onAddTap() {
-    context.router.push(const AddLedgerRoute());
+    context.router.push(AddLedgerRoute());
   }
 
   @override
