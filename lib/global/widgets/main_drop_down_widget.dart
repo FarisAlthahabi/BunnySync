@@ -1,3 +1,5 @@
+import 'package:bunny_sync/global/theme/theme.dart';
+import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 
@@ -13,12 +15,16 @@ class MainDropDownWidget<T extends DropDownItemModel> extends StatefulWidget {
     required this.text,
     required this.onChanged,
     required this.items,
+    this.highlightSelected = false,
+    this.expandedHeight = 200,
     this.selectedValue,
   });
 
   final String text;
   final ValueSetter<T?> onChanged;
   final List<T> items;
+  final bool highlightSelected;
+  final double expandedHeight;
   final T? selectedValue;
 
   @override
@@ -41,9 +47,20 @@ class _MainDropDownWidgetState<T extends DropDownItemModel>
   Widget build(BuildContext context) {
     return DropdownButtonHideUnderline(
       child: DropdownButton2<T>(
-        dropdownStyleData: const DropdownStyleData(maxHeight: 200),
+        dropdownStyleData: DropdownStyleData(
+          maxHeight: widget.expandedHeight,
+        ),
         isExpanded: true,
         value: selectedValue,
+        buttonStyleData: ButtonStyleData(
+          decoration: BoxDecoration(
+            color: widget.highlightSelected && selectedValue != null
+                ? context.cs.onPrimaryContainer
+                : null,
+            border: Border.all(color: context.cs.onSurface),
+            borderRadius: AppConstants.borderRadius12,
+          ),
+        ),
         hint: Text(
           widget.text,
           style: TextStyle(

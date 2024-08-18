@@ -56,7 +56,7 @@ class _SettingsPageState extends State<SettingsPage>
 
   @override
   void onCageCardsTap() {
-    // TODO: implement onCageCardsTap
+    context.router.push(const CageCardsRoute());
   }
 
   @override

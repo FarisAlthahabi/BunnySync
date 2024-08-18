@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/add_ailment/view/add_ailment_view.dart';
 import 'package:bunny_sync/features/add_breeder/view/add_breeder_view.dart';
+import 'package:bunny_sync/features/add_cage/view/add_cage_view.dart';
 import 'package:bunny_sync/features/add_category/view/add_category_view.dart';
 import 'package:bunny_sync/features/add_customer/view/add_customer_view.dart';
 import 'package:bunny_sync/features/add_litter/view/add_litter_view.dart';
@@ -13,6 +14,9 @@ import 'package:bunny_sync/features/breeder_details/view/breeder_details_view.da
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
 import 'package:bunny_sync/features/breeders/view/breeders_view.dart';
 import 'package:bunny_sync/features/breeders/view/widgets/scanner_view/scanner_view.dart';
+import 'package:bunny_sync/features/cage_cards/cubit/cage_cards_cubit.dart';
+import 'package:bunny_sync/features/cage_cards/model/cage_model/cage_model.dart';
+import 'package:bunny_sync/features/cage_cards/view/cage_cards_view.dart';
 import 'package:bunny_sync/features/categories/cubit/categories_cubit.dart';
 import 'package:bunny_sync/features/categories/model/category_model.dart';
 import 'package:bunny_sync/features/categories/view/categories_view.dart';
@@ -143,6 +147,12 @@ class AppRouter extends _$AppRouter {
                 ),
                 AutoRoute(
                   page: AddCustomerRoute.page,
+                ),
+                AutoRoute(
+                  page: CageCardsRoute.page,
+                ),
+                AutoRoute(
+                  page: AddCageRoute.page,
                 ),
                 AutoRoute(
                   page: ProfileRoute.page,

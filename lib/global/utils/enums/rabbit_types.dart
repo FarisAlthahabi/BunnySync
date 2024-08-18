@@ -28,4 +28,8 @@ enum RabbitTypes implements DropDownItemModel {
   bool get isBreeder => this == RabbitTypes.breeder;
 
   bool get isLitter => this == RabbitTypes.litter;
+
+  static RabbitTypes fromJson(String json) {
+    return values.byName(json.toLowerCase());
+  }
 }
