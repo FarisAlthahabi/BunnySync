@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:bunny_sync/global/extensions/string_x.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/widgets/main_drop_down_widget.dart';
@@ -7,7 +5,7 @@ import 'package:bunny_sync/global/widgets/main_drop_down_widget.dart';
 enum CagePlacementTypes implements DropDownItemModel {
   blank,
   prefix,
-  nameType,
+  name,
   breed,
   cage,
   idType,
@@ -21,21 +19,23 @@ enum CagePlacementTypes implements DropDownItemModel {
   images,
   culled,
   kits,
+  tattoo,
   category,
   genotype,
   currentDate,
   weightDate,
+  currentWeight,
   vWDuGenotype;
 
   @override
-  String get name {
+  String get displayName {
     switch (this) {
       case CagePlacementTypes.blank:
         return 'blank'.i18n;
       case CagePlacementTypes.prefix:
         return 'prefix'.i18n;
-      case CagePlacementTypes.nameType:
-        return 'name_type'.i18n;
+      case CagePlacementTypes.name:
+        return 'name'.i18n;
       case CagePlacementTypes.breed:
         return 'breed'.i18n;
       case CagePlacementTypes.cage:
@@ -62,6 +62,8 @@ enum CagePlacementTypes implements DropDownItemModel {
         return 'culled'.i18n;
       case CagePlacementTypes.kits:
         return 'kits'.i18n;
+      case CagePlacementTypes.tattoo:
+        return 'tattoo'.i18n;
       case CagePlacementTypes.category:
         return 'category'.i18n;
       case CagePlacementTypes.genotype:
@@ -70,6 +72,8 @@ enum CagePlacementTypes implements DropDownItemModel {
         return 'current_date'.i18n;
       case CagePlacementTypes.weightDate:
         return 'weight_date'.i18n;
+      case CagePlacementTypes.currentWeight:
+        return 'current_weight'.i18n;
       case CagePlacementTypes.vWDuGenotype:
         return 'vWDu_genotype'.i18n;
     }
@@ -78,20 +82,6 @@ enum CagePlacementTypes implements DropDownItemModel {
   @override
   int get id {
     return CagePlacementTypes.idType.id;
-  }
-
-  static List<CagePlacementTypes> fromJsonStr(String json) {
-    final decoded = jsonDecode(
-      json
-          .replaceAll('"', '')
-          .replaceAll('&quot;', '"')
-          .replaceAll(', ', ',')
-          .replaceAll(' ', '_')
-          .toLowerCase(),
-    );
-    return (decoded as List<dynamic>)
-        .map((e) => CagePlacementTypes.values.byName((e as String).toCamelCase))
-        .toList();
   }
 
   static CagePlacementTypes fromJson(String json) {

@@ -12,7 +12,10 @@ import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
 part 'states/add_cage_state.dart';
+
 part 'states/general_add_cage_state.dart';
+
+part 'states/set_cage_placement_type_state.dart';
 
 @injectable
 class AddCageCubit extends Cubit<GeneralAddCageState> {
@@ -63,6 +66,27 @@ class AddCageCubit extends Cubit<GeneralAddCageState> {
     } else {
       emit(AddCageFail('please_select_setting'.i18n));
     }
+  }
+
+  void setSettings({List<CagePlacementTypes>? settings}) {
+    if (settings != null) {
+      this.settings = settings.toSet();
+      _cagePostModel = _cagePostModel.copyWith(
+        settings: () => settings,
+      );
+    }
+
+    var length = settings?.length ?? 0;
+    while (length < 12) {
+      length++;
+    }
+
+    emit(
+      SetCagePlacementTypeState(
+        length: length,
+        settings: settings ?? [],
+      ),
+    );
   }
 
   Future<void> addCage() async {

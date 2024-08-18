@@ -252,6 +252,7 @@ final lightTheme = ThemeData(
     surfaceTint: AppColors.lightPurple,
     onInverseSurface: AppColors.lightGrey,
     primaryFixed: AppColors.darkGrey,
+    onPrimaryContainer: AppColors.purplePaleShade,
     error: AppColors.redShade,
     onError: Colors.white,
     shadow: AppColors.shadow,

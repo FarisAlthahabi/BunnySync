@@ -48,7 +48,7 @@ const _$CageOrientationTypesEnumMap = {
 const _$CagePlacementTypesEnumMap = {
   CagePlacementTypes.blank: 'blank',
   CagePlacementTypes.prefix: 'prefix',
-  CagePlacementTypes.nameType: 'nameType',
+  CagePlacementTypes.name: 'name',
   CagePlacementTypes.breed: 'breed',
   CagePlacementTypes.cage: 'cage',
   CagePlacementTypes.idType: 'idType',
@@ -62,10 +62,12 @@ const _$CagePlacementTypesEnumMap = {
   CagePlacementTypes.images: 'images',
   CagePlacementTypes.culled: 'culled',
   CagePlacementTypes.kits: 'kits',
+  CagePlacementTypes.tattoo: 'tattoo',
   CagePlacementTypes.category: 'category',
   CagePlacementTypes.genotype: 'genotype',
   CagePlacementTypes.currentDate: 'currentDate',
   CagePlacementTypes.weightDate: 'weightDate',
+  CagePlacementTypes.currentWeight: 'currentWeight',
   CagePlacementTypes.vWDuGenotype: 'vWDuGenotype',
 };
 

@@ -9,7 +9,7 @@ enum CageOrientationTypes implements DropDownItemModel {
   int get id => index;
 
   @override
-  String get name {
+  String get displayName {
     switch (this) {
       case CageOrientationTypes.horizontal:
         return 'horizontal'.i18n;

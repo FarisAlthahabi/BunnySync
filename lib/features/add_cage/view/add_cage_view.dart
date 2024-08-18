@@ -7,6 +7,7 @@ import 'package:bunny_sync/features/cage_cards/cubit/cage_cards_cubit.dart';
 import 'package:bunny_sync/features/cage_cards/model/cage_model/cage_model.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
+import 'package:bunny_sync/global/mixins/mixins.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/utils/enums/answer_types.dart';
@@ -35,29 +36,7 @@ abstract class AddCageViewCallBacks {
 
   void onHoleSelected(AnswerTypes hole);
 
-  void onFirstSelected(CagePlacementTypes? value);
-
-  void onSecondSelected(CagePlacementTypes? value);
-
-  void onThirdSelected(CagePlacementTypes? value);
-
-  void onFourthSelected(CagePlacementTypes? value);
-
-  void onFifthSelected(CagePlacementTypes? value);
-
-  void onSixthSelected(CagePlacementTypes? value);
-
-  void onSeventhSelected(CagePlacementTypes? value);
-
-  void onEighthSelected(CagePlacementTypes? value);
-
-  void onNinthSelected(CagePlacementTypes? value);
-
-  void onTenthSelected(CagePlacementTypes? value);
-
-  void onEleventhSelected(CagePlacementTypes? value);
-
-  void onTwelveSelected(CagePlacementTypes? value);
+  void onCagePlacementSelected(CagePlacementTypes? value, int index);
 
   void onSave();
 }
@@ -104,6 +83,7 @@ class AddCagePage extends StatefulWidget {
 }
 
 class _AddCagePageState extends State<AddCagePage>
+    with PostFrameMixin
     implements AddCageViewCallBacks {
   late final CageCardsCubit cageCardsCubit = context.read();
 
@@ -113,42 +93,12 @@ class _AddCagePageState extends State<AddCagePage>
 
   final sizeFocusNode = FocusNode();
 
-  final fieldFocusNode = List.generate(
-    12,
-    (index) => FocusNode(),
-  );
-
-  late final onFieldSelected = [
-    onFirstSelected,
-    onSecondSelected,
-    onThirdSelected,
-    onFourthSelected,
-    onFifthSelected,
-    onSixthSelected,
-    onSeventhSelected,
-    onEighthSelected,
-    onNinthSelected,
-    onTenthSelected,
-    onEleventhSelected,
-    onTwelveSelected,
-  ];
-
   @override
-  void initState() {
-    super.initState();
+  void dispose() {
+    titleFocusNode.dispose();
+    sizeFocusNode.dispose();
 
-    final cage = widget.cageModel;
-    if (cage != null) {
-      addCageCubit.setTitle(cage.name);
-      addCageCubit.setSize(cage.size);
-      addCageCubit.setType(cage.type);
-      addCageCubit.setHole(cage.hole);
-      addCageCubit.setOrientation(cage.orientation);
-
-      for (final oneSetting in cage.settings) {
-        addCageCubit.setOneSetting(oneSetting);
-      }
-    }
+    super.dispose();
   }
 
   @override
@@ -163,7 +113,12 @@ class _AddCagePageState extends State<AddCagePage>
 
   @override
   void onSave() {
-    addCageCubit.addCage();
+    final cage = widget.cageModel;
+    if (cage != null) {
+      addCageCubit.updateCage(cage.id);
+    } else {
+      addCageCubit.addCage();
+    }
   }
 
   @override
@@ -187,63 +142,23 @@ class _AddCagePageState extends State<AddCagePage>
   }
 
   @override
-  void onEighthSelected(CagePlacementTypes? value) {
+  void onCagePlacementSelected(CagePlacementTypes? value, int index) {
     addCageCubit.setOneSetting(value);
   }
 
   @override
-  void onEleventhSelected(CagePlacementTypes? value) {
-    addCageCubit.setOneSetting(value);
-  }
-
-  @override
-  void onFifthSelected(CagePlacementTypes? value) {
-    addCageCubit.setOneSetting(value);
-  }
-
-  @override
-  void onFirstSelected(CagePlacementTypes? value) {
-    addCageCubit.setOneSetting(value);
-  }
-
-  @override
-  void onFourthSelected(CagePlacementTypes? value) {
-    addCageCubit.setOneSetting(value);
-  }
-
-  @override
-  void onNinthSelected(CagePlacementTypes? value) {
-    addCageCubit.setOneSetting(value);
-  }
-
-  @override
-  void onSecondSelected(CagePlacementTypes? value) {
-    addCageCubit.setOneSetting(value);
-  }
-
-  @override
-  void onSeventhSelected(CagePlacementTypes? value) {
-    addCageCubit.setOneSetting(value);
-  }
-
-  @override
-  void onSixthSelected(CagePlacementTypes? value) {
-    addCageCubit.setOneSetting(value);
-  }
-
-  @override
-  void onTenthSelected(CagePlacementTypes? value) {
-    addCageCubit.setOneSetting(value);
-  }
-
-  @override
-  void onThirdSelected(CagePlacementTypes? value) {
-    addCageCubit.setOneSetting(value);
-  }
-
-  @override
-  void onTwelveSelected(CagePlacementTypes? value) {
-    addCageCubit.setOneSetting(value);
+  void onPostFrame() {
+    final cage = widget.cageModel;
+    if (cage != null) {
+      addCageCubit.setTitle(cage.name);
+      addCageCubit.setSize(cage.size);
+      addCageCubit.setType(cage.type);
+      addCageCubit.setHole(cage.hole);
+      addCageCubit.setOrientation(cage.orientation);
+      addCageCubit.setSettings(settings: cage.settings);
+    } else {
+      addCageCubit.setSettings();
+    }
   }
 
   @override
@@ -275,6 +190,7 @@ class _AddCagePageState extends State<AddCagePage>
                       focusNode: titleFocusNode,
                       hintText: 'title'.i18n,
                       labelText: 'title'.i18n,
+                      initialValue: widget.cageModel?.name,
                     ),
                     const SizedBox(
                       height: 25,
@@ -385,26 +301,37 @@ class _AddCagePageState extends State<AddCagePage>
                     const SizedBox(
                       height: 16,
                     ),
-                    ListView.separated(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: onFieldSelected.length,
-                      itemBuilder: (context, index) {
-                        return MainDropDownWidget<CagePlacementTypes>(
-                          items: CagePlacementTypes.values,
-                          text: 'blank'.i18n,
-                          onChanged: onFieldSelected[index],
-                          selectedValue:
-                              widget.cageModel?.settings.firstWhereOrNull(
-                            (element) => element.index == index,
-                          ),
-                          expandedHeight: 400,
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(
-                          height: 20,
-                        );
+                    BlocBuilder<AddCageCubit, GeneralAddCageState>(
+                      buildWhen: (prev, curr) =>
+                          curr is SetCagePlacementTypeState,
+                      builder: (context, state) {
+                        if (state is SetCagePlacementTypeState) {
+                          return ListView.separated(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: state.length,
+                            itemBuilder: (context, index) {
+                              return MainDropDownWidget<CagePlacementTypes>(
+                                items: CagePlacementTypes.values,
+                                text: 'blank'.i18n,
+                                onChanged: (value) {
+                                  onCagePlacementSelected(value, index);
+                                },
+                                highlightSelected: true,
+                                selectedValue:
+                                    state.settings.elementAtOrNull(index),
+                                expandedHeight: 400,
+                              );
+                            },
+                            separatorBuilder: (context, index) {
+                              return const SizedBox(
+                                height: 28,
+                              );
+                            },
+                          );
+                        }
+
+                        return const SizedBox();
                       },
                     ),
                     const SizedBox(

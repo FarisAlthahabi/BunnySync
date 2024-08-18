@@ -22,9 +22,9 @@ class CageModel implements BottomSheetItemModel {
     required this.size,
     required this.orientation,
     required this.hole,
-    required this.settings,
     required this.createdAt,
     required this.updatedAt,
+    this.settings = const [],
     this.table,
     this.settingsTable,
     this.dtRowIndex,
@@ -56,7 +56,7 @@ class CageModel implements BottomSheetItemModel {
   final AnswerTypes hole;
 
   @JsonKey(
-    fromJson: CagePlacementTypes.fromJsonStr,
+    fromJson: CagePlacementTypes.fromListJson,
     toJson: CagePlacementTypes.toListJson,
   )
   final List<CagePlacementTypes> settings;

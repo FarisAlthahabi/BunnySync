@@ -10,7 +10,7 @@ enum CageSizeTypes implements DropDownItemModel {
   int get id => index;
 
   @override
-  String get name {
+  String get displayName {
     switch (this) {
       case CageSizeTypes.business2X3:
         return 'business_2X3'.i18n;

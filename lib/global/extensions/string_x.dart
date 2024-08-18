@@ -40,7 +40,10 @@ extension StringX2 on String {
       ).toLowerCase();
 
   String get toCamelCase => replaceAllMapped(
-        RegExp('_[a-z]'),
-        (Match match) => match.group(0)!.toUpperCase().substring(1),
+        RegExp(r'[_\s][a-zA-Z]'),
+        (Match match) => match.group(0)![1].toUpperCase(),
+      ).replaceFirstMapped(
+        RegExp('^[A-Z]'),
+        (Match match) => match.group(0)!.toLowerCase(),
       );
 }

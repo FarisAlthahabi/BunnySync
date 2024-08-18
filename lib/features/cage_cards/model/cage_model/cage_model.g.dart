@@ -14,9 +14,11 @@ CageModel _$CageModelFromJson(Map<String, dynamic> json) => CageModel(
       size: CageSizeTypes.fromJson(json['size'] as String),
       orientation: CageOrientationTypes.fromJson(json['orientation'] as String),
       hole: AnswerTypes.fromJson((json['hole'] as num).toInt()),
-      settings: CagePlacementTypes.fromJsonStr(json['settings'] as String),
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
+      settings: json['settings'] == null
+          ? const []
+          : CagePlacementTypes.fromListJson(json['settings'] as List),
       table: (json['table'] as num?)?.toInt(),
       settingsTable: (json['settings_table'] as num?)?.toInt(),
       dtRowIndex: (json['DT_RowIndex'] as num?)?.toInt(),
