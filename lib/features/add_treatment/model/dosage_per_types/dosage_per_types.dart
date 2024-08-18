@@ -13,7 +13,7 @@ enum DosagePerTypes implements DropDownItemModel {
   }
 
   @override
-  String get name {
+  String get displayName {
     switch (this) {
       case DosagePerTypes.lbs:
         return 'lbs'.i18n;

@@ -13,7 +13,7 @@ class BreederByGenderModel
     implements DropDownItemModel, RadioSelectorItemModel {
   const BreederByGenderModel({
     required this.id,
-    required this.name,
+    required this.displayName,
   });
 
   factory BreederByGenderModel.fromJsonStr(String str) =>
@@ -24,8 +24,10 @@ class BreederByGenderModel
 
   @override
   final int id;
+
   @override
-  final String name;
+  @JsonKey(name: 'name')
+  final String displayName;
 
   String toJsonStr() => jsonEncode(toJson());
 

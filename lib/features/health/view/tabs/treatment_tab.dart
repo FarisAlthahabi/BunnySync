@@ -152,6 +152,8 @@ class _TreatmentTabState extends State<TreatmentTab>
                         itemCount: state.treatments.length,
                         itemBuilder: (context, index) {
                           final item = state.treatments[index];
+                          final medication = item.medication;
+
                           return ElementTile(
                             onTap: onTreatmentTap,
                             model: item,
@@ -172,11 +174,12 @@ class _TreatmentTabState extends State<TreatmentTab>
                             type: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Text(
-                                  item.medication,
-                                  style: context.tt.labelMedium
-                                      ?.copyWith(color: context.cs.tertiary),
-                                ),
+                                if (medication != null)
+                                  Text(
+                                    medication,
+                                    style: context.tt.labelMedium
+                                        ?.copyWith(color: context.cs.tertiary),
+                                  ),
                               ],
                             ),
                             note: item.note,

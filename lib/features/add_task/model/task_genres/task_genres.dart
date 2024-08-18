@@ -20,7 +20,7 @@ enum TaskGenres implements DropDownItemModel {
   int get id => index;
 
   @override
-  String get name {
+  String get displayName {
     switch (this) {
       case TaskGenres.breed:
         return 'breed'.i18n;
@@ -48,6 +48,39 @@ enum TaskGenres implements DropDownItemModel {
         return 'paw'.i18n;
       case TaskGenres.trophy:
         return 'trophy'.i18n;
+    }
+  }
+
+  static TaskGenres fromJson(String value) {
+    if (value == TaskGenres.breed.name) {
+      return TaskGenres.breed;
+    } else if (value == TaskGenres.pregnancyCheck.name) {
+      return TaskGenres.pregnancyCheck;
+    } else if (value == TaskGenres.birth.name) {
+      return TaskGenres.birth;
+    } else if (value == TaskGenres.weight.name ||
+        value.toLowerCase() == 'weigh') {
+      return TaskGenres.weight;
+    } else if (value == TaskGenres.nestBox.name) {
+      return TaskGenres.nestBox;
+    } else if (value == TaskGenres.medical.name) {
+      return TaskGenres.medical;
+    } else if (value == TaskGenres.calendar.name) {
+      return TaskGenres.calendar;
+    } else if (value == TaskGenres.heart.name) {
+      return TaskGenres.heart;
+    } else if (value == TaskGenres.ribbon.name) {
+      return TaskGenres.ribbon;
+    } else if (value == TaskGenres.eye.name) {
+      return TaskGenres.eye;
+    } else if (value == TaskGenres.flag.name) {
+      return TaskGenres.flag;
+    } else if (value == TaskGenres.paw.name) {
+      return TaskGenres.paw;
+    } else if (value == TaskGenres.trophy.name) {
+      return TaskGenres.trophy;
+    } else {
+      throw Exception('Unknown TaskGenres value: $value');
     }
   }
 }

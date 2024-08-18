@@ -16,14 +16,14 @@ class AilmentModel implements BottomSheetItemModel, DropDownItemModel {
   const AilmentModel({
     required this.id,
     required this.userId,
-    required this.name,
+    required this.displayName,
     required this.symptoms,
     required this.startDate,
-    required this.note,
     required this.status,
     required this.createdAt,
     required this.updatedAt,
     required this.treatments,
+    this.note,
     this.breederId,
     this.kitId,
     this.rabbitName,
@@ -50,7 +50,8 @@ class AilmentModel implements BottomSheetItemModel, DropDownItemModel {
   final int userId;
 
   @override
-  final String name;
+  @JsonKey(name: 'name')
+  final String displayName;
 
   final String symptoms;
 
@@ -58,7 +59,7 @@ class AilmentModel implements BottomSheetItemModel, DropDownItemModel {
   @JsonKey(name: 'start_date')
   final DateTime startDate;
 
-  final String note;
+  final String? note;
 
   @JsonKey(fromJson: AilmentStatusTypes.fromJson)
   final AilmentStatusTypes status;

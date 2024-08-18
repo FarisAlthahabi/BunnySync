@@ -124,5 +124,5 @@ class LitterEntryModel implements DropDownItemModel {
   Map<String, dynamic> toJson() => _$LitterEntryModelToJson(this);
 
   @override
-  String get name => litterId;
+  String get displayName => litterId;
 }

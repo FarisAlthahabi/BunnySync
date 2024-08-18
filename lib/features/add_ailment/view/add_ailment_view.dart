@@ -226,10 +226,12 @@ class _AddAilmentPageState extends State<AddAilmentPage>
       }
 
       addAilmentCubit.setStatus(ailmentModel.status);
-      addAilmentCubit.setTitle(ailmentModel.name);
+      addAilmentCubit.setTitle(ailmentModel.displayName);
       addAilmentCubit.setSymptoms(ailmentModel.symptoms);
       addAilmentCubit.setNote(ailmentModel.note);
       addAilmentCubit.setStartDate(ailmentModel.startDate);
+    } else {
+      addAilmentCubit.setStartDate(DateTime.now());
     }
 
     breedersCubit.getBreeders();
@@ -485,7 +487,7 @@ class _AddAilmentPageState extends State<AddAilmentPage>
                       },
                     ),
                     MainTextField(
-                      initialValue: widget.ailmentModel?.name,
+                      initialValue: widget.ailmentModel?.displayName,
                       onSubmitted: onTitleSubmitted,
                       onChanged: onTitleChanged,
                       focusNode: titleFocusNode,

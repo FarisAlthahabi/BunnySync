@@ -13,11 +13,15 @@ TaskModel _$TaskModelFromJson(Map<String, dynamic> json) => TaskModel(
       startDate:
           const DateTimeConverter().fromJson(json['start_date'] as String?),
       dueDate: const DateTimeConverter().fromJson(json['due_date'] as String?),
-      type: $enumDecode(_$TaskGenresEnumMap, json['type']),
-      recurring: RecurringPeriodsTypes.fromId(json['recurring'] as String),
-      note: json['note'] as String,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
+      type: TaskGenres.fromJson(json['type'] as String),
+      createdAt: json['created_at'] == null
+          ? null
+          : DateTime.parse(json['created_at'] as String),
+      updatedAt: json['updated_at'] == null
+          ? null
+          : DateTime.parse(json['updated_at'] as String),
+      recurring: RecurringPeriodsTypes.fromId(json['recurring'] as String?),
+      note: json['note'] as String?,
       breedPairId: (json['breed_pair_id'] as num?)?.toInt(),
       status: json['status'] as String?,
       breederId: const IntNullableConverter().fromJson(json['breeder_id']),
@@ -37,10 +41,10 @@ Map<String, dynamic> _$TaskModelToJson(TaskModel instance) => <String, dynamic>{
       'start_date': const DateTimeConverter().toJson(instance.startDate),
       'due_date': const DateTimeConverter().toJson(instance.dueDate),
       'type': _$TaskGenresEnumMap[instance.type]!,
+      'created_at': instance.createdAt?.toIso8601String(),
+      'updated_at': instance.updatedAt?.toIso8601String(),
       'recurring': RecurringPeriodsTypes.toId(instance.recurring),
       'note': instance.note,
-      'created_at': instance.createdAt.toIso8601String(),
-      'updated_at': instance.updatedAt.toIso8601String(),
       'who': instance.who,
       'DT_RowIndex': instance.dtRowIndex,
     };

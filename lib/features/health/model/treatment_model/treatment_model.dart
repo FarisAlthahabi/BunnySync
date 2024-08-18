@@ -19,9 +19,6 @@ class TreatmentModel implements BottomSheetItemModel {
     required this.ailmentId,
     required this.name,
     required this.startDate,
-    required this.medication,
-    required this.method,
-    required this.type,
     required this.dosageCount,
     required this.dosageType,
     required this.dosageCountPer,
@@ -30,9 +27,12 @@ class TreatmentModel implements BottomSheetItemModel {
     required this.scheduleType,
     required this.withDrawalCount,
     required this.withDrawalType,
-    required this.note,
     required this.createdAt,
     required this.updatedAt,
+    this.note,
+    this.medication,
+    this.method,
+    this.type,
     this.breederId,
     this.kitId,
     this.rabbitName,
@@ -60,12 +60,6 @@ class TreatmentModel implements BottomSheetItemModel {
   @DateTimeConverter()
   @JsonKey(name: 'start_date')
   final DateTime startDate;
-
-  final String medication;
-
-  final String method;
-
-  final String type;
 
   @JsonKey(name: 'dosage_count')
   final int dosageCount;
@@ -103,13 +97,19 @@ class TreatmentModel implements BottomSheetItemModel {
   )
   final PeriodTypes withDrawalType;
 
-  final String note;
-
   @JsonKey(name: 'created_at')
   final DateTime createdAt;
 
   @JsonKey(name: 'updated_at')
   final DateTime updatedAt;
+
+  final String? note;
+
+  final String? medication;
+
+  final String? method;
+
+  final String? type;
 
   @JsonKey(name: 'breeder_id')
   final int? breederId;

@@ -12,7 +12,7 @@ enum DosageTypes implements DropDownItemModel {
   }
 
   @override
-  String get name {
+  String get displayName {
     switch (this) {
       case DosageTypes.ml:
         return 'ml'.i18n;

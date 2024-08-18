@@ -8,7 +8,7 @@ final fakeAilments = List.generate(
     id: index,
     breederId: 88,
     userId: 51,
-    name: 'ailment',
+    displayName: 'ailment',
     symptoms: 'symptoms',
     startDate: DateTime.now(),
     note: 'note',

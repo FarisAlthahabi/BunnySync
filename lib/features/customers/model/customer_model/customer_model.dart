@@ -14,20 +14,20 @@ class CustomerModel implements BottomSheetItemModel {
   const CustomerModel({
     required this.id,
     required this.userId,
-    required this.status,
-    required this.email,
-    required this.name,
     required this.type,
-    required this.companyName,
-    required this.phone,
-    required this.note,
-    required this.street,
-    required this.city,
-    required this.country,
-    required this.zipCode,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.date,
+    required this.name,
+    required this.email,
+    this.status,
+    this.companyName,
+    this.phone,
+    this.createdAt,
+    this.updatedAt,
+    this.date,
+    this.street,
+    this.city,
+    this.country,
+    this.zipCode,
+    this.note,
     this.dtRowIndex,
     this.state,
   });
@@ -43,30 +43,19 @@ class CustomerModel implements BottomSheetItemModel {
   @JsonKey(name: 'user_id')
   final int userId;
 
-  final String status;
-
-  final String email;
-
-  final String name;
-
   @JsonKey(fromJson: CustomerTypes.fromJson)
   final CustomerTypes type;
 
+  final String name;
+
+  final String email;
+
+  final String? status;
+
   @JsonKey(name: 'company_name')
-  final String companyName;
+  final String? companyName;
 
-  final String phone;
-
-  final String note;
-
-  final String street;
-
-  final String city;
-
-  final String country;
-
-  @JsonKey(name: 'zip_code')
-  final String zipCode;
+  final String? phone;
 
   @JsonKey(name: 'created_at')
   final DateTime? createdAt;
@@ -76,6 +65,17 @@ class CustomerModel implements BottomSheetItemModel {
 
   @DateTimeNullableConverter()
   final DateTime? date;
+
+  final String? street;
+
+  final String? city;
+
+  final String? country;
+
+  @JsonKey(name: 'zip_code')
+  final String? zipCode;
+
+  final String? note;
 
   @JsonKey(name: 'DT_RowIndex')
   final int? dtRowIndex;

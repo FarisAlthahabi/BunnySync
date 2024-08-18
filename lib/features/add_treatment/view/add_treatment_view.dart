@@ -376,6 +376,8 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
           .setWithDrawalCount(treatmentModel.withDrawalCount.toString());
       addTreatmentCubit.setWithDrawalType(treatmentModel.withDrawalType);
       addTreatmentCubit.setNote(treatmentModel.note);
+    } else {
+      addTreatmentCubit.setStartDate(DateTime.now());
     }
 
     breedersCubit.getBreeders();

@@ -111,7 +111,7 @@ class AddTaskCubit extends Cubit<GeneralAddTaskState> {
     );
   }
 
-  void setNote(String note) {
+  void setNote(String? note) {
     _taskPostModel = _taskPostModel.copyWith(
       note: () => note,
     );
@@ -121,6 +121,7 @@ class AddTaskCubit extends Cubit<GeneralAddTaskState> {
     final taskTypeError = _taskPostModel.validateTaskType();
     final nameError = _taskPostModel.validateName();
     final recurringError = _taskPostModel.validateRecurring();
+
     if (taskTypeError != null) {
       emit(TaskTaskTypePostInvalid(taskTypeError));
       return;
