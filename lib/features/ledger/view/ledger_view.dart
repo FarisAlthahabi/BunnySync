@@ -1,16 +1,38 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:bunny_sync/features/add_ledger/models/ledger_model/ledger_model.dart';
+import 'package:bunny_sync/features/ledger/cubit/ledgers_cubit.dart';
+import 'package:bunny_sync/features/ledger/models/ledger_types.dart';
 import 'package:bunny_sync/features/ledger/view/widgets/ledger_types_widget.dart';
+import 'package:bunny_sync/global/di/di.dart';
+import 'package:bunny_sync/global/extensions/date_time_x.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
+import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:bunny_sync/global/widgets/element_tile.dart';
+import 'package:bunny_sync/global/widgets/main_error_widget.dart';
+import 'package:bunny_sync/global/widgets/main_show_bottom_sheet.dart';
+import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:bunny_sync/global/widgets/texts/bordered_textual_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 abstract class LedgerViewCallBacks {
   void onAddTap();
+
+  void onTryAgainTap();
+
+  void onLedgerTap(LedgerModel ledgerModel);
+
+  void onEditLedgerTap(LedgerModel ledgerModel);
+
+  void onDeleteLedgerTap(LedgerModel ledgerModel);
+
+  void onSelected(LedgerTypes ledgerType);
 }
 
 @RoutePage()
@@ -19,7 +41,10 @@ class LedgerView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const LedgerPage();
+    return BlocProvider(
+      create: (context) => get<LedgersCubit>(),
+      child: const LedgerPage(),
+    );
   }
 }
 
@@ -32,9 +57,77 @@ class LedgerPage extends StatefulWidget {
 
 class _LedgerPageState extends State<LedgerPage>
     implements LedgerViewCallBacks {
+  late final LedgersCubit ledgersCubit = context.read();
+  @override
+  void initState() {
+    super.initState();
+    ledgersCubit.getLedgerStats();
+    ledgersCubit.getLedgers();
+  }
+
+  @override
+  void onDeleteLedgerTap(LedgerModel ledgerModel) {
+    context.router.popForced();
+    mainShowBottomSheet(
+      context,
+      widget: BottomSheetWidget(
+        title: 'are_you_sure_to_delete_ledger'.i18n,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextButton(
+              onPressed: () {
+                context.router.popForced();
+                ledgersCubit.deleteLedger(ledgerModel.id);
+              },
+              child: Text('yes'.i18n),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  void onEditLedgerTap(LedgerModel ledgerModel) {
+    Navigator.pop(context);
+    context.router.push(
+      AddLedgerRoute(
+        ledgersCubit: ledgersCubit,
+        ledger: ledgerModel,
+      ),
+    );
+  }
+
+  @override
+  void onLedgerTap(LedgerModel ledgerModel) {
+    mainShowBottomSheet(
+      context,
+      widget: BottomSheetWidget(
+        title: 'ledgers_options'.i18n,
+        onEdit: onEditLedgerTap,
+        onDelete: onDeleteLedgerTap,
+        model: ledgerModel,
+      ),
+    );
+  }
+
+  @override
+  void onSelected(LedgerTypes? ledgerType) {
+    ledgersCubit.getLedgersByIncome(ledgerType);
+  }
+
   @override
   void onAddTap() {
-    context.router.push(AddLedgerRoute());
+    context.router.push(
+      AddLedgerRoute(ledgersCubit: ledgersCubit),
+    );
+  }
+
+  @override
+  void onTryAgainTap() {
+    ledgersCubit.getLedgerStats();
+    ledgersCubit.getLedgers();
   }
 
   @override
@@ -65,36 +158,118 @@ class _LedgerPageState extends State<LedgerPage>
                       style: Theme.of(context).textTheme.displayLarge,
                     ),
                     const SizedBox(height: 10),
-                    LedgerTypesWidget(onSelect: (_) {}),
+                    BlocBuilder<LedgersCubit, GeneralLedgersState>(
+                      buildWhen: (previous, current) =>
+                          current is LedgerStatsState,
+                      builder: (context, state) {
+                        if (state is LedgerStatsFetch) {
+                          return Skeletonizer(
+                            enabled: state is LedgerStatsLoading,
+                            child: LedgerTypesWidget(
+                              ledgerStats: state.ledgerStats,
+                              onSelect: onSelected,
+                            ),
+                          );
+                        } else if (state is LedgerStatsFail) {
+                          ledgersCubit.emitLedgersFail(state.message);
+                          return MainErrorWidget(
+                            error: state.message,
+                            onTap: onTryAgainTap,
+                          );
+                        } else {
+                          return const SizedBox.shrink();
+                        }
+                      },
+                    ),
                   ],
                 ),
               ),
             ),
           ),
-          SliverToBoxAdapter(
-            child: ListView.separated(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              padding: AppConstants.padding16,
-              itemBuilder: (context, index) {
-                return ElementTile(
-                  leading: BorderedTextualWidget(text: '$index'),
-                  title: Text(
-                    strutStyle: const StrutStyle(height: 1.6),
-                    'Cupidatat consequat aute nostrud proident duis Lorem elit',
-                    style: context.tt.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w400,
+          BlocConsumer<LedgersCubit, GeneralLedgersState>(
+            listener: (context, state) {
+              if (state is DeleteLedgerSuccess) {
+                context.loaderOverlay.hide();
+                MainSnackBar.showSuccessMessageBar(
+                  context,
+                  'ledger_delete'.i18n,
+                );
+              } else if (state is LedgersFail) {
+                context.loaderOverlay.hide();
+                MainSnackBar.showErrorMessageBar(
+                  context,
+                  state.message,
+                );
+              } else if (state is DeleteLedgerLoading) {
+                context.loaderOverlay.show();
+              } else if (state is DeleteLedgerFail) {
+                context.loaderOverlay.hide();
+                MainSnackBar.showErrorMessageBar(
+                  context,
+                  state.message,
+                );
+              }
+            },
+            buildWhen: (previous, current) => current is LedgersState,
+            builder: (context, state) {
+              if (state is LedgersFetch) {
+                return Skeletonizer.sliver(
+                  enabled: state is LedgersLoading,
+                  child: SliverToBoxAdapter(
+                    child: ListView.separated(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      padding: AppConstants.padding16,
+                      itemCount: state.ledgers.length,
+                      itemBuilder: (context, index) {
+                        final ledger = state.ledgers[index];
+                        return ElementTile(
+                          onTap: onLedgerTap,
+                          model: ledger,
+                          leading: Skeleton.shade(
+                            child: BorderedTextualWidget(
+                              text: '${index + 1}',
+                            ),
+                          ),
+                          title: Text(
+                            strutStyle: const StrutStyle(height: 1.6),
+                            ledger.name,
+                            style: context.tt.titleSmall?.copyWith(
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          tag: ledger.type.displayName,
+                          type: Text(
+                            ledger.amount.contains("\$")
+                                ? ledger.amount
+                                : '\$ ${ledger.amount}',
+                          ),
+                          secondaryTag: ledger.category.displayName,
+                          createdAt: ledger.date.formatMMddYYYY,
+                          note: ledger.notes,
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(
+                          height: 16,
+                        );
+                      },
                     ),
                   ),
                 );
-              },
-              separatorBuilder: (context, index) {
-                return const SizedBox(
-                  height: 16,
+              } else if (state is LedgersEmpty) {
+                return MainErrorWidget(
+                  error: state.message,
                 );
-              },
-              itemCount: 10,
-            ),
+              } else if (state is LedgersFail) {
+                return MainErrorWidget(
+                  error: state.message,
+                  onTap: onTryAgainTap,
+                );
+              } else {
+                return const SizedBox.shrink();
+              }
+            },
           ),
         ],
       ),

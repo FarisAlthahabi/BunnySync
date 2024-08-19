@@ -1,8 +1,10 @@
 import 'dart:convert';
 
-import 'package:bunny_sync/features/add_ledger/models/ledger_types/ledger_types.dart';
 import 'package:bunny_sync/features/add_task/model/task_types/task_types.dart';
+import 'package:bunny_sync/features/ledger/models/ledger_types.dart';
 import 'package:bunny_sync/global/utils/json_converters/date_time_converter.dart';
+import 'package:bunny_sync/global/utils/json_converters/string_converter.dart';
+import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
@@ -10,7 +12,7 @@ part 'ledger_model.g.dart';
 
 @immutable
 @JsonSerializable()
-class LedgerModel {
+class LedgerModel implements BottomSheetItemModel{
   const LedgerModel({
     required this.id,
     required this.userId,
@@ -52,15 +54,16 @@ class LedgerModel {
 
   final LedgerTypes type;
 
-  final String status;
+  final String? status;
 
+  @StringConverter()
   final String amount;
 
   @JsonKey(name: 'created_at')
-  final String createdAt;
+  final DateTime createdAt;
 
   @JsonKey(name: 'updated_at')
-  final String updatedAt;
+  final DateTime updatedAt;
 
   final String? notes;
 

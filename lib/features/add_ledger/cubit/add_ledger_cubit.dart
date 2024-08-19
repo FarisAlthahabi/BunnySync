@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:bunny_sync/features/add_ledger/models/ledger_model/ledger_model.dart';
 import 'package:bunny_sync/features/add_ledger/models/ledger_post_model/ledger_post_model.dart';
-import 'package:bunny_sync/features/add_ledger/models/ledger_types/ledger_types.dart';
 import 'package:bunny_sync/features/add_ledger/repo/add_ledger_repo.dart';
 import 'package:bunny_sync/features/add_task/model/task_types/task_types.dart';
+import 'package:bunny_sync/features/ledger/models/ledger_types.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
@@ -29,7 +29,7 @@ class AddLedgerCubit extends Cubit<GeneralAddLedgerState> {
   }
 
   void setAmount(String amount) {
-    final parsedAmount = double.tryParse(amount);
+    final parsedAmount = double.tryParse(amount.replaceFirst('\$ ', ''));
     if (parsedAmount == null) {
       emit(AddLedgerError('invalid_amount'.i18n));
       return;
@@ -47,6 +47,7 @@ class AddLedgerCubit extends Cubit<GeneralAddLedgerState> {
   }
 
   void setTaskType(TaskTypes? taskType) {
+    TaskTypes.setSelectedTaskType(taskType);
     _ledgerPostModel = _ledgerPostModel.copyWith(
       taskType: () => taskType,
     );

@@ -13,11 +13,11 @@ LedgerModel _$LedgerModelFromJson(Map<String, dynamic> json) => LedgerModel(
       name: json['name'] as String,
       date: const DateTimeConverter().fromJson(json['date'] as String?),
       type: $enumDecode(_$LedgerTypesEnumMap, json['type']),
-      status: json['status'] as String,
-      amount: json['amount'] as String,
-      createdAt: json['created_at'] as String,
-      updatedAt: json['updated_at'] as String,
-      category: TaskTypes.fromJson(json['category'] as String),
+      status: json['status'] as String?,
+      amount: const StringConverter().fromJson(json['amount']),
+      createdAt: DateTime.parse(json['created_at'] as String),
+      updatedAt: DateTime.parse(json['updated_at'] as String),
+      category: TaskTypes.fromJson(json['category'] as String?),
       notes: json['notes'] as String?,
       breederId: (json['breeder_id'] as num?)?.toInt(),
       litterId: (json['litter_id'] as num?)?.toInt(),
@@ -35,9 +35,9 @@ Map<String, dynamic> _$LedgerModelToJson(LedgerModel instance) =>
       'date': const DateTimeConverter().toJson(instance.date),
       'type': _$LedgerTypesEnumMap[instance.type]!,
       'status': instance.status,
-      'amount': instance.amount,
-      'created_at': instance.createdAt,
-      'updated_at': instance.updatedAt,
+      'amount': const StringConverter().toJson(instance.amount),
+      'created_at': instance.createdAt.toIso8601String(),
+      'updated_at': instance.updatedAt.toIso8601String(),
       'notes': instance.notes,
       'category': _$TaskTypesEnumMap[instance.category]!,
       'breeder_id': instance.breederId,
@@ -49,7 +49,9 @@ Map<String, dynamic> _$LedgerModelToJson(LedgerModel instance) =>
 
 const _$LedgerTypesEnumMap = {
   LedgerTypes.income: 'income',
-  LedgerTypes.expense: 'expense',
+  LedgerTypes.expenses: 'expenses',
+  LedgerTypes.incomePerBreeder: 'incomePerBreeder',
+  LedgerTypes.expensesPerBreeder: 'expensesPerBreeder',
 };
 
 const _$TaskTypesEnumMap = {

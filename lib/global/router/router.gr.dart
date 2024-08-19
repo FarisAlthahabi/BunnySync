@@ -60,12 +60,12 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     AddLedgerRoute.name: (routeData) {
-      final args = routeData.argsAs<AddLedgerRouteArgs>(
-          orElse: () => const AddLedgerRouteArgs());
+      final args = routeData.argsAs<AddLedgerRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: AddLedgerView(
           key: args.key,
+          ledgersCubit: args.ledgersCubit,
           ledger: args.ledger,
         ),
       );
@@ -429,12 +429,14 @@ class AddCustomerRouteArgs {
 class AddLedgerRoute extends PageRouteInfo<AddLedgerRouteArgs> {
   AddLedgerRoute({
     Key? key,
+    required LedgersCubit ledgersCubit,
     LedgerModel? ledger,
     List<PageRouteInfo>? children,
   }) : super(
           AddLedgerRoute.name,
           args: AddLedgerRouteArgs(
             key: key,
+            ledgersCubit: ledgersCubit,
             ledger: ledger,
           ),
           initialChildren: children,
@@ -449,16 +451,19 @@ class AddLedgerRoute extends PageRouteInfo<AddLedgerRouteArgs> {
 class AddLedgerRouteArgs {
   const AddLedgerRouteArgs({
     this.key,
+    required this.ledgersCubit,
     this.ledger,
   });
 
   final Key? key;
 
+  final LedgersCubit ledgersCubit;
+
   final LedgerModel? ledger;
 
   @override
   String toString() {
-    return 'AddLedgerRouteArgs{key: $key, ledger: $ledger}';
+    return 'AddLedgerRouteArgs{key: $key, ledgersCubit: $ledgersCubit, ledger: $ledger}';
   }
 }
 

@@ -36,7 +36,9 @@ Map<String, dynamic> _$LedgerPostModelToJson(LedgerPostModel instance) =>
 
 const _$LedgerTypesEnumMap = {
   LedgerTypes.income: 'income',
-  LedgerTypes.expense: 'expense',
+  LedgerTypes.expenses: 'expenses',
+  LedgerTypes.incomePerBreeder: 'incomePerBreeder',
+  LedgerTypes.expensesPerBreeder: 'expensesPerBreeder',
 };
 
 const _$TaskTypesEnumMap = {

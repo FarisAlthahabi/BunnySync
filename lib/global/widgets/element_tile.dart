@@ -93,6 +93,7 @@ class ElementTile<T> extends StatelessWidget {
                                 color: context.cs.scrim,
                               ),
                             ),
+                            const SizedBox(width: 5),
                         ],
                       ),
                       const SizedBox(height: 5),

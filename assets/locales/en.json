@@ -343,6 +343,13 @@
   "ledger_added": "Ledger is added successfully",
   "ledger_updated": "Ledger is updated successfully",
   "ledger_category": "Ledger Category",
-  "select_ledger_category": "Select Ledger Category"
+  "select_ledger_category": "Select Ledger Category",
+  "ledgers_empty" : "There is no ledgers",
+  "incomeBreeder" : "income by Breeder" ,
+  "expenseBreeder" : "expenses by Breeder",
+  "ledgers_options" : "Ledgers Options",
+  "are_you_sure_to_delete_ledger" : "Are you sure to delete ledger?",
+  "ledger_delete" : "Ledger is deleted successfully",
+  "chosen_file" : "Chosen file : "
 }
 

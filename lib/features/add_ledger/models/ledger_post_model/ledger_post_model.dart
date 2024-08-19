@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:bunny_sync/features/add_ledger/models/ledger_types/ledger_types.dart';
 import 'package:bunny_sync/features/add_task/model/task_types/task_types.dart';
+import 'package:bunny_sync/features/ledger/models/ledger_types.dart';
 import 'package:bunny_sync/global/utils/json_converters/date_time_converter.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
@@ -70,7 +70,7 @@ class LedgerPostModel {
     return null;
   }
 
-  String get title => _title ?? (throw 'Title is required');
+  String get title => _title ?? (throw 'Name is required');
 
   num get amount => _amount ?? (throw 'Amount is required');
 

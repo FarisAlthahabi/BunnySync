@@ -1,9 +1,6 @@
-import 'dart:io';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/add_ledger/cubit/add_ledger_cubit.dart';
 import 'package:bunny_sync/features/add_ledger/models/ledger_model/ledger_model.dart';
-import 'package:bunny_sync/features/add_ledger/models/ledger_types/ledger_types.dart';
 import 'package:bunny_sync/features/add_task/model/task_types/task_types.dart';
 import 'package:bunny_sync/features/breeders/cubit/breeders_cubit.dart';
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
@@ -11,8 +8,11 @@ import 'package:bunny_sync/features/categories/cubit/categories_cubit.dart';
 import 'package:bunny_sync/features/categories/model/category_model.dart';
 import 'package:bunny_sync/features/customers/cubit/customers_cubit.dart';
 import 'package:bunny_sync/features/customers/model/customer_model/customer_model.dart';
+import 'package:bunny_sync/features/ledger/cubit/ledgers_cubit.dart';
+import 'package:bunny_sync/features/ledger/models/ledger_types.dart';
 import 'package:bunny_sync/features/litters/cubit/litters_cubit.dart';
 import 'package:bunny_sync/features/litters/models/litter_entry_model/litter_entry_model.dart';
+import 'package:bunny_sync/global/blocs/upload_file_cubit/upload_file_cubit.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/mixins/mixins.dart';
@@ -28,9 +28,11 @@ import 'package:bunny_sync/global/widgets/main_error_widget.dart';
 import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:bunny_sync/global/widgets/main_text_field.dart';
 import 'package:bunny_sync/global/widgets/radio_selector_widget.dart';
+import 'package:collection/collection.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:path/path.dart' as path;
 
 abstract class AddLedgerViewCallBacks {
   void onNameChanged(String name);
@@ -62,14 +64,22 @@ abstract class AddLedgerViewCallBacks {
 
 @RoutePage()
 class AddLedgerView extends StatelessWidget {
-  const AddLedgerView({super.key, this.ledger});
+  const AddLedgerView({
+    super.key,
+    required this.ledgersCubit,
+    this.ledger,
+  });
 
   final LedgerModel? ledger;
+  final LedgersCubit ledgersCubit;
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider.value(
+          value: ledgersCubit,
+        ),
         BlocProvider(
           create: (context) => get<AddLedgerCubit>(),
         ),
@@ -84,6 +94,9 @@ class AddLedgerView extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => get<LittersCubit>(),
+        ),
+        BlocProvider(
+          create: (context) => get<UploadFileCubit>(),
         ),
       ],
       child: AddLedgerPage(ledger: ledger),
@@ -112,6 +125,10 @@ class _AddLedgerPageState extends State<AddLedgerPage>
   late final BreedersCubit breedersCubit = context.read();
 
   late final LittersCubit littersCubit = context.read();
+
+  late final LedgersCubit ledgersCubit = context.read();
+
+  late final UploadFileCubit uploadFileCubit = context.read();
 
   final nameFocusNode = FocusNode();
 
@@ -144,7 +161,9 @@ class _AddLedgerPageState extends State<AddLedgerPage>
   }
 
   @override
-  void onAmountSubmitted(String amount) {}
+  void onAmountSubmitted(String amount) {
+    noteFocusNode.requestFocus();
+  }
 
   @override
   void onTypeSelected(LedgerTypes? type) {
@@ -177,16 +196,20 @@ class _AddLedgerPageState extends State<AddLedgerPage>
   }
 
   @override
-  void onNoteSubmitted(String note) {}
+  void onNoteSubmitted(String note) {
+    noteFocusNode.unfocus();
+  }
 
   @override
   Future<void> onFilePicked() async {
     final FilePickerResult? result = await FilePicker.platform.pickFiles();
     final path = result?.files.single.path;
+
+    uploadFileCubit.uploadFile(path);
+
     if (result != null && path != null) {
-      final File file = File(path);
+      addLedgerCubit.setFile(path);
     }
-    // TODO: implement onFilePicked
   }
 
   @override
@@ -249,6 +272,7 @@ class _AddLedgerPageState extends State<AddLedgerPage>
                       height: 30,
                     ),
                     MainTextField(
+                      initialValue: widget.ledger?.name,
                       onSubmitted: onNameSubmitted,
                       onChanged: onNameChanged,
                       focusNode: nameFocusNode,
@@ -259,6 +283,8 @@ class _AddLedgerPageState extends State<AddLedgerPage>
                       height: 25,
                     ),
                     MainTextField(
+                      initialValue:
+                          widget.ledger?.amount.replaceFirst('\$ ', ''),
                       onSubmitted: onAmountSubmitted,
                       onChanged: onAmountChanged,
                       focusNode: amountFocusNode,
@@ -280,7 +306,8 @@ class _AddLedgerPageState extends State<AddLedgerPage>
                       height: 5,
                     ),
                     RadioSelectorWidget<LedgerTypes>(
-                      items: LedgerTypes.values,
+                      selected: widget.ledger?.type,
+                      items: LedgerTypes.values.sublist(0, 2),
                       onSelected: onTypeSelected,
                     ),
                     const SizedBox(
@@ -329,6 +356,11 @@ class _AddLedgerPageState extends State<AddLedgerPage>
                                   builder: (context, state) {
                                     Widget child;
                                     if (state is BreedersSuccess) {
+                                      final selectedValue = state
+                                          .breedersStatusModel.all
+                                          .firstWhereOrNull(
+                                        (e) => e.id == widget.ledger?.breederId,
+                                      );
                                       child = Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -346,6 +378,7 @@ class _AddLedgerPageState extends State<AddLedgerPage>
                                             height: 8,
                                           ),
                                           MainDropDownWidget<BreederEntryModel>(
+                                            selectedValue: selectedValue,
                                             items:
                                                 state.breedersStatusModel.all,
                                             text: 'select_breeder'.i18n,
@@ -365,11 +398,8 @@ class _AddLedgerPageState extends State<AddLedgerPage>
                                     } else if (state is BreedersFail) {
                                       child = MainErrorWidget(
                                         error: state.message,
-                                        onTap: () {
-                                          context
-                                              .read<BreedersCubit>()
-                                              .getBreeders();
-                                        },
+                                        onTap: () =>
+                                            breedersCubit.getBreeders(),
                                       );
                                     } else {
                                       child = const SizedBox();
@@ -390,6 +420,11 @@ class _AddLedgerPageState extends State<AddLedgerPage>
                                   builder: (context, state) {
                                     Widget child;
                                     if (state is LittersSuccess) {
+                                      final selectedValue = state
+                                          .littersStatusModel.all
+                                          .firstWhereOrNull(
+                                        (e) => e.id == widget.ledger?.litterId,
+                                      );
                                       child = Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -407,6 +442,7 @@ class _AddLedgerPageState extends State<AddLedgerPage>
                                             height: 8,
                                           ),
                                           MainDropDownWidget<LitterEntryModel>(
+                                            selectedValue: selectedValue,
                                             items: state.littersStatusModel.all,
                                             text: 'select_litter'.i18n,
                                             onChanged: (litter) {
@@ -463,9 +499,13 @@ class _AddLedgerPageState extends State<AddLedgerPage>
                     BlocBuilder<CustomersCubit, GeneralCustomersState>(
                       builder: (context, state) {
                         Widget child;
-
                         if (state is CustomersSuccess) {
+                          final selectedValue =
+                              state.customers.firstWhereOrNull(
+                            (e) => e.id == widget.ledger?.customerId,
+                          );
                           child = MainDropDownWidget<CustomerModel>(
+                            selectedValue: selectedValue,
                             items: state.customers,
                             text: 'select_contact'.i18n,
                             onChanged: onContactSelected,
@@ -510,10 +550,15 @@ class _AddLedgerPageState extends State<AddLedgerPage>
                         Widget child;
 
                         if (state is CategoriesSuccess) {
+                          final selectedValue =
+                              state.categories.firstWhereOrNull(
+                            (e) => e.id == widget.ledger?.categoryId,
+                          );
                           child = Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               MainDropDownWidget<CategoryModel>(
+                                selectedValue: selectedValue,
                                 items: state.categories,
                                 text: 'select_ledger_category'.i18n,
                                 onChanged: onCategoryIdSelected,
@@ -536,12 +581,12 @@ class _AddLedgerPageState extends State<AddLedgerPage>
                         } else {
                           child = const SizedBox();
                         }
-
                         return AnimatedSwitcherWithSize(
                           child: child,
                         );
                       },
                     ),
+                    const SizedBox(height: 25),
                     Text(
                       "date".i18n,
                       style: context.tt.bodyLarge?.copyWith(
@@ -552,6 +597,7 @@ class _AddLedgerPageState extends State<AddLedgerPage>
                     const SizedBox(height: 10),
                     Center(
                       child: MainDatePicker(
+                        initialDate: widget.ledger?.date,
                         onChange: onDateSelected,
                       ),
                     ),
@@ -559,6 +605,7 @@ class _AddLedgerPageState extends State<AddLedgerPage>
                       height: 10,
                     ),
                     MainTextField(
+                      initialValue: widget.ledger?.notes,
                       onSubmitted: onNoteSubmitted,
                       onChanged: onNoteChanged,
                       focusNode: noteFocusNode,
@@ -585,23 +632,44 @@ class _AddLedgerPageState extends State<AddLedgerPage>
                           border: Border.all(color: context.cs.onSurface),
                           borderRadius: AppConstants.borderRadius12,
                         ),
-                        child: Row(
-                          children: [
-                            Text(
-                              'choose_file'.i18n,
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Theme.of(context).hintColor,
-                              ),
-                            ),
-                            const SizedBox(width: 20),
-                            Expanded(
-                              child: Text(
-                                //TODO: To be handled.
-                                true ? 'no_file_chosen'.i18n : '',
-                              ),
-                            ),
-                          ],
+                        child: BlocBuilder<UploadFileCubit,
+                            GeneralUploadFileState>(
+                          builder: (context, state) {
+                            String? filePath;
+                            String? title;
+                            if (state is UploadFileSuccess) {
+                              filePath = path.basename(state.filePath!);
+                            } else if (state is UploadFileFail) {
+                              filePath = state.message;
+                            } else {
+                              title = 'choose_file'.i18n;
+                              filePath = 'no_file_chosen'.i18n;
+                            }
+                            return Row(
+                              children: [
+                                if (title != null)
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'choose_file'.i18n,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Theme.of(context).hintColor,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 20),
+                                    ],
+                                  ),
+                                Expanded(
+                                  child: Text(
+                                    title == null
+                                        ? 'chosen_file'.i18n + filePath
+                                        : filePath,
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
                         ),
                       ),
                     ),
@@ -627,14 +695,14 @@ class _AddLedgerPageState extends State<AddLedgerPage>
                             "ledger_added".i18n,
                           );
                           context.router.maybePop();
-                          //TODO: Add ledger to ledgers cubit.
+                          ledgersCubit.addLedger(state.ledgerModel);
                         } else if (state is UpdateLedgerSuccess) {
                           MainSnackBar.showSuccessMessageBar(
                             context,
-                            "ledger_update".i18n,
+                            "ledger_updated".i18n,
                           );
                           context.router.maybePop();
-                          //TODO: update ledger to ledgers cubit.
+                          ledgersCubit.updateLedger(state.ledgerModel);
                         } else if (state is AddLedgerError) {
                           MainSnackBar.showErrorMessageBar(
                             context,

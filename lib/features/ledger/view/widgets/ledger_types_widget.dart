@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:bunny_sync/features/ledger/models/ledger_stats_model/ledger_stats_model.dart';
 import 'package:bunny_sync/features/ledger/models/ledger_types.dart';
 import 'package:bunny_sync/features/ledger/view/widgets/ledger_tile.dart';
 import 'package:bunny_sync/global/extensions/currency_display_x.dart';
@@ -10,9 +11,11 @@ class LedgerTypesWidget extends StatefulWidget {
   const LedgerTypesWidget({
     super.key,
     required this.onSelect,
+    required this.ledgerStats,
   });
 
   final ValueChanged<LedgerTypes?> onSelect;
+  final LedgerStatsModel ledgerStats;
 
   @override
   State<LedgerTypesWidget> createState() => _LedgerTypesWidgetState();
@@ -30,7 +33,7 @@ class _LedgerTypesWidgetState extends State<LedgerTypesWidget> {
         crossAxisCount: 2,
         mainAxisSpacing: 16,
         crossAxisSpacing: 16,
-        childAspectRatio: 1.4,
+        childAspectRatio: 1.6,
       ),
       children: LedgerTypes.values.map(
         (e) {
@@ -54,7 +57,7 @@ class _LedgerTypesWidgetState extends State<LedgerTypesWidget> {
                 fontWeight: FontWeight.w400,
               ),
             ),
-            subtitle: 123.showAsCurrency(),
+            subtitle: e.getLedgerTypeValue(widget.ledgerStats).showAsCurrency(),
             border: selectedType == e
                 ? Border.all(
                     color: context.cs.primary,
