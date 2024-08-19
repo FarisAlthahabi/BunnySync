@@ -63,7 +63,7 @@ enum TaskGenres implements DropDownItemModel {
       return TaskGenres.weight;
     } else if (value == TaskGenres.nestBox.name) {
       return TaskGenres.nestBox;
-    } else if (value == TaskGenres.medical.name) {
+    } else if (value.toLowerCase() == TaskGenres.medical.name) {
       return TaskGenres.medical;
     } else if (value == TaskGenres.calendar.name) {
       return TaskGenres.calendar;
