@@ -12,7 +12,7 @@ part 'ledger_model.g.dart';
 
 @immutable
 @JsonSerializable()
-class LedgerModel implements BottomSheetItemModel{
+class LedgerModel implements BottomSheetItemModel {
   const LedgerModel({
     required this.id,
     required this.userId,
@@ -52,6 +52,7 @@ class LedgerModel implements BottomSheetItemModel{
   @DateTimeConverter()
   final DateTime date;
 
+  @JsonKey(fromJson: LedgerTypes.fromJson)
   final LedgerTypes type;
 
   final String? status;

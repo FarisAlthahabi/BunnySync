@@ -12,7 +12,7 @@ LedgerModel _$LedgerModelFromJson(Map<String, dynamic> json) => LedgerModel(
       categoryId: (json['category_id'] as num).toInt(),
       name: json['name'] as String,
       date: const DateTimeConverter().fromJson(json['date'] as String?),
-      type: $enumDecode(_$LedgerTypesEnumMap, json['type']),
+      type: LedgerTypes.fromJson(json['type'] as String),
       status: json['status'] as String?,
       amount: const StringConverter().fromJson(json['amount']),
       createdAt: DateTime.parse(json['created_at'] as String),

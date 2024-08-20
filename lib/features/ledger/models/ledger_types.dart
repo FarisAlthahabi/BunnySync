@@ -5,13 +5,13 @@ import 'package:bunny_sync/global/theme/theme_extensions/app_theme_extension/app
 import 'package:bunny_sync/global/widgets/radio_selector_widget.dart';
 import 'package:flutter/material.dart';
 
-enum LedgerTypes implements RadioSelectorItemModel{
+enum LedgerTypes implements RadioSelectorItemModel {
   income,
   expenses,
   incomePerBreeder,
   expensesPerBreeder;
 
-   @override
+  @override
   String get displayName {
     switch (this) {
       case LedgerTypes.income:
@@ -93,7 +93,7 @@ enum LedgerTypes implements RadioSelectorItemModel{
     }
   }
 
-  double getLedgerTypeValue(LedgerStatsModel ledgerStats){
+  double getLedgerTypeValue(LedgerStatsModel ledgerStats) {
     switch (this) {
       case LedgerTypes.income:
         return ledgerStats.income;
@@ -103,6 +103,20 @@ enum LedgerTypes implements RadioSelectorItemModel{
         return ledgerStats.incomeByBreeder;
       case LedgerTypes.expensesPerBreeder:
         return ledgerStats.expensesByBreeder;
+    }
+  }
+
+  static LedgerTypes fromJson(String type) {
+    if (type == 'income') {
+      return LedgerTypes.income;
+    } else if (type == 'expenses' || type == 'expense') {
+      return LedgerTypes.expenses;
+    } else if (type == 'incomePerBreeder') {
+      return LedgerTypes.incomePerBreeder;
+    } else if (type == 'expensesPerBreeder') {
+      return LedgerTypes.expensesPerBreeder;
+    } else {
+      throw Exception('Unknown type: $type');
     }
   }
 }
