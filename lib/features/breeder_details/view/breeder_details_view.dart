@@ -353,6 +353,7 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
                           controller: childScrollController[3],
                         ),
                         TasksView(
+                          breederId: widget.breederEntryModel.id,
                           scrollController: childScrollController[4],
                         ),
                         ImagesTab(
