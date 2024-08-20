@@ -50,8 +50,6 @@ class _MainDropDownWidgetState<T extends DropDownItemModel>
         dropdownStyleData: DropdownStyleData(
           maxHeight: widget.expandedHeight,
         ),
-        isExpanded: true,
-        value: selectedValue,
         buttonStyleData: ButtonStyleData(
           decoration: BoxDecoration(
             color: widget.highlightSelected && selectedValue != null
@@ -61,6 +59,8 @@ class _MainDropDownWidgetState<T extends DropDownItemModel>
             borderRadius: AppConstants.borderRadius12,
           ),
         ),
+        isExpanded: true,
+        value: selectedValue,
         hint: Text(
           widget.text,
           style: TextStyle(

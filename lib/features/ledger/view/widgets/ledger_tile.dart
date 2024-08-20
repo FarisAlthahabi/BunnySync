@@ -1,6 +1,7 @@
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class LedgerTile extends StatelessWidget {
   const LedgerTile({
@@ -39,7 +40,7 @@ class LedgerTile extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: Row(
               children: [
-                leading,
+                Skeleton.shade(child: leading),
                 const SizedBox(width: 16),
                 Expanded(
                   child: Column(

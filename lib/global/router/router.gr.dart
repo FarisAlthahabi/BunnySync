@@ -70,6 +70,17 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    AddLedgerRoute.name: (routeData) {
+      final args = routeData.argsAs<AddLedgerRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: AddLedgerView(
+          key: args.key,
+          ledgersCubit: args.ledgersCubit,
+          ledger: args.ledger,
+        ),
+      );
+    },
     AddLitterRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -470,6 +481,49 @@ class AddCustomerRouteArgs {
   @override
   String toString() {
     return 'AddCustomerRouteArgs{key: $key, customersCubit: $customersCubit, customerModel: $customerModel}';
+  }
+}
+
+/// generated route for
+/// [AddLedgerView]
+class AddLedgerRoute extends PageRouteInfo<AddLedgerRouteArgs> {
+  AddLedgerRoute({
+    Key? key,
+    required LedgersCubit ledgersCubit,
+    LedgerModel? ledger,
+    List<PageRouteInfo>? children,
+  }) : super(
+          AddLedgerRoute.name,
+          args: AddLedgerRouteArgs(
+            key: key,
+            ledgersCubit: ledgersCubit,
+            ledger: ledger,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'AddLedgerRoute';
+
+  static const PageInfo<AddLedgerRouteArgs> page =
+      PageInfo<AddLedgerRouteArgs>(name);
+}
+
+class AddLedgerRouteArgs {
+  const AddLedgerRouteArgs({
+    this.key,
+    required this.ledgersCubit,
+    this.ledger,
+  });
+
+  final Key? key;
+
+  final LedgersCubit ledgersCubit;
+
+  final LedgerModel? ledger;
+
+  @override
+  String toString() {
+    return 'AddLedgerRouteArgs{key: $key, ledgersCubit: $ledgersCubit, ledger: $ledger}';
   }
 }
 
