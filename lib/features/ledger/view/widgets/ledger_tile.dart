@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:flutter/material.dart';
@@ -48,11 +49,13 @@ class LedgerTile extends StatelessWidget {
                     children: [
                       title,
                       const SizedBox(height: 4),
-                      Text(
-                        subtitle,
-                        style: context.tt.titleLarge?.copyWith(
-                          fontWeight: FontWeight.w400,
-                          color: context.cs.surfaceContainerHighest,
+                      Expanded(
+                        child: AutoSizeText(
+                          subtitle,
+                          style: context.tt.titleLarge?.copyWith(
+                            fontWeight: FontWeight.w400,
+                            color: context.cs.surfaceContainerHighest,
+                          ),
                         ),
                       ),
                     ],
