@@ -1,14 +1,9 @@
 import 'package:bunny_sync/features/breeder_details/cubit/breeder_details_cubit.dart';
-import 'package:bunny_sync/features/breeder_details/view/widgets/breeder_details_tile.dart';
-import 'package:bunny_sync/global/localization/localization.dart';
-import 'package:bunny_sync/global/models/rabbit_property_model.dart';
-import 'package:bunny_sync/global/theme/theme.dart';
-import 'package:bunny_sync/global/utils/app_constants.dart';
-import 'package:bunny_sync/global/widgets/info_properties_widget.dart';
 import 'package:bunny_sync/global/widgets/main_error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:skeletonizer/skeletonizer.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 abstract class PedigreeTabCallbacks {
   void onTryAgainTap();
@@ -38,6 +33,27 @@ class _PedigreeTabState extends State<PedigreeTab>
     super.initState();
   }
 
+  final pedigreeController = WebViewController()
+    ..setJavaScriptMode(JavaScriptMode.unrestricted)
+    ..setBackgroundColor(const Color(0x00000000))
+    ..setNavigationDelegate(
+      NavigationDelegate(
+        onProgress: (int progress) {
+          // Update loading bar.
+        },
+        onPageStarted: (String url) {},
+        onPageFinished: (String url) {},
+        onHttpError: (HttpResponseError error) {},
+        onWebResourceError: (WebResourceError error) {},
+        onNavigationRequest: (NavigationRequest request) {
+          if (request.url.startsWith('https://www.youtube.com/')) {
+            return NavigationDecision.prevent;
+          }
+          return NavigationDecision.navigate;
+        },
+      ),
+    )
+    ..loadRequest(Uri.parse('https://flutter.dev'));
 
   @override
   void onTryAgainTap() {
@@ -50,91 +66,36 @@ class _PedigreeTabState extends State<PedigreeTab>
       buildWhen: (prev, curr) => curr is BreederPedigreeState,
       builder: (context, state) {
         if (state is BreederPedigreeFetch) {
-          final rabbitProperties = [
-            RabbitPropertyModel(
-              title: 'cage'.i18n,
-              value: state.pedigreeModel.cage,
-            ),
-            RabbitPropertyModel(
-              title: 'color'.i18n,
-              value: state.pedigreeModel.color,
-            ),
-          ];
-          final item = state.pedigreeModel;
-          final rabbitDetailsProperties = [
-            RabbitPropertyModel(
-              title: 'status'.i18n,
-              value: item.status.status,
-            ),
-            RabbitPropertyModel(
-              title: 'cage'.i18n,
-              value: item.cage,
-            ),
-            RabbitPropertyModel(
-              title: 'Breed'.i18n,
-              value: item.breed ?? 'breed',
-            ),
-            RabbitPropertyModel(
-              title: 'Color'.i18n,
-              value: item.color,
-            ),
-          ];
-          return Skeletonizer(
-              enabled: state is BreederPedigreeLoading,
-              child: SingleChildScrollView(
-                controller: widget.controller,
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: Padding(
-                  padding: AppConstants.padding24,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                        ),
-                        child: InfoPropertiesWidget(
-                          properties: rabbitProperties,
-                          propertyStructures: List.generate(
-                            rabbitProperties.length,
-                            (index) {
-                              return PropertyStructure(
-                                mainAxisCellCount: 1.6,
-                                crossAxisCellCount: 3,
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: context.cs.onInverseSurface,
-                          ),
-                        ),
-                        child: ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: rabbitDetailsProperties.length,
-                          itemBuilder: (context, index) {
-                            Color tileColor;
-                            if (index.isEven) {
-                              tileColor = context.cs.surface;
-                            } else {
-                              tileColor = context.cs.onInverseSurface;
-                            }
-                            return BreederDetailsTile(
-                              rabbitProperty: rabbitDetailsProperties[index],
-                              tileColor: tileColor,
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
+          return WebViewWidget(
+            controller: WebViewController()
+              ..setJavaScriptMode(JavaScriptMode.unrestricted)
+              ..setBackgroundColor(const Color(0x00000000))
+              ..setNavigationDelegate(
+                NavigationDelegate(
+                  onProgress: (int progress) {
+                    context.loaderOverlay.show();
+                  },
+                  onPageStarted: (String url) {},
+                  onPageFinished: (String url) {
+                    context.loaderOverlay.hide();
+                  },
+                  onHttpError: (HttpResponseError error) {},
+                  onWebResourceError: (WebResourceError error) {},
+                  onNavigationRequest: (NavigationRequest request) {
+                    if (request.url.startsWith('https://www.youtube.com/')) {
+                      return NavigationDecision.prevent;
+                    }
+                    return NavigationDecision.navigate;
+                  },
+                ),
+              )
+              ..loadRequest(
+                Uri.parse(
+                  //'https://www.youtube.com/'
+                  'http://bunnysync.bunnyhorde.com/pedigree/mobile/510f1586-1bf2-43fb-8160-8508c5a3e26e',
                 ),
               ),
-            );
+          );
         } else if (state is BreederPedigreeFail) {
           return MainErrorWidget(
             error: state.message,

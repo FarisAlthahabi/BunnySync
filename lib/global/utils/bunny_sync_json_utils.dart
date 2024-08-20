@@ -8,8 +8,24 @@ abstract class BunnySyncJsonUtils {
 
   static String setBreedersImageUrlFromJson(Map<String, dynamic> json) {
     String? path = json['path'] as String?;
-    path ??= json['breeder_images_path'] as String? ?? '';
-    return '${baseUrl}breeders/images/$path';
+    if (path == null) {
+      path = json['breeder_images_path'] as String?;
+      if (path != null) {
+        return '${baseUrl}breeders/images/$path';
+      } else {
+        path = json['url'] as String?;
+        if (path != null) {
+          return '$baseUrl${path.replaceFirst('/', '')}';
+        } else {
+          return '';
+        }
+      }
+    } else {
+      return path;
+    }
+    // path ??=
+    //     json['breeder_images_path'] as String? ?? json['url'] as String? ?? '';
+    // return '${baseUrl}breeders/images/$path';
   }
 
   static List<String> featuresFromJson(Map<String, dynamic> json) {

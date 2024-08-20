@@ -1,7 +1,7 @@
 import 'package:bunny_sync/features/breeder_details/models/breeder_details_response_model/breeder_details_response_model.dart';
 import 'package:bunny_sync/features/breeder_details/models/breeder_image_model/breeder_image_model.dart';
 import 'package:bunny_sync/features/breeder_details/models/breeder_note_model/breeder_note_model.dart';
-import 'package:bunny_sync/features/breeder_details/models/pedigree_model/pedigree_model.dart';
+import 'package:bunny_sync/features/breeder_details/models/pedigree_url_model/pedigree_url_model.dart';
 import 'package:bunny_sync/global/dio/dio_client.dart';
 import 'package:bunny_sync/global/dio/exceptions.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
@@ -15,7 +15,7 @@ part 'http_breeder_details_repo.dart';
 abstract class BreederDetailsRepo {
   Future<ResponseModel<BreederDetailsResponseModel>> getBreederDetails(int id);
 
-  Future<ResponseModel<PedigreeModel>> getBreederPedigree(int id);
+  Future<ResponseModel<PedigreeUrlModel>> getBreederPedigree(int id);
 
   Future<List<BreederNoteModel>> getBreederNotes(int id);
 

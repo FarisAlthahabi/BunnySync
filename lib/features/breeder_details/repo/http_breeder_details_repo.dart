@@ -31,20 +31,20 @@ class HttpBreederDetailsRepo implements BreederDetailsRepo {
   }
 
   @override
-  Future<ResponseModel<PedigreeModel>> getBreederPedigree(int id) async {
+  Future<ResponseModel<PedigreeUrlModel>> getBreederPedigree(int id) async {
     try {
       final response = await _dioClient.get(
         '/breeders/$id/pedigree',
       );
       final body = response.data as Map<String, dynamic>;
 
-      return ResponseModel<PedigreeModel>.fromJson(
+      return ResponseModel<PedigreeUrlModel>.fromJson(
         body,
         (json) {
           final data = json as Map<String, dynamic>?;
           if (data == null) throw 'Data is null';
-          return PedigreeModel.fromJson(
-            data["pedigree"] as Map<String, dynamic>,
+          return PedigreeUrlModel.fromJson(
+            data,
           );
         },
       );

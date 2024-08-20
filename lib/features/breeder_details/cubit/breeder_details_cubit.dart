@@ -6,7 +6,7 @@ import 'package:bunny_sync/features/breeder_details/models/breeder_image_model/b
 import 'package:bunny_sync/features/breeder_details/models/breeder_note_model/breeder_note_fake_model.dart';
 import 'package:bunny_sync/features/breeder_details/models/breeder_note_model/breeder_note_model.dart';
 import 'package:bunny_sync/features/breeder_details/models/pedigree_model/pedigree_fake_model.dart';
-import 'package:bunny_sync/features/breeder_details/models/pedigree_model/pedigree_model.dart';
+import 'package:bunny_sync/features/breeder_details/models/pedigree_url_model/pedigree_url_model.dart';
 import 'package:bunny_sync/features/breeder_details/repo/breeder_details_repo.dart';
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
@@ -55,7 +55,7 @@ class BreederDetailsCubit extends Cubit<GeneralBreederDetailsState> {
   }
 
   Future<void> getBreederPedigree(int breederId) async {
-    emit(BreederPedigreeLoading(pedigreeFakeModel));
+    emit(BreederPedigreeLoading(pedigreeUrlFakeModel));
 
     try {
       final response = await _breederDetailsRepo.getBreederPedigree(breederId);
