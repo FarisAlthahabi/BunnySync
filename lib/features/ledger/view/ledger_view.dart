@@ -258,13 +258,19 @@ class _LedgerPageState extends State<LedgerPage>
                   ),
                 );
               } else if (state is LedgersEmpty) {
-                return MainErrorWidget(
-                  error: state.message,
+                return SliverToBoxAdapter(
+                  child: MainErrorWidget(
+                    height: 0.4.sh,
+                    error: state.message,
+                  ),
                 );
               } else if (state is LedgersFail) {
-                return MainErrorWidget(
-                  error: state.message,
-                  onTap: onTryAgainTap,
+                return SliverToBoxAdapter(
+                  child: MainErrorWidget(
+                    height: 0.4.sh,
+                    error: state.message,
+                    onTap: onTryAgainTap,
+                  ),
                 );
               } else {
                 return const SizedBox.shrink();
