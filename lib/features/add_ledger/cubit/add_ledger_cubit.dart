@@ -29,7 +29,9 @@ class AddLedgerCubit extends Cubit<GeneralAddLedgerState> {
   }
 
   void setAmount(String amount) {
-    final parsedAmount = double.tryParse(amount.replaceFirst('\$ ', ''));
+    final parsedAmount = double.tryParse(
+      amount.replaceFirst('\$ ', '').trim(),
+    );
     if (parsedAmount == null) {
       emit(AddLedgerError('invalid_amount'.i18n));
       return;
@@ -47,7 +49,6 @@ class AddLedgerCubit extends Cubit<GeneralAddLedgerState> {
   }
 
   void setTaskType(TaskTypes? taskType) {
-    TaskTypes.setSelectedTaskType(taskType);
     _ledgerPostModel = _ledgerPostModel.copyWith(
       taskType: () => taskType,
     );
@@ -87,7 +88,7 @@ class AddLedgerCubit extends Cubit<GeneralAddLedgerState> {
     );
   }
 
-  void setFile(String file) {
+  void setFile(String? file) {
     _ledgerPostModel = _ledgerPostModel.copyWith(
       file: () => file,
     );
@@ -112,6 +113,13 @@ class AddLedgerCubit extends Cubit<GeneralAddLedgerState> {
   }
 
   Future<void> updateLedger(int ledgerId) async {
+    final whoError = _ledgerPostModel.validateWho();
+
+    if (whoError != null) {
+      emit(AddLedgerError(whoError));
+      return;
+    }
+
     emit(AddLedgerLoading());
     try {
       final response = await _addLedgerRepo.updateLedger(

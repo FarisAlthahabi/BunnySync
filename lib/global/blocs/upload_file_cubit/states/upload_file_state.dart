@@ -8,9 +8,10 @@ final class UploadFileInitial extends UploadFileState {}
 final class UploadFileLoading extends UploadFileState {}
 
 final class UploadFileSuccess extends UploadFileState {
-  UploadFileSuccess(this.filePath);
+  UploadFileSuccess({required this.filePath, required this.fileName});
 
-  final String? filePath;
+  final String filePath;
+  final String fileName;
 }
 
 final class UploadFileFail extends UploadFileState {

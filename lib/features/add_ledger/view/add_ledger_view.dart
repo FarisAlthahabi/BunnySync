@@ -29,10 +29,8 @@ import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:bunny_sync/global/widgets/main_text_field.dart';
 import 'package:bunny_sync/global/widgets/radio_selector_widget.dart';
 import 'package:collection/collection.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:path/path.dart' as path;
 
 abstract class AddLedgerViewCallBacks {
   void onNameChanged(String name);
@@ -202,14 +200,7 @@ class _AddLedgerPageState extends State<AddLedgerPage>
 
   @override
   Future<void> onFilePicked() async {
-    final FilePickerResult? result = await FilePicker.platform.pickFiles();
-    final path = result?.files.single.path;
-
-    uploadFileCubit.uploadFile(path);
-
-    if (result != null && path != null) {
-      addLedgerCubit.setFile(path);
-    }
+    uploadFileCubit.uploadFile();
   }
 
   @override
@@ -632,13 +623,24 @@ class _AddLedgerPageState extends State<AddLedgerPage>
                           border: Border.all(color: context.cs.onSurface),
                           borderRadius: AppConstants.borderRadius12,
                         ),
-                        child: BlocBuilder<UploadFileCubit,
+                        child: BlocConsumer<UploadFileCubit,
                             GeneralUploadFileState>(
+                          listener: (context, state) {
+                            if (state is UploadFileSuccess) {
+                              addLedgerCubit.setFile(state.filePath);
+                            } else if (state is UploadFileFail) {
+                              MainSnackBar.showErrorMessageBar(
+                                context,
+                                state.message,
+                              );
+                              addLedgerCubit.setFile(null);
+                            }
+                          },
                           builder: (context, state) {
                             String? filePath;
                             String? title;
                             if (state is UploadFileSuccess) {
-                              filePath = path.basename(state.filePath!);
+                              filePath = state.fileName;
                             } else if (state is UploadFileFail) {
                               filePath = state.message;
                             } else {

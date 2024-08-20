@@ -114,7 +114,7 @@ class _LedgerPageState extends State<LedgerPage>
 
   @override
   void onSelected(LedgerTypes? ledgerType) {
-    ledgersCubit.getLedgersByIncome(ledgerType);
+    ledgersCubit.getLedgersByType(ledgerType);
   }
 
   @override

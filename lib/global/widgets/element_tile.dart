@@ -57,7 +57,7 @@ class ElementTile<T> extends StatelessWidget {
                         if (type != null) type,
                         const Spacer(),
                         if (tag != null)
-                          Expanded(
+                          Flexible(
                             child: Container(
                               padding: AppConstants.padding6,
                               decoration: BoxDecoration(
@@ -95,7 +95,7 @@ class ElementTile<T> extends StatelessWidget {
                                 color: context.cs.scrim,
                               ),
                             ),
-                            const SizedBox(width: 5),
+                          const SizedBox(width: 5),
                         ],
                       ),
                       const SizedBox(height: 5),

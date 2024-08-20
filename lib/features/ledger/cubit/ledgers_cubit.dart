@@ -23,10 +23,6 @@ class LedgersCubit extends Cubit<GeneralLedgersState> {
 
   final LedgersRepo _ledgersRepo;
 
-  double incomePerBreeder = 0;
-
-  double expensePerBreeder = 0;
-
   List<LedgerModel> ledgers = [];
 
   List<LedgerModel> get incomeLedgers =>
@@ -65,7 +61,7 @@ class LedgersCubit extends Cubit<GeneralLedgersState> {
     }
   }
 
-  void getLedgersByIncome(LedgerTypes? ledgerType) {
+  void getLedgersByType(LedgerTypes? ledgerType) {
     if (ledgerType == LedgerTypes.income) {
       emit(LedgersSuccess(incomeLedgers));
     } else if (ledgerType == LedgerTypes.expenses) {

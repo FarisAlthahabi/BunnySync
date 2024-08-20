@@ -36,19 +36,13 @@ enum TaskTypes implements DropDownItemModel {
 
   bool get isGeneral => this == TaskTypes.general;
 
-  static TaskTypes? selectedTaskType = TaskTypes.general;
-
-  static TaskTypes? setSelectedTaskType(TaskTypes? taskType) {
-    return selectedTaskType = taskType;
-  }
-
   static TaskTypes fromJson(String? value) {
     try {
       final type = value;
       if (type != null) {
         return values.byName(type.toLowerCase());
       }
-      return selectedTaskType ?? TaskTypes.general;
+      throw '';
     } catch (e) {
       return TaskTypes.general;
     }
