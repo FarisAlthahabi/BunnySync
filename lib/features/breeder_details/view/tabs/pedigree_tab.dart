@@ -91,8 +91,7 @@ class _PedigreeTabState extends State<PedigreeTab>
               )
               ..loadRequest(
                 Uri.parse(
-                  //'https://www.youtube.com/'
-                  'http://bunnysync.bunnyhorde.com/pedigree/mobile/510f1586-1bf2-43fb-8160-8508c5a3e26e',
+                  state.pedigreeUrlModel.pedigreeUrl,
                 ),
               ),
           );
