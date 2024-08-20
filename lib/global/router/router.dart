@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/add_ailment/view/add_ailment_view.dart';
+import 'package:bunny_sync/features/add_attachment/view/add_attachment_view.dart';
 import 'package:bunny_sync/features/add_breeder/view/add_breeder_view.dart';
 import 'package:bunny_sync/features/add_cage/view/add_cage_view.dart';
 import 'package:bunny_sync/features/add_category/view/add_category_view.dart';
@@ -10,6 +11,7 @@ import 'package:bunny_sync/features/add_task/view/add_task_view.dart';
 import 'package:bunny_sync/features/add_treatment/view/add_treatment_view.dart';
 import 'package:bunny_sync/features/authentication/view/authentication_view.dart';
 import 'package:bunny_sync/features/breeder_details/cubit/breeder_details_cubit.dart';
+import 'package:bunny_sync/features/breeder_details/models/attachment_model/attachment_model.dart';
 import 'package:bunny_sync/features/breeder_details/view/breeder_details_view.dart';
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
 import 'package:bunny_sync/features/breeders/view/breeders_view.dart';
@@ -156,6 +158,9 @@ class AppRouter extends _$AppRouter {
                 ),
                 AutoRoute(
                   page: ProfileRoute.page,
+                ),
+                AutoRoute(
+                  page: AddAttachmentRoute.page,
                 ),
               ],
             ),

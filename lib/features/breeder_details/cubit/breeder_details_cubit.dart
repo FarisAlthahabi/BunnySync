@@ -1,4 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:bunny_sync/features/breeder_details/models/attachment_model/attachment_model.dart';
+import 'package:bunny_sync/features/breeder_details/models/attachment_model/breeder_attachments_fake_model.dart';
 import 'package:bunny_sync/features/breeder_details/models/breeder_details_response_model/breeder_details_response_fake_model.dart';
 import 'package:bunny_sync/features/breeder_details/models/breeder_details_response_model/breeder_details_response_model.dart';
 import 'package:bunny_sync/features/breeder_details/models/breeder_image_model/breeder_image_fake_model.dart';
@@ -17,6 +19,8 @@ import 'package:meta/meta.dart';
 part 'states/breeder_details_state.dart';
 part 'states/breeder_images_state/breeder_images_actions_state.dart';
 part 'states/breeder_images_state/breeder_images_state.dart';
+part 'states/breeder_attachments_state/delete_breeder_attachment_state.dart';
+part 'states/breeder_attachments_state/breeder_attachments_state.dart';
 part 'states/breeder_notes_state/breeder_notes_actions_state.dart';
 part 'states/breeder_notes_state/breeder_notes_state.dart';
 part 'states/breeder_pedigree_state.dart';
@@ -37,6 +41,8 @@ class BreederDetailsCubit extends Cubit<GeneralBreederDetailsState> {
   BreederEntryModel breeder;
 
   List<BreederImageModel> breederImages = [];
+
+  List<AttachmentModel> attachments = [];
 
   Future<void> getBreederDetails() async {
     emit(BreederDetailsSuccess(breeder));
@@ -167,6 +173,59 @@ class BreederDetailsCubit extends Cubit<GeneralBreederDetailsState> {
     } catch (e, s) {
       addError(e, s);
       emit(BreederNoteDeleteFail(e.toString()));
+    }
+  }
+
+  Future<void> getAttachments(int breederId) async {
+    emit(BreederAttachmentsLoading(breederAttachmentsFake));
+    try {
+      final response = await _breederDetailsRepo.getAttachments(breederId);
+      if (response.isEmpty) {
+        emit(BreederAttachmentsEmpty('attachments_empty'.i18n));
+      } else {
+        attachments = response;
+        emit(BreederAttachmentsSuccess(response));
+      }
+    } catch (e, s) {
+      addError(e, s);
+      emit(BreederAttachmentsFail(e.toString()));
+    }
+  }
+
+  void addAttachment(AttachmentModel attachment) {
+    attachments.add(attachment);
+    emit(BreederAttachmentsSuccess(attachments));
+  }
+
+  void updateAttachment(AttachmentModel attachment) {
+    attachments = attachments.map((e) {
+      if (e.id == attachment.id) {
+        return attachment;
+      }
+      return e;
+    }).toList();
+    emit(BreederAttachmentsSuccess(attachments));
+  }
+
+   Future<void> deleteAttachment(int attachmentId) async {
+    emit(DeleteBreederAttachmentLoading());
+
+    try {
+      await _breederDetailsRepo.deleteAttachment(attachmentId);
+      attachments.removeWhere(
+        (element) => element.id == attachmentId,
+      );
+
+      emit(DeleteBreederAttachmentSuccess());
+
+      if (attachments.isEmpty) {
+        emit(BreederAttachmentsEmpty('attachments_empty'.i18n));
+      } else {
+        emit(BreederAttachmentsSuccess(attachments));
+      }
+    } catch (e, s) {
+      addError(e, s);
+      emit(DeleteBreederAttachmentFail(e.toString()));
     }
   }
 }

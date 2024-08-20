@@ -365,5 +365,15 @@
   "current_date": "Current Date",
   "weight_date": "Weight Date",
   "vWDu_genotype": "Vwdu Genotype",
-  "current_weight": "Current Weight"
+  "current_weight": "Current Weight",
+  "create_attachment" : "Create Attachment",
+  "attachment" : "Attachment",
+  "choose_file" : "Choose file",
+  "no_file_chosen" : "No file chosen",
+  "attachment_added" : "Attachment is added successfully",
+  "attachment_updated" : "Attachment is updated successfully",
+  "attachments_empty" : "There is no attachments",
+  "attachment_options" : "Attachment Options",
+  "are_you_sure_to_delete_attachment" : "Are you sure to delete this attachment ?",
+  "attachment_deleted" : "Attachment is deleted successfully"
 }
