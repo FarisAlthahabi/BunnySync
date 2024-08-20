@@ -54,7 +54,7 @@ Widget build(BuildContext context) {
 class PrivacyPolicyTextWidget extends StatelessWidget {
   const PrivacyPolicyTextWidget({
     super.key,
-    this.text,
+    required this.text,
   });
 
   final String? text;
@@ -71,8 +71,9 @@ class PrivacyPolicyTextWidget extends StatelessWidget {
           color: const Color.fromRGBO(144, 149, 161, 1),
         ),
         TextSpan(
-          text: text ?? 'by_joining'.i18n,
+          text: text,
           children: [
+            const TextSpan(text: ' '),
             TextSpan(
               text: 'privacy_policy'.i18n,
               style: const TextStyle(color: Color.fromRGBO(109, 49, 237, 1)),

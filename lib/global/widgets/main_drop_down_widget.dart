@@ -15,12 +15,16 @@ class MainDropDownWidget<T extends DropDownItemModel> extends StatefulWidget {
     required this.text,
     required this.onChanged,
     required this.items,
+    this.highlightSelected = false,
+    this.expandedHeight = 200,
     this.selectedValue,
   });
 
   final String text;
   final ValueSetter<T?> onChanged;
   final List<T> items;
+  final bool highlightSelected;
+  final double expandedHeight;
   final T? selectedValue;
 
   @override
@@ -43,9 +47,14 @@ class _MainDropDownWidgetState<T extends DropDownItemModel>
   Widget build(BuildContext context) {
     return DropdownButtonHideUnderline(
       child: DropdownButton2<T>(
-        dropdownStyleData: const DropdownStyleData(maxHeight: 200),
+        dropdownStyleData: DropdownStyleData(
+          maxHeight: widget.expandedHeight,
+        ),
         buttonStyleData: ButtonStyleData(
           decoration: BoxDecoration(
+            color: widget.highlightSelected && selectedValue != null
+                ? context.cs.onPrimaryContainer
+                : null,
             border: Border.all(color: context.cs.onSurface),
             borderRadius: AppConstants.borderRadius12,
           ),

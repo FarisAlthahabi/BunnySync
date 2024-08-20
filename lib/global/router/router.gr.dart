@@ -37,6 +37,17 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    AddCageRoute.name: (routeData) {
+      final args = routeData.argsAs<AddCageRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: AddCageView(
+          key: args.key,
+          cageCardsCubit: args.cageCardsCubit,
+          cageModel: args.cageModel,
+        ),
+      );
+    },
     AddCategoryRoute.name: (routeData) {
       final args = routeData.argsAs<AddCategoryRouteArgs>();
       return AutoRoutePage<dynamic>(
@@ -135,6 +146,12 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const BreedersView(),
+      );
+    },
+    CageCardsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const CageCardsView(),
       );
     },
     CategoriesRoute.name: (routeData) {
@@ -335,6 +352,49 @@ class AddBreederRouteArgs {
   @override
   String toString() {
     return 'AddBreederRouteArgs{key: $key, breederEntryModel: $breederEntryModel}';
+  }
+}
+
+/// generated route for
+/// [AddCageView]
+class AddCageRoute extends PageRouteInfo<AddCageRouteArgs> {
+  AddCageRoute({
+    Key? key,
+    required CageCardsCubit cageCardsCubit,
+    CageModel? cageModel,
+    List<PageRouteInfo>? children,
+  }) : super(
+          AddCageRoute.name,
+          args: AddCageRouteArgs(
+            key: key,
+            cageCardsCubit: cageCardsCubit,
+            cageModel: cageModel,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'AddCageRoute';
+
+  static const PageInfo<AddCageRouteArgs> page =
+      PageInfo<AddCageRouteArgs>(name);
+}
+
+class AddCageRouteArgs {
+  const AddCageRouteArgs({
+    this.key,
+    required this.cageCardsCubit,
+    this.cageModel,
+  });
+
+  final Key? key;
+
+  final CageCardsCubit cageCardsCubit;
+
+  final CageModel? cageModel;
+
+  @override
+  String toString() {
+    return 'AddCageRouteArgs{key: $key, cageCardsCubit: $cageCardsCubit, cageModel: $cageModel}';
   }
 }
 
@@ -686,6 +746,20 @@ class BreedersRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'BreedersRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [CageCardsView]
+class CageCardsRoute extends PageRouteInfo<void> {
+  const CageCardsRoute({List<PageRouteInfo>? children})
+      : super(
+          CageCardsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'CageCardsRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
