@@ -23,7 +23,7 @@ class AddAttachmentCubit extends Cubit<GeneralAddAttachmentState> {
     );
   }
 
-  void setFile(String file) {
+  void setFile(String? file) {
     _attachmentPostModel = _attachmentPostModel.copyWith(
       file: () => file,
     );

@@ -1,6 +1,8 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class LedgerTile extends StatelessWidget {
   const LedgerTile({
@@ -39,7 +41,7 @@ class LedgerTile extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: Row(
               children: [
-                leading,
+                Skeleton.shade(child: leading),
                 const SizedBox(width: 16),
                 Expanded(
                   child: Column(
@@ -47,11 +49,13 @@ class LedgerTile extends StatelessWidget {
                     children: [
                       title,
                       const SizedBox(height: 4),
-                      Text(
-                        subtitle,
-                        style: context.tt.titleLarge?.copyWith(
-                          fontWeight: FontWeight.w400,
-                          color: context.cs.surfaceContainerHighest,
+                      Expanded(
+                        child: AutoSizeText(
+                          subtitle,
+                          style: context.tt.titleLarge?.copyWith(
+                            fontWeight: FontWeight.w400,
+                            color: context.cs.surfaceContainerHighest,
+                          ),
                         ),
                       ),
                     ],

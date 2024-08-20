@@ -57,17 +57,19 @@ class ElementTile<T> extends StatelessWidget {
                         if (type != null) type,
                         const Spacer(),
                         if (tag != null)
-                          Container(
-                            padding: AppConstants.padding6,
-                            decoration: BoxDecoration(
-                              borderRadius: AppConstants.borderRadius12,
-                              color: context.cs.onInverseSurface,
-                            ),
-                            child: Center(
-                              child: Text(
-                                tag,
-                                style: context.tt.labelSmall?.copyWith(
-                                  color: context.cs.scrim,
+                          Flexible(
+                            child: Container(
+                              padding: AppConstants.padding6,
+                              decoration: BoxDecoration(
+                                borderRadius: AppConstants.borderRadius12,
+                                color: context.cs.onInverseSurface,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  tag,
+                                  style: context.tt.labelSmall?.copyWith(
+                                    color: context.cs.scrim,
+                                  ),
                                 ),
                               ),
                             ),
@@ -93,6 +95,7 @@ class ElementTile<T> extends StatelessWidget {
                                 color: context.cs.scrim,
                               ),
                             ),
+                          const SizedBox(width: 5),
                         ],
                       ),
                       const SizedBox(height: 5),

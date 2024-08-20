@@ -5,6 +5,8 @@ import 'package:bunny_sync/features/add_breeder/view/add_breeder_view.dart';
 import 'package:bunny_sync/features/add_cage/view/add_cage_view.dart';
 import 'package:bunny_sync/features/add_category/view/add_category_view.dart';
 import 'package:bunny_sync/features/add_customer/view/add_customer_view.dart';
+import 'package:bunny_sync/features/add_ledger/models/ledger_model/ledger_model.dart';
+import 'package:bunny_sync/features/add_ledger/view/add_ledger_view.dart';
 import 'package:bunny_sync/features/add_litter/view/add_litter_view.dart';
 import 'package:bunny_sync/features/add_note/view/add_note_view.dart';
 import 'package:bunny_sync/features/add_task/view/add_task_view.dart';
@@ -33,6 +35,7 @@ import 'package:bunny_sync/features/health/view/health_view.dart';
 import 'package:bunny_sync/features/home/view/home_view.dart';
 import 'package:bunny_sync/features/intro/view/intro_router.dart';
 import 'package:bunny_sync/features/intro/view/intro_view.dart';
+import 'package:bunny_sync/features/ledger/cubit/ledgers_cubit.dart';
 import 'package:bunny_sync/features/ledger/view/ledger_view.dart';
 import 'package:bunny_sync/features/litter_details/view/litter_details_view.dart';
 import 'package:bunny_sync/features/litters/models/litter_entry_model/litter_entry_model.dart';
@@ -161,6 +164,9 @@ class AppRouter extends _$AppRouter {
                 ),
                 AutoRoute(
                   page: AddAttachmentRoute.page,
+                ),
+                AutoRoute(
+                  page: AddLedgerRoute.page,
                 ),
               ],
             ),

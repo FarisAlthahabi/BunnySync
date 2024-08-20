@@ -13,6 +13,7 @@ class BreederByGenderModel implements DropDownItemModel {
     required this.id,
     required this.displayName,
   });
+
   factory BreederByGenderModel.fromJsonStr(String str) =>
       BreederByGenderModel.fromJson(jsonDecode(str) as Map<String, dynamic>);
 

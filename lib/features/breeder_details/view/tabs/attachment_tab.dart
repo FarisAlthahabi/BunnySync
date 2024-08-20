@@ -14,6 +14,7 @@ import 'package:bunny_sync/global/widgets/texts/bordered_textual_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:path/path.dart' as path;
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -131,7 +132,9 @@ class _AttachmentTabState extends State<AttachmentTab>
         listener: (context, state) {
           if (state is DeleteBreederAttachmentSuccess) {
             MainSnackBar.showSuccessMessageBar(
-                context, "attachment_deleted".i18n);
+              context,
+              "attachment_deleted".i18n,
+            );
             context.loaderOverlay.hide();
           } else if (state is DeleteBreederAttachmentFail) {
             MainSnackBar.showErrorMessageBar(context, state.message);
@@ -172,10 +175,19 @@ class _AttachmentTabState extends State<AttachmentTab>
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
-                            type: Expanded(
-                              child: InkWell(
-                                onTap: () => launchFile(item.imageUrl),
-                                child: Text(item.imageUrl),
+                            type: Padding(
+                              padding: const EdgeInsets.only(top: 5),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    '${"name".i18n} :${path.basename(item.imageUrl)}',
+                                  ),
+                                  const SizedBox(width: 5,),
+                                  InkWell(
+                                    onTap: () => launchFile(item.imageUrl),
+                                    child : const Icon(Icons.upload_file_outlined),
+                                  ),
+                                ],
                               ),
                             ),
                           );

@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/add_attachment/cubit/add_attachment_cubit.dart';
 import 'package:bunny_sync/features/breeder_details/cubit/breeder_details_cubit.dart';
 import 'package:bunny_sync/features/breeder_details/models/attachment_model/attachment_model.dart';
+import 'package:bunny_sync/global/blocs/upload_file_cubit/upload_file_cubit.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
@@ -11,7 +12,6 @@ import 'package:bunny_sync/global/widgets/loading_indicator.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
 import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:bunny_sync/global/widgets/main_text_field.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -48,6 +48,9 @@ class AddAttachmentView extends StatelessWidget {
         BlocProvider(
           create: (context) => get<AddAttachmentCubit>(),
         ),
+        BlocProvider(
+          create: (context) => get<UploadFileCubit>(),
+        ),
       ],
       child: AddAttachmentPage(
         breederId: breederId,
@@ -76,6 +79,8 @@ class _AddAttachmentPageState extends State<AddAttachmentPage>
   late final AddAttachmentCubit addAttachmentCubit = context.read();
 
   late final BreederDetailsCubit breederDetailsCubit = context.read();
+
+  late final UploadFileCubit uploadFileCubit = context.read();
 
   final titleFocusNode = FocusNode();
 
@@ -107,12 +112,7 @@ class _AddAttachmentPageState extends State<AddAttachmentPage>
 
   @override
   Future<void> onFilePicked() async {
-    final FilePickerResult? result = await FilePicker.platform.pickFiles();
-    final path = result?.files.single.path;
-
-    if (result != null && path != null) {
-      addAttachmentCubit.setFile(path);
-    }
+    uploadFileCubit.uploadFile();
   }
 
   @override
@@ -160,26 +160,55 @@ class _AddAttachmentPageState extends State<AddAttachmentPage>
                           border: Border.all(color: context.cs.onSurface),
                           borderRadius: AppConstants.borderRadius12,
                         ),
-                        child: Row(
-                          children: [
-                            Row(
+                        child: BlocConsumer<UploadFileCubit,
+                            GeneralUploadFileState>(
+                          listener: (context, state) {
+                            if (state is UploadFileSuccess) {
+                              addAttachmentCubit.setFile(state.filePath);
+                            } else if (state is UploadFileFail) {
+                              MainSnackBar.showErrorMessageBar(
+                                context,
+                                state.message,
+                              );
+                              addAttachmentCubit.setFile(null);
+                            }
+                          },
+                          builder: (context, state) {
+                            String? filePath;
+                            String? title;
+                            if (state is UploadFileSuccess) {
+                              filePath = state.fileName;
+                            } else if (state is UploadFileFail) {
+                              filePath = state.message;
+                            } else {
+                              title = 'choose_file'.i18n;
+                              filePath = 'no_file_chosen'.i18n;
+                            }
+                            return Row(
                               children: [
-                                Text(
-                                  'choose_file'.i18n,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Theme.of(context).hintColor,
+                                if (title != null)
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'choose_file'.i18n,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Theme.of(context).hintColor,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 20),
+                                    ],
+                                  ),
+                                Expanded(
+                                  child: Text(
+                                    title == null
+                                        ? 'chosen_file'.i18n + filePath
+                                        : filePath,
                                   ),
                                 ),
-                                const SizedBox(width: 20),
                               ],
-                            ),
-                            Expanded(
-                              child: Text(
-                                'no_file_chosen'.i18n,
-                              ),
-                            ),
-                          ],
+                            );
+                          },
                         ),
                       ),
                     ),
