@@ -211,6 +211,7 @@ class _TasksPageState extends State<TasksPage> implements TasksViewCallBacks {
                                 ),
                               ],
                             ),
+                            note: item.note,
                           );
                         },
                         separatorBuilder: (context, index) {
