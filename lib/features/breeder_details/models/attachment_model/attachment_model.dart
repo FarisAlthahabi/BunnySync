@@ -4,28 +4,31 @@ import 'package:bunny_sync/global/utils/bunny_sync_json_utils.dart';
 import 'package:bunny_sync/global/utils/json_converters/int_converter.dart';
 import 'package:bunny_sync/global/utils/json_utils.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
-import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:meta/meta.dart';
 
-part 'breeder_image_model.g.dart';
+part 'attachment_model.g.dart';
 
 @JsonSerializable()
 @immutable
-class BreederImageModel implements BottomSheetItemModel {
-  const BreederImageModel({
+class AttachmentModel implements BottomSheetItemModel {
+  const AttachmentModel({
     required this.id,
     required this.breederId,
+    required this.title,
     required this.path,
+    required this.url,
     required this.createdAt,
     required this.updatedAt,
-    required this.imageUrl,
+    this.desc,
+    this.dtRowIndex,
   });
 
-  factory BreederImageModel.fromJsonStr(String str) =>
-      BreederImageModel.fromJson(jsonDecode(str) as Map<String, dynamic>);
+  factory AttachmentModel.fromJsonStr(String str) =>
+      AttachmentModel.fromJson(jsonDecode(str) as Map<String, dynamic>);
 
-  factory BreederImageModel.fromJson(Map<String, dynamic> json) =>
-      _$BreederImageModelFromJson(json);
+  factory AttachmentModel.fromJson(Map<String, dynamic> json) =>
+      _$AttachmentModelFromJson(json);
 
   final int id;
 
@@ -33,13 +36,15 @@ class BreederImageModel implements BottomSheetItemModel {
   @JsonKey(name: 'breeder_id')
   final int breederId;
 
+  final String title;
+
   final String path;
 
   @JsonKey(
     fromJson: BunnySyncJsonUtils.setBreedersFileUrlFromJson,
     readValue: JsonUtils.readValue,
   )
-  final String imageUrl;
+  final String url;
 
   @JsonKey(name: 'created_at')
   final DateTime createdAt;
@@ -47,7 +52,12 @@ class BreederImageModel implements BottomSheetItemModel {
   @JsonKey(name: 'updated_at')
   final DateTime updatedAt;
 
+  final String? desc;
+
+  @JsonKey(name: 'DT_RowIndex')
+  final int? dtRowIndex;
+
   String toJsonStr() => jsonEncode(toJson());
 
-  Map<String, dynamic> toJson() => _$BreederImageModelToJson(this);
+  Map<String, dynamic> toJson() => _$AttachmentModelToJson(this);
 }

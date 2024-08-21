@@ -57,7 +57,6 @@ class _ImagesTabState extends State<ImagesTab> implements ImagesTabCallbacks {
   @override
   void initState() {
     super.initState();
-
     breederDetailsCubit.getBreederImages(widget.breederId);
   }
 

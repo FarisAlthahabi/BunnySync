@@ -11,7 +11,7 @@ TopBreederModel _$TopBreederModelFromJson(Map<String, dynamic> json) =>
       id: (json['id'] as num).toInt(),
       name: json['name'] as String,
       live: (json['live'] as num).toInt(),
-      image: BunnySyncJsonUtils.setBreedersImageUrlFromJson(
+      image: BunnySyncJsonUtils.setBreedersFileUrlFromJson(
           JsonUtils.readValue(json, 'image') as Map<String, dynamic>),
     );
 
