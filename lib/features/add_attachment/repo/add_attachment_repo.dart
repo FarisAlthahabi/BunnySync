@@ -3,6 +3,7 @@ import 'package:bunny_sync/features/breeder_details/models/attachment_model/atta
 import 'package:bunny_sync/global/dio/dio_client.dart';
 import 'package:bunny_sync/global/dio/exceptions.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
 part 'http_add_attachment_repo.dart';

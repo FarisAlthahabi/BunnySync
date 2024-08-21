@@ -115,7 +115,7 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
         TabModel(title: 'notes'.i18n),
         TabModel(title: 'tasks'.i18n),
         TabModel(title: 'images'.i18n),
-        TabModel(title: 'attachment'.i18n),
+        TabModel(title: 'attachments'.i18n),
       ];
 
   @override

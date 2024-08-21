@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bunny_sync/global/utils/json_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -43,6 +44,7 @@ class AttachmentPostModel {
         : _title;
   }
 
+  @JsonKey(toJson: JsonUtils.fileToJson)
   String get file {
     return _file == null || _file.isEmpty
         ? (throw "File can't be empty")

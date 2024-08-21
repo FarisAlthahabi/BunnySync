@@ -16,5 +16,5 @@ Map<String, dynamic> _$AttachmentPostModelToJson(
         AttachmentPostModel instance) =>
     <String, dynamic>{
       'title': instance.title,
-      'file': instance.file,
+      'file': JsonUtils.fileToJson(instance.file),
     };

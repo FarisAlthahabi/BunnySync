@@ -30,7 +30,7 @@ class TopBreederModel {
   final int live;
 
   @JsonKey(
-    fromJson: BunnySyncJsonUtils.setBreedersImageUrlFromJson,
+    fromJson: BunnySyncJsonUtils.setBreedersFileUrlFromJson,
     readValue: JsonUtils.readValue,
   )
   @JsonKey(name: 'breeder_images_path')

@@ -12,7 +12,9 @@ class HttpAddAttachmentRepo implements AddAttachmentRepo {
     try {
       final response = await _dioClient.post(
         '/breeders/attachment/$breederId/store',
-        data: attachmentPostModel.toJson(),
+        data: FormData.fromMap(
+          attachmentPostModel.toJson(),
+        ),
       );
 
       final body = (response.data as Map<String, dynamic>)['data']
@@ -39,7 +41,7 @@ class HttpAddAttachmentRepo implements AddAttachmentRepo {
 
       final body = (response.data as Map<String, dynamic>)['data']
           as Map<String, dynamic>;
-       return AttachmentModel.fromJson(body['file'] as Map<String, dynamic>);
+      return AttachmentModel.fromJson(body['file'] as Map<String, dynamic>);
     } catch (e) {
       if (e is NotFoundException) {
         throw e.message ?? 'something_went_wrong'.i18n;

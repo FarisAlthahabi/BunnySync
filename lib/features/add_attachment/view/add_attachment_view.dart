@@ -5,8 +5,8 @@ import 'package:bunny_sync/features/breeder_details/models/attachment_model/atta
 import 'package:bunny_sync/global/blocs/upload_file_cubit/upload_file_cubit.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
-import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
+import 'package:bunny_sync/global/widgets/attachment_widget.dart';
 import 'package:bunny_sync/global/widgets/buttons/main_action_button.dart';
 import 'package:bunny_sync/global/widgets/loading_indicator.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
@@ -14,6 +14,7 @@ import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:bunny_sync/global/widgets/main_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:path/path.dart' as path;
 
 abstract class AddAttachmentViewCallBack {
   void onTitleChanged(String title);
@@ -125,7 +126,9 @@ class _AddAttachmentPageState extends State<AddAttachmentPage>
     return Scaffold(
       appBar: MainAppBar(
         title: Text(
-          'create_attachment'.i18n,
+          widget.attachmentModel == null
+              ? 'create_attachment'.i18n
+              : 'update_attachment'.i18n,
         ),
         centerTitle: true,
       ),
@@ -152,65 +155,37 @@ class _AddAttachmentPageState extends State<AddAttachmentPage>
                     const SizedBox(
                       height: 25,
                     ),
-                    InkWell(
-                      onTap: onFilePicked,
-                      child: Container(
-                        padding: AppConstants.padding16,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: context.cs.onSurface),
-                          borderRadius: AppConstants.borderRadius12,
-                        ),
-                        child: BlocConsumer<UploadFileCubit,
-                            GeneralUploadFileState>(
-                          listener: (context, state) {
-                            if (state is UploadFileSuccess) {
-                              addAttachmentCubit.setFile(state.filePath);
-                            } else if (state is UploadFileFail) {
-                              MainSnackBar.showErrorMessageBar(
-                                context,
-                                state.message,
-                              );
-                              addAttachmentCubit.setFile(null);
-                            }
-                          },
-                          builder: (context, state) {
-                            String? filePath;
-                            String? title;
-                            if (state is UploadFileSuccess) {
-                              filePath = state.fileName;
-                            } else if (state is UploadFileFail) {
-                              filePath = state.message;
-                            } else {
-                              title = 'choose_file'.i18n;
-                              filePath = 'no_file_chosen'.i18n;
-                            }
-                            return Row(
-                              children: [
-                                if (title != null)
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'choose_file'.i18n,
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Theme.of(context).hintColor,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 20),
-                                    ],
-                                  ),
-                                Expanded(
-                                  child: Text(
-                                    title == null
-                                        ? 'chosen_file'.i18n + filePath
-                                        : filePath,
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
-                        ),
-                      ),
+                    BlocConsumer<UploadFileCubit, GeneralUploadFileState>(
+                      listener: (context, state) {
+                        if (state is UploadFileSuccess) {
+                          addAttachmentCubit.setFile(state.filePath);
+                        } else if (state is UploadFileFail) {
+                          MainSnackBar.showErrorMessageBar(
+                            context,
+                            state.message,
+                          );
+                          addAttachmentCubit.setFile(null);
+                        }
+                      },
+                      builder: (context, state) {
+                        String? filePath;
+                        if (state is UploadFileSuccess) {
+                          filePath = state.fileName;
+                        } else if (state is UploadFileFail) {
+                          filePath = state.message;
+                        } else {
+                          final originalPath = widget.attachmentModel?.path;
+                          if (originalPath != null) {
+                            filePath = path.basename(originalPath);
+                          }
+                        }
+
+                        return AttachmentWidget(
+                          onTap: onFilePicked,
+                          filePath: filePath,
+                          readOnly: widget.attachmentModel != null,
+                        );
+                      },
                     ),
                   ],
                 ),

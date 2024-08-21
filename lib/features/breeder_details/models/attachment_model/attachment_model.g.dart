@@ -9,26 +9,26 @@ part of 'attachment_model.dart';
 AttachmentModel _$AttachmentModelFromJson(Map<String, dynamic> json) =>
     AttachmentModel(
       id: (json['id'] as num).toInt(),
-      breederId: (json['breeder_id'] as num).toInt(),
+      breederId: const IntConverter().fromJson(json['breeder_id']),
       title: json['title'] as String,
-      desc: json['desc'] as String?,
       path: json['path'] as String,
-      imageUrl: BunnySyncJsonUtils.setBreedersImageUrlFromJson(
-          JsonUtils.readValue(json, 'imageUrl') as Map<String, dynamic>),
+      url: BunnySyncJsonUtils.setBreedersFileUrlFromJson(
+          JsonUtils.readValue(json, 'url') as Map<String, dynamic>),
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
+      desc: json['desc'] as String?,
       dtRowIndex: (json['DT_RowIndex'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$AttachmentModelToJson(AttachmentModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'breeder_id': instance.breederId,
+      'breeder_id': const IntConverter().toJson(instance.breederId),
       'title': instance.title,
-      'desc': instance.desc,
       'path': instance.path,
-      'imageUrl': instance.imageUrl,
+      'url': instance.url,
       'created_at': instance.createdAt.toIso8601String(),
       'updated_at': instance.updatedAt.toIso8601String(),
+      'desc': instance.desc,
       'DT_RowIndex': instance.dtRowIndex,
     };

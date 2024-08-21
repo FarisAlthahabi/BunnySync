@@ -207,7 +207,7 @@ class BreederDetailsCubit extends Cubit<GeneralBreederDetailsState> {
     emit(BreederAttachmentsSuccess(attachments));
   }
 
-   Future<void> deleteAttachment(int attachmentId) async {
+  Future<void> deleteAttachment(int attachmentId) async {
     emit(DeleteBreederAttachmentLoading());
 
     try {

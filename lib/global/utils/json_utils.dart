@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 
 typedef Json = Map<String, dynamic>;
 
@@ -32,5 +34,12 @@ abstract class JsonUtils {
 
   static String stringFromJson(dynamic json) {
     return json.toString();
+  }
+
+  static MultipartFile fileToJson(String path) {
+    return MultipartFile.fromFileSync(
+      path,
+      filename: basename(path),
+    );
   }
 }

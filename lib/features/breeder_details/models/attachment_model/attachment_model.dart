@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bunny_sync/global/utils/bunny_sync_json_utils.dart';
+import 'package:bunny_sync/global/utils/json_converters/int_converter.dart';
 import 'package:bunny_sync/global/utils/json_utils.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -10,16 +11,16 @@ part 'attachment_model.g.dart';
 
 @JsonSerializable()
 @immutable
-class AttachmentModel implements BottomSheetItemModel{
+class AttachmentModel implements BottomSheetItemModel {
   const AttachmentModel({
     required this.id,
     required this.breederId,
     required this.title,
-    this.desc,
     required this.path,
-    required this.imageUrl,
+    required this.url,
     required this.createdAt,
     required this.updatedAt,
+    this.desc,
     this.dtRowIndex,
   });
 
@@ -31,26 +32,27 @@ class AttachmentModel implements BottomSheetItemModel{
 
   final int id;
 
+  @IntConverter()
   @JsonKey(name: 'breeder_id')
   final int breederId;
 
   final String title;
 
-  final String? desc;
-
   final String path;
 
   @JsonKey(
-    fromJson: BunnySyncJsonUtils.setBreedersImageUrlFromJson,
+    fromJson: BunnySyncJsonUtils.setBreedersFileUrlFromJson,
     readValue: JsonUtils.readValue,
   )
-  final String imageUrl;
+  final String url;
 
   @JsonKey(name: 'created_at')
   final DateTime createdAt;
 
   @JsonKey(name: 'updated_at')
   final DateTime updatedAt;
+
+  final String? desc;
 
   @JsonKey(name: 'DT_RowIndex')
   final int? dtRowIndex;

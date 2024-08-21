@@ -13,7 +13,7 @@ BreederImageModel _$BreederImageModelFromJson(Map<String, dynamic> json) =>
       path: json['path'] as String,
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
-      imageUrl: BunnySyncJsonUtils.setBreedersImageUrlFromJson(
+      imageUrl: BunnySyncJsonUtils.setBreedersFileUrlFromJson(
           JsonUtils.readValue(json, 'imageUrl') as Map<String, dynamic>),
     );
 

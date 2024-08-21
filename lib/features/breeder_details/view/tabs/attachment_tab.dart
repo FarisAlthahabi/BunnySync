@@ -5,6 +5,7 @@ import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
+import 'package:bunny_sync/global/utils/utils.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:bunny_sync/global/widgets/element_tile.dart';
 import 'package:bunny_sync/global/widgets/main_error_widget.dart';
@@ -16,7 +17,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:path/path.dart' as path;
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 abstract class AttachmentTabCallBacks {
   void onAddTap();
@@ -103,11 +103,16 @@ class _AttachmentTabState extends State<AttachmentTab>
   }
 
   @override
-  Future<void> launchFile(String imageUrl) async {
-    final Uri url = Uri.parse(imageUrl);
-    if (!await launchUrl(url)) {
-      throw Exception('Could not launch $url');
-    }
+  Future<void> launchFile(String url) async {
+    Utils.openUrl(
+      url,
+      onError: () {
+        MainSnackBar.showErrorMessageBar(
+          context,
+          'could_not_open_file'.i18n,
+        );
+      },
+    );
   }
 
   @override
@@ -179,13 +184,17 @@ class _AttachmentTabState extends State<AttachmentTab>
                               padding: const EdgeInsets.only(top: 5),
                               child: Row(
                                 children: [
-                                  Text(
-                                    '${"name".i18n} :${path.basename(item.imageUrl)}',
+                                  Expanded(
+                                    child: Text(
+                                      '${"name".i18n} :${path.basename(item.url)}',
+                                    ),
                                   ),
-                                  const SizedBox(width: 5,),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
                                   InkWell(
-                                    onTap: () => launchFile(item.imageUrl),
-                                    child : const Icon(Icons.upload_file_outlined),
+                                    onTap: () => launchFile(item.url),
+                                    child: const Icon(Icons.download),
                                   ),
                                 ],
                               ),
