@@ -14,7 +14,6 @@ class LittersModel {
     required this.recordsTotal,
     required this.recordsFiltered,
     required this.litters,
-    required this.input,
   });
 
   factory LittersModel.fromJsonStr(String str) =>
@@ -31,8 +30,6 @@ class LittersModel {
 
   @JsonKey(name: 'data')
   final List<LitterEntryModel> litters;
-
-  final List<dynamic> input;
 
   String toJsonStr() => jsonEncode(toJson());
 
