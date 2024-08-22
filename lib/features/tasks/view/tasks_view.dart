@@ -33,10 +33,16 @@ abstract class TasksViewCallBacks {
 
 @RoutePage()
 class TasksView extends StatelessWidget {
-  const TasksView({super.key, this.title, this.scrollController});
+  const TasksView({
+    super.key,
+    this.title,
+    this.scrollController,
+    this.breederId,
+  });
 
   final String? title;
   final ScrollController? scrollController;
+  final int? breederId;
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +51,7 @@ class TasksView extends StatelessWidget {
       child: TasksPage(
         scrollController: scrollController,
         title: title,
+        breederId: breederId,
       ),
     );
   }
@@ -55,10 +62,12 @@ class TasksPage extends StatefulWidget {
     super.key,
     this.title,
     this.scrollController,
+    this.breederId,
   });
 
   final String? title;
   final ScrollController? scrollController;
+  final int? breederId;
 
   @override
   State<TasksPage> createState() => _TasksPageState();
@@ -69,13 +78,13 @@ class _TasksPageState extends State<TasksPage> implements TasksViewCallBacks {
 
   @override
   void initState() {
-    tasksCubit.getTasks();
     super.initState();
+    tasksCubit.getTasks(breederId: widget.breederId);
   }
 
   @override
   void onTryAgain() {
-    tasksCubit.getTasks();
+    tasksCubit.getTasks(breederId: widget.breederId);
   }
 
   @override
@@ -211,6 +220,7 @@ class _TasksPageState extends State<TasksPage> implements TasksViewCallBacks {
                                 ),
                               ],
                             ),
+                            note: item.note,
                           );
                         },
                         separatorBuilder: (context, index) {
