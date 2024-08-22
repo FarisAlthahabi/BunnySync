@@ -13,19 +13,31 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 @RoutePage()
 class HealthView extends StatelessWidget {
-  const HealthView({super.key});
+  const HealthView({
+    super.key,
+    this.breederId,
+  });
+
+  final int? breederId;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => get<HealthCubit>(),
-      child: const HealthPage(),
+      child: HealthPage(
+        breederId: breederId,
+      ),
     );
   }
 }
 
 class HealthPage extends StatefulWidget {
-  const HealthPage({super.key});
+  const HealthPage({
+    super.key,
+    this.breederId,
+  });
+
+  final int? breederId;
 
   @override
   State<HealthPage> createState() => _HealthPageState();
@@ -43,14 +55,15 @@ class _HealthPageState extends State<HealthPage> {
       ),
     ];
     return DefaultTabController(
-      length: 2,
+      length: tabs.length,
       child: Scaffold(
         appBar: MainAppBar(
-          title: Padding(
+          automaticallyImplyLeading: widget.breederId == null,
+          title: widget.breederId == null ? Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Text('health'.i18n, style: context.tt.displayLarge),
-          ),
-          toolbarHeight: 120,
+          ) : null ,
+          toolbarHeight:widget.breederId == null ? 120 : 50,
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(0),
             child: TabBar(
@@ -65,12 +78,16 @@ class _HealthPageState extends State<HealthPage> {
             ),
           ),
         ),
-        body: const SafeArea(
+        body: SafeArea(
           top: false,
           child: TabBarView(
             children: [
-              AilmentsTab(),
-              TreatmentTab(),
+              AilmentsTab(
+                breederId: widget.breederId,
+              ),
+              TreatmentTab(
+                breederId: widget.breederId,
+              ),
             ],
           ),
         ),

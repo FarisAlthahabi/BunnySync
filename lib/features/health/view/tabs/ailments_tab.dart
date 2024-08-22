@@ -30,7 +30,12 @@ abstract class AilmentsTabCallBacks {
 }
 
 class AilmentsTab extends StatefulWidget {
-  const AilmentsTab({super.key});
+  const AilmentsTab({
+    super.key,
+    this.breederId,
+  });
+
+  final int? breederId;
 
   @override
   State<AilmentsTab> createState() => _AilmentsTabState();
@@ -42,7 +47,9 @@ class _AilmentsTabState extends State<AilmentsTab>
 
   @override
   void initState() {
-    healthCubit.getAilments();
+    healthCubit.getAilments(
+      breederId: widget.breederId,
+    );
     super.initState();
   }
 
