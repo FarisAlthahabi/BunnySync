@@ -38,7 +38,6 @@ class ElementTile<T> extends StatelessWidget {
     final note = this.note;
     final onTap = this.onTap;
     final model = this.model;
-
     return MainTile(
       onTap: onTap == null || model == null ? null : () => onTap(model),
       boxShadow: boxShadow ?? AppShadows.getTaskTileShadow(context),

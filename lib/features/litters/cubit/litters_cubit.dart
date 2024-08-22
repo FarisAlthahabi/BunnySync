@@ -15,8 +15,6 @@ part 'states/litters_state.dart';
 
 part 'states/kits_state.dart';
 
-part 'states/show_kits_state.dart';
-
 @injectable
 class LittersCubit extends Cubit<GeneralLittersState> {
   LittersCubit(this._littersRepo) : super(LittersInitial());
@@ -34,15 +32,6 @@ class LittersCubit extends Cubit<GeneralLittersState> {
 
   List<LitterEntryModel> get inactiveLitters =>
       allLitters.where((element) => !element.isActive).toList();
-
-  void emitShowKits(bool showKits) {
-       emit(
-      ShowKitsSuccessState(
-        showKits: showKits,
-      ),
-    );
-   
-  }
 
   Future<void> getLitters({int? breederId}) async {
     emit(LittersLoading(fakeLittersStatusModel));

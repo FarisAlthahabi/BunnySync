@@ -399,5 +399,6 @@
   "could_not_open_file": "Could not open the file",
   "attachments": "Attachments",
   "litter_options" : "Litter Options",
-  "kits_empty" : "There is no kits"
+  "kits_empty" : "There is no kits",
+  "code" : "Code"
 }

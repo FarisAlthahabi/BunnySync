@@ -1,13 +1,11 @@
-import 'package:bunny_sync/features/breeder_details/view/widgets/show_kits_button.dart';
 import 'package:bunny_sync/features/litter_details/view/widgets/litter_profile_info_widget.dart';
 import 'package:bunny_sync/features/litters/cubit/litters_cubit.dart';
 import 'package:bunny_sync/features/litters/models/litter_entry_model/litter_entry_model.dart';
+import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/animation/animated_switchers/animated_switchers.dart';
 import 'package:bunny_sync/global/widgets/element_tile.dart';
-import 'package:bunny_sync/global/widgets/loading_indicator.dart';
-import 'package:bunny_sync/global/widgets/main_error_widget.dart';
 import 'package:bunny_sync/global/widgets/main_tile.dart';
 import 'package:bunny_sync/global/widgets/texts/bordered_textual_widget.dart';
 import 'package:flutter/material.dart';
@@ -34,15 +32,7 @@ class BreederLitterTile extends StatefulWidget {
 
 class _BreederLitterTileState extends State<BreederLitterTile> {
   late final LittersCubit littersCubit = context.read();
-  void getKits(bool isShowKits) {
-    if (isShowKits) {
-      littersCubit.getKits(widget.litter.id);
-    }
-  }
-
-  void onTryAgainTap() {
-    littersCubit.getKits(widget.litter.id);
-  }
+  bool isShowKits = false;
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +43,11 @@ class _BreederLitterTileState extends State<BreederLitterTile> {
     return MainTile(
       padding: AppConstants.paddingSB16,
       onTap: () => widget.onTap(widget.litter),
+      onLongPress: () {
+        setState(() {
+          isShowKits = !isShowKits;
+        });
+      },
       child: Column(
         children: [
           Stack(
@@ -109,8 +104,36 @@ class _BreederLitterTileState extends State<BreederLitterTile> {
                 Column(
                   children: [
                     ElementTile(
-                      leading: ShowKitsButton(
-                        onShowKitsTab: getKits,
+                      leading: InkWell(
+                        onTap: () {
+                          setState(() {
+                            isShowKits = !isShowKits;
+                          });
+                        },
+                        child: Skeleton.shade(
+                          child: Container(
+                            padding: AppConstants.padding3,
+                            width: 30,
+                            height: 30,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: AppColors.greyShade,
+                                width: 1.5,
+                              ),
+                            ),
+                            child: CircleAvatar(
+                              backgroundColor: isShowKits
+                                  ? AppColors.red
+                                  : AppColors.greenShade,
+                              child: Icon(
+                                isShowKits ? Icons.remove : Icons.add,
+                                color: context.cs.onSecondary,
+                                size: 16,
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                       title: Text(
                         strutStyle: const StrutStyle(height: 1.6),
@@ -127,55 +150,53 @@ class _BreederLitterTileState extends State<BreederLitterTile> {
                       note: live + dead + sold,
                       boxShadow: const [],
                     ),
-                    BlocBuilder<LittersCubit, GeneralLittersState>(
-                      buildWhen: (previous, current) => current is ShowKitsState,
-                      builder: (context, state) {
-                        if (state is ShowKitsSuccessState && state.showKits) {
-                          return BlocBuilder<LittersCubit, GeneralLittersState>(
-                            buildWhen: (previous, current) => current is KitsState,
-                            builder: (context, innerState) {
-                              Widget child;
-                              if (innerState is KitsLoading) {
-                                child = LoadingIndicator(
-                                  color: context.cs.primary,
+                    AnimatedSwitcherWithSize(
+                      child: isShowKits
+                          ? ListView.separated(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: widget.litter.allKits.length,
+                              itemBuilder: (context, index) {
+                                final item = widget.litter.allKits[index];
+                                final kitCode =
+                                    '${"code".i18n} :  ${item.code}';
+                                final kitName =
+                                    '${"name".i18n} :  ${item.kitName ?? '-'}';
+                                final kitColor =
+                                    '${"color".i18n} : ${item.color ?? '-'}';
+                                final kitGender =
+                                    '${"gender".i18n} : ${item.gender?.displayName ?? '-'}';
+                                    final kitWeight =
+                                    '${"weight".i18n} : ${item.status?.weight ?? '-'}';
+                                return ElementTile(
+                                  leading: BorderedTextualWidget(
+                                    text: (index + 1).toString(),
+                                  ),
+                                  title: Text(kitCode),
+                                  type: Padding(
+                                    padding: AppConstants.paddingT10,
+                                    child: Text(
+                                      kitName,
+                                    ),
+                                  ),
+                                  createdAt: kitWeight,
+                                  tag: kitColor,
+                                  secondaryTag: kitGender,
+                                  boxShadow: const [],
                                 );
-                              } else if (innerState is KitsSuccess) {
-                                child = ListView.separated(
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: innerState.kits.length,
-                                  itemBuilder: (context, index) {
-                                    final item = innerState.kits[index];
-                                    return ElementTile(
-                                      leading: BorderedTextualWidget(
-                                        text: (index + 1).toString(),
-                                      ),
-                                      title: Text(item.code),
-                                    );
-                                  },
-                                  separatorBuilder: (context, index) {
-                                    return const Divider();
-                                  },
+                              },
+                              separatorBuilder: (context, index) {
+                                return Divider(
+                                  thickness: 1,
+                                  color: context.cs.tertiaryContainer,
+                                  indent: 12,
+                                  endIndent: 12,
                                 );
-                              } else if (innerState is KitsEmpty) {
-                                child = MainErrorWidget(
-                                  error: innerState.message,
-                                );
-                              } else if (innerState is KitsFail) {
-                                child = MainErrorWidget(
-                                  error: innerState.message,
-                                  onTap: onTryAgainTap,
-                                );
-                              } else {
-                                child = const SizedBox.shrink();
-                              }
-                              return AnimatedSwitcherWithSize(child: child);
-                            },
-                          );
-                        } else {
-                          return const SizedBox.shrink();
-                        }
-                      },
+                              },
+                            )
+                          : widget.litter.kits == 0
+                              ? Center(child: Text("kits_empty".i18n))
+                              : null,
                     ),
                   ],
                 ),
