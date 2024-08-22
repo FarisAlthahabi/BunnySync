@@ -36,10 +36,6 @@ class _BreederLitterTileState extends State<BreederLitterTile> {
   late final LittersCubit littersCubit = context.read();
   void getKits(bool isShowKits) {
     if (isShowKits) {
-      littersCubit.emitShowKits(
-        widget.litter.id,
-        isShowKits,
-      );
       littersCubit.getKits(widget.litter.id);
     }
   }
@@ -110,84 +106,78 @@ class _BreederLitterTileState extends State<BreederLitterTile> {
                   ],
                 ),
                 const SizedBox(height: 16),
-                BlocBuilder<LittersCubit, GeneralLittersState>(
-                  builder: (context, state) {
-                    Widget child;
-                    if (state is KitsLoading) {
-                      child = LoadingIndicator(
-                        color: context.cs.primary,
-                      );
-                    } else if (state is KitsSuccess && state is ShowKitsState) {
-                      child = Column(
-                        children: [
-                          ElementTile(
-                            leading: ShowKitsButton(
-                              onShowKitsTab: getKits,
-                            ),
-                            title: Text(
-                              strutStyle: const StrutStyle(height: 1.6),
-                              'Litter id : ${widget.litter.litterId}',
-                              style: context.tt.titleMedium?.copyWith(
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            tag: 'Age : ${widget.litter.age}',
-                            type: Padding(
-                              padding: const EdgeInsets.only(top: 5),
-                              child: Text('Kits : ${widget.litter.kits}'),
-                            ),
-                            note: live + dead + sold,
-                            boxShadow: const [],
-                          ),
-                          ListView.separated(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: state.kits.length,
-                            itemBuilder: (context, index) {
-                              final item = state.kits[index];
-                              return ElementTile(
-                                leading: BorderedTextualWidget(
-                                  text: (index + 1).toString(),
-                                ),
-                                title: Text(item.code),
-                              );
+                Column(
+                  children: [
+                    ElementTile(
+                      leading: ShowKitsButton(
+                        onShowKitsTab: getKits,
+                      ),
+                      title: Text(
+                        strutStyle: const StrutStyle(height: 1.6),
+                        'Litter id : ${widget.litter.litterId}',
+                        style: context.tt.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      tag: 'Age : ${widget.litter.age}',
+                      type: Padding(
+                        padding: const EdgeInsets.only(top: 5),
+                        child: Text('Kits : ${widget.litter.kits}'),
+                      ),
+                      note: live + dead + sold,
+                      boxShadow: const [],
+                    ),
+                    BlocBuilder<LittersCubit, GeneralLittersState>(
+                      buildWhen: (previous, current) => current is ShowKitsState,
+                      builder: (context, state) {
+                        if (state is ShowKitsSuccessState && state.showKits) {
+                          return BlocBuilder<LittersCubit, GeneralLittersState>(
+                            buildWhen: (previous, current) => current is KitsState,
+                            builder: (context, innerState) {
+                              Widget child;
+                              if (innerState is KitsLoading) {
+                                child = LoadingIndicator(
+                                  color: context.cs.primary,
+                                );
+                              } else if (innerState is KitsSuccess) {
+                                child = ListView.separated(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: innerState.kits.length,
+                                  itemBuilder: (context, index) {
+                                    final item = innerState.kits[index];
+                                    return ElementTile(
+                                      leading: BorderedTextualWidget(
+                                        text: (index + 1).toString(),
+                                      ),
+                                      title: Text(item.code),
+                                    );
+                                  },
+                                  separatorBuilder: (context, index) {
+                                    return const Divider();
+                                  },
+                                );
+                              } else if (innerState is KitsEmpty) {
+                                child = MainErrorWidget(
+                                  error: innerState.message,
+                                );
+                              } else if (innerState is KitsFail) {
+                                child = MainErrorWidget(
+                                  error: innerState.message,
+                                  onTap: onTryAgainTap,
+                                );
+                              } else {
+                                child = const SizedBox.shrink();
+                              }
+                              return AnimatedSwitcherWithSize(child: child);
                             },
-                            separatorBuilder: (context, index) {
-                              return const Divider();
-                            },
-                          ),
-                        ],
-                      );
-                    } else if (state is KitsEmpty) {
-                      child = MainErrorWidget(error: state.message);
-                    } else if (state is KitsFail) {
-                      child = MainErrorWidget(
-                        error: state.message,
-                        onTap: onTryAgainTap,
-                      );
-                    } else {
-                      child = ElementTile(
-                        leading: ShowKitsButton(
-                          onShowKitsTab: getKits,
-                        ),
-                        title: Text(
-                          strutStyle: const StrutStyle(height: 1.6),
-                          'Litter id : ${widget.litter.litterId}',
-                          style: context.tt.titleMedium?.copyWith(
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        tag: 'Age : ${widget.litter.age}',
-                        type: Padding(
-                          padding: const EdgeInsets.only(top: 5),
-                          child: Text('Kits : ${widget.litter.kits}'),
-                        ),
-                        note: live + dead + sold,
-                        boxShadow: const [],
-                      );
-                    }
-                    return AnimatedSwitcherWithSize(child: child);
-                  },
+                          );
+                        } else {
+                          return const SizedBox.shrink();
+                        }
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),

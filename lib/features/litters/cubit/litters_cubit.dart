@@ -35,15 +35,12 @@ class LittersCubit extends Cubit<GeneralLittersState> {
   List<LitterEntryModel> get inactiveLitters =>
       allLitters.where((element) => !element.isActive).toList();
 
-  void emitShowKits(int litterId , bool showKits) {
-    if(showKits){
+  void emitShowKits(bool showKits) {
        emit(
-      ShowKitsState(
+      ShowKitsSuccessState(
         showKits: showKits,
-        litterId: litterId,
       ),
     );
-    }
    
   }
 

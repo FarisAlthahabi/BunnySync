@@ -1,6 +1,8 @@
+import 'package:bunny_sync/features/litters/cubit/litters_cubit.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class ShowKitsButton extends StatefulWidget {
@@ -9,13 +11,14 @@ class ShowKitsButton extends StatefulWidget {
     required this.onShowKitsTab,
   });
 
-  final ValueSetter<bool>onShowKitsTab;
+  final ValueSetter<bool> onShowKitsTab;
 
   @override
   State<ShowKitsButton> createState() => _ShowKitsButtonState();
 }
 
 class _ShowKitsButtonState extends State<ShowKitsButton> {
+  late final LittersCubit littersCubit = context.read();
   late bool isShowKits = false;
   @override
   Widget build(BuildContext context) {
@@ -23,7 +26,12 @@ class _ShowKitsButtonState extends State<ShowKitsButton> {
       onTap: () {
         setState(() {
           isShowKits = !isShowKits;
+          
         });
+        littersCubit.emitShowKits(
+            // widget.litter.id,
+            isShowKits,
+          );
         widget.onShowKitsTab(isShowKits);
       },
       child: Skeleton.shade(

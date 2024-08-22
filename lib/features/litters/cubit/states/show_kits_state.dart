@@ -1,8 +1,8 @@
 part of '../litters_cubit.dart';
 
-class ShowKitsState extends GeneralLittersState {
-  ShowKitsState({required this.showKits, this.litterId});
+class ShowKitsState extends GeneralLittersState{}
 
-  final int? litterId;
+class ShowKitsSuccessState extends ShowKitsState {
+  ShowKitsSuccessState({required this.showKits});
   final bool showKits;
 }

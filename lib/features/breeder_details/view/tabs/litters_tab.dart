@@ -142,19 +142,6 @@ class _LittersTabState extends State<LittersTab>
   }
   @override
   Widget build(BuildContext context) {
-    final List<String> columnsTitles = [
-      '',
-      "number".i18n,
-      "litter_id".i18n,
-      "buck".i18n,
-      "doe".i18n,
-      "age".i18n,
-      '#${"kits".i18n}',
-      '#${"live".i18n}',
-      '#${"died".i18n}',
-      '#${"sold".i18n}',
-      "action".i18n,
-    ];
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
