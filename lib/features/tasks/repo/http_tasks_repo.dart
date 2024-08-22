@@ -5,12 +5,13 @@ class HttpTasksRepo implements TasksRepo {
   final DioClient _dioClient = DioClient();
 
   @override
-  Future<List<TaskModel>> getTasks(int? breederId) async {
+  Future<List<TaskModel>> getTasks({int? breederId}) async {
     try {
       final response = await _dioClient.post(
-        breederId == null
-            ? '/schedule/data'
-            : '/schedule/data?breeder_id=$breederId',
+        '/schedule/data',
+        queries: {
+          if (breederId != null) 'breeder_id': breederId,
+        },
       );
 
       final body = (response.data as Map<String, dynamic>)['data'] as List;

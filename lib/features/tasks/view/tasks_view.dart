@@ -78,13 +78,13 @@ class _TasksPageState extends State<TasksPage> implements TasksViewCallBacks {
 
   @override
   void initState() {
-    tasksCubit.getTasks(widget.breederId);
     super.initState();
+    tasksCubit.getTasks(breederId: widget.breederId);
   }
 
   @override
   void onTryAgain() {
-    tasksCubit.getTasks(widget.breederId);
+    tasksCubit.getTasks(breederId: widget.breederId);
   }
 
   @override

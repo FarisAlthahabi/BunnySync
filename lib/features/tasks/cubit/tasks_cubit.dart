@@ -20,10 +20,10 @@ class TasksCubit extends Cubit<GeneralTasksState> {
 
   List<TaskModel> tasks = [];
 
-  Future<void> getTasks(int? breederId) async {
+  Future<void> getTasks({int? breederId}) async {
     emit(TasksLoading(fakeTasks));
     try {
-      final response = await _tasksRepo.getTasks(breederId);
+      final response = await _tasksRepo.getTasks(breederId: breederId);
       tasks = response;
       if (response.isEmpty) {
         emit(TasksEmpty("no_tasks".i18n));
@@ -51,10 +51,10 @@ class TasksCubit extends Cubit<GeneralTasksState> {
     emit(TasksSuccess(tasks));
   }
 
-  Future<void>deleteTask(int taskId)async{
+  Future<void> deleteTask(int taskId) async {
     emit(DeleteTaskLoading());
     try {
-       await _tasksRepo.deleteTask(taskId);
+      await _tasksRepo.deleteTask(taskId);
       tasks.removeWhere(
         (element) => element.id == taskId,
       );
