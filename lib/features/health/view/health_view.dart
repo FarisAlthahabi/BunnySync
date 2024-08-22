@@ -16,9 +16,13 @@ class HealthView extends StatelessWidget {
   const HealthView({
     super.key,
     this.breederId,
+    this.ailmentsController,
+    this.treatmentsController,
   });
 
   final int? breederId;
+  final ScrollController? ailmentsController;
+  final ScrollController? treatmentsController;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +30,8 @@ class HealthView extends StatelessWidget {
       create: (context) => get<HealthCubit>(),
       child: HealthPage(
         breederId: breederId,
+        ailmentsController: ailmentsController,
+        treatmentsController: treatmentsController,
       ),
     );
   }
@@ -35,9 +41,13 @@ class HealthPage extends StatefulWidget {
   const HealthPage({
     super.key,
     this.breederId,
+    this.ailmentsController,
+    this.treatmentsController,
   });
 
   final int? breederId;
+  final ScrollController? ailmentsController;
+  final ScrollController? treatmentsController;
 
   @override
   State<HealthPage> createState() => _HealthPageState();
@@ -59,11 +69,13 @@ class _HealthPageState extends State<HealthPage> {
       child: Scaffold(
         appBar: MainAppBar(
           automaticallyImplyLeading: widget.breederId == null,
-          title: widget.breederId == null ? Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: Text('health'.i18n, style: context.tt.displayLarge),
-          ) : null ,
-          toolbarHeight:widget.breederId == null ? 120 : 50,
+          title: widget.breederId == null
+              ? Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Text('health'.i18n, style: context.tt.displayLarge),
+                )
+              : null,
+          toolbarHeight: widget.breederId == null ? 120 : 50,
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(0),
             child: TabBar(
@@ -84,9 +96,11 @@ class _HealthPageState extends State<HealthPage> {
             children: [
               AilmentsTab(
                 breederId: widget.breederId,
+                controller: widget.ailmentsController,
               ),
               TreatmentTab(
                 breederId: widget.breederId,
+                controller: widget.treatmentsController,
               ),
             ],
           ),

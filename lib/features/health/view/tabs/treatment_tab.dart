@@ -33,9 +33,11 @@ class TreatmentTab extends StatefulWidget {
   const TreatmentTab({
     super.key,
     this.breederId,
+    this.controller,
   });
 
   final int? breederId;
+  final ScrollController? controller;
 
   @override
   State<TreatmentTab> createState() => _TreatmentTabState();
@@ -147,6 +149,7 @@ class _TreatmentTabState extends State<TreatmentTab>
             return Skeletonizer(
               enabled: state is TreatmentsLoading,
               child: SingleChildScrollView(
+                controller: widget.controller,
                 child: Padding(
                   padding: AppConstants.padding16,
                   child: Column(

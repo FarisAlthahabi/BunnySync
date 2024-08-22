@@ -107,7 +107,7 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
 
   final parentScrollController = ScrollController();
   final List<ScrollController> childScrollController =
-      List.generate(6, (index) => ScrollController());
+      List.generate(9, (index) => ScrollController());
 
   List<TabModel> get tabs => [
         TabModel(title: 'profile'.i18n),
@@ -349,25 +349,28 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
                           controller: childScrollController[1],
                         ),
                         TasksView(
-                          scrollController: childScrollController[4],
+                          scrollController: childScrollController[2],
                         ),
                         PedigreeTab(
                           breederId: widget.breederEntryModel.id,
-                          controller: childScrollController[2],
+                          controller: childScrollController[3],
                         ),
                         HealthView(
                           breederId: widget.breederEntryModel.id,
+                          ailmentsController: childScrollController[4] ,
+                          treatmentsController: childScrollController[5],
                         ),
                         NotesTab(
                           breederId: widget.breederEntryModel.id,
-                          controller: childScrollController[3],
+                          controller: childScrollController[6],
                         ),
                         ImagesTab(
                           breederId: widget.breederEntryModel.id,
-                          controller: childScrollController[5],
+                          controller: childScrollController[7],
                         ),
                         AttachmentTab(
                           breederId: widget.breederEntryModel.id,
+                          controller: childScrollController[8],
                         ),
                       ],
                     ),
