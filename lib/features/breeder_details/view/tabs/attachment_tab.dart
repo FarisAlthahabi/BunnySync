@@ -194,7 +194,7 @@ class _AttachmentTabState extends State<AttachmentTab>
                                   ),
                                   InkWell(
                                     onTap: () => launchFile(item.url),
-                                    child: const Icon(Icons.download),
+                                    child: const Icon(Icons.open_in_browser),
                                   ),
                                 ],
                               ),
