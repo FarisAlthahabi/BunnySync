@@ -57,8 +57,12 @@ class _PedigreeTabState extends State<PedigreeTab>
                   onPageFinished: (String url) {
                     context.loaderOverlay.hide();
                   },
-                  onHttpError: (HttpResponseError error) {},
-                  onWebResourceError: (WebResourceError error) {},
+                  onHttpError: (HttpResponseError error) {
+                    context.loaderOverlay.hide();
+                  },
+                  onWebResourceError: (WebResourceError error) {
+                    context.loaderOverlay.hide();
+                  },
                   onNavigationRequest: (NavigationRequest request) {
                     if (request.url.startsWith('https://www.youtube.com/')) {
                       return NavigationDecision.prevent;
