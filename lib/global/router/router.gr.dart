@@ -209,9 +209,14 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     LedgerRoute.name: (routeData) {
+      final args = routeData.argsAs<LedgerRouteArgs>(
+          orElse: () => const LedgerRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const LedgerView(),
+        child: LedgerView(
+          key: args.key,
+          breederId: args.breederId,
+        ),
       );
     },
     LitterDetailsRoute.name: (routeData) {
@@ -925,16 +930,39 @@ class IntroRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [LedgerView]
-class LedgerRoute extends PageRouteInfo<void> {
-  const LedgerRoute({List<PageRouteInfo>? children})
-      : super(
+class LedgerRoute extends PageRouteInfo<LedgerRouteArgs> {
+  LedgerRoute({
+    Key? key,
+    int? breederId,
+    List<PageRouteInfo>? children,
+  }) : super(
           LedgerRoute.name,
+          args: LedgerRouteArgs(
+            key: key,
+            breederId: breederId,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'LedgerRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<LedgerRouteArgs> page = PageInfo<LedgerRouteArgs>(name);
+}
+
+class LedgerRouteArgs {
+  const LedgerRouteArgs({
+    this.key,
+    this.breederId,
+  });
+
+  final Key? key;
+
+  final int? breederId;
+
+  @override
+  String toString() {
+    return 'LedgerRouteArgs{key: $key, breederId: $breederId}';
+  }
 }
 
 /// generated route for

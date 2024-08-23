@@ -95,12 +95,12 @@ class _HomePageState extends State<HomePage> implements HomeViewCallBacks {
 
   @override
   void onFinancesTap() {
-    context.router.push(const LedgerRoute());
+    context.router.push(LedgerRoute());
   }
 
   @override
   void onKitsTap() {
-    context.router.push(const LedgerRoute());
+    context.router.push(LedgerRoute());
   }
 
   @override
