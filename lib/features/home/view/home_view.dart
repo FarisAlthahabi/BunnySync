@@ -173,7 +173,6 @@ class _HomePageState extends State<HomePage> implements HomeViewCallBacks {
                     final item = state.dashboardModel;
                     final male = item.activeBreeders.maleBreedersCount;
                     final female = item.activeBreeders.femaleBreedersCount;
-
                     return Skeletonizer(
                       enabled: state is HomeLoading,
                       child: AnimationLimiter(

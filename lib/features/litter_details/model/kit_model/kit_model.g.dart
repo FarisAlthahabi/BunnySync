@@ -10,9 +10,9 @@ KitModel _$KitModelFromJson(Map<String, dynamic> json) => KitModel(
       id: (json['id'] as num).toInt(),
       userId: (json['user_id'] as num?)?.toInt() ?? -1,
       litterId: (json['litter_id'] as num).toInt(),
+      code: json['code'] as String,
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
-      code: json['code'] as String,
       kitName: json['name'] as String?,
       prefix: json['prefix'] as String?,
       color: json['color'] as String?,
@@ -20,6 +20,9 @@ KitModel _$KitModelFromJson(Map<String, dynamic> json) => KitModel(
       cage: json['cage'] as String?,
       gender: $enumDecodeNullable(_$GenderTypesEnumMap, json['gender']),
       note: json['note'] as String?,
+      status: json['status'] == null
+          ? null
+          : KitStatusModel.fromJson(json['status'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$KitModelToJson(KitModel instance) => <String, dynamic>{
@@ -36,6 +39,7 @@ Map<String, dynamic> _$KitModelToJson(KitModel instance) => <String, dynamic>{
       'note': instance.note,
       'created_at': instance.createdAt.toIso8601String(),
       'updated_at': instance.updatedAt.toIso8601String(),
+      'status': instance.status,
     };
 
 const _$GenderTypesEnumMap = {

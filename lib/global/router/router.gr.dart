@@ -285,6 +285,7 @@ abstract class _$AppRouter extends RootStackRouter {
           key: args.key,
           title: args.title,
           scrollController: args.scrollController,
+          breederId: args.breederId,
         ),
       );
     },
@@ -1130,6 +1131,7 @@ class TasksRoute extends PageRouteInfo<TasksRouteArgs> {
     Key? key,
     String? title,
     ScrollController? scrollController,
+    int? breederId,
     List<PageRouteInfo>? children,
   }) : super(
           TasksRoute.name,
@@ -1137,6 +1139,7 @@ class TasksRoute extends PageRouteInfo<TasksRouteArgs> {
             key: key,
             title: title,
             scrollController: scrollController,
+            breederId: breederId,
           ),
           initialChildren: children,
         );
@@ -1151,6 +1154,7 @@ class TasksRouteArgs {
     this.key,
     this.title,
     this.scrollController,
+    this.breederId,
   });
 
   final Key? key;
@@ -1159,8 +1163,10 @@ class TasksRouteArgs {
 
   final ScrollController? scrollController;
 
+  final int? breederId;
+
   @override
   String toString() {
-    return 'TasksRouteArgs{key: $key, title: $title, scrollController: $scrollController}';
+    return 'TasksRouteArgs{key: $key, title: $title, scrollController: $scrollController, breederId: $breederId}';
   }
 }
