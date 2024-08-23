@@ -152,51 +152,51 @@ class _BreederLitterTileState extends State<BreederLitterTile> {
                     ),
                     AnimatedSwitcherWithSize(
                       child: isShowKits
-                          ? ListView.separated(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: widget.litter.allKits.length,
-                              itemBuilder: (context, index) {
-                                final item = widget.litter.allKits[index];
-                                final kitCode =
-                                    '${"code".i18n} :  ${item.code}';
-                                final kitName =
-                                    '${"name".i18n} :  ${item.kitName ?? '-'}';
-                                final kitColor =
-                                    '${"color".i18n} : ${item.color ?? '-'}';
-                                final kitGender =
-                                    '${"gender".i18n} : ${item.gender?.displayName ?? '-'}';
-                                    final kitWeight =
-                                    '${"weight".i18n} : ${item.status?.weight ?? '-'}';
-                                return ElementTile(
-                                  leading: BorderedTextualWidget(
-                                    text: (index + 1).toString(),
-                                  ),
-                                  title: Text(kitCode),
-                                  type: Padding(
-                                    padding: AppConstants.paddingT10,
-                                    child: Text(
-                                      kitName,
-                                    ),
-                                  ),
-                                  createdAt: kitWeight,
-                                  tag: kitColor,
-                                  secondaryTag: kitGender,
-                                  boxShadow: const [],
-                                );
-                              },
-                              separatorBuilder: (context, index) {
-                                return Divider(
-                                  thickness: 1,
-                                  color: context.cs.tertiaryContainer,
-                                  indent: 12,
-                                  endIndent: 12,
-                                );
-                              },
-                            )
-                          : widget.litter.kits == 0
+                          ? widget.litter.kits == 0
                               ? Center(child: Text("kits_empty".i18n))
-                              : null,
+                              : ListView.separated(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: widget.litter.allKits.length,
+                                  itemBuilder: (context, index) {
+                                    final item = widget.litter.allKits[index];
+                                    final kitCode =
+                                        '${"code".i18n} :  ${item.code}';
+                                    final kitName =
+                                        '${"name".i18n} :  ${item.kitName ?? '-'}';
+                                    final kitColor =
+                                        '${"color".i18n} : ${item.color ?? '-'}';
+                                    final kitGender =
+                                        '${"gender".i18n} : ${item.gender?.displayName ?? '-'}';
+                                    final kitWeight =
+                                        '${"weight".i18n} : ${item.status?.weight ?? '-'}';
+                                    return ElementTile(
+                                      leading: BorderedTextualWidget(
+                                        text: (index + 1).toString(),
+                                      ),
+                                      title: Text(kitCode),
+                                      type: Padding(
+                                        padding: AppConstants.paddingT10,
+                                        child: Text(
+                                          kitName,
+                                        ),
+                                      ),
+                                      createdAt: kitWeight,
+                                      tag: kitColor,
+                                      secondaryTag: kitGender,
+                                      boxShadow: const [],
+                                    );
+                                  },
+                                  separatorBuilder: (context, index) {
+                                    return Divider(
+                                      thickness: 1,
+                                      color: context.cs.tertiaryContainer,
+                                      indent: 12,
+                                      endIndent: 12,
+                                    );
+                                  },
+                                )
+                          : null,
                     ),
                   ],
                 ),
