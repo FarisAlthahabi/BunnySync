@@ -39,15 +39,14 @@ class UpdateBreederWeightView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return UpdateBreederWeightpage(
+    return UpdateBreederWeightPage(
       breederId: breederId,
     );
   }
 }
 
-//TODO
-class UpdateBreederWeightpage extends StatefulWidget {
-  const UpdateBreederWeightpage({
+class UpdateBreederWeightPage extends StatefulWidget {
+  const UpdateBreederWeightPage({
     super.key,
     required this.breederId,
   });
@@ -55,11 +54,11 @@ class UpdateBreederWeightpage extends StatefulWidget {
   final int breederId;
 
   @override
-  State<UpdateBreederWeightpage> createState() =>
-      _UpdateBreederWeightpageState();
+  State<UpdateBreederWeightPage> createState() =>
+      _UpdateBreederWeightPageState();
 }
 
-class _UpdateBreederWeightpageState extends State<UpdateBreederWeightpage>
+class _UpdateBreederWeightPageState extends State<UpdateBreederWeightPage>
     implements UpdateBreederWeightViewCallBacks {
   late final RabbitConcernsCubit rabbitConcernsCubit = context.read();
 
