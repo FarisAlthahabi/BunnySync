@@ -1,7 +1,20 @@
 import 'package:bunny_sync/global/utils/logger.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BunnySyncBlocObserver extends BlocObserver {
+  @override
+  void onCreate(BlocBase<dynamic> bloc) {
+    super.onCreate(bloc);
+    debugPrint('${bloc.runtimeType} created ✅');
+  }
+
+  @override
+  void onClose(BlocBase<dynamic> bloc) {
+    super.onClose(bloc);
+    debugPrint('${bloc.runtimeType} closed 🔻');
+  }
+
   @override
   void onEvent(Bloc<dynamic, dynamic> bloc, Object? event) {
     super.onEvent(bloc, event);

@@ -42,9 +42,6 @@ class SaveBirthView extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => get<RabbitConcernsCubit>(),
-        ),
-        BlocProvider(
           create: (context) => get<LittersCubit>(),
         ),
         BlocProvider(

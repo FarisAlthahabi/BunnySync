@@ -88,9 +88,6 @@ class BreedersView extends StatelessWidget {
         BlocProvider<DeleteBreederCubit>(
           create: (context) => get<DeleteBreederCubit>(),
         ),
-        BlocProvider<RabbitConcernsCubit>(
-          create: (context) => get<RabbitConcernsCubit>(),
-        ),
       ],
       child: const BreedersPage(),
     );
@@ -335,7 +332,7 @@ class _BreedersPageState extends State<BreedersPage>
     context.router.push(
       BreederDetailsRoute(
         breederEntryModel: breederEntryModel,
-        initailIndex: 3,
+        initailIndex: 5,
       ),
     );
   }
@@ -346,7 +343,7 @@ class _BreedersPageState extends State<BreedersPage>
     context.router.push(
       BreederDetailsRoute(
         breederEntryModel: breederEntryModel,
-        initailIndex: 2,
+        initailIndex: 3,
       ),
     );
   }

@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/global/blocs/rabbit_concerns_cubit/rabbit_concerns_cubit.dart';
-import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/translations.i18n.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
@@ -40,11 +39,8 @@ class SetButcherView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => get<RabbitConcernsCubit>(),
-      child: SetButcherPage(
-        breederId: breederId,
-      ),
+    return SetButcherPage(
+      breederId: breederId,
     );
   }
 }
@@ -176,7 +172,8 @@ class _SetButcherPageState extends State<SetButcherPage>
           const SizedBox(height: 25),
           SizedBox(
             width: double.maxFinite,
-            child: BlocConsumer<RabbitConcernsCubit, GeneralRabbitConcernsState>(
+            child:
+                BlocConsumer<RabbitConcernsCubit, GeneralRabbitConcernsState>(
               listener: (context, state) {
                 if (state is SaveButcherSuccess) {
                   MainSnackBar.showSuccessMessageBar(
