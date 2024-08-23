@@ -400,5 +400,6 @@
   "attachments": "Attachments",
   "preWeight" : "PreWeight",
   "price" : "Price",
-  "breeder_butcher" : "Breeder is butchered successfully"
+  "breeder_butcher" : "Breeder is butchered successfully",
+  "breeder_sell" : "Breeder is sold successfully"
 }

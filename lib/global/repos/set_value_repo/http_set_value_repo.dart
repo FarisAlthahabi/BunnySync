@@ -21,4 +21,22 @@ class HttpSetValueRepo implements SetValueRepo {
       rethrow;
     }
   }
+
+  @override
+  Future<void> saveSell(
+    int breederId,
+    SaveSellModel saveSellModel,
+  ) async {
+    try {
+      await _dioClient.post(
+        '/breeders/$breederId/save-sell',
+        data: saveSellModel.toJson(),
+      );
+    } on Exception catch (e) {
+      if (e is NotFoundException) {
+        throw e.message ?? 'something_went_wrong'.i18n;
+      }
+      rethrow;
+    }
+  }
 }

@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/breeders/cubit/breeders_cubit.dart';
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
 import 'package:bunny_sync/features/breeders/view/set_butcher_view.dart';
+import 'package:bunny_sync/features/breeders/view/set_sell_view.dart';
 import 'package:bunny_sync/features/breeders/view/widgets/breeders_list_widget.dart';
 import 'package:bunny_sync/features/main_navigation/cubit/main_navigation_cubit.dart';
 import 'package:bunny_sync/global/blocs/delete_breeder_cubit/delete_breeder_cubit.dart';
@@ -288,7 +289,16 @@ class _BreedersPageState extends State<BreedersPage>
 
   @override
   void onSell(BreederEntryModel breederEntryModel) {
-    // TODO: implement onSell
+     context.router.popForced();
+    mainShowBottomSheet(
+      context,
+      widget: BottomSheetWidget(
+        title: 'butcher'.i18n,
+        child: SetSellView(
+          breederId: breederEntryModel.id,
+        ),
+      ),
+    );
   }
 
   @override

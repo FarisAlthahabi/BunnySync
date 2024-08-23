@@ -72,6 +72,14 @@ class _SetButcherPageState extends State<SetButcherPage>
   final FocusNode butcherWeightFocusNode = FocusNode();
 
   @override
+  void dispose() {
+    butcherPriceFocusNode.dispose();
+    butcherPreWeightFocusNode.dispose();
+    butcherWeightFocusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   void onButcherDateSelected(DateTime butcherDate, List<int> args) {
     setValueCubit.setDate(butcherDate);
   }
@@ -83,7 +91,7 @@ class _SetButcherPageState extends State<SetButcherPage>
 
   @override
   void onButcherPreWeightSubmitted(String butcherPreWeight) {
-    // TODO: implement onButcherPreWeightSubmitted
+    butcherWeightFocusNode.requestFocus();
   }
 
   @override
@@ -93,7 +101,7 @@ class _SetButcherPageState extends State<SetButcherPage>
 
   @override
   void onButcherPriceSubmitted(String butcherPrice) {
-    // TODO: implement onButcherPriceSubmitted
+    butcherPriceFocusNode.unfocus();
   }
 
   @override
@@ -103,7 +111,7 @@ class _SetButcherPageState extends State<SetButcherPage>
 
   @override
   void onButcherWeightSubmitted(String butcherWeight) {
-    // TODO: implement onButcherWeightSubmitted
+    butcherPriceFocusNode.requestFocus();
   }
 
   @override
