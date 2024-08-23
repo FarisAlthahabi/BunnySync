@@ -6,7 +6,9 @@ import 'package:bunny_sync/global/models/breed_model/breed_model.dart';
 import 'package:bunny_sync/global/models/save_birth_model/save_birth_model.dart';
 import 'package:bunny_sync/global/models/save_butcher_model/save_butcher_model.dart';
 import 'package:bunny_sync/global/models/save_sell_model/save_sell_model.dart';
-import 'package:bunny_sync/global/repos/set_value_repo/rabbit_concerns_repo.dart';
+import 'package:bunny_sync/global/models/weight_model/weight_model.dart';
+import 'package:bunny_sync/global/models/weight_post_model/weight_post_model.dart';
+import 'package:bunny_sync/global/repos/rabbit_concerns_repo/rabbit_concerns_repo.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
@@ -17,6 +19,12 @@ part 'states/save_sell_state.dart';
 part 'states/save_birth_state.dart';
 
 part 'states/breed_state.dart';
+
+part 'states/set_active_state.dart';
+
+part 'states/update_breeder_weight_state.dart';
+
+part 'states/breeder_weights_state.dart';
 
 part 'states/general_rabbit_concerns_state.dart';
 
@@ -35,25 +43,27 @@ class RabbitConcernsCubit extends Cubit<GeneralRabbitConcernsState> {
 
   BreedModel _breedModel = const BreedModel();
 
-  void setDate(DateTime date) {
+  WeightPostModel _weightPostModel = const WeightPostModel();
+
+  void setButcherDate(DateTime date) {
     _saveButcherModel = _saveButcherModel.copyWith(
       date: () => date,
     );
   }
 
-  void setPreWeight(String preWeight) {
+  void setButcherPreWeight(String preWeight) {
     _saveButcherModel = _saveButcherModel.copyWith(
       preWeight: () => double.tryParse(preWeight),
     );
   }
 
-  void setWeight(String weight) {
+  void setButcherWeight(String weight) {
     _saveButcherModel = _saveButcherModel.copyWith(
       weight: () => double.tryParse(weight),
     );
   }
 
-  void setPrice(String price) {
+  void setButcherPrice(String price) {
     _saveButcherModel = _saveButcherModel.copyWith(
       price: () => double.tryParse(price),
     );
@@ -125,6 +135,18 @@ class RabbitConcernsCubit extends Cubit<GeneralRabbitConcernsState> {
     );
   }
 
+  void setWeight(String weight) {
+    _weightPostModel = _weightPostModel.copyWith(
+      weight: () => double.tryParse(weight),
+    );
+  }
+
+  void setWeightDate(DateTime date) {
+    _weightPostModel = _weightPostModel.copyWith(
+      date: () => date,
+    );
+  }
+
   Future<void> saveButcher(int breederId) async {
     emit(SaveButcherLoading());
 
@@ -186,6 +208,53 @@ class RabbitConcernsCubit extends Cubit<GeneralRabbitConcernsState> {
     } catch (e, s) {
       addError(e, s);
       emit(BreedFail(e.toString()));
+    }
+  }
+
+  Future<void> setActive(int breederId) async {
+    emit(SetActiveLoading());
+
+    try {
+      await _rabbitConcernsRepo.setActive(
+        breederId,
+      );
+      emit(SetActiveSuccess());
+    } catch (e, s) {
+      addError(e, s);
+      emit(SetActiveFail(e.toString()));
+    }
+  }
+
+  Future<void> updateBreederWeight(int weightId) async {
+    emit(UpdateBreederWeightLoading());
+
+    try {
+      final response = await _rabbitConcernsRepo.updateBreederWeight(
+        weightId,
+        _weightPostModel,
+      );
+      emit(UpdateBreederWeightSuccess(response));
+    } catch (e, s) {
+      addError(e, s);
+      emit(UpdateBreederWeightFail(e.toString()));
+    }
+  }
+
+  Future<void> getBreederWeights(int breederId) async {
+    emit(BreederWeightsLoading());
+
+    try {
+      final response = await _rabbitConcernsRepo.getBreederWeights(
+        breederId,
+      );
+      if (response.isEmpty) {
+        emit(BreederWeightsEmpty("no_weights".i18n));
+      }else{
+        emit(BreederWeightsSuccess(response));
+      }
+    } catch (e, s) {
+      addError(e, s);
+      emit(BreederWeightsFail(e.toString()));
     }
   }
 }

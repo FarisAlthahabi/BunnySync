@@ -6,6 +6,8 @@ import 'package:bunny_sync/global/models/breed_model/breed_model.dart';
 import 'package:bunny_sync/global/models/save_birth_model/save_birth_model.dart';
 import 'package:bunny_sync/global/models/save_butcher_model/save_butcher_model.dart';
 import 'package:bunny_sync/global/models/save_sell_model/save_sell_model.dart';
+import 'package:bunny_sync/global/models/weight_model/weight_model.dart';
+import 'package:bunny_sync/global/models/weight_post_model/weight_post_model.dart';
 import 'package:injectable/injectable.dart';
 
 part 'http_rabbit_concerns_repo.dart';
@@ -27,5 +29,18 @@ abstract class RabbitConcernsRepo {
 
   Future<BreederPairModel> breed(
     BreedModel breedModel,
+  );
+
+  Future<List<WeightModel>> getBreederWeights(
+    int breederId,
+  );
+
+  Future<WeightModel> updateBreederWeight(
+    int weightId,
+    WeightPostModel weightPostModel,
+  );
+
+  Future<void> setActive(
+    int breederId,
   );
 }

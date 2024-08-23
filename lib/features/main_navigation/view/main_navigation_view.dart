@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/main_navigation/cubit/main_navigation_cubit.dart';
+import 'package:bunny_sync/global/blocs/rabbit_concerns_cubit/rabbit_concerns_cubit.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,6 +15,9 @@ class MainNavigationView extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (_) => get<MainNavigationCubit>(),
+        ),
+        BlocProvider(
+          create: (context) => get<RabbitConcernsCubit>(),
         ),
       ],
       child: const MainNavigationPage(),

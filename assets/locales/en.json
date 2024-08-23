@@ -415,5 +415,12 @@
   "female_breeders_empty" : "There is no female breeders",
   "litter_options" : "Litter Options",
   "kits_empty" : "There is no kits",
-  "code" : "Code"
+  "code" : "Code",
+  "no_weights" : "There is no weights",
+  "weights" : "Weights",
+  "update_weight" : "Update weight",
+  "weight_updated" : "Weight is updated successfully",
+  "set_active_success" : "Breeder is active now",
+  "set_active" : "Set active",
+  "are_you_sure_to_set_breeder_active" : "Are you sure to set this breeder active?"
 }

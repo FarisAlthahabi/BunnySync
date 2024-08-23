@@ -35,15 +35,8 @@ class BreedView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => get<RabbitConcernsCubit>(),
-        ),
-        BlocProvider(
-          create: (context) => get<BreedersCubit>(),
-        ),
-      ],
+    return BlocProvider(
+      create: (context) => get<BreedersCubit>(),
       child: const BreedPage(),
     );
   }

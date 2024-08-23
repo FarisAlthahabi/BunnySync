@@ -7,9 +7,11 @@ import 'package:bunny_sync/features/breeders/view/breed_view.dart';
 import 'package:bunny_sync/features/breeders/view/save_birth_view.dart';
 import 'package:bunny_sync/features/breeders/view/set_butcher_view.dart';
 import 'package:bunny_sync/features/breeders/view/set_sell_view.dart';
+import 'package:bunny_sync/features/breeders/view/update_breeder_weight_view.dart';
 import 'package:bunny_sync/features/breeders/view/widgets/breeders_list_widget.dart';
 import 'package:bunny_sync/features/main_navigation/cubit/main_navigation_cubit.dart';
 import 'package:bunny_sync/global/blocs/delete_breeder_cubit/delete_breeder_cubit.dart';
+import 'package:bunny_sync/global/blocs/rabbit_concerns_cubit/rabbit_concerns_cubit.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/mixins/create_scroll_listener_mixin.dart';
@@ -25,6 +27,7 @@ import 'package:bunny_sync/global/widgets/main_show_bottom_sheet.dart';
 import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 abstract class BreedersViewCallbacks {
@@ -64,6 +67,8 @@ abstract class BreedersViewCallbacks {
 
   void onNotes(BreederEntryModel breederEntryModel);
 
+  void onSetActive(BreederEntryModel breederEntryModel);
+
   void onScanTap();
 
   void onGenderSelected(GenderTypes? gender);
@@ -102,6 +107,8 @@ class _BreedersPageState extends State<BreedersPage>
   late final DeleteBreederCubit deleteBreederCubit = context.read();
 
   late final BreedersCubit breedersCubit = context.read();
+
+  late final RabbitConcernsCubit rabbitConcernsCubit = context.read();
 
   final parentScrollController = ScrollController();
   final child1ScrollController = ScrollController();
@@ -185,6 +192,7 @@ class _BreedersPageState extends State<BreedersPage>
       widget: BottomSheetWidget(
         title: 'breeder_options'.i18n,
         onEdit: onEditBreeder,
+        onSetActive: onSetActive,
         onDelete: onDeleteBreeder,
         model: breederEntryModel,
         onArchive: onArchive,
@@ -198,6 +206,28 @@ class _BreedersPageState extends State<BreedersPage>
         onPedigree: onPedigree,
         onSell: onSell,
         onWeight: onWeight,
+      ),
+    );
+  }
+
+  @override
+  void onSetActive(BreederEntryModel breederEntryModel) {
+    context.router.popForced();
+    mainShowBottomSheet(
+      context,
+      widget: BottomSheetWidget(
+        title: 'are_you_sure_to_set_breeder_active'.i18n,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextButton(
+              onPressed: () {
+                rabbitConcernsCubit.setActive(breederEntryModel.id);
+              },
+              child: Text('yes'.i18n),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -302,7 +332,7 @@ class _BreedersPageState extends State<BreedersPage>
     context.router.push(
       BreederDetailsRoute(
         breederEntryModel: breederEntryModel,
-        initailIndex: 3,
+        initailIndex: 5,
       ),
     );
   }
@@ -313,7 +343,7 @@ class _BreedersPageState extends State<BreedersPage>
     context.router.push(
       BreederDetailsRoute(
         breederEntryModel: breederEntryModel,
-        initailIndex: 2,
+        initailIndex: 3,
       ),
     );
   }
@@ -335,7 +365,17 @@ class _BreedersPageState extends State<BreedersPage>
 
   @override
   void onWeight(BreederEntryModel breederEntryModel) {
-    // TODO: implement onWeight
+    context.router.popForced();
+    mainShowBottomSheet(
+      context,
+      widget: BottomSheetWidget(
+        isTitleCenter: true,
+        title: 'weights'.i18n,
+        child: UpdateBreederWeightView(
+          breederId: breederEntryModel.id,
+        ),
+      ),
+    );
   }
 
   @override
@@ -367,6 +407,26 @@ class _BreedersPageState extends State<BreedersPage>
             } else if (state is LitterAdded) {
               //TODO: Implement this
               // breedersCubit.addLitter(state.addLitterModel);
+            }
+          },
+        ),
+        BlocListener<RabbitConcernsCubit, GeneralRabbitConcernsState>(
+          listener: (context, state) {
+            if (state is SetActiveSuccess) {
+              context.router.popForced();
+              context.loaderOverlay.hide();
+              MainSnackBar.showSuccessMessageBar(
+                context,
+                'set_active_success'.i18n,
+              );
+            } else if (state is SetActiveLoading) {
+              context.loaderOverlay.show();
+            } else if (state is SetActiveFail) {
+              context.loaderOverlay.hide();
+              MainSnackBar.showErrorMessageBar(
+                context,
+                state.message,
+              );
             }
           },
         ),
