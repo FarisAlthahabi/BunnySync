@@ -15,6 +15,7 @@ class ElementTile<T> extends StatelessWidget {
     this.note,
     this.onTap,
     this.model,
+    this.boxShadow,
   });
 
   final Widget leading;
@@ -26,6 +27,7 @@ class ElementTile<T> extends StatelessWidget {
   final String? note;
   final ValueSetter<T>? onTap;
   final T? model;
+  final List<BoxShadow>? boxShadow;
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +38,9 @@ class ElementTile<T> extends StatelessWidget {
     final note = this.note;
     final onTap = this.onTap;
     final model = this.model;
-
     return MainTile(
       onTap: onTap == null || model == null ? null : () => onTap(model),
-      boxShadow: AppShadows.getTaskTileShadow(context),
+      boxShadow: boxShadow ?? AppShadows.getTaskTileShadow(context),
       child: Column(
         children: [
           Row(

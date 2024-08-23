@@ -13,11 +13,13 @@ class MainTile<T extends BottomSheetItemModel> extends StatelessWidget {
     this.boxShadow,
     this.onEdit,
     this.model,
+    this.onLongPress,
   });
 
   final Widget child;
   final EdgeInsetsGeometry padding;
   final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
   final List<BoxShadow>? boxShadow;
   final BorderRadius borderRadius;
   final ValueSetter<T>? onEdit;
@@ -37,6 +39,7 @@ class MainTile<T extends BottomSheetItemModel> extends StatelessWidget {
         type: MaterialType.transparency,
         child: InkWell(
           borderRadius: borderRadius,
+          onLongPress: onLongPress,
           onTap: model == null || onEdit == null ? onTap : () => onEdit(model),
           child: Padding(
             padding: padding,

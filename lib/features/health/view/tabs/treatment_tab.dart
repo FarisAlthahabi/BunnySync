@@ -30,7 +30,14 @@ abstract class TreatmentTabCallBacks {
 }
 
 class TreatmentTab extends StatefulWidget {
-  const TreatmentTab({super.key});
+  const TreatmentTab({
+    super.key,
+    this.breederId,
+    this.controller,
+  });
+
+  final int? breederId;
+  final ScrollController? controller;
 
   @override
   State<TreatmentTab> createState() => _TreatmentTabState();
@@ -42,7 +49,9 @@ class _TreatmentTabState extends State<TreatmentTab>
 
   @override
   void initState() {
-    healthCubit.getTreatments();
+    healthCubit.getTreatments(
+      breederId: widget.breederId,
+    );
     super.initState();
   }
 
@@ -140,6 +149,7 @@ class _TreatmentTabState extends State<TreatmentTab>
             return Skeletonizer(
               enabled: state is TreatmentsLoading,
               child: SingleChildScrollView(
+                controller: widget.controller,
                 child: Padding(
                   padding: AppConstants.padding16,
                   child: Column(
@@ -159,7 +169,7 @@ class _TreatmentTabState extends State<TreatmentTab>
                             model: item,
                             leading: Skeleton.shade(
                               child: BorderedTextualWidget(
-                                text: item.id.toString(),
+                                text: (index + 1).toString(),
                               ),
                             ),
                             tag: item.ailment,

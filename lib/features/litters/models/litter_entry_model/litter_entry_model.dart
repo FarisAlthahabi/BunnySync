@@ -4,6 +4,7 @@ import 'package:bunny_sync/features/litter_details/model/kit_model/kit_model.dar
 import 'package:bunny_sync/global/utils/bunny_sync_json_utils.dart';
 import 'package:bunny_sync/global/utils/json_converters/string_converter.dart';
 import 'package:bunny_sync/global/utils/json_utils.dart';
+import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:bunny_sync/global/widgets/main_drop_down_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -12,7 +13,7 @@ part 'litter_entry_model.g.dart';
 
 @JsonSerializable()
 @immutable
-class LitterEntryModel implements DropDownItemModel {
+class LitterEntryModel implements DropDownItemModel,BottomSheetItemModel {
   const LitterEntryModel({
     required this.id,
     required this.userId,

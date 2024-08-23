@@ -37,19 +37,31 @@ abstract class LedgerViewCallBacks {
 
 @RoutePage()
 class LedgerView extends StatelessWidget {
-  const LedgerView({super.key});
+  const LedgerView({
+    super.key,
+    this.breederId,
+  });
+
+  final int? breederId;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => get<LedgersCubit>(),
-      child: const LedgerPage(),
+      child: LedgerPage(
+        breederId: breederId,
+      ),
     );
   }
 }
 
 class LedgerPage extends StatefulWidget {
-  const LedgerPage({super.key});
+  const LedgerPage({
+    super.key,
+    this.breederId,
+  });
+
+  final int? breederId;
 
   @override
   State<LedgerPage> createState() => _LedgerPageState();
@@ -62,7 +74,9 @@ class _LedgerPageState extends State<LedgerPage>
   void initState() {
     super.initState();
     ledgersCubit.getLedgerStats();
-    ledgersCubit.getLedgers();
+    ledgersCubit.getLedgers(
+      breederId: widget.breederId,
+    );
   }
 
   @override
@@ -135,57 +149,58 @@ class _LedgerPageState extends State<LedgerPage>
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(
-            expandedHeight: 0.55.sh,
-            snap: true,
-            pinned: true,
-            floating: true,
-            shadowColor: context.cs.shadow,
-            forceElevated: true,
-            shape: const RoundedRectangleBorder(
-              borderRadius: AppConstants.bottomCornersBorderRadius,
-            ),
-            flexibleSpace: FlexibleSpaceBar(
-              background: Padding(
-                padding: AppConstants.padding16,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: MediaQuery.of(context).padding.top),
-                    const SizedBox(height: 30),
-                    Text(
-                      'ledger'.i18n,
-                      style: Theme.of(context).textTheme.displayLarge,
-                    ),
-                    const SizedBox(height: 10),
-                    BlocBuilder<LedgersCubit, GeneralLedgersState>(
-                      buildWhen: (previous, current) =>
-                          current is LedgerStatsState,
-                      builder: (context, state) {
-                        if (state is LedgerStatsFetch) {
-                          return Skeletonizer(
-                            enabled: state is LedgerStatsLoading,
-                            child: LedgerTypesWidget(
-                              ledgerStats: state.ledgerStats,
-                              onSelect: onSelected,
-                            ),
-                          );
-                        } else if (state is LedgerStatsFail) {
-                          ledgersCubit.emitLedgersFail(state.message);
-                          return MainErrorWidget(
-                            error: state.message,
-                            onTap: onTryAgainTap,
-                          );
-                        } else {
-                          return const SizedBox.shrink();
-                        }
-                      },
-                    ),
-                  ],
+          if (widget.breederId == null)
+            SliverAppBar(
+              expandedHeight: 0.55.sh,
+              snap: true,
+              pinned: true,
+              floating: true,
+              shadowColor: context.cs.shadow,
+              forceElevated: true,
+              shape: const RoundedRectangleBorder(
+                borderRadius: AppConstants.bottomCornersBorderRadius,
+              ),
+              flexibleSpace: FlexibleSpaceBar(
+                background: Padding(
+                  padding: AppConstants.padding16,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: MediaQuery.of(context).padding.top),
+                      const SizedBox(height: 30),
+                      Text(
+                        'ledger'.i18n,
+                        style: Theme.of(context).textTheme.displayLarge,
+                      ),
+                      const SizedBox(height: 10),
+                      BlocBuilder<LedgersCubit, GeneralLedgersState>(
+                        buildWhen: (previous, current) =>
+                            current is LedgerStatsState,
+                        builder: (context, state) {
+                          if (state is LedgerStatsFetch) {
+                            return Skeletonizer(
+                              enabled: state is LedgerStatsLoading,
+                              child: LedgerTypesWidget(
+                                ledgerStats: state.ledgerStats,
+                                onSelect: onSelected,
+                              ),
+                            );
+                          } else if (state is LedgerStatsFail) {
+                            ledgersCubit.emitLedgersFail(state.message);
+                            return MainErrorWidget(
+                              error: state.message,
+                              onTap: onTryAgainTap,
+                            );
+                          } else {
+                            return const SizedBox.shrink();
+                          }
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
           BlocConsumer<LedgersCubit, GeneralLedgersState>(
             listener: (context, state) {
               if (state is DeleteLedgerSuccess) {

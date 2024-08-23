@@ -8,9 +8,9 @@ import 'package:injectable/injectable.dart';
 part 'http_health_repo.dart';
 
 abstract class HealthRepo {
-  Future<List<AilmentModel>> getAilments();
+  Future<List<AilmentModel>> getAilments({int? breederId});
 
-  Future<List<TreatmentModel>> getTreatments();
+  Future<List<TreatmentModel>> getTreatments({int? breederId});
 
   Future<void> deleteAilment(int ailmentId);
 
