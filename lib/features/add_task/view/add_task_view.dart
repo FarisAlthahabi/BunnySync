@@ -208,16 +208,16 @@ class _AddTaskPageState extends State<AddTaskPage>
         centerTitle: true,
       ),
       body: SafeArea(
-        child: BlocBuilder<BreedersCubit, GeneralBreedersState>(
-          builder: (context, state) {
-            return BlocBuilder<LittersCubit, GeneralLittersState>(
-              builder: (context, innerState) {
-                return Skeletonizer(
-                  enabled:
-                      state is BreedersLoading && innerState is LittersLoading,
-                  child: Stack(
-                    children: [
-                      SingleChildScrollView(
+        child: Stack(
+          children: [
+            BlocBuilder<BreedersCubit, GeneralBreedersState>(
+              builder: (context, state) {
+                return BlocBuilder<LittersCubit, GeneralLittersState>(
+                  builder: (context, innerState) {
+                    return Skeletonizer(
+                      enabled: state is BreedersLoading &&
+                          innerState is LittersLoading,
+                      child: SingleChildScrollView(
                         child: Padding(
                           padding: AppConstants.paddingH16,
                           child: Column(
@@ -422,80 +422,78 @@ class _AddTaskPageState extends State<AddTaskPage>
                           ),
                         ),
                       ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Padding(
-                            padding: AppConstants.paddingH16,
-                            child: SizedBox(
-                              width: double.maxFinite,
-                              child: BlocConsumer<AddTaskCubit,
-                                  GeneralAddTaskState>(
-                                listener: (context, state) {
-                                  if (state is AddTaskSuccess) {
-                                    tasksCubit.addTask(state.task);
-                                    MainSnackBar.showSuccessMessageBar(
-                                      context,
-                                      "task_added".i18n,
-                                    );
-                                    context.router.maybePop();
-                                  } else if (state is UpdateTaskSuccess) {
-                                    tasksCubit.updateTask(state.task);
-                                    MainSnackBar.showSuccessMessageBar(
-                                      context,
-                                      "task_updated".i18n,
-                                    );
-                                    context.router.maybePop();
-                                  } else if (state is AddTaskFail) {
-                                    MainSnackBar.showErrorMessageBar(
-                                      context,
-                                      state.message,
-                                    );
-                                  } else if (state is TaskTaskTypePostInvalid) {
-                                    MainSnackBar.showErrorMessageBar(
-                                      context,
-                                      state.message,
-                                    );
-                                  } else if (state is TaskNamePostInvalid) {
-                                    MainSnackBar.showErrorMessageBar(
-                                      context,
-                                      state.message,
-                                    );
-                                  } else if (state
-                                      is TaskRecurringPostInvalid) {
-                                    MainSnackBar.showErrorMessageBar(
-                                      context,
-                                      state.message,
-                                    );
-                                  }
-                                },
-                                builder: (context, state) {
-                                  var onTap = onSave;
-                                  Widget? child;
-                                  if (state is AddTaskLoading) {
-                                    onTap = () {};
-                                    child = const LoadingIndicator();
-                                  }
-                                  return MainActionButton(
-                                    onTap: onTap,
-                                    text: "save".i18n,
-                                    child: child,
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 25,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                    );
+                  },
                 );
               },
-            );
-          },
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: AppConstants.paddingH16,
+                  child: SizedBox(
+                    width: double.maxFinite,
+                    child: BlocConsumer<AddTaskCubit, GeneralAddTaskState>(
+                      listener: (context, state) {
+                        if (state is AddTaskSuccess) {
+                          tasksCubit.addTask(state.task);
+                          MainSnackBar.showSuccessMessageBar(
+                            context,
+                            "task_added".i18n,
+                          );
+                          context.router.maybePop();
+                        } else if (state is UpdateTaskSuccess) {
+                          tasksCubit.updateTask(state.task);
+                          MainSnackBar.showSuccessMessageBar(
+                            context,
+                            "task_updated".i18n,
+                          );
+                          context.router.maybePop();
+                        } else if (state is AddTaskFail) {
+                          MainSnackBar.showErrorMessageBar(
+                            context,
+                            state.message,
+                          );
+                        } else if (state is TaskTaskTypePostInvalid) {
+                          MainSnackBar.showErrorMessageBar(
+                            context,
+                            state.message,
+                          );
+                        } else if (state is TaskNamePostInvalid) {
+                          MainSnackBar.showErrorMessageBar(
+                            context,
+                            state.message,
+                          );
+                        } else if (state is TaskRecurringPostInvalid) {
+                          MainSnackBar.showErrorMessageBar(
+                            context,
+                            state.message,
+                          );
+                        }
+                      },
+                      builder: (context, state) {
+                        var onTap = onSave;
+                        Widget? child;
+                        if (state is AddTaskLoading) {
+                          onTap = () {};
+                          child = const LoadingIndicator();
+                        }
+                        return MainActionButton(
+                          onTap: onTap,
+                          text: "save".i18n,
+                          child: child,
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 25,
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

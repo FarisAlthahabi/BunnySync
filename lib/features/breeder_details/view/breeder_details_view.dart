@@ -76,6 +76,9 @@ class BreederDetailsView extends StatelessWidget {
         BlocProvider<DeleteBreederCubit>(
           create: (context) => get<DeleteBreederCubit>(),
         ),
+        BlocProvider<LittersCubit>(
+          create: (context) => get<LittersCubit>(),
+        ),
       ],
       child: BreederDetailsPage(
         breederEntryModel: breederEntryModel,

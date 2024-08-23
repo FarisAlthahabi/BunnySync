@@ -95,12 +95,12 @@ class _HomePageState extends State<HomePage> implements HomeViewCallBacks {
 
   @override
   void onFinancesTap() {
-    context.router.push(const LedgerRoute());
+    context.router.push(LedgerRoute());
   }
 
   @override
   void onKitsTap() {
-    context.router.push(const LedgerRoute());
+    context.router.push(LedgerRoute());
   }
 
   @override
@@ -173,7 +173,6 @@ class _HomePageState extends State<HomePage> implements HomeViewCallBacks {
                     final item = state.dashboardModel;
                     final male = item.activeBreeders.maleBreedersCount;
                     final female = item.activeBreeders.femaleBreedersCount;
-
                     return Skeletonizer(
                       enabled: state is HomeLoading,
                       child: AnimationLimiter(

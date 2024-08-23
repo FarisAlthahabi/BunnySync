@@ -5,10 +5,12 @@ class HttpLedgersRepo implements LedgersRepo {
   final DioClient _dioClient = DioClient();
 
   @override
-  Future<List<LedgerModel>> getLedgers() async {
+  Future<List<LedgerModel>> getLedgers({int? breederId}) async {
     try {
       final response = await _dioClient.post(
-        '/finance/data',
+        breederId == null
+            ? '/finance/data'
+            : '/finance/data?breeder_id=$breederId',
       );
       final data = (response.data as Map<String, dynamic>)['data'] as List;
       return List.generate(

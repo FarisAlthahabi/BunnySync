@@ -209,9 +209,14 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     LedgerRoute.name: (routeData) {
+      final args = routeData.argsAs<LedgerRouteArgs>(
+          orElse: () => const LedgerRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const LedgerView(),
+        child: LedgerView(
+          key: args.key,
+          breederId: args.breederId,
+        ),
       );
     },
     LitterDetailsRoute.name: (routeData) {
@@ -280,6 +285,7 @@ abstract class _$AppRouter extends RootStackRouter {
           key: args.key,
           title: args.title,
           scrollController: args.scrollController,
+          breederId: args.breederId,
         ),
       );
     },
@@ -924,16 +930,39 @@ class IntroRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [LedgerView]
-class LedgerRoute extends PageRouteInfo<void> {
-  const LedgerRoute({List<PageRouteInfo>? children})
-      : super(
+class LedgerRoute extends PageRouteInfo<LedgerRouteArgs> {
+  LedgerRoute({
+    Key? key,
+    int? breederId,
+    List<PageRouteInfo>? children,
+  }) : super(
           LedgerRoute.name,
+          args: LedgerRouteArgs(
+            key: key,
+            breederId: breederId,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'LedgerRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<LedgerRouteArgs> page = PageInfo<LedgerRouteArgs>(name);
+}
+
+class LedgerRouteArgs {
+  const LedgerRouteArgs({
+    this.key,
+    this.breederId,
+  });
+
+  final Key? key;
+
+  final int? breederId;
+
+  @override
+  String toString() {
+    return 'LedgerRouteArgs{key: $key, breederId: $breederId}';
+  }
 }
 
 /// generated route for
@@ -1102,6 +1131,7 @@ class TasksRoute extends PageRouteInfo<TasksRouteArgs> {
     Key? key,
     String? title,
     ScrollController? scrollController,
+    int? breederId,
     List<PageRouteInfo>? children,
   }) : super(
           TasksRoute.name,
@@ -1109,6 +1139,7 @@ class TasksRoute extends PageRouteInfo<TasksRouteArgs> {
             key: key,
             title: title,
             scrollController: scrollController,
+            breederId: breederId,
           ),
           initialChildren: children,
         );
@@ -1123,6 +1154,7 @@ class TasksRouteArgs {
     this.key,
     this.title,
     this.scrollController,
+    this.breederId,
   });
 
   final Key? key;
@@ -1131,8 +1163,10 @@ class TasksRouteArgs {
 
   final ScrollController? scrollController;
 
+  final int? breederId;
+
   @override
   String toString() {
-    return 'TasksRouteArgs{key: $key, title: $title, scrollController: $scrollController}';
+    return 'TasksRouteArgs{key: $key, title: $title, scrollController: $scrollController, breederId: $breederId}';
   }
 }

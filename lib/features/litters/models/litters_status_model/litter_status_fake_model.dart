@@ -92,5 +92,4 @@ final fakeLittersModel = LittersModel(
       isActive: true,
     ),
   ],
-  input: const [],
 );

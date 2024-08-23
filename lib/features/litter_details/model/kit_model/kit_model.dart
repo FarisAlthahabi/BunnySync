@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bunny_sync/features/litter_details/model/kit_status_model/kit_status_model.dart';
 import 'package:bunny_sync/global/utils/enums/gender_types_enum.dart';
 import 'package:bunny_sync/global/widgets/main_drop_down_widget.dart';
 import 'package:equatable/equatable.dart';
@@ -15,9 +16,9 @@ class KitModel extends Equatable implements DropDownItemModel {
     required this.id,
     required this.userId,
     required this.litterId,
+    required this.code,
     required this.createdAt,
     required this.updatedAt,
-    required this.code,
     this.kitName,
     this.prefix,
     this.color,
@@ -25,6 +26,7 @@ class KitModel extends Equatable implements DropDownItemModel {
     this.cage,
     this.gender,
     this.note,
+    this.status,
   });
 
   factory KitModel.fromJsonStr(String str) =>
@@ -64,6 +66,8 @@ class KitModel extends Equatable implements DropDownItemModel {
 
   @JsonKey(name: 'updated_at')
   final DateTime updatedAt;
+
+  final KitStatusModel? status;
 
   String toJsonStr() => jsonEncode(toJson());
 

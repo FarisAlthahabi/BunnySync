@@ -55,11 +55,13 @@ class DioClient {
 
   Future<Response<dynamic>> post(
     String endpoint, {
+    Map<String, dynamic>? queries,
     dynamic data,
     Map<String, dynamic>? headers,
   }) async {
     return _dio.post(
       endpoint,
+      queryParameters: queries,
       data: data,
       options: Options(headers: headers),
     );

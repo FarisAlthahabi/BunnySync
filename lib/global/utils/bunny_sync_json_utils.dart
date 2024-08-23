@@ -8,11 +8,17 @@ abstract class BunnySyncJsonUtils {
 
   static String setBreedersFileUrlFromJson(Map<String, dynamic> json) {
     String? path = json['path'] as String?;
-    if (path == null) {
-      path = json['breeder_images_path'] as String? ?? '';
+    if (json['path'] != null) {
+      path = json['path'] as String;
       return '${baseUrl}breeders/images/$path';
+    } else if (json['breeder_images_path'] != null) {
+      path = json['breeder_images_path'] as String;
+      return '${baseUrl}breeders/images/$path';
+    } else if (json['url'] != null) {
+      path = json['url'] as String;
+      return '$baseUrl${path.replaceFirst('/', '')}';
     } else {
-      return '$baseUrl$path';
+      throw Exception('Path is not found');
     }
   }
 

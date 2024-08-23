@@ -397,5 +397,8 @@
   "ledger_delete": "Ledger is deleted successfully",
   "chosen_file": "Chosen file: ",
   "could_not_open_file": "Could not open the file",
-  "attachments": "Attachments"
+  "attachments": "Attachments",
+  "litter_options" : "Litter Options",
+  "kits_empty" : "There is no kits",
+  "code" : "Code"
 }
