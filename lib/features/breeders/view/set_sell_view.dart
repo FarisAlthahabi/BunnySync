@@ -39,15 +39,8 @@ class SetSellView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => get<RabbitConcernsCubit>(),
-        ),
-        BlocProvider(
-          create: (context) => get<CustomersCubit>(),
-        ),
-      ],
+    return BlocProvider(
+      create: (context) => get<CustomersCubit>(),
       child: SetSellPage(
         breederId: breederId,
       ),
@@ -186,7 +179,8 @@ class _SetSellPageState extends State<SetSellPage>
           ),
           SizedBox(
             width: double.maxFinite,
-            child: BlocConsumer<RabbitConcernsCubit, GeneralRabbitConcernsState>(
+            child:
+                BlocConsumer<RabbitConcernsCubit, GeneralRabbitConcernsState>(
               listener: (context, state) {
                 if (state is SaveSellSuccess) {
                   MainSnackBar.showSuccessMessageBar(

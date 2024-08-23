@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/global/blocs/rabbit_concerns_cubit/rabbit_concerns_cubit.dart';
-import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/models/weight_model/weight_model.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
@@ -40,15 +39,13 @@ class UpdateBreederWeightView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => get<RabbitConcernsCubit>(),
-      child: UpdateBreederWeightpage(
-        breederId: breederId,
-      ),
+    return UpdateBreederWeightpage(
+      breederId: breederId,
     );
   }
 }
 
+//TODO
 class UpdateBreederWeightpage extends StatefulWidget {
   const UpdateBreederWeightpage({
     super.key,
@@ -94,81 +91,78 @@ class _UpdateBreederWeightpageState extends State<UpdateBreederWeightpage>
     context.router.popForced();
     mainShowBottomSheet(
       context,
-      widget: BlocProvider(
-        create: (context) => get<RabbitConcernsCubit>(),
-        child: BottomSheetWidget(
-          isTitleCenter: true,
-          title: 'update_weight'.i18n,
-          child: Padding(
-            padding: AppConstants.paddingH16,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 30,
+      widget: BottomSheetWidget(
+        isTitleCenter: true,
+        title: 'update_weight'.i18n,
+        child: Padding(
+          padding: AppConstants.paddingH16,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 30,
+              ),
+              MainTextField(
+                onChanged: onWeightChanged,
+                keyboardType: TextInputType.number,
+                hintText: "weight".i18n,
+                labelText: "weight".i18n,
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              Text(
+                "set_date".i18n,
+                style: context.tt.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.darkGrey,
                 ),
-                MainTextField(
-                  onChanged: onWeightChanged,
-                  keyboardType: TextInputType.number,
-                  hintText: "weight".i18n,
-                  labelText: "weight".i18n,
+              ),
+              const SizedBox(height: 10),
+              Center(
+                child: MainDatePicker(
+                  onChange: onDateSelected,
                 ),
-                const SizedBox(
-                  height: 25,
-                ),
-                Text(
-                  "set_date".i18n,
-                  style: context.tt.bodyLarge?.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.darkGrey,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Center(
-                  child: MainDatePicker(
-                    onChange: onDateSelected,
-                  ),
-                ),
-                const SizedBox(
-                  height: 25,
-                ),
-                SizedBox(
-                  width: double.maxFinite,
-                  child: BlocConsumer<RabbitConcernsCubit,
-                      GeneralRabbitConcernsState>(
-                    listener: (context, state) {
-                      if (state is UpdateBreederWeightSuccess) {
-                        MainSnackBar.showSuccessMessageBar(
-                          context,
-                          "weight_updated".i18n,
-                        );
-                        context.router.maybePop();
-                      } else if (state is UpdateBreederWeightFail) {
-                        MainSnackBar.showErrorMessageBar(
-                          context,
-                          state.message,
-                        );
-                      }
-                    },
-                    builder: (context, state) {
-                      var onTap = () => onSave(weightModel.id);
-                      Widget? child;
-                      if (state is UpdateBreederWeightLoading) {
-                        onTap = () {};
-                        child = const LoadingIndicator();
-                      }
-                      return MainActionButton(
-                        onTap: onTap,
-                        text: "save".i18n,
-                        child: child,
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              SizedBox(
+                width: double.maxFinite,
+                child: BlocConsumer<RabbitConcernsCubit,
+                    GeneralRabbitConcernsState>(
+                  listener: (context, state) {
+                    if (state is UpdateBreederWeightSuccess) {
+                      MainSnackBar.showSuccessMessageBar(
+                        context,
+                        "weight_updated".i18n,
                       );
-                    },
-                  ),
+                      context.router.maybePop();
+                    } else if (state is UpdateBreederWeightFail) {
+                      MainSnackBar.showErrorMessageBar(
+                        context,
+                        state.message,
+                      );
+                    }
+                  },
+                  builder: (context, state) {
+                    var onTap = () => onSave(weightModel.id);
+                    Widget? child;
+                    if (state is UpdateBreederWeightLoading) {
+                      onTap = () {};
+                      child = const LoadingIndicator();
+                    }
+                    return MainActionButton(
+                      onTap: onTap,
+                      text: "save".i18n,
+                      child: child,
+                    );
+                  },
                 ),
-                const SizedBox(height: 25),
-              ],
-            ),
+              ),
+              const SizedBox(height: 25),
+            ],
           ),
         ),
       ),

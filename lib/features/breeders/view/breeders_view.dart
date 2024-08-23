@@ -88,9 +88,6 @@ class BreedersView extends StatelessWidget {
         BlocProvider<DeleteBreederCubit>(
           create: (context) => get<DeleteBreederCubit>(),
         ),
-        BlocProvider<RabbitConcernsCubit>(
-          create: (context) => get<RabbitConcernsCubit>(),
-        ),
       ],
       child: const BreedersPage(),
     );
