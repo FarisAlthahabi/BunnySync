@@ -25,6 +25,7 @@ class BottomSheetWidget<T extends BottomSheetItemModel>
     this.onArchive,
     this.onCull,
     this.onNotes,
+    this.onSetActive,
     this.isTitleCenter,
   });
 
@@ -42,6 +43,7 @@ class BottomSheetWidget<T extends BottomSheetItemModel>
   final ValueSetter<T>? onArchive;
   final ValueSetter<T>? onCull;
   final ValueSetter<T>? onNotes;
+  final ValueSetter<T>? onSetActive;
   final ValueSetter<T>? onDelete;
   final T? model;
   final bool? isTitleCenter;
@@ -62,6 +64,7 @@ class BottomSheetWidget<T extends BottomSheetItemModel>
     final onCull = this.onCull;
     final onNotes = this.onNotes;
     final onDelete = this.onDelete;
+    final onSetActive = this.onSetActive;
     final model = this.model;
 
     if (child == null && model == null) {
@@ -79,18 +82,18 @@ class BottomSheetWidget<T extends BottomSheetItemModel>
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if(isTitleCenter != null)
-              Center(
-                child: Text(
+              if (isTitleCenter != null)
+                Center(
+                  child: Text(
+                    title,
+                    style: context.tt.titleLarge?.copyWith(height: 1.3),
+                  ),
+                ),
+              if (isTitleCenter == null)
+                Text(
                   title,
                   style: context.tt.titleLarge?.copyWith(height: 1.3),
                 ),
-              ),
-              if(isTitleCenter == null)
-              Text(
-                title,
-                style: context.tt.titleLarge?.copyWith(height: 1.3),
-              ),
               const SizedBox(height: 12),
               if (child != null) child,
               if (child == null)
@@ -106,6 +109,16 @@ class BottomSheetWidget<T extends BottomSheetItemModel>
                         ),
                         child: Text(
                           "edit".i18n,
+                        ),
+                      ),
+                      if (onSetActive != null && model != null)
+                      TextButton(
+                        onPressed: () => onSetActive(model),
+                        style: TextButton.styleFrom(
+                          alignment: AlignmentDirectional.centerStart,
+                        ),
+                        child: Text(
+                          "set_active".i18n,
                         ),
                       ),
                     if (onBreed != null && model != null)

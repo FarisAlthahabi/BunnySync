@@ -104,9 +104,9 @@ import 'package:bunny_sync/global/localization/cubit/localization_cubit.dart'
 import 'package:bunny_sync/global/localization/language_changer.dart' as _i24;
 import 'package:bunny_sync/global/repos/delete_breeder_repo/delete_breeder_repo.dart'
     as _i20;
-import 'package:bunny_sync/global/repos/repos.dart' as _i49;
-import 'package:bunny_sync/global/repos/set_value_repo/rabbit_concerns_repo.dart'
+import 'package:bunny_sync/global/repos/rabbit_concerns_repo/rabbit_concerns_repo.dart'
     as _i32;
+import 'package:bunny_sync/global/repos/repos.dart' as _i49;
 import 'package:bunny_sync/global/repos/user_repo.dart' as _i36;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;

@@ -81,12 +81,12 @@ class _SetButcherPageState extends State<SetButcherPage>
 
   @override
   void onButcherDateSelected(DateTime butcherDate, List<int> args) {
-    rabbitConcernsCubit.setDate(butcherDate);
+    rabbitConcernsCubit.setButcherDate(butcherDate);
   }
 
   @override
   void onButcherPreWeightChanged(String butcherPreWeight) {
-    rabbitConcernsCubit.setPreWeight(butcherPreWeight);
+    rabbitConcernsCubit.setButcherPreWeight(butcherPreWeight);
   }
 
   @override
@@ -96,7 +96,7 @@ class _SetButcherPageState extends State<SetButcherPage>
 
   @override
   void onButcherPriceChanged(String butcherPrice) {
-    rabbitConcernsCubit.setPrice(butcherPrice);
+    rabbitConcernsCubit.setButcherPrice(butcherPrice);
   }
 
   @override
@@ -106,7 +106,7 @@ class _SetButcherPageState extends State<SetButcherPage>
 
   @override
   void onButcherWeightChanged(String butcherWeight) {
-    rabbitConcernsCubit.setWeight(butcherWeight);
+    rabbitConcernsCubit.setButcherWeight(butcherWeight);
   }
 
   @override
