@@ -28,11 +28,13 @@ class HealthCubit extends Cubit<GeneralHealthState> {
 
   List<TreatmentModel> treatments = [];
 
-  Future<void> getAilments() async {
+  Future<void> getAilments({int? breederId}) async {
     emit(AilmentsLoading(fakeAilments));
 
     try {
-      final ailments = await _healthRepo.getAilments();
+      final ailments = await _healthRepo.getAilments(
+        breederId: breederId,
+      );
       this.ailments = ailments;
       if (ailments.isEmpty) {
         emit(AilmentsEmpty("ailments_empty".i18n));
@@ -45,11 +47,13 @@ class HealthCubit extends Cubit<GeneralHealthState> {
     }
   }
 
-  Future<void> getTreatments() async {
+  Future<void> getTreatments({int? breederId}) async {
     emit(TreatmentsLoading(fakeTreatments));
 
     try {
-      final treatments = await _healthRepo.getTreatments();
+      final treatments = await _healthRepo.getTreatments(
+        breederId: breederId,
+      );
       this.treatments = treatments;
       if (treatments.isEmpty) {
         emit(TreatmentsEmpty("treatments_empty".i18n));

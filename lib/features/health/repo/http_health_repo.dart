@@ -5,10 +5,12 @@ class HttpHealthRepo implements HealthRepo {
   final DioClient _dioClient = DioClient();
 
   @override
-  Future<List<AilmentModel>> getAilments() async {
+  Future<List<AilmentModel>> getAilments({int? breederId}) async {
     try {
       final response = await _dioClient.post(
-        '/health/ailment/data',
+        breederId == null ?
+        '/health/ailment/data':
+        '/health/ailment/data?breeder_id=$breederId',
       );
 
       final body = (response.data as Map<String, dynamic>)['data'] as List;
@@ -26,10 +28,12 @@ class HttpHealthRepo implements HealthRepo {
   }
   
   @override
-  Future<List<TreatmentModel>> getTreatments() async{
+  Future<List<TreatmentModel>> getTreatments({int? breederId}) async{
     try {
       final response = await _dioClient.post(
-        '/health/treatment/data',
+        breederId == null ?
+        '/health/treatment/data':
+        '/health/treatment/data?breeder_id=$breederId',
       );
 
       final body = (response.data as Map<String, dynamic>)['data'] as List;

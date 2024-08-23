@@ -36,9 +36,11 @@ class AttachmentTab extends StatefulWidget {
   const AttachmentTab({
     super.key,
     required this.breederId,
+    this.controller,
   });
 
   final int breederId;
+  final ScrollController? controller;
 
   @override
   State<AttachmentTab> createState() => _AttachmentTabState();
@@ -154,6 +156,7 @@ class _AttachmentTabState extends State<AttachmentTab>
             return Skeletonizer(
               enabled: state is BreederAttachmentsLoading,
               child: SingleChildScrollView(
+                controller: widget.controller,
                 child: Padding(
                   padding: AppConstants.padding16,
                   child: Column(

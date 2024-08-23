@@ -30,7 +30,14 @@ abstract class AilmentsTabCallBacks {
 }
 
 class AilmentsTab extends StatefulWidget {
-  const AilmentsTab({super.key});
+  const AilmentsTab({
+    super.key,
+    this.breederId,
+    this.controller,
+  });
+
+  final int? breederId;
+  final ScrollController? controller;
 
   @override
   State<AilmentsTab> createState() => _AilmentsTabState();
@@ -42,7 +49,9 @@ class _AilmentsTabState extends State<AilmentsTab>
 
   @override
   void initState() {
-    healthCubit.getAilments();
+    healthCubit.getAilments(
+      breederId: widget.breederId,
+    );
     super.initState();
   }
 
@@ -140,6 +149,7 @@ class _AilmentsTabState extends State<AilmentsTab>
             return Skeletonizer(
               enabled: state is AilmentsLoading,
               child: SingleChildScrollView(
+                controller: widget.controller,
                 child: Padding(
                   padding: AppConstants.padding16,
                   child: Column(
