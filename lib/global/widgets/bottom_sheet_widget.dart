@@ -57,7 +57,7 @@ class BottomSheetWidget<T extends BottomSheetItemModel>
     final onDied = this.onDied;
     final onArchive = this.onArchive;
     final onCull = this.onCull;
-    final onNotes = this.onArchive;
+    final onNotes = this.onNotes;
     final onDelete = this.onDelete;
     final model = this.model;
 

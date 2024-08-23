@@ -9,6 +9,7 @@ import 'package:bunny_sync/features/breeder_details/view/tabs/profile_tab.dart';
 import 'package:bunny_sync/features/breeder_details/view/widgets/breeder_profile_info_widget.dart';
 import 'package:bunny_sync/features/breeder_details/view/widgets/details_tab_bar.dart';
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
+import 'package:bunny_sync/features/litters/cubit/litters_cubit.dart';
 import 'package:bunny_sync/features/main_navigation/cubit/main_navigation_cubit.dart';
 import 'package:bunny_sync/features/tasks/view/tasks_view.dart';
 import 'package:bunny_sync/global/blocs/delete_breeder_cubit/delete_breeder_cubit.dart';
@@ -74,6 +75,9 @@ class BreederDetailsView extends StatelessWidget {
         ),
         BlocProvider<DeleteBreederCubit>(
           create: (context) => get<DeleteBreederCubit>(),
+        ),
+        BlocProvider<LittersCubit>(
+          create: (context) => get<LittersCubit>(),
         ),
       ],
       child: BreederDetailsPage(
