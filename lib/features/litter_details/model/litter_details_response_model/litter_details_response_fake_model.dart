@@ -49,8 +49,8 @@ final List<KitModel> fakeKits = List.generate(
 final breederPairFakeModel = BreederPairModel(
   id: 1,
   userId: 1,
-  femailBreederId: 93,
-  mailBreederId: 88,
+  femaleBreederId: 93,
+  maleBreederId: 88,
   type: "manually",
   date: DateTime.now(),
   createdAt: DateTime.now(),

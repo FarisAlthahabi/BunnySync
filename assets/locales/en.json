@@ -398,7 +398,26 @@
   "chosen_file": "Chosen file: ",
   "could_not_open_file": "Could not open the file",
   "attachments": "Attachments",
+<<<<<<< assets/locales/en.json
+  "preWeight" : "PreWeight",
+  "price" : "Price",
+  "breeder_butcher" : "Breeder is butchered successfully",
+  "breeder_sell" : "Breeder is sold successfully",
+  "no_breeder_pairs" : "There is no breeder pairs",
+  "breeder_birth" : "Birth is Saved successfully",
+  "select_breeder_pair" : "Select breeder pair",
+  "breeder_pair" : "Breeder pair",
+  "future" : "Schedule future breeding",
+  "already" : "Breeding has already occurred",
+  "breed_success" : "Breed is done successfully",
+  "breed_time" : "Breed time",
+  "select_breed_time" : "Select breed time",
+  "male_breeders_empty" : "There is no male breeders",
+  "female_breeders_empty" : "There is no female breeders",
   "litter_options" : "Litter Options",
   "kits_empty" : "There is no kits",
   "code" : "Code"
+=======
+  
+>>>>>>> assets/locales/en.json
 }

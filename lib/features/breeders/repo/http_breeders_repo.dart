@@ -67,4 +67,25 @@ class HttpBreedersRepo implements BreedersRepo {
       rethrow;
     }
   }
+  
+  @override
+  Future<List<BreederPairModel>> getBreederPairs()async {
+    try {
+      final response = await _dioClient.get(
+        '/breeders/list/breeder-pair',
+      );
+      final data = (response.data as Map<String, dynamic>)['data'] as List;
+      return List.generate(
+        data.length,
+        (index) => BreederPairModel.fromJson(
+          data[index] as Map<String, dynamic>,
+        ),
+      );
+    } on Exception catch (e) {
+      if (e is NotFoundException) {
+        throw e.message ?? 'something_went_wrong'.i18n;
+      }
+      rethrow;
+    }
+  }
 }
