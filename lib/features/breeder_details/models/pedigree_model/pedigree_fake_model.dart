@@ -1,5 +1,7 @@
 import 'package:bunny_sync/features/breeder_details/models/pedigree_model/pedigree_model.dart';
 import 'package:bunny_sync/features/breeder_details/models/pedigree_model/pedigree_status_model/pedigree_status_model.dart';
+import 'package:bunny_sync/features/breeder_details/models/pedigree_url_model/pedigree_url_model.dart';
+import 'package:bunny_sync/global/dio/dio_client.dart';
 import 'package:bunny_sync/global/utils/enums/gender_types_enum.dart';
 
 final pedigreeFakeModel = PedigreeModel(
@@ -23,4 +25,9 @@ final pedigreeFakeModel = PedigreeModel(
 const pedigreeStatusFakeModel = PedigreeStatusModel(
   breederId: 1,
   status: 'active',
+);
+
+const pedigreeUrlFakeModel = PedigreeUrlModel(
+  path: '/pedigree/mobile/510f1586-1bf2-43fb-8160-8508c5a3e26e',
+  pedigreeUrl: '${baseUrl}pedigree/mobile/510f1586-1bf2-43fb-8160-8508c5a3e26e',
 );

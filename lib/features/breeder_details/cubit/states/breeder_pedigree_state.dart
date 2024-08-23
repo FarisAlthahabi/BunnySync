@@ -6,17 +6,17 @@ abstract class BreederPedigreeState extends GeneralBreederDetailsState {}
 class BreederPedigreeInitial extends BreederPedigreeState {}
 
 class BreederPedigreeFetch extends BreederPedigreeState {
-  BreederPedigreeFetch(this.pedigreeModel);
+  BreederPedigreeFetch(this.pedigreeUrlModel);
 
-  final PedigreeModel pedigreeModel;
+  final PedigreeUrlModel pedigreeUrlModel;
 }
 
 class BreederPedigreeLoading extends BreederPedigreeFetch {
-  BreederPedigreeLoading(super.pedigreeModel);
+  BreederPedigreeLoading(super.pedigreeUrlModel);
 }
 
 class BreederPedigreeSuccess extends BreederPedigreeFetch {
-  BreederPedigreeSuccess(super.pedigreeModel);
+  BreederPedigreeSuccess(super.pedigreeUrlModel);
 }
 
 class BreederPedigreeFail extends BreederPedigreeState {
