@@ -215,7 +215,24 @@ class _BreedersPageState extends State<BreedersPage>
 
   @override
   void onSetActive(BreederEntryModel breederEntryModel) {
-    rabbitConcernsCubit.setActive(breederEntryModel.id);
+    context.router.popForced();
+    mainShowBottomSheet(
+      context,
+      widget: BottomSheetWidget(
+        title: 'are_you_sure_to_set_breeder_active'.i18n,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextButton(
+              onPressed: () {
+                rabbitConcernsCubit.setActive(breederEntryModel.id);
+              },
+              child: Text('yes'.i18n),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -399,6 +416,7 @@ class _BreedersPageState extends State<BreedersPage>
         BlocListener<RabbitConcernsCubit, GeneralRabbitConcernsState>(
           listener: (context, state) {
             if (state is SetActiveSuccess) {
+              context.router.popForced();
               context.loaderOverlay.hide();
               MainSnackBar.showSuccessMessageBar(
                 context,
