@@ -93,7 +93,7 @@ import 'package:bunny_sync/global/blocs/delete_breeder_cubit/delete_breeder_cubi
     as _i56;
 import 'package:bunny_sync/global/blocs/permissions_cubit/permissions_cubit.dart'
     as _i30;
-import 'package:bunny_sync/global/blocs/set_value_cubit/set_value_cubit.dart'
+import 'package:bunny_sync/global/blocs/rabbit_concerns_cubit/rabbit_concerns_cubit.dart'
     as _i63;
 import 'package:bunny_sync/global/blocs/upload_file_cubit/upload_file_cubit.dart'
     as _i35;
@@ -105,7 +105,7 @@ import 'package:bunny_sync/global/localization/language_changer.dart' as _i24;
 import 'package:bunny_sync/global/repos/delete_breeder_repo/delete_breeder_repo.dart'
     as _i20;
 import 'package:bunny_sync/global/repos/repos.dart' as _i49;
-import 'package:bunny_sync/global/repos/set_value_repo/set_value_repo.dart'
+import 'package:bunny_sync/global/repos/set_value_repo/rabbit_concerns_repo.dart'
     as _i32;
 import 'package:bunny_sync/global/repos/user_repo.dart' as _i36;
 import 'package:get_it/get_it.dart' as _i1;
@@ -158,7 +158,7 @@ extension GetItInjectableX on _i1.GetIt {
     gh.factory<_i29.MainNavigationCubit>(() => _i29.MainNavigationCubit());
     gh.factory<_i30.PermissionsCubit>(() => _i30.PermissionsCubit());
     gh.factory<_i31.ProfileRepo>(() => _i31.HttpProfileRepo());
-    gh.factory<_i32.SetValueRepo>(() => _i32.HttpSetValueRepo());
+    gh.factory<_i32.RabbitConcernsRepo>(() => _i32.HttpRabbitConcernsRepo());
     gh.factory<_i33.SignInRepo>(() => _i33.HttpSignInRepo());
     gh.factory<_i34.TasksRepo>(() => _i34.HttpTasksRepo());
     gh.factory<_i35.UploadFileCubit>(() => _i35.UploadFileCubit());
@@ -223,8 +223,8 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i61.LittersCubit(gh<_i27.LittersRepo>()));
     gh.factory<_i62.ProfileCubit>(
         () => _i62.ProfileCubit(gh<_i31.ProfileRepo>()));
-    gh.factory<_i63.SetValueCubit>(
-        () => _i63.SetValueCubit(gh<_i32.SetValueRepo>()));
+    gh.factory<_i63.RabbitConcernsCubit>(
+        () => _i63.RabbitConcernsCubit(gh<_i32.RabbitConcernsRepo>()));
     gh.factory<_i64.SignInCubit>(() => _i64.SignInCubit(
           gh<_i33.SignInRepo>(),
           gh<_i48.AuthenticationBloc>(),

@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/customers/cubit/customers_cubit.dart';
 import 'package:bunny_sync/features/customers/model/customer_model/customer_model.dart';
-import 'package:bunny_sync/global/blocs/set_value_cubit/set_value_cubit.dart';
+import 'package:bunny_sync/global/blocs/rabbit_concerns_cubit/rabbit_concerns_cubit.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/translations.i18n.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
@@ -42,7 +42,7 @@ class SetSellView extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => get<SetValueCubit>(),
+          create: (context) => get<RabbitConcernsCubit>(),
         ),
         BlocProvider(
           create: (context) => get<CustomersCubit>(),
@@ -69,7 +69,7 @@ class SetSellPage extends StatefulWidget {
 
 class _SetSellPageState extends State<SetSellPage>
     implements SetSellViewCallBacks {
-  late final SetValueCubit setValueCubit = context.read();
+  late final RabbitConcernsCubit rabbitConcernsCubit = context.read();
 
   late final CustomersCubit customersCubit = context.read();
 
@@ -89,22 +89,22 @@ class _SetSellPageState extends State<SetSellPage>
 
   @override
   void onSaveSell(int breederId) {
-    setValueCubit.saveSell(breederId);
+    rabbitConcernsCubit.saveSell(breederId);
   }
 
   @override
   void onSellCustomerSelected(CustomerModel? customer) {
-    setValueCubit.setCustomerId(customer?.id);
+    rabbitConcernsCubit.setCustomerId(customer?.id);
   }
 
   @override
   void onSellDateSelected(DateTime date, List<int> args) {
-    setValueCubit.setSellDate(date);
+    rabbitConcernsCubit.setSellDate(date);
   }
 
   @override
   void onSellPriceChanged(String price) {
-    setValueCubit.setSellPrice(price);
+    rabbitConcernsCubit.setSellPrice(price);
   }
 
   @override
@@ -186,7 +186,7 @@ class _SetSellPageState extends State<SetSellPage>
           ),
           SizedBox(
             width: double.maxFinite,
-            child: BlocConsumer<SetValueCubit, GeneralSetValueState>(
+            child: BlocConsumer<RabbitConcernsCubit, GeneralRabbitConcernsState>(
               listener: (context, state) {
                 if (state is SaveSellSuccess) {
                   MainSnackBar.showSuccessMessageBar(

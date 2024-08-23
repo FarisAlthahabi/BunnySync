@@ -5,6 +5,7 @@ import 'package:bunny_sync/features/breeders/models/breeders_gender_model/breede
 import 'package:bunny_sync/features/breeders/models/breeders_model/fake_breeders_model.dart';
 import 'package:bunny_sync/features/breeders/models/breeders_status_model/breeder_status_model.dart';
 import 'package:bunny_sync/features/breeders/repo/breeders_repo.dart';
+import 'package:bunny_sync/features/litter_details/model/breeder_pair_model/breeder_pair_model.dart';
 import 'package:bunny_sync/global/localization/translations.i18n.dart';
 import 'package:bunny_sync/global/utils/enums/gender_types_enum.dart';
 import 'package:injectable/injectable.dart';
@@ -13,6 +14,7 @@ import 'package:meta/meta.dart';
 part 'states/breeders_state.dart';
 part 'states/general_breeders_state.dart';
 part 'states/search_breeder_state.dart';
+part 'states/breeder_pairs_state.dart';
 
 @injectable
 class BreedersCubit extends Cubit<GeneralBreedersState> {
@@ -214,6 +216,12 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
         maleBreeders: maleBreeders,
         femaleBreeders: femaleBreeders,
       );
+      if (maleBreeders.isEmpty) {
+        emit(MaleBreedersEmpty("male_breeders_empty"));
+      }
+      if (femaleBreeders.isEmpty) {
+        emit(FemaleBreedersEmpty("female_breeders_empty"));
+      }
 
       emit(BreedersByGenderSuccess(breedersGenderModel));
     } catch (e, s) {
@@ -245,6 +253,23 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
     } catch (e, s) {
       addError(e, s);
       emit(BreedersFail(e.toString()));
+    }
+  }
+
+  Future<void> getBreederPairs() async {
+    emit(BreederPairsLoading());
+    try {
+      final response = await _breedersRepo.getBreederPairs();
+      if (response.isEmpty) {
+        emit(
+          BreederPairsEmpty("no_breeder_pairs"),
+        );
+      } else {
+        emit(BreederPairsSuccess(response));
+      }
+    } catch (e, s) {
+      addError(e, s);
+      emit(BreederPairsFail(e.toString()));
     }
   }
 }

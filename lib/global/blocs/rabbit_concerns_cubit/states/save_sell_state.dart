@@ -1,7 +1,7 @@
-part of '../set_value_cubit.dart';
+part of '../rabbit_concerns_cubit.dart';
 
 @immutable
-abstract class SaveSellState extends GeneralSetValueState {}
+abstract class SaveSellState extends GeneralRabbitConcernsState {}
 
 class SaveSellInitial extends SaveSellState {}
 

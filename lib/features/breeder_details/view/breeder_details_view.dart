@@ -60,9 +60,11 @@ class BreederDetailsView extends StatelessWidget {
   const BreederDetailsView({
     super.key,
     required this.breederEntryModel,
+    this.initailIndex,
   });
 
   final BreederEntryModel breederEntryModel;
+  final int? initailIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +80,7 @@ class BreederDetailsView extends StatelessWidget {
       ],
       child: BreederDetailsPage(
         breederEntryModel: breederEntryModel,
+        initailIndex: initailIndex,
       ),
     );
   }
@@ -87,9 +90,11 @@ class BreederDetailsPage extends StatefulWidget {
   const BreederDetailsPage({
     super.key,
     required this.breederEntryModel,
+    this.initailIndex,
   });
 
   final BreederEntryModel breederEntryModel;
+  final int? initailIndex;
 
   @override
   State<BreederDetailsPage> createState() => _BreederDetailsPageState();
@@ -283,6 +288,7 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
           statusBarIconBrightness: Brightness.dark,
         ),
         child: DefaultTabController(
+          initialIndex: widget.initailIndex ?? 0,
           length: tabs.length,
           child: Scaffold(
             body: SafeArea(

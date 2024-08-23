@@ -27,6 +27,24 @@ class BreedersByGenderSuccess extends BreedersState {
   final BreedersGenderModel breedersGenderModel;
 }
 
+class MaleBreedersEmpty extends BreedersState {
+  MaleBreedersEmpty(this.message);
+
+  final String message;
+}
+
+class FemaleBreedersEmpty extends BreedersState {
+  FemaleBreedersEmpty(this.message);
+
+  final String message;
+}
+
+class BreedersEmpty extends BreedersState {
+  BreedersEmpty(this.message);
+
+  final String message;
+}
+
 class BreedersFail extends BreedersState {
   BreedersFail(this.message);
 

@@ -25,6 +25,7 @@ class BottomSheetWidget<T extends BottomSheetItemModel>
     this.onArchive,
     this.onCull,
     this.onNotes,
+    this.isTitleCenter,
   });
 
   final String title;
@@ -43,6 +44,7 @@ class BottomSheetWidget<T extends BottomSheetItemModel>
   final ValueSetter<T>? onNotes;
   final ValueSetter<T>? onDelete;
   final T? model;
+  final bool? isTitleCenter;
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +60,7 @@ class BottomSheetWidget<T extends BottomSheetItemModel>
     final onDied = this.onDied;
     final onArchive = this.onArchive;
     final onCull = this.onCull;
-    final onNotes = this.onArchive;
+    final onNotes = this.onNotes;
     final onDelete = this.onDelete;
     final model = this.model;
 
@@ -77,6 +79,14 @@ class BottomSheetWidget<T extends BottomSheetItemModel>
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              if(isTitleCenter != null)
+              Center(
+                child: Text(
+                  title,
+                  style: context.tt.titleLarge?.copyWith(height: 1.3),
+                ),
+              ),
+              if(isTitleCenter == null)
               Text(
                 title,
                 style: context.tt.titleLarge?.copyWith(height: 1.3),

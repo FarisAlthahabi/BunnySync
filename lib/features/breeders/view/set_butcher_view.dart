@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:bunny_sync/global/blocs/set_value_cubit/set_value_cubit.dart';
+import 'package:bunny_sync/global/blocs/rabbit_concerns_cubit/rabbit_concerns_cubit.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/translations.i18n.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
@@ -41,7 +41,7 @@ class SetButcherView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => get<SetValueCubit>(),
+      create: (context) => get<RabbitConcernsCubit>(),
       child: SetButcherPage(
         breederId: breederId,
       ),
@@ -63,7 +63,7 @@ class SetButcherPage extends StatefulWidget {
 
 class _SetButcherPageState extends State<SetButcherPage>
     implements SetButcherViewCallBacks {
-  late final SetValueCubit setValueCubit = context.read();
+  late final RabbitConcernsCubit rabbitConcernsCubit = context.read();
 
   final FocusNode butcherPriceFocusNode = FocusNode();
 
@@ -81,12 +81,12 @@ class _SetButcherPageState extends State<SetButcherPage>
 
   @override
   void onButcherDateSelected(DateTime butcherDate, List<int> args) {
-    setValueCubit.setDate(butcherDate);
+    rabbitConcernsCubit.setDate(butcherDate);
   }
 
   @override
   void onButcherPreWeightChanged(String butcherPreWeight) {
-    setValueCubit.setPreWeight(butcherPreWeight);
+    rabbitConcernsCubit.setPreWeight(butcherPreWeight);
   }
 
   @override
@@ -96,7 +96,7 @@ class _SetButcherPageState extends State<SetButcherPage>
 
   @override
   void onButcherPriceChanged(String butcherPrice) {
-    setValueCubit.setPrice(butcherPrice);
+    rabbitConcernsCubit.setPrice(butcherPrice);
   }
 
   @override
@@ -106,7 +106,7 @@ class _SetButcherPageState extends State<SetButcherPage>
 
   @override
   void onButcherWeightChanged(String butcherWeight) {
-    setValueCubit.setWeight(butcherWeight);
+    rabbitConcernsCubit.setWeight(butcherWeight);
   }
 
   @override
@@ -116,7 +116,7 @@ class _SetButcherPageState extends State<SetButcherPage>
 
   @override
   void onSaveButcher(int breederId) {
-    setValueCubit.saveButcher(breederId);
+    rabbitConcernsCubit.saveButcher(breederId);
   }
 
   @override
@@ -147,8 +147,8 @@ class _SetButcherPageState extends State<SetButcherPage>
             height: 25,
           ),
           MainTextField(
-            onSubmitted: onButcherPreWeightChanged,
-            onChanged: onButcherPreWeightSubmitted,
+            onSubmitted: onButcherPreWeightSubmitted,
+            onChanged: onButcherPreWeightChanged,
             focusNode: butcherPreWeightFocusNode,
             hintText: "preWeight".i18n,
             labelText: "preWeight".i18n,
@@ -157,8 +157,8 @@ class _SetButcherPageState extends State<SetButcherPage>
             height: 25,
           ),
           MainTextField(
-            onSubmitted: onButcherWeightChanged,
-            onChanged: onButcherWeightSubmitted,
+            onSubmitted: onButcherWeightSubmitted,
+            onChanged: onButcherWeightChanged,
             focusNode: butcherWeightFocusNode,
             hintText: "weight".i18n,
             labelText: "weight".i18n,
@@ -168,7 +168,7 @@ class _SetButcherPageState extends State<SetButcherPage>
           ),
           MainTextField(
             onSubmitted: onButcherPriceSubmitted,
-            onChanged: onButcherPriceSubmitted,
+            onChanged: onButcherPriceChanged,
             focusNode: butcherPriceFocusNode,
             hintText: "price".i18n,
             labelText: "price".i18n,
@@ -176,7 +176,7 @@ class _SetButcherPageState extends State<SetButcherPage>
           const SizedBox(height: 25),
           SizedBox(
             width: double.maxFinite,
-            child: BlocConsumer<SetValueCubit, GeneralSetValueState>(
+            child: BlocConsumer<RabbitConcernsCubit, GeneralRabbitConcernsState>(
               listener: (context, state) {
                 if (state is SaveButcherSuccess) {
                   MainSnackBar.showSuccessMessageBar(

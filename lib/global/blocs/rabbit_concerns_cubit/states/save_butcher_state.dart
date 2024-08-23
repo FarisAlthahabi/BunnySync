@@ -1,7 +1,7 @@
-part of '../set_value_cubit.dart';
+part of '../rabbit_concerns_cubit.dart';
 
 @immutable
-abstract class SaveButcherState extends GeneralSetValueState {}
+abstract class SaveButcherState extends GeneralRabbitConcernsState {}
 
 class SaveButcherInitial extends SaveButcherState {}
 
