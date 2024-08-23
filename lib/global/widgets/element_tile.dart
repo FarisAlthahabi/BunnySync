@@ -54,10 +54,15 @@ class ElementTile<T> extends StatelessWidget {
                     title,
                     Row(
                       children: [
-                        if (type != null) type,
+                        if (type != null)
+                          Expanded(
+                            flex: 5,
+                            child: type,
+                          ),
                         const Spacer(),
                         if (tag != null)
                           Flexible(
+                            flex: 3,
                             child: Container(
                               padding: AppConstants.padding6,
                               decoration: BoxDecoration(

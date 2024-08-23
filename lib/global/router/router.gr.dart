@@ -26,6 +26,18 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    AddAttachmentRoute.name: (routeData) {
+      final args = routeData.argsAs<AddAttachmentRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: AddAttachmentView(
+          key: args.key,
+          breederId: args.breederId,
+          breederDetailsCubit: args.breederDetailsCubit,
+          attachmentModel: args.attachmentModel,
+        ),
+      );
+    },
     AddBreederRoute.name: (routeData) {
       final args = routeData.argsAs<AddBreederRouteArgs>(
           orElse: () => const AddBreederRouteArgs());
@@ -268,6 +280,7 @@ abstract class _$AppRouter extends RootStackRouter {
           key: args.key,
           title: args.title,
           scrollController: args.scrollController,
+          breederId: args.breederId,
         ),
       );
     },
@@ -314,6 +327,54 @@ class AddAilmentRouteArgs {
   @override
   String toString() {
     return 'AddAilmentRouteArgs{key: $key, healthCubit: $healthCubit, ailmentModel: $ailmentModel}';
+  }
+}
+
+/// generated route for
+/// [AddAttachmentView]
+class AddAttachmentRoute extends PageRouteInfo<AddAttachmentRouteArgs> {
+  AddAttachmentRoute({
+    Key? key,
+    required int breederId,
+    required BreederDetailsCubit breederDetailsCubit,
+    AttachmentModel? attachmentModel,
+    List<PageRouteInfo>? children,
+  }) : super(
+          AddAttachmentRoute.name,
+          args: AddAttachmentRouteArgs(
+            key: key,
+            breederId: breederId,
+            breederDetailsCubit: breederDetailsCubit,
+            attachmentModel: attachmentModel,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'AddAttachmentRoute';
+
+  static const PageInfo<AddAttachmentRouteArgs> page =
+      PageInfo<AddAttachmentRouteArgs>(name);
+}
+
+class AddAttachmentRouteArgs {
+  const AddAttachmentRouteArgs({
+    this.key,
+    required this.breederId,
+    required this.breederDetailsCubit,
+    this.attachmentModel,
+  });
+
+  final Key? key;
+
+  final int breederId;
+
+  final BreederDetailsCubit breederDetailsCubit;
+
+  final AttachmentModel? attachmentModel;
+
+  @override
+  String toString() {
+    return 'AddAttachmentRouteArgs{key: $key, breederId: $breederId, breederDetailsCubit: $breederDetailsCubit, attachmentModel: $attachmentModel}';
   }
 }
 
@@ -1042,6 +1103,7 @@ class TasksRoute extends PageRouteInfo<TasksRouteArgs> {
     Key? key,
     String? title,
     ScrollController? scrollController,
+    int? breederId,
     List<PageRouteInfo>? children,
   }) : super(
           TasksRoute.name,
@@ -1049,6 +1111,7 @@ class TasksRoute extends PageRouteInfo<TasksRouteArgs> {
             key: key,
             title: title,
             scrollController: scrollController,
+            breederId: breederId,
           ),
           initialChildren: children,
         );
@@ -1063,6 +1126,7 @@ class TasksRouteArgs {
     this.key,
     this.title,
     this.scrollController,
+    this.breederId,
   });
 
   final Key? key;
@@ -1071,8 +1135,10 @@ class TasksRouteArgs {
 
   final ScrollController? scrollController;
 
+  final int? breederId;
+
   @override
   String toString() {
-    return 'TasksRouteArgs{key: $key, title: $title, scrollController: $scrollController}';
+    return 'TasksRouteArgs{key: $key, title: $title, scrollController: $scrollController, breederId: $breederId}';
   }
 }

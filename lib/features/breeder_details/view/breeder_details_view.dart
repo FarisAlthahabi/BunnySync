@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/breeder_details/cubit/breeder_details_cubit.dart';
+import 'package:bunny_sync/features/breeder_details/view/tabs/attachment_tab.dart';
 import 'package:bunny_sync/features/breeder_details/view/tabs/images_tab.dart';
 import 'package:bunny_sync/features/breeder_details/view/tabs/litters_tab.dart';
 import 'package:bunny_sync/features/breeder_details/view/tabs/notes_tab.dart';
@@ -114,6 +115,7 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
         TabModel(title: 'notes'.i18n),
         TabModel(title: 'tasks'.i18n),
         TabModel(title: 'images'.i18n),
+        TabModel(title: 'attachments'.i18n),
       ];
 
   @override
@@ -353,11 +355,15 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
                           controller: childScrollController[3],
                         ),
                         TasksView(
+                          breederId: widget.breederEntryModel.id,
                           scrollController: childScrollController[4],
                         ),
                         ImagesTab(
                           breederId: widget.breederEntryModel.id,
                           controller: childScrollController[5],
+                        ),
+                        AttachmentTab(
+                          breederId: widget.breederEntryModel.id,
                         ),
                       ],
                     ),

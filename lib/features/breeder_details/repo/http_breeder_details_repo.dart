@@ -152,4 +152,38 @@ class HttpBreederDetailsRepo implements BreederDetailsRepo {
       rethrow;
     }
   }
+  
+  @override
+  Future<void> deleteAttachment(int attachmentId) async{
+    try {
+      await _dioClient.delete(
+        '/breeders/attachment/$attachmentId/destroy',
+      );
+    } on Exception catch (e) {
+      if (e is NotFoundException) {
+        throw e.message ?? 'something_went_wrong'.i18n;
+      }
+      rethrow;
+    }
+  }
+  
+  @override
+  Future<List<AttachmentModel>> getAttachments(int breederId) async{
+    try {
+      final response = await _dioClient.post(
+        '/breeders/attachment/$breederId/data',
+      );
+      final data = (response.data as Map<String, dynamic>)['data'] as List;
+      return List.generate(
+        data.length,
+        (index) =>
+            AttachmentModel.fromJson(data[index] as Map<String, dynamic>),
+      );
+    } on Exception catch (e) {
+      if (e is NotFoundException) {
+        throw e.message ?? 'something_went_wrong'.i18n;
+      }
+      rethrow;
+    }
+  }
 }

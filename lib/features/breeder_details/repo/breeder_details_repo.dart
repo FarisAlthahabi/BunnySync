@@ -1,3 +1,4 @@
+import 'package:bunny_sync/features/breeder_details/models/attachment_model/attachment_model.dart';
 import 'package:bunny_sync/features/breeder_details/models/breeder_details_response_model/breeder_details_response_model.dart';
 import 'package:bunny_sync/features/breeder_details/models/breeder_image_model/breeder_image_model.dart';
 import 'package:bunny_sync/features/breeder_details/models/breeder_note_model/breeder_note_model.dart';
@@ -26,4 +27,8 @@ abstract class BreederDetailsRepo {
   Future<BreederImageModel> addBreederImage(int id, XFile image);
 
   Future<void> deleteBreederImage(int breederId, int imageId);
+
+  Future<List<AttachmentModel>> getAttachments(int breederId);
+
+  Future<void> deleteAttachment(int attachmentId);
 }

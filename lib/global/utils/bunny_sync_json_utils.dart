@@ -6,7 +6,7 @@ abstract class BunnySyncJsonUtils {
     return json['status'] == 'active';
   }
 
-  static String setBreedersImageUrlFromJson(Map<String, dynamic> json) {
+  static String setBreedersFileUrlFromJson(Map<String, dynamic> json) {
     String? path = json['path'] as String?;
     if (json['path'] != null) {
       path = json['path'] as String;
