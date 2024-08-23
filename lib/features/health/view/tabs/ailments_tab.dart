@@ -3,6 +3,7 @@ import 'package:bunny_sync/features/health/cubit/health_cubit.dart';
 import 'package:bunny_sync/features/health/model/ailment_model/ailment_model.dart';
 import 'package:bunny_sync/global/extensions/date_time_x.dart';
 import 'package:bunny_sync/global/localization/translations.i18n.dart';
+import 'package:bunny_sync/global/mixins/mixins.dart';
 import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
@@ -43,16 +44,15 @@ class AilmentsTab extends StatefulWidget {
   State<AilmentsTab> createState() => _AilmentsTabState();
 }
 
-class _AilmentsTabState extends State<AilmentsTab>
+class _AilmentsTabState extends State<AilmentsTab> with PostFrameMixin
     implements AilmentsTabCallBacks {
   late final HealthCubit healthCubit = context.read();
 
   @override
-  void initState() {
+  void onPostFrame() {
     healthCubit.getAilments(
       breederId: widget.breederId,
     );
-    super.initState();
   }
 
   @override

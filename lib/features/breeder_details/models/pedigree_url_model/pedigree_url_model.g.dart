@@ -9,7 +9,7 @@ part of 'pedigree_url_model.dart';
 PedigreeUrlModel _$PedigreeUrlModelFromJson(Map<String, dynamic> json) =>
     PedigreeUrlModel(
       path: json['url'] as String,
-      pedigreeUrl: BunnySyncJsonUtils.setBreedersImageUrlFromJson(
+      pedigreeUrl: BunnySyncJsonUtils.setBreedersFileUrlFromJson(
           JsonUtils.readValue(json, 'pedigreeUrl') as Map<String, dynamic>),
     );
 

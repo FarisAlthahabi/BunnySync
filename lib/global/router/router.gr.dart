@@ -186,9 +186,16 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     HealthRoute.name: (routeData) {
+      final args = routeData.argsAs<HealthRouteArgs>(
+          orElse: () => const HealthRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const HealthView(),
+        child: HealthView(
+          key: args.key,
+          breederId: args.breederId,
+          ailmentsController: args.ailmentsController,
+          treatmentsController: args.treatmentsController,
+        ),
       );
     },
     HomeRoute.name: (routeData) {
@@ -880,16 +887,49 @@ class DashboardRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [HealthView]
-class HealthRoute extends PageRouteInfo<void> {
-  const HealthRoute({List<PageRouteInfo>? children})
-      : super(
+class HealthRoute extends PageRouteInfo<HealthRouteArgs> {
+  HealthRoute({
+    Key? key,
+    int? breederId,
+    ScrollController? ailmentsController,
+    ScrollController? treatmentsController,
+    List<PageRouteInfo>? children,
+  }) : super(
           HealthRoute.name,
+          args: HealthRouteArgs(
+            key: key,
+            breederId: breederId,
+            ailmentsController: ailmentsController,
+            treatmentsController: treatmentsController,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'HealthRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<HealthRouteArgs> page = PageInfo<HealthRouteArgs>(name);
+}
+
+class HealthRouteArgs {
+  const HealthRouteArgs({
+    this.key,
+    this.breederId,
+    this.ailmentsController,
+    this.treatmentsController,
+  });
+
+  final Key? key;
+
+  final int? breederId;
+
+  final ScrollController? ailmentsController;
+
+  final ScrollController? treatmentsController;
+
+  @override
+  String toString() {
+    return 'HealthRouteArgs{key: $key, breederId: $breederId, ailmentsController: $ailmentsController, treatmentsController: $treatmentsController}';
+  }
 }
 
 /// generated route for
