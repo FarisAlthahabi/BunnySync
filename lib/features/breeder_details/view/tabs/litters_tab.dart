@@ -10,9 +10,11 @@ import 'package:bunny_sync/global/widgets/animation/indexed_list_slide_fade_anim
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:bunny_sync/global/widgets/main_error_widget.dart';
 import 'package:bunny_sync/global/widgets/main_show_bottom_sheet.dart';
+import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:bunny_sync/global/widgets/search_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 abstract class LittersTabCallbacks {
@@ -74,12 +76,12 @@ class _LittersTabState extends State<LittersTab>
 
   @override
   void onAddLitterTab() {
-    context.router.push(const AddLitterRoute());
+    context.router.push(AddLitterRoute());
   }
 
   @override
   void onMoreOptionsTap(LitterEntryModel litterEntryModel) {
-     mainShowBottomSheet(
+    mainShowBottomSheet(
       context,
       widget: BottomSheetWidget(
         title: 'litter_options'.i18n,
@@ -104,22 +106,22 @@ class _LittersTabState extends State<LittersTab>
   void onArchive(LitterEntryModel litterEntryModel) {
     // TODO: implement onArchive
   }
-  
+
   @override
   void onButcher(LitterEntryModel litterEntryModel) {
     // TODO: implement onButcher
   }
-  
+
   @override
   void onCageCard(LitterEntryModel litterEntryModel) {
     // TODO: implement onCageCard
   }
-  
+
   @override
   void onSell(LitterEntryModel litterEntryModel) {
     // TODO: implement onSell
   }
-  
+
   @override
   void onWeight(LitterEntryModel litterEntryModel) {
     // TODO: implement onWeight
@@ -127,14 +129,36 @@ class _LittersTabState extends State<LittersTab>
 
   @override
   void onDeleteLitterTab(LitterEntryModel litterEntryModel) {
-    // TODO: implement onDeleteTab
+    context.router.popForced();
+    mainShowBottomSheet(
+      context,
+      widget: BottomSheetWidget(
+        title: 'are_you_sure_to_delete_litter'.i18n,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextButton(
+              onPressed: () {
+                context.router.popForced();
+                littersCubit.deleteLitter(litterEntryModel.id);
+              },
+              child: Text('yes'.i18n),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
   void onEditLitterTab(LitterEntryModel litterEntryModel) {
-    // TODO: implement onEditTab
+    context.router.popForced();
+    context.router.push(
+      AddLitterRoute(
+        litterEntryModel: litterEntryModel,
+      ),
+    );
   }
-
 
   @override
   void onChanged(String value) {
@@ -162,7 +186,30 @@ class _LittersTabState extends State<LittersTab>
                 const SizedBox(width: 20),
               ],
             ),
-            BlocBuilder<LittersCubit, GeneralLittersState>(
+            BlocConsumer<LittersCubit, GeneralLittersState>(
+              listener: (context, state) {
+                if (state is DeleteLitterSuccess) {
+              context.loaderOverlay.hide();
+              MainSnackBar.showSuccessMessageBar(
+                context,
+                'litter_delete'.i18n,
+              );
+            } else if (state is LittersFail) {
+              context.loaderOverlay.hide();
+              MainSnackBar.showErrorMessageBar(
+                context,
+                state.message,
+              );
+            } else if (state is DeleteLitterLoading) {
+              context.loaderOverlay.show();
+            } else if (state is DeleteLitterFail) {
+              context.loaderOverlay.hide();
+              MainSnackBar.showErrorMessageBar(
+                context,
+                state.message,
+              );
+            }
+              },
               buildWhen: (previous, current) => current is LittersState,
               builder: (context, state) {
                 if (state is LittersFetch) {

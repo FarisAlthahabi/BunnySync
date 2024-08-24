@@ -20,10 +20,16 @@ class TasksCubit extends Cubit<GeneralTasksState> {
 
   List<TaskModel> tasks = [];
 
-  Future<void> getTasks({int? breederId}) async {
+  Future<void> getTasks({
+    int? breederId,
+    int? litterId,
+  }) async {
     emit(TasksLoading(fakeTasks));
     try {
-      final response = await _tasksRepo.getTasks(breederId: breederId);
+      final response = await _tasksRepo.getTasks(
+        breederId: breederId,
+        litterId: litterId,
+      );
       tasks = response;
       if (response.isEmpty) {
         emit(TasksEmpty("no_tasks".i18n));

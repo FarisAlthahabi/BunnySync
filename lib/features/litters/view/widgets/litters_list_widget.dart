@@ -16,6 +16,7 @@ class LittersListWidget extends StatelessWidget {
     required this.litters,
     this.controller,
     this.onRefresh,
+    required this.onMoreOptionsTap,
   });
 
   final ScrollController? controller;
@@ -23,6 +24,7 @@ class LittersListWidget extends StatelessWidget {
   final List<LitterEntryModel> litters;
   final EdgeInsetsGeometry padding;
   final AsyncCallback? onRefresh;
+  final ValueSetter<LitterEntryModel> onMoreOptionsTap;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +39,7 @@ class LittersListWidget extends StatelessWidget {
           return IndexedListSlideFadeAnimatedTile(
             index: index,
             child: LitterTile(
+              onMoreOptionsTap: onMoreOptionsTap,
               litter: litters[index],
               onTap: onLitterTap,
             ),
@@ -51,8 +54,7 @@ class LittersListWidget extends StatelessWidget {
         );
       }
       return AnimationLimiter(child: child);
-    }
-    else{
+    } else {
       return Scaffold(
         body: Center(
           child: Text(

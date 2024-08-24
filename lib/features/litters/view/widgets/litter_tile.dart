@@ -13,10 +13,12 @@ class LitterTile extends StatelessWidget {
     super.key,
     required this.litter,
     required this.onTap,
+    required this.onMoreOptionsTap,
   });
 
   final LitterEntryModel litter;
   final ValueSetter<LitterEntryModel> onTap;
+  final ValueSetter<LitterEntryModel> onMoreOptionsTap;
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +67,9 @@ class LitterTile extends StatelessWidget {
                 top: 0,
                 end: 0,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    onMoreOptionsTap(litter);
+                  },
                   style: TextButton.styleFrom(
                     padding: AppConstants.padding4,
                     minimumSize: Size.zero,

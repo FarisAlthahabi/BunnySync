@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:bunny_sync/features/breeder_details/cubit/breeder_details_cubit.dart';
-import 'package:bunny_sync/features/breeder_details/models/breeder_note_model/breeder_note_model.dart';
 import 'package:bunny_sync/features/breeder_details/view/widgets/breeder_note_details_tile.dart';
+import 'package:bunny_sync/global/blocs/note_cubit/cubit/notes_cubit.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
+import 'package:bunny_sync/global/models/note_model/note_model.dart';
 import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
@@ -20,19 +20,21 @@ abstract class NotesTabCallbacks {
 
   void onAddTap();
 
-  void onNoteTap(BreederNoteModel breederNoteModel);
+  void onNoteTap(NoteModel noteModel);
 
-  void onDeleteTap(BreederNoteModel breederNoteModel);
+  void onDeleteTap(NoteModel noteModel);
 }
 
 class NotesTab extends StatefulWidget {
   const NotesTab({
     super.key,
-    required this.breederId,
+    this.breederId,
     this.controller,
+    this.litterId,
   });
 
-  final int breederId;
+  final int? breederId;
+  final int? litterId;
   final ScrollController? controller;
 
   @override
@@ -40,13 +42,15 @@ class NotesTab extends StatefulWidget {
 }
 
 class _NotesTabState extends State<NotesTab> implements NotesTabCallbacks {
-  late final BreederDetailsCubit breederDetailsCubit = context.read();
+  late final NotesCubit notesCubit = context.read();
 
   @override
   void initState() {
     super.initState();
-
-    breederDetailsCubit.getBreederNotes(widget.breederId);
+    notesCubit.getNotes(
+      breederId: widget.breederId,
+      litterId: widget.litterId,
+    );
   }
 
   @override
@@ -54,18 +58,22 @@ class _NotesTabState extends State<NotesTab> implements NotesTabCallbacks {
     context.router.push(
       AddNoteRoute(
         breederId: widget.breederId,
-        breederDetailsCubit: breederDetailsCubit,
+        litterId: widget.litterId,
+        notesCubit: notesCubit,
       ),
     );
   }
 
   @override
   void onTryAgainTap() {
-    breederDetailsCubit.getBreederNotes(widget.breederId);
+    notesCubit.getNotes(
+      breederId: widget.breederId,
+      litterId: widget.litterId,
+    );
   }
 
   @override
-  void onDeleteTap(BreederNoteModel breederNoteModel) {
+  void onDeleteTap(NoteModel noteModel) {
     context.router.popForced();
     mainShowBottomSheet(
       context,
@@ -77,7 +85,12 @@ class _NotesTabState extends State<NotesTab> implements NotesTabCallbacks {
             TextButton(
               onPressed: () {
                 context.router.popForced();
-                breederDetailsCubit.deleteNote(breederNoteModel.id);
+                notesCubit.deleteNote(
+                  breederId:
+                      widget.breederId != null ? noteModel.id : null,
+                  litterId:
+                      widget.litterId != null ? noteModel.id : null,
+                );
               },
               child: Text('yes'.i18n),
             ),
@@ -88,12 +101,12 @@ class _NotesTabState extends State<NotesTab> implements NotesTabCallbacks {
   }
 
   @override
-  void onNoteTap(BreederNoteModel breederNoteModel) {
+  void onNoteTap(NoteModel noteModel) {
     mainShowBottomSheet(
       context,
       widget: BottomSheetWidget(
         title: "note_options".i18n,
-        model: breederNoteModel,
+        model: noteModel,
         onDelete: onDeleteTap,
       ),
     );
@@ -102,29 +115,29 @@ class _NotesTabState extends State<NotesTab> implements NotesTabCallbacks {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocConsumer<BreederDetailsCubit, GeneralBreederDetailsState>(
+      body: BlocConsumer<NotesCubit, GeneralNotesState>(
         listener: (context, state) {
-          if (state is BreederNoteDeleteSuccess) {
+          if (state is DeleteNoteSuccess) {
             MainSnackBar.showSuccessMessageBar(
               context,
               "note_deleted".i18n,
             );
             context.loaderOverlay.hide();
-          } else if (state is BreederNoteDeleteFail) {
+          } else if (state is DeleteNoteFail) {
             MainSnackBar.showErrorMessageBar(
               context,
               "note_delete_fail".i18n,
             );
             context.loaderOverlay.hide();
-          } else if (state is BreederNoteAddLoading) {
+          } else if (state is DeleteNoteLoading) {
             context.loaderOverlay.show();
           }
         },
-        buildWhen: (prev, curr) => curr is BreederNotesState,
+        buildWhen: (prev, curr) => curr is NotesState,
         builder: (context, state) {
-          if (state is BreederNotesFetch) {
+          if (state is NotesFetch) {
             return Skeletonizer(
-              enabled: state is BreederNotesLoading,
+              enabled: state is NotesLoading,
               child: SingleChildScrollView(
                 controller: widget.controller,
                 child: Padding(
@@ -140,7 +153,7 @@ class _NotesTabState extends State<NotesTab> implements NotesTabCallbacks {
                         child: ListView.separated(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: state.breederNotes.length,
+                          itemCount: state.notes.length,
                           itemBuilder: (context, index) {
                             Color tileColor;
                             if (index.isEven) {
@@ -149,9 +162,9 @@ class _NotesTabState extends State<NotesTab> implements NotesTabCallbacks {
                               tileColor = context.cs.onInverseSurface;
                             }
                             return BreederNoteDetailsTile(
-                              breederNoteModel: state.breederNotes[index],
+                              noteModel: state.notes[index],
                               tileColor: tileColor,
-                              onTap: () => onNoteTap(state.breederNotes[index]),
+                              onTap: () => onNoteTap(state.notes[index]),
                             );
                           },
                           separatorBuilder: (context, index) {
@@ -166,14 +179,14 @@ class _NotesTabState extends State<NotesTab> implements NotesTabCallbacks {
                 ),
               ),
             );
-          } else if (state is BreederNotesEmpty) {
+          } else if (state is NotesEmpty) {
             return Center(
               child: Text(
                 state.message,
                 style: context.tt.bodyLarge,
               ),
             );
-          } else if (state is BreederNotesFail) {
+          } else if (state is NotesFail) {
             return MainErrorWidget(
               error: state.message,
               onTap: onTryAgainTap,

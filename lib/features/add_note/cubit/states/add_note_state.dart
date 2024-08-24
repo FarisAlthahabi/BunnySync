@@ -10,7 +10,7 @@ class AddNoteLoading extends AddNoteState {}
 class AddNoteSuccess extends AddNoteState {
   AddNoteSuccess(this.note);
 
-  final BreederNoteModel note;
+  final NoteModel note;
 }
 
 class AddNoteFail extends AddNoteState {

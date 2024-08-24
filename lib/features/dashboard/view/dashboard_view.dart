@@ -82,7 +82,7 @@ class _DashboardPageState extends State<DashboardPage>
   void onLitterTap() {
     Navigator.pop(context);
     context.router.push(
-      const AddLitterRoute(),
+      AddLitterRoute(),
     );
   }
 

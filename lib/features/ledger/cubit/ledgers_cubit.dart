@@ -45,11 +45,12 @@ class LedgersCubit extends Cubit<GeneralLedgersState> {
       )
       .toList();
 
-  Future<void> getLedgers({int? breederId}) async {
+  Future<void> getLedgers({int? breederId, int? litterId}) async {
     emit(LedgersLoading(ledgersFakeModel));
     try {
       final ledgers = await _ledgersRepo.getLedgers(
         breederId: breederId,
+        litterId: litterId,
       );
       this.ledgers = ledgers;
       if (ledgers.isEmpty) {

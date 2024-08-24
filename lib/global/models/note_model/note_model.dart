@@ -1,36 +1,38 @@
 import 'dart:convert';
 
-import 'package:bunny_sync/global/utils/json_converters/int_converter.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
-part 'breeder_note_model.g.dart';
+part 'note_model.g.dart';
 
 @JsonSerializable()
 @immutable
-class BreederNoteModel implements BottomSheetItemModel {
-  const BreederNoteModel({
+class NoteModel implements BottomSheetItemModel {
+  const NoteModel({
     required this.id,
-    required this.breederId,
     required this.title,
     required this.note,
     required this.createdAt,
     required this.updatedAt,
+    this.breederId,
+    this.litterId,
     this.dtRowIndex,
   });
 
-  factory BreederNoteModel.fromJsonStr(String str) =>
-      BreederNoteModel.fromJson(jsonDecode(str) as Map<String, dynamic>);
+  factory NoteModel.fromJsonStr(String str) =>
+      NoteModel.fromJson(jsonDecode(str) as Map<String, dynamic>);
 
-  factory BreederNoteModel.fromJson(Map<String, dynamic> json) =>
-      _$BreederNoteModelFromJson(json);
+  factory NoteModel.fromJson(Map<String, dynamic> json) =>
+      _$NoteModelFromJson(json);
 
   final int id;
 
-  @IntConverter()
   @JsonKey(name: 'breeder_id')
-  final int breederId;
+  final int? breederId;
+
+  @JsonKey(name: 'litter_id')
+  final int? litterId;
 
   final String title;
 
@@ -47,5 +49,5 @@ class BreederNoteModel implements BottomSheetItemModel {
 
   String toJsonStr() => jsonEncode(toJson());
 
-  Map<String, dynamic> toJson() => _$BreederNoteModelToJson(this);
+  Map<String, dynamic> toJson() => _$NoteModelToJson(this);
 }

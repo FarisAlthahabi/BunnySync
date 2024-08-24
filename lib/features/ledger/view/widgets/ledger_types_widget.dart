@@ -33,7 +33,7 @@ class _LedgerTypesWidgetState extends State<LedgerTypesWidget> {
         crossAxisCount: 2,
         mainAxisSpacing: 16,
         crossAxisSpacing: 16,
-        childAspectRatio: 1.6,
+        childAspectRatio: 1.4,
       ),
       children: LedgerTypes.values.map(
         (e) {

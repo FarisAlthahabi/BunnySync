@@ -40,9 +40,13 @@ class LedgerView extends StatelessWidget {
   const LedgerView({
     super.key,
     this.breederId,
+    this.litterId,
+    this.controler,
   });
 
   final int? breederId;
+  final int? litterId;
+  final ScrollController? controler;
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +54,8 @@ class LedgerView extends StatelessWidget {
       create: (context) => get<LedgersCubit>(),
       child: LedgerPage(
         breederId: breederId,
+        litterId: litterId,
+        controler: controler,
       ),
     );
   }
@@ -59,9 +65,12 @@ class LedgerPage extends StatefulWidget {
   const LedgerPage({
     super.key,
     this.breederId,
+    this.litterId, this.controler,
   });
 
   final int? breederId;
+  final int? litterId;
+  final ScrollController? controler;
 
   @override
   State<LedgerPage> createState() => _LedgerPageState();
@@ -73,9 +82,12 @@ class _LedgerPageState extends State<LedgerPage>
   @override
   void initState() {
     super.initState();
-    ledgersCubit.getLedgerStats();
+    if (widget.breederId == null && widget.breederId == null) {
+      ledgersCubit.getLedgerStats();
+    }
     ledgersCubit.getLedgers(
       breederId: widget.breederId,
+      litterId: widget.litterId,
     );
   }
 
@@ -140,7 +152,9 @@ class _LedgerPageState extends State<LedgerPage>
 
   @override
   void onTryAgainTap() {
-    ledgersCubit.getLedgerStats();
+    if (widget.breederId == null && widget.breederId == null) {
+      ledgersCubit.getLedgerStats();
+    }
     ledgersCubit.getLedgers();
   }
 
@@ -148,8 +162,9 @@ class _LedgerPageState extends State<LedgerPage>
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
+        controller: widget.controler,
         slivers: [
-          if (widget.breederId == null)
+          if (widget.breederId == null && widget.litterId == null)
             SliverAppBar(
               expandedHeight: 0.55.sh,
               snap: true,

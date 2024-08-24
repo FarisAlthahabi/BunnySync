@@ -13,6 +13,8 @@ part 'states/general_litters_state.dart';
 
 part 'states/litters_state.dart';
 
+part 'states/delete_litter_state.dart';
+
 part 'states/kits_state.dart';
 
 @injectable
@@ -71,6 +73,26 @@ class LittersCubit extends Cubit<GeneralLittersState> {
     //TODO: Updating for search state
     if (state is LittersSuccess) {
       emit(LittersSuccess(littersStatusModel));
+    }
+  }
+
+  Future<void> deleteLitter(int litterId) async {
+    emit(DeleteLitterLoading());
+    try {
+      await _littersRepo.deleteLitter(litterId);
+      allLitters.removeWhere(
+        (litter) => litter.id == litterId,
+      );
+      littersStatusModel = LittersStatusModel(
+      all: allLitters,
+      active: activeLitters,
+      inactive: inactiveLitters,
+    );
+      emit(DeleteLitterSuccess());
+      emit(LittersSuccess(littersStatusModel));
+    } catch (e, s) {
+      addError(e, s);
+      emit(DeleteLitterFail(e.toString()));
     }
   }
 

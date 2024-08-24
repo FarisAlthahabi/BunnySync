@@ -39,4 +39,16 @@ class HttpLittersRepo implements LittersRepo {
       rethrow;
     }
   }
+
+  @override
+  Future<void> deleteLitter(int litterId) async {
+    try {
+      await _dioClient.delete('/litters/$litterId');
+    } on Exception catch (e) {
+      if (e is NotFoundException) {
+        throw e.message ?? 'something_went_wrong'.i18n;
+      }
+      rethrow;
+    }
+  }
 }
