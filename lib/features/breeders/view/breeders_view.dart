@@ -332,7 +332,7 @@ class _BreedersPageState extends State<BreedersPage>
     context.router.push(
       BreederDetailsRoute(
         breederEntryModel: breederEntryModel,
-        initailIndex: 5,
+        initailIndex: 6,
       ),
     );
   }

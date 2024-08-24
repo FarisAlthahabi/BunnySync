@@ -9,6 +9,11 @@ import 'package:bunny_sync/features/breeder_details/view/tabs/profile_tab.dart';
 import 'package:bunny_sync/features/breeder_details/view/widgets/breeder_profile_info_widget.dart';
 import 'package:bunny_sync/features/breeder_details/view/widgets/details_tab_bar.dart';
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
+import 'package:bunny_sync/features/breeders/view/breed_view.dart';
+import 'package:bunny_sync/features/breeders/view/save_birth_view.dart';
+import 'package:bunny_sync/features/breeders/view/set_butcher_view.dart';
+import 'package:bunny_sync/features/breeders/view/set_sell_view.dart';
+import 'package:bunny_sync/features/breeders/view/update_breeder_weight_view.dart';
 import 'package:bunny_sync/features/health/view/health_view.dart';
 import 'package:bunny_sync/features/ledger/view/ledger_view.dart';
 import 'package:bunny_sync/features/litters/cubit/litters_cubit.dart';
@@ -16,6 +21,7 @@ import 'package:bunny_sync/features/main_navigation/cubit/main_navigation_cubit.
 import 'package:bunny_sync/features/tasks/view/tasks_view.dart';
 import 'package:bunny_sync/global/blocs/delete_breeder_cubit/delete_breeder_cubit.dart';
 import 'package:bunny_sync/global/blocs/note_cubit/cubit/notes_cubit.dart';
+import 'package:bunny_sync/global/blocs/rabbit_concerns_cubit/rabbit_concerns_cubit.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/mixins/create_scroll_listener_mixin.dart';
@@ -33,6 +39,8 @@ abstract class BreederDetailsViewCallbacks {
   void onMoreOptionsTap(BreederEntryModel breederEntryModel);
 
   void onEditBreeder(BreederEntryModel breederEntryModel);
+
+  void onSetActive(BreederEntryModel breederEntryModel);
 
   void onBreed(BreederEntryModel breederEntryModel);
 
@@ -119,6 +127,8 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
 
   late final DeleteBreederCubit deleteBreederCubit = context.read();
 
+  late final RabbitConcernsCubit rabbitConcernsCubit = context.read();
+
   final parentScrollController = ScrollController();
   final List<ScrollController> childScrollController =
       List.generate(10, (index) => ScrollController());
@@ -165,6 +175,9 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
       context,
       widget: BottomSheetWidget(
         title: 'breeder_options'.i18n,
+        onEdit: onEditBreeder,
+        onSetActive: onSetActive,
+        onDelete: onDeleteBreeder,
         model: breederEntryModel,
         onArchive: onArchive,
         onBirth: onBirth,
@@ -172,8 +185,6 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
         onCageCard: onCageCard,
         onButcher: onButcher,
         onCull: onCull,
-        onEdit: onEditBreeder,
-        onDelete: onDeleteBreeder,
         onDied: onDied,
         onNotes: onNotes,
         onPedigree: onPedigree,
@@ -184,8 +195,30 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
   }
 
   @override
-  void onEditBreeder(BreederEntryModel breederEntryModel) {
+  void onSetActive(BreederEntryModel breederEntryModel) {
     context.router.popForced();
+    mainShowBottomSheet(
+      context,
+      widget: BottomSheetWidget(
+        title: 'are_you_sure_to_set_breeder_active'.i18n,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextButton(
+              onPressed: () {
+                rabbitConcernsCubit.setActive(breederEntryModel.id);
+              },
+              child: Text('yes'.i18n),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  void onEditBreeder(BreederEntryModel breederEntryModel) {
+    Navigator.pop(context);
     context.router.push(
       AddBreederRoute(
         breederEntryModel: breederEntryModel,
@@ -200,17 +233,43 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
 
   @override
   void onBirth(BreederEntryModel breederEntryModel) {
-    // TODO: implement onBirth
+    context.router.popForced();
+    mainShowBottomSheet(
+      context,
+      widget: BottomSheetWidget(
+        isTitleCenter: true,
+        title: 'birth'.i18n,
+        child: const SaveBirthView(),
+      ),
+    );
   }
 
   @override
   void onBreed(BreederEntryModel breederEntryModel) {
-    // TODO: implement onBreed
+    context.router.popForced();
+    mainShowBottomSheet(
+      context,
+      widget: BottomSheetWidget(
+        isTitleCenter: true,
+        title: 'breed'.i18n,
+        child: const BreedView(),
+      ),
+    );
   }
 
   @override
   void onButcher(BreederEntryModel breederEntryModel) {
-    // TODO: implement onButcher
+    context.router.popForced();
+    mainShowBottomSheet(
+      context,
+      widget: BottomSheetWidget(
+        isTitleCenter: true,
+        title: 'butcher'.i18n,
+        child: SetButcherView(
+          breederId: breederEntryModel.id,
+        ),
+      ),
+    );
   }
 
   @override
@@ -230,22 +289,54 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
 
   @override
   void onNotes(BreederEntryModel breederEntryModel) {
-    // TODO: implement onNotes
+    context.router.popForced();
+    context.router.push(
+      BreederDetailsRoute(
+        breederEntryModel: breederEntryModel,
+        initailIndex: 6,
+      ),
+    );
   }
 
   @override
   void onPedigree(BreederEntryModel breederEntryModel) {
-    // TODO: implement onPedigree
+    context.router.popForced();
+    context.router.push(
+      BreederDetailsRoute(
+        breederEntryModel: breederEntryModel,
+        initailIndex: 3,
+      ),
+    );
   }
 
   @override
   void onSell(BreederEntryModel breederEntryModel) {
-    // TODO: implement onSell
+    context.router.popForced();
+    mainShowBottomSheet(
+      context,
+      widget: BottomSheetWidget(
+        isTitleCenter: true,
+        title: 'sell'.i18n,
+        child: SetSellView(
+          breederId: breederEntryModel.id,
+        ),
+      ),
+    );
   }
 
   @override
   void onWeight(BreederEntryModel breederEntryModel) {
-    // TODO: implement onWeight
+    context.router.popForced();
+    mainShowBottomSheet(
+      context,
+      widget: BottomSheetWidget(
+        isTitleCenter: true,
+        title: 'weights'.i18n,
+        child: UpdateBreederWeightView(
+          breederId: breederEntryModel.id,
+        ),
+      ),
+    );
   }
 
   @override
