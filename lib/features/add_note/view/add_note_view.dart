@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/add_note/cubit/add_note_cubit.dart';
-import 'package:bunny_sync/features/breeder_details/cubit/breeder_details_cubit.dart';
+import 'package:bunny_sync/global/blocs/note_cubit/cubit/notes_cubit.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
@@ -28,12 +28,14 @@ abstract class AddNoteViewCallBack {
 class AddNoteView extends StatelessWidget {
   const AddNoteView({
     super.key,
-    required this.breederId,
-    required this.breederDetailsCubit,
+    required this.notesCubit,
+    this.breederId,
+    this.litterId,
   });
 
-  final int breederId;
-  final BreederDetailsCubit breederDetailsCubit;
+  final int? breederId;
+  final int? litterId;
+  final NotesCubit notesCubit;
 
   @override
   Widget build(BuildContext context) {
@@ -42,10 +44,11 @@ class AddNoteView extends StatelessWidget {
         BlocProvider(
           create: (context) => get<AddNoteCubit>(),
         ),
-        BlocProvider.value(value: breederDetailsCubit),
+        BlocProvider.value(value: notesCubit),
       ],
       child: AddNotePage(
         breederId: breederId,
+        litterId: litterId,
       ),
     );
   }
@@ -55,9 +58,11 @@ class AddNotePage extends StatefulWidget {
   const AddNotePage({
     super.key,
     required this.breederId,
+    this.litterId,
   });
 
-  final int breederId;
+  final int? breederId;
+  final int? litterId;
 
   @override
   State<AddNotePage> createState() => _AddNotePageState();
@@ -67,7 +72,7 @@ class _AddNotePageState extends State<AddNotePage>
     implements AddNoteViewCallBack {
   late final AddNoteCubit addNoteCubit = context.read();
 
-  late final BreederDetailsCubit breederDetailsCubit = context.read();
+  late final NotesCubit notesCubit = context.read();
 
   final titleFocusNode = FocusNode();
 
@@ -95,7 +100,10 @@ class _AddNotePageState extends State<AddNotePage>
 
   @override
   void onSave() {
-    addNoteCubit.addNote(widget.breederId);
+    addNoteCubit.addNote(
+      breederId: widget.breederId,
+      litterId: widget.litterId,
+    );
   }
 
   @override
@@ -156,7 +164,7 @@ class _AddNotePageState extends State<AddNotePage>
                             "note_added".i18n,
                           );
                           context.router.maybePop();
-                          breederDetailsCubit.addNote(
+                          notesCubit.addNote(
                             state.note,
                           );
                         } else if (state is AddNoteFail) {

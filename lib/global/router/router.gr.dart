@@ -94,9 +94,14 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     AddLitterRoute.name: (routeData) {
+      final args = routeData.argsAs<AddLitterRouteArgs>(
+          orElse: () => const AddLitterRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const AddLitterView(),
+        child: AddLitterView(
+          key: args.key,
+          litterEntryModel: args.litterEntryModel,
+        ),
       );
     },
     AddNoteRoute.name: (routeData) {
@@ -105,8 +110,9 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: AddNoteView(
           key: args.key,
+          notesCubit: args.notesCubit,
           breederId: args.breederId,
-          breederDetailsCubit: args.breederDetailsCubit,
+          litterId: args.litterId,
         ),
       );
     },
@@ -224,6 +230,8 @@ abstract class _$AppRouter extends RootStackRouter {
         child: LedgerView(
           key: args.key,
           breederId: args.breederId,
+          litterId: args.litterId,
+          controler: args.controler,
         ),
       );
     },
@@ -294,6 +302,7 @@ abstract class _$AppRouter extends RootStackRouter {
           title: args.title,
           scrollController: args.scrollController,
           breederId: args.breederId,
+          litterId: args.litterId,
         ),
       );
     },
@@ -603,16 +612,40 @@ class AddLedgerRouteArgs {
 
 /// generated route for
 /// [AddLitterView]
-class AddLitterRoute extends PageRouteInfo<void> {
-  const AddLitterRoute({List<PageRouteInfo>? children})
-      : super(
+class AddLitterRoute extends PageRouteInfo<AddLitterRouteArgs> {
+  AddLitterRoute({
+    Key? key,
+    LitterEntryModel? litterEntryModel,
+    List<PageRouteInfo>? children,
+  }) : super(
           AddLitterRoute.name,
+          args: AddLitterRouteArgs(
+            key: key,
+            litterEntryModel: litterEntryModel,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'AddLitterRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<AddLitterRouteArgs> page =
+      PageInfo<AddLitterRouteArgs>(name);
+}
+
+class AddLitterRouteArgs {
+  const AddLitterRouteArgs({
+    this.key,
+    this.litterEntryModel,
+  });
+
+  final Key? key;
+
+  final LitterEntryModel? litterEntryModel;
+
+  @override
+  String toString() {
+    return 'AddLitterRouteArgs{key: $key, litterEntryModel: $litterEntryModel}';
+  }
 }
 
 /// generated route for
@@ -620,15 +653,17 @@ class AddLitterRoute extends PageRouteInfo<void> {
 class AddNoteRoute extends PageRouteInfo<AddNoteRouteArgs> {
   AddNoteRoute({
     Key? key,
-    required int breederId,
-    required BreederDetailsCubit breederDetailsCubit,
+    required NotesCubit notesCubit,
+    int? breederId,
+    int? litterId,
     List<PageRouteInfo>? children,
   }) : super(
           AddNoteRoute.name,
           args: AddNoteRouteArgs(
             key: key,
+            notesCubit: notesCubit,
             breederId: breederId,
-            breederDetailsCubit: breederDetailsCubit,
+            litterId: litterId,
           ),
           initialChildren: children,
         );
@@ -642,19 +677,22 @@ class AddNoteRoute extends PageRouteInfo<AddNoteRouteArgs> {
 class AddNoteRouteArgs {
   const AddNoteRouteArgs({
     this.key,
-    required this.breederId,
-    required this.breederDetailsCubit,
+    required this.notesCubit,
+    this.breederId,
+    this.litterId,
   });
 
   final Key? key;
 
-  final int breederId;
+  final NotesCubit notesCubit;
 
-  final BreederDetailsCubit breederDetailsCubit;
+  final int? breederId;
+
+  final int? litterId;
 
   @override
   String toString() {
-    return 'AddNoteRouteArgs{key: $key, breederId: $breederId, breederDetailsCubit: $breederDetailsCubit}';
+    return 'AddNoteRouteArgs{key: $key, notesCubit: $notesCubit, breederId: $breederId, litterId: $litterId}';
   }
 }
 
@@ -980,12 +1018,16 @@ class LedgerRoute extends PageRouteInfo<LedgerRouteArgs> {
   LedgerRoute({
     Key? key,
     int? breederId,
+    int? litterId,
+    ScrollController? controler,
     List<PageRouteInfo>? children,
   }) : super(
           LedgerRoute.name,
           args: LedgerRouteArgs(
             key: key,
             breederId: breederId,
+            litterId: litterId,
+            controler: controler,
           ),
           initialChildren: children,
         );
@@ -999,15 +1041,21 @@ class LedgerRouteArgs {
   const LedgerRouteArgs({
     this.key,
     this.breederId,
+    this.litterId,
+    this.controler,
   });
 
   final Key? key;
 
   final int? breederId;
 
+  final int? litterId;
+
+  final ScrollController? controler;
+
   @override
   String toString() {
-    return 'LedgerRouteArgs{key: $key, breederId: $breederId}';
+    return 'LedgerRouteArgs{key: $key, breederId: $breederId, litterId: $litterId, controler: $controler}';
   }
 }
 
@@ -1178,6 +1226,7 @@ class TasksRoute extends PageRouteInfo<TasksRouteArgs> {
     String? title,
     ScrollController? scrollController,
     int? breederId,
+    int? litterId,
     List<PageRouteInfo>? children,
   }) : super(
           TasksRoute.name,
@@ -1186,6 +1235,7 @@ class TasksRoute extends PageRouteInfo<TasksRouteArgs> {
             title: title,
             scrollController: scrollController,
             breederId: breederId,
+            litterId: litterId,
           ),
           initialChildren: children,
         );
@@ -1201,6 +1251,7 @@ class TasksRouteArgs {
     this.title,
     this.scrollController,
     this.breederId,
+    this.litterId,
   });
 
   final Key? key;
@@ -1211,8 +1262,10 @@ class TasksRouteArgs {
 
   final int? breederId;
 
+  final int? litterId;
+
   @override
   String toString() {
-    return 'TasksRouteArgs{key: $key, title: $title, scrollController: $scrollController, breederId: $breederId}';
+    return 'TasksRouteArgs{key: $key, title: $title, scrollController: $scrollController, breederId: $breederId, litterId: $litterId}';
   }
 }

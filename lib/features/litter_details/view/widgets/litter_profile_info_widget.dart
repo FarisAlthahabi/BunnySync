@@ -48,7 +48,7 @@ class LitterProfileInfoWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  '${'id'.i18n}: ${litter.id} | ${'prefix'.i18n}: ${litter.prefix}',
+                  '${'id'.i18n}: ${litter.id} | ${'prefix'.i18n}: ${litter.prefix ?? "unknown".i18n}',
                   textAlign: TextAlign.center,
                   style: context.tt.bodyMedium,
                 ),
@@ -89,7 +89,7 @@ class LitterProfileInfoWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  '${'id'.i18n}: ${litter.id} | ${'prefix'.i18n}: ${litter.prefix}',
+                  '${'id'.i18n}: ${litter.id} | ${'prefix'.i18n}: ${litter.prefix ?? "unknown".i18n}',
                   textAlign: TextAlign.center,
                   style: context.tt.bodyMedium,
                 ),

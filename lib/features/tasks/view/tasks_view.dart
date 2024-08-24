@@ -38,11 +38,13 @@ class TasksView extends StatelessWidget {
     this.title,
     this.scrollController,
     this.breederId,
+    this.litterId,
   });
 
   final String? title;
   final ScrollController? scrollController;
   final int? breederId;
+  final int? litterId;
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +54,7 @@ class TasksView extends StatelessWidget {
         scrollController: scrollController,
         title: title,
         breederId: breederId,
+        litterId: litterId,
       ),
     );
   }
@@ -63,11 +66,13 @@ class TasksPage extends StatefulWidget {
     this.title,
     this.scrollController,
     this.breederId,
+    this.litterId,
   });
 
   final String? title;
   final ScrollController? scrollController;
   final int? breederId;
+  final int? litterId;
 
   @override
   State<TasksPage> createState() => _TasksPageState();
@@ -79,12 +84,18 @@ class _TasksPageState extends State<TasksPage> implements TasksViewCallBacks {
   @override
   void initState() {
     super.initState();
-    tasksCubit.getTasks(breederId: widget.breederId);
+    tasksCubit.getTasks(
+      breederId: widget.breederId,
+      litterId: widget.litterId,
+    );
   }
 
   @override
   void onTryAgain() {
-    tasksCubit.getTasks(breederId: widget.breederId);
+    tasksCubit.getTasks(
+      breederId: widget.breederId,
+      litterId: widget.litterId,
+    );
   }
 
   @override

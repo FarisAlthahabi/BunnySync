@@ -422,5 +422,7 @@
   "weight_updated" : "Weight is updated successfully",
   "set_active_success" : "Breeder is active now",
   "set_active" : "Set active",
-  "are_you_sure_to_set_breeder_active" : "Are you sure to set this breeder active?"
+  "are_you_sure_to_set_breeder_active" : "Are you sure to set this breeder active?",
+  "are_you_sure_to_delete_litter" :"Are you sure to delete this litter?",
+  "litter_delete" : "Litter is deleted successfully"
 }

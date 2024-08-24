@@ -11,4 +11,6 @@ abstract class LittersRepo {
   Future<LittersModel> getLitters({int? breederId});
 
   Future<List<KitModel>> getKits(int litterId);
+
+  Future<void> deleteLitter(int litterId);
 }

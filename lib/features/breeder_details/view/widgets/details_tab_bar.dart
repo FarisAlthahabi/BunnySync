@@ -38,19 +38,23 @@ class DetailsTabBar extends StatelessWidget implements PreferredSizeWidget {
         unselectedLabelColor: context.cs.primary,
         tabs: tabs
             .map(
-              (tab) => Tab(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    if (tab.title == 'profile'.i18n)
-                      const Padding(
-                        padding: EdgeInsetsDirectional.only(end: 8.0),
-                        child: Icon(Icons.bookmark_outline_rounded),
+              (tab) => Padding(
+                padding:
+                    tabs.length <= 4 ? AppConstants.paddingH8 : EdgeInsets.zero,
+                child: Tab(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (tab.title == 'profile'.i18n)
+                        const Padding(
+                          padding: EdgeInsetsDirectional.only(end: 8.0),
+                          child: Icon(Icons.bookmark_outline_rounded),
+                        ),
+                      Text(
+                        tab.title,
                       ),
-                    Text(
-                      tab.title,
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             )

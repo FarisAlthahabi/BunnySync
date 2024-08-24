@@ -8,7 +8,10 @@ import 'package:injectable/injectable.dart';
 part 'http_ledgers_repo.dart';
 
 abstract class LedgersRepo {
-  Future<List<LedgerModel>> getLedgers({int? breederId});
+  Future<List<LedgerModel>> getLedgers({
+    int? breederId,
+    int? litterId,
+  });
 
   Future<void> deleteLedger(int ledgerId);
 

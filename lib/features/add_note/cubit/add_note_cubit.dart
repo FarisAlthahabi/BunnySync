@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:bunny_sync/features/add_note/model/add_note_model/add_note_model.dart';
 import 'package:bunny_sync/features/add_note/repo/add_note_repo.dart';
-import 'package:bunny_sync/features/breeder_details/models/breeder_note_model/breeder_note_model.dart';
+import 'package:bunny_sync/global/models/note_model/note_model.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
@@ -28,11 +28,18 @@ class AddNoteCubit extends Cubit<GeneralAddNoteState> {
     );
   }
 
-  Future<void> addNote(int breederId) async {
+  Future<void> addNote({
+    int? breederId,
+    int? litterId,
+  }) async {
     emit(AddNoteLoading());
 
     try {
-      final note = await _addNoteRepo.addNote(_addNoteModel, breederId);
+      final note = await _addNoteRepo.addNote(
+        _addNoteModel,
+        breederId: breederId,
+        litterId: litterId,
+      );
       emit(AddNoteSuccess(note));
     } catch (e, s) {
       addError(e, s);

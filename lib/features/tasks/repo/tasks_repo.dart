@@ -7,7 +7,10 @@ import 'package:injectable/injectable.dart';
 part 'http_tasks_repo.dart';
 
 abstract class TasksRepo {
-  Future<List<TaskModel>> getTasks({int? breederId});
+  Future<List<TaskModel>> getTasks({
+    int? breederId,
+    int? litterId,
+  });
 
   Future<void> deleteTask(int taskId);
 }

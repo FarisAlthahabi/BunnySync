@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/add_litter/cubit/add_litter_cubit.dart';
 import 'package:bunny_sync/features/breeders/cubit/breeders_cubit.dart';
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
+import 'package:bunny_sync/features/litters/models/litter_entry_model/litter_entry_model.dart';
 import 'package:bunny_sync/features/main_navigation/cubit/main_navigation_cubit.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
@@ -67,7 +68,10 @@ abstract class AddLitterViewCallBack {
 class AddLitterView extends StatelessWidget {
   const AddLitterView({
     super.key,
+    this.litterEntryModel,
   });
+
+  final LitterEntryModel? litterEntryModel;
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +84,9 @@ class AddLitterView extends StatelessWidget {
           create: (context) => get<BreedersCubit>(),
         ),
       ],
-      child: const AddLitterPage(),
+      child: AddLitterPage(
+        litterEntryModel: litterEntryModel,
+      ),
     );
   }
 }
@@ -88,7 +94,10 @@ class AddLitterView extends StatelessWidget {
 class AddLitterPage extends StatefulWidget {
   const AddLitterPage({
     super.key,
+    this.litterEntryModel,
   });
+
+  final LitterEntryModel? litterEntryModel;
 
   @override
   State<AddLitterPage> createState() => _AddLitterPageState();

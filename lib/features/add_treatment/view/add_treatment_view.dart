@@ -741,6 +741,7 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
                     ),
                     Row(
                       mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Expanded(
                           child: SizedBox(
@@ -788,6 +789,7 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
                     ),
                     Row(
                       mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Expanded(
                           child: MainTextField(
@@ -833,6 +835,7 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
                     ),
                     Row(
                       mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Expanded(
                           child: MainTextField(
@@ -877,6 +880,7 @@ class _AddTreatmentPageState extends State<AddTreatmentPage>
                       height: 25,
                     ),
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Expanded(

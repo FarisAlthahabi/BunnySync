@@ -5,24 +5,21 @@ import 'package:bunny_sync/features/breeder_details/models/breeder_details_respo
 import 'package:bunny_sync/features/breeder_details/models/breeder_details_response_model/breeder_details_response_model.dart';
 import 'package:bunny_sync/features/breeder_details/models/breeder_image_model/breeder_image_fake_model.dart';
 import 'package:bunny_sync/features/breeder_details/models/breeder_image_model/breeder_image_model.dart';
-import 'package:bunny_sync/features/breeder_details/models/breeder_note_model/breeder_note_fake_model.dart';
-import 'package:bunny_sync/features/breeder_details/models/breeder_note_model/breeder_note_model.dart';
 import 'package:bunny_sync/features/breeder_details/models/pedigree_model/pedigree_fake_model.dart';
 import 'package:bunny_sync/features/breeder_details/models/pedigree_url_model/pedigree_url_model.dart';
 import 'package:bunny_sync/features/breeder_details/repo/breeder_details_repo.dart';
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
+import 'package:bunny_sync/global/models/note_model/note_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
+part 'states/breeder_attachments_state/breeder_attachments_state.dart';
+part 'states/breeder_attachments_state/delete_breeder_attachment_state.dart';
 part 'states/breeder_details_state.dart';
 part 'states/breeder_images_state/breeder_images_actions_state.dart';
 part 'states/breeder_images_state/breeder_images_state.dart';
-part 'states/breeder_attachments_state/delete_breeder_attachment_state.dart';
-part 'states/breeder_attachments_state/breeder_attachments_state.dart';
-part 'states/breeder_notes_state/breeder_notes_actions_state.dart';
-part 'states/breeder_notes_state/breeder_notes_state.dart';
 part 'states/breeder_pedigree_state.dart';
 part 'states/breeder_profile_state.dart';
 part 'states/general_breeder_details_state.dart';
@@ -36,7 +33,7 @@ class BreederDetailsCubit extends Cubit<GeneralBreederDetailsState> {
 
   final BreederDetailsRepo _breederDetailsRepo;
 
-  List<BreederNoteModel> notes = [];
+  List<NoteModel> notes = [];
 
   BreederEntryModel breeder;
 
@@ -69,23 +66,6 @@ class BreederDetailsCubit extends Cubit<GeneralBreederDetailsState> {
     } catch (e, s) {
       addError(e, s);
       emit(BreederPedigreeFail(e.toString()));
-    }
-  }
-
-  Future<void> getBreederNotes(int breederId) async {
-    emit(BreederNotesLoading(breederNotesFake));
-
-    try {
-      final response = await _breederDetailsRepo.getBreederNotes(breederId);
-      if (response.isEmpty) {
-        emit(BreederNotesEmpty('notes_empty'.i18n));
-      } else {
-        notes = response;
-        emit(BreederNotesSuccess(response));
-      }
-    } catch (e, s) {
-      addError(e, s);
-      emit(BreederNotesFail(e.toString()));
     }
   }
 
@@ -147,33 +127,6 @@ class BreederDetailsCubit extends Cubit<GeneralBreederDetailsState> {
   void updateBreeder(BreederEntryModel breeder) {
     this.breeder = breeder;
     emit(BreederDetailsSuccess(breeder));
-  }
-
-  void addNote(BreederNoteModel note) {
-    notes.add(note);
-    emit(BreederNotesSuccess(notes));
-  }
-
-  Future<void> deleteNote(int breederId) async {
-    emit(BreederNoteAddLoading());
-
-    try {
-      await _breederDetailsRepo.deleteNote(breederId);
-      notes.removeWhere(
-        (element) => element.id == breederId,
-      );
-
-      emit(BreederNoteDeleteSuccess());
-
-      if (notes.isEmpty) {
-        emit(BreederNotesEmpty('notes_empty'.i18n));
-      } else {
-        emit(BreederNotesSuccess(notes));
-      }
-    } catch (e, s) {
-      addError(e, s);
-      emit(BreederNoteDeleteFail(e.toString()));
-    }
   }
 
   Future<void> getAttachments(int breederId) async {

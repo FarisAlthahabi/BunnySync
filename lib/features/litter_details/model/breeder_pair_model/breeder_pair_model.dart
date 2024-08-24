@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
+import 'package:bunny_sync/global/extensions/date_time_x.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/utils/json_converters/date_time_converter.dart';
 import 'package:bunny_sync/global/widgets/main_drop_down_widget.dart';
@@ -66,5 +67,5 @@ class BreederPairModel implements DropDownItemModel {
 
   @override
   String get displayName =>
-      '${maleBreeder?.displayName ?? 'unknown'.i18n} + ${femaleBreeder?.displayName}';
+      '${date.formatMMddYYYY}-${maleBreeder?.displayName ?? 'unknown'.i18n} & ${femaleBreeder?.displayName}';
 }

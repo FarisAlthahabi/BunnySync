@@ -10,10 +10,12 @@ import 'package:bunny_sync/features/breeder_details/view/widgets/breeder_profile
 import 'package:bunny_sync/features/breeder_details/view/widgets/details_tab_bar.dart';
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
 import 'package:bunny_sync/features/health/view/health_view.dart';
+import 'package:bunny_sync/features/ledger/view/ledger_view.dart';
 import 'package:bunny_sync/features/litters/cubit/litters_cubit.dart';
 import 'package:bunny_sync/features/main_navigation/cubit/main_navigation_cubit.dart';
 import 'package:bunny_sync/features/tasks/view/tasks_view.dart';
 import 'package:bunny_sync/global/blocs/delete_breeder_cubit/delete_breeder_cubit.dart';
+import 'package:bunny_sync/global/blocs/note_cubit/cubit/notes_cubit.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/mixins/create_scroll_listener_mixin.dart';
@@ -82,6 +84,9 @@ class BreederDetailsView extends StatelessWidget {
         BlocProvider<LittersCubit>(
           create: (context) => get<LittersCubit>(),
         ),
+        BlocProvider<NotesCubit>(
+          create: (context) => get<NotesCubit>(),
+        ),
       ],
       child: BreederDetailsPage(
         breederEntryModel: breederEntryModel,
@@ -116,7 +121,7 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
 
   final parentScrollController = ScrollController();
   final List<ScrollController> childScrollController =
-      List.generate(9, (index) => ScrollController());
+      List.generate(10, (index) => ScrollController());
 
   List<TabModel> get tabs => [
         TabModel(title: 'profile'.i18n),
@@ -124,6 +129,7 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
         TabModel(title: 'tasks'.i18n),
         TabModel(title: 'pedigree'.i18n),
         TabModel(title: 'health'.i18n),
+        TabModel(title: 'ledger'.i18n),
         TabModel(title: 'notes'.i18n),
         TabModel(title: 'images'.i18n),
         TabModel(title: 'attachments'.i18n),
@@ -367,20 +373,24 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
                         ),
                         HealthView(
                           breederId: widget.breederEntryModel.id,
-                          ailmentsController: childScrollController[4] ,
+                          ailmentsController: childScrollController[4],
                           treatmentsController: childScrollController[5],
+                        ),
+                        LedgerView(
+                          breederId: widget.breederEntryModel.id,
+                          controler: childScrollController[6],
                         ),
                         NotesTab(
                           breederId: widget.breederEntryModel.id,
-                          controller: childScrollController[6],
+                          controller: childScrollController[7],
                         ),
                         ImagesTab(
                           breederId: widget.breederEntryModel.id,
-                          controller: childScrollController[7],
+                          controller: childScrollController[8],
                         ),
                         AttachmentTab(
                           breederId: widget.breederEntryModel.id,
-                          controller: childScrollController[8],
+                          controller: childScrollController[9],
                         ),
                       ],
                     ),

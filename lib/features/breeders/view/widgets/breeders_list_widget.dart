@@ -23,7 +23,7 @@ class BreedersListWidget extends StatelessWidget {
   final ValueSetter<BreederEntryModel> onMoreOptionsTap;
   final EdgeInsetsGeometry padding;
   final AsyncCallback? onRefresh;
-  final ScrollController? controller; //
+  final ScrollController? controller;
 
   @override
   Widget build(BuildContext context) {
