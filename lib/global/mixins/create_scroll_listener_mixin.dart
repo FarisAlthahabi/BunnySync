@@ -10,28 +10,31 @@ mixin CreateScrollListenerMixin<T extends StatefulWidget> on State<T> {
     required ScrollController child,
   }) {
     return () {
-      child.addListener(() {
-        if (child.position.userScrollDirection == ScrollDirection.reverse &&
-            !isParentScrollingDownward) {
-          parent.animateTo(
-             200,
-            duration: const Duration(milliseconds: 200),
-            curve: Curves.easeIn,
-          );
-          isParentScrollingDownward = true;
-          isParentScrollingUpward = false;
-        } else if (child.position.userScrollDirection ==
-                ScrollDirection.forward &&
-            !isParentScrollingUpward) {
-          parent.animateTo(
-            0,
-            duration: const Duration(milliseconds: 200),
-            curve: Curves.easeIn,
-          );
-          isParentScrollingUpward = true;
-          isParentScrollingDownward = false;
-        }
-      });
+      print(
+          'child.position.userScrollDirection: ${child.position.userScrollDirection}');
+      print('isParentScrollingDownward: $isParentScrollingDownward');
+      print('isParentScrollingUpward: $isParentScrollingUpward');
+
+      if (child.position.userScrollDirection == ScrollDirection.reverse &&
+          !isParentScrollingDownward) {
+        parent.animateTo(
+          200,
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeIn,
+        );
+        isParentScrollingDownward = true;
+        isParentScrollingUpward = false;
+      } else if (child.position.userScrollDirection ==
+              ScrollDirection.forward &&
+          !isParentScrollingUpward) {
+        parent.animateTo(
+          0,
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeIn,
+        );
+        isParentScrollingDownward = false;
+        isParentScrollingUpward = true;
+      }
     };
   }
 }
