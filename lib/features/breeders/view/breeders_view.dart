@@ -19,6 +19,7 @@ import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/utils/enums/gender_types_enum.dart';
+import 'package:bunny_sync/global/utils/utils.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:bunny_sync/global/widgets/custom_app_bar.dart';
 import 'package:bunny_sync/global/widgets/keep_alive_widget.dart';
@@ -267,7 +268,7 @@ class _BreedersPageState extends State<BreedersPage>
 
   @override
   void onArchive(BreederEntryModel breederEntryModel) {
-    // TODO: implement onArchive
+    Utils.showComingSoonToast();
   }
 
   @override
@@ -313,17 +314,17 @@ class _BreedersPageState extends State<BreedersPage>
 
   @override
   void onCageCard(BreederEntryModel breederEntryModel) {
-    // TODO: implement onCageCard
+    Utils.showComingSoonToast();
   }
 
   @override
   void onCull(BreederEntryModel breederEntryModel) {
-    // TODO: implement onCull
+    Utils.showComingSoonToast();
   }
 
   @override
   void onDied(BreederEntryModel breederEntryModel) {
-    // TODO: implement onDied
+    Utils.showComingSoonToast();
   }
 
   @override

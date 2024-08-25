@@ -1,4 +1,6 @@
+import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 abstract class Utils {
@@ -34,5 +36,13 @@ abstract class Utils {
     } catch (e) {
       onError?.call();
     }
+  }
+
+  static void showComingSoonToast() {
+    Fluttertoast.showToast(
+      msg: 'coming_soon'.i18n,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+    );
   }
 }
