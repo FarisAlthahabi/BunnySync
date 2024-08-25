@@ -229,6 +229,7 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: LedgerView(
           key: args.key,
+          addSuffixEmptySpace: args.addSuffixEmptySpace,
           breederId: args.breederId,
           litterId: args.litterId,
           controler: args.controler,
@@ -299,6 +300,7 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: TasksView(
           key: args.key,
+          addSuffixEmptySpace: args.addSuffixEmptySpace,
           title: args.title,
           scrollController: args.scrollController,
           breederId: args.breederId,
@@ -1017,6 +1019,7 @@ class IntroRoute extends PageRouteInfo<void> {
 class LedgerRoute extends PageRouteInfo<LedgerRouteArgs> {
   LedgerRoute({
     Key? key,
+    bool addSuffixEmptySpace = false,
     int? breederId,
     int? litterId,
     ScrollController? controler,
@@ -1025,6 +1028,7 @@ class LedgerRoute extends PageRouteInfo<LedgerRouteArgs> {
           LedgerRoute.name,
           args: LedgerRouteArgs(
             key: key,
+            addSuffixEmptySpace: addSuffixEmptySpace,
             breederId: breederId,
             litterId: litterId,
             controler: controler,
@@ -1040,12 +1044,15 @@ class LedgerRoute extends PageRouteInfo<LedgerRouteArgs> {
 class LedgerRouteArgs {
   const LedgerRouteArgs({
     this.key,
+    this.addSuffixEmptySpace = false,
     this.breederId,
     this.litterId,
     this.controler,
   });
 
   final Key? key;
+
+  final bool addSuffixEmptySpace;
 
   final int? breederId;
 
@@ -1055,7 +1062,7 @@ class LedgerRouteArgs {
 
   @override
   String toString() {
-    return 'LedgerRouteArgs{key: $key, breederId: $breederId, litterId: $litterId, controler: $controler}';
+    return 'LedgerRouteArgs{key: $key, addSuffixEmptySpace: $addSuffixEmptySpace, breederId: $breederId, litterId: $litterId, controler: $controler}';
   }
 }
 
@@ -1223,6 +1230,7 @@ class SplashRoute extends PageRouteInfo<void> {
 class TasksRoute extends PageRouteInfo<TasksRouteArgs> {
   TasksRoute({
     Key? key,
+    bool addSuffixEmptySpace = false,
     String? title,
     ScrollController? scrollController,
     int? breederId,
@@ -1232,6 +1240,7 @@ class TasksRoute extends PageRouteInfo<TasksRouteArgs> {
           TasksRoute.name,
           args: TasksRouteArgs(
             key: key,
+            addSuffixEmptySpace: addSuffixEmptySpace,
             title: title,
             scrollController: scrollController,
             breederId: breederId,
@@ -1248,6 +1257,7 @@ class TasksRoute extends PageRouteInfo<TasksRouteArgs> {
 class TasksRouteArgs {
   const TasksRouteArgs({
     this.key,
+    this.addSuffixEmptySpace = false,
     this.title,
     this.scrollController,
     this.breederId,
@@ -1255,6 +1265,8 @@ class TasksRouteArgs {
   });
 
   final Key? key;
+
+  final bool addSuffixEmptySpace;
 
   final String? title;
 
@@ -1266,6 +1278,6 @@ class TasksRouteArgs {
 
   @override
   String toString() {
-    return 'TasksRouteArgs{key: $key, title: $title, scrollController: $scrollController, breederId: $breederId, litterId: $litterId}';
+    return 'TasksRouteArgs{key: $key, addSuffixEmptySpace: $addSuffixEmptySpace, title: $title, scrollController: $scrollController, breederId: $breederId, litterId: $litterId}';
   }
 }

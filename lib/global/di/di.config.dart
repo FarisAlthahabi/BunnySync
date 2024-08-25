@@ -79,15 +79,17 @@ import 'package:bunny_sync/features/litter_details/cubit/litter_details_cubit.da
     as _i62;
 import 'package:bunny_sync/features/litter_details/repo/litter_details_repo.dart'
     as _i26;
-import 'package:bunny_sync/features/litters/cubit/litters_cubit.dart' as _i63;
+import 'package:bunny_sync/features/litters/cubit/litters_cubit.dart' as _i64;
+import 'package:bunny_sync/features/litters/models/litter_entry_model/litter_entry_model.dart'
+    as _i63;
 import 'package:bunny_sync/features/litters/repo/litters_repo.dart' as _i27;
 import 'package:bunny_sync/features/main_navigation/cubit/main_navigation_cubit.dart'
     as _i29;
-import 'package:bunny_sync/features/profile/cubit/profile_cubit.dart' as _i64;
+import 'package:bunny_sync/features/profile/cubit/profile_cubit.dart' as _i65;
 import 'package:bunny_sync/features/profile/repo/profile_repo.dart' as _i33;
-import 'package:bunny_sync/features/sign_in/cubit/sign_in_cubit.dart' as _i66;
+import 'package:bunny_sync/features/sign_in/cubit/sign_in_cubit.dart' as _i67;
 import 'package:bunny_sync/features/sign_in/repo/sign_in_repo.dart' as _i35;
-import 'package:bunny_sync/features/tasks/cubit/tasks_cubit.dart' as _i67;
+import 'package:bunny_sync/features/tasks/cubit/tasks_cubit.dart' as _i68;
 import 'package:bunny_sync/features/tasks/repo/tasks_repo.dart' as _i36;
 import 'package:bunny_sync/global/blocs/delete_breeder_cubit/delete_breeder_cubit.dart'
     as _i58;
@@ -96,10 +98,10 @@ import 'package:bunny_sync/global/blocs/note_cubit/cubit/notes_cubit.dart'
 import 'package:bunny_sync/global/blocs/permissions_cubit/permissions_cubit.dart'
     as _i32;
 import 'package:bunny_sync/global/blocs/rabbit_concerns_cubit/rabbit_concerns_cubit.dart'
-    as _i65;
+    as _i66;
 import 'package:bunny_sync/global/blocs/upload_file_cubit/upload_file_cubit.dart'
     as _i37;
-import 'package:bunny_sync/global/di/modules/app_module.dart' as _i68;
+import 'package:bunny_sync/global/di/modules/app_module.dart' as _i69;
 import 'package:bunny_sync/global/dio/dio_client.dart' as _i21;
 import 'package:bunny_sync/global/localization/cubit/localization_cubit.dart'
     as _i28;
@@ -222,21 +224,27 @@ extension GetItInjectableX on _i1.GetIt {
     gh.factory<_i60.HomeCubit>(() => _i60.HomeCubit(gh<_i23.HomeRepo>()));
     gh.factory<_i61.LedgersCubit>(
         () => _i61.LedgersCubit(gh<_i25.LedgersRepo>()));
-    gh.factory<_i62.LitterDetailsCubit>(
-        () => _i62.LitterDetailsCubit(gh<_i26.LitterDetailsRepo>()));
-    gh.factory<_i63.LittersCubit>(
-        () => _i63.LittersCubit(gh<_i27.LittersRepo>()));
-    gh.factory<_i64.ProfileCubit>(
-        () => _i64.ProfileCubit(gh<_i33.ProfileRepo>()));
-    gh.factory<_i65.RabbitConcernsCubit>(
-        () => _i65.RabbitConcernsCubit(gh<_i34.RabbitConcernsRepo>()));
-    gh.factory<_i66.SignInCubit>(() => _i66.SignInCubit(
+    gh.factoryParam<_i62.LitterDetailsCubit, _i63.LitterEntryModel, dynamic>((
+      litter,
+      _,
+    ) =>
+        _i62.LitterDetailsCubit(
+          gh<_i26.LitterDetailsRepo>(),
+          litter,
+        ));
+    gh.factory<_i64.LittersCubit>(
+        () => _i64.LittersCubit(gh<_i27.LittersRepo>()));
+    gh.factory<_i65.ProfileCubit>(
+        () => _i65.ProfileCubit(gh<_i33.ProfileRepo>()));
+    gh.factory<_i66.RabbitConcernsCubit>(
+        () => _i66.RabbitConcernsCubit(gh<_i34.RabbitConcernsRepo>()));
+    gh.factory<_i67.SignInCubit>(() => _i67.SignInCubit(
           gh<_i35.SignInRepo>(),
           gh<_i50.AuthenticationBloc>(),
         ));
-    gh.factory<_i67.TasksCubit>(() => _i67.TasksCubit(gh<_i36.TasksRepo>()));
+    gh.factory<_i68.TasksCubit>(() => _i68.TasksCubit(gh<_i36.TasksRepo>()));
     return this;
   }
 }
 
-class _$AppModule extends _i68.AppModule {}
+class _$AppModule extends _i69.AppModule {}
