@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:bunny_sync/features/add_kit/models/post_kit_model/post_kit_model.dart';
 import 'package:bunny_sync/features/litter_details/model/kit_status_model/kit_status_model.dart';
 import 'package:bunny_sync/global/utils/enums/gender_types_enum.dart';
+import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:bunny_sync/global/widgets/main_drop_down_widget.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -11,7 +13,8 @@ part 'kit_model.g.dart';
 
 @JsonSerializable()
 @immutable
-class KitModel extends Equatable implements DropDownItemModel {
+class KitModel extends Equatable
+    implements DropDownItemModel, BottomSheetItemModel {
   const KitModel({
     required this.id,
     required this.userId,
@@ -78,4 +81,15 @@ class KitModel extends Equatable implements DropDownItemModel {
 
   @override
   List<Object?> get props => [id];
+
+  PostKitModel get toPostKitModel => PostKitModel(
+        tatto: code,
+        prefix: prefix,
+        name: kitName,
+        color: color,
+        breed: breed,
+        cage: cage,
+        gender: gender,
+        note: note,
+      );
 }

@@ -13,6 +13,7 @@ class BottomSheetWidget<T extends BottomSheetItemModel>
     this.model,
     this.onEdit,
     this.onDelete,
+    this.onConfirm,
     this.child,
     this.onBreed,
     this.onBirth,
@@ -32,6 +33,7 @@ class BottomSheetWidget<T extends BottomSheetItemModel>
   final String title;
   final Widget? child;
   final ValueSetter<T>? onEdit;
+  final ValueSetter<T>? onConfirm;
   final ValueSetter<T>? onBreed;
   final ValueSetter<T>? onBirth;
   final ValueSetter<T>? onCageCard;
@@ -52,6 +54,7 @@ class BottomSheetWidget<T extends BottomSheetItemModel>
   Widget build(BuildContext context) {
     final child = this.child;
     final onEdit = this.onEdit;
+    final onConfirm = this.onConfirm;
     final onBreed = this.onBreed;
     final onBirth = this.onBirth;
     final onCageCard = this.onCageCard;
@@ -111,7 +114,7 @@ class BottomSheetWidget<T extends BottomSheetItemModel>
                           "edit".i18n,
                         ),
                       ),
-                      if (onSetActive != null && model != null)
+                    if (onSetActive != null && model != null)
                       TextButton(
                         onPressed: () => onSetActive(model),
                         style: TextButton.styleFrom(
@@ -239,6 +242,16 @@ class BottomSheetWidget<T extends BottomSheetItemModel>
                         ),
                         child: Text(
                           "delete".i18n,
+                        ),
+                      ),
+                    if (onConfirm != null && model != null)
+                      TextButton(
+                        onPressed: () => onConfirm(model),
+                        style: TextButton.styleFrom(
+                          alignment: AlignmentDirectional.centerStart,
+                        ),
+                        child: Text(
+                          "yes".i18n,
                         ),
                       ),
                   ],

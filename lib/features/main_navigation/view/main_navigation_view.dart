@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/main_navigation/cubit/main_navigation_cubit.dart';
+import 'package:bunny_sync/global/blocs/kits_cubit/kits_cubit.dart';
 import 'package:bunny_sync/global/blocs/rabbit_concerns_cubit/rabbit_concerns_cubit.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,10 @@ class MainNavigationView extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => get<RabbitConcernsCubit>(),
+        ),
+        //KitsCubit
+        BlocProvider(
+          create: (context) => get<KitsCubit>(),
         ),
       ],
       child: const MainNavigationPage(),

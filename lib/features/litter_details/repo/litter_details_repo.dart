@@ -8,4 +8,6 @@ part 'http_litter_details_repo.dart';
 
 abstract class LitterDetailsRepo {
   Future<LitterDetailsResponseModel> getLitterDetails(int id);
+
+  Future<void> deleteKit({required int litterId, required int kitId});
 }

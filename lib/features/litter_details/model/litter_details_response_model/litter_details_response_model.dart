@@ -22,7 +22,8 @@ class LitterDetailsResponseModel {
   });
 
   factory LitterDetailsResponseModel.fromJsonStr(String str) =>
-      LitterDetailsResponseModel.fromJson(jsonDecode(str) as Map<String, dynamic>);
+      LitterDetailsResponseModel.fromJson(
+          jsonDecode(str) as Map<String, dynamic>);
 
   factory LitterDetailsResponseModel.fromJson(Map<String, dynamic> json) =>
       _$LitterDetailsResponseModelFromJson(json);
@@ -48,4 +49,26 @@ class LitterDetailsResponseModel {
   String toJsonStr() => jsonEncode(toJson());
 
   Map<String, dynamic> toJson() => _$LitterDetailsResponseModelToJson(this);
+
+  LitterDetailsResponseModel copyWith({
+    LitterDetailsModel? litter,
+    List<KitModel>? fosterKits,
+    String? age,
+    double? totalWeight,
+    double? averegeWeight,
+    int? activeLittersCount,
+    int? diedLittersCount,
+    int? survivalRate,
+  }) {
+    return LitterDetailsResponseModel(
+      litter: litter ?? this.litter,
+      fosterKits: fosterKits ?? this.fosterKits,
+      age: age ?? this.age,
+      totalWeight: totalWeight ?? this.totalWeight,
+      averegeWeight: averegeWeight ?? this.averegeWeight,
+      activeLittersCount: activeLittersCount ?? this.activeLittersCount,
+      diedLittersCount: diedLittersCount ?? this.diedLittersCount,
+      survivalRate: survivalRate ?? this.survivalRate,
+    );
+  }
 }
