@@ -19,6 +19,10 @@ class BreederPedigreeSuccess extends BreederPedigreeFetch {
   BreederPedigreeSuccess(super.pedigreeUrlModel);
 }
 
+class BreederPedigreeWebViewSuccess extends BreederPedigreeState {
+  BreederPedigreeWebViewSuccess();
+}
+
 class BreederPedigreeFail extends BreederPedigreeState {
   BreederPedigreeFail(this.message);
 

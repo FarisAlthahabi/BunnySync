@@ -16,12 +16,19 @@ import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
 part 'states/breeder_attachments_state/breeder_attachments_state.dart';
+
 part 'states/breeder_attachments_state/delete_breeder_attachment_state.dart';
+
 part 'states/breeder_details_state.dart';
+
 part 'states/breeder_images_state/breeder_images_actions_state.dart';
+
 part 'states/breeder_images_state/breeder_images_state.dart';
+
 part 'states/breeder_pedigree_state.dart';
+
 part 'states/breeder_profile_state.dart';
+
 part 'states/general_breeder_details_state.dart';
 
 @injectable
@@ -67,6 +74,14 @@ class BreederDetailsCubit extends Cubit<GeneralBreederDetailsState> {
       addError(e, s);
       emit(BreederPedigreeFail(e.toString()));
     }
+  }
+
+  void emitPedigreeLoading() {
+    emit(BreederPedigreeLoading(pedigreeUrlFakeModel));
+  }
+
+  void emitPedigreeWebViewSuccess() {
+    emit(BreederPedigreeWebViewSuccess());
   }
 
   Future<void> getBreederImages(int breederId) async {

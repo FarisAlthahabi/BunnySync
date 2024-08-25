@@ -1,8 +1,9 @@
 import 'package:bunny_sync/features/breeder_details/cubit/breeder_details_cubit.dart';
+import 'package:bunny_sync/global/theme/theme.dart';
+import 'package:bunny_sync/global/widgets/loading_indicator.dart';
 import 'package:bunny_sync/global/widgets/main_error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 abstract class PedigreeTabCallbacks {
@@ -27,10 +28,13 @@ class _PedigreeTabState extends State<PedigreeTab>
     implements PedigreeTabCallbacks {
   late final BreederDetailsCubit breederDetailsCubit = context.read();
 
+  WebViewController? webViewController;
+
   @override
   void initState() {
-    breederDetailsCubit.getBreederPedigree(widget.breederId);
     super.initState();
+
+    breederDetailsCubit.getBreederPedigree(widget.breederId);
   }
 
   @override
@@ -40,42 +44,52 @@ class _PedigreeTabState extends State<PedigreeTab>
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BreederDetailsCubit, GeneralBreederDetailsState>(
+    return BlocConsumer<BreederDetailsCubit, GeneralBreederDetailsState>(
+      listener: (context, state) {
+        if (state is BreederPedigreeSuccess) {
+          webViewController = WebViewController()
+            ..setJavaScriptMode(JavaScriptMode.unrestricted)
+            ..setBackgroundColor(const Color(0x00000000))
+            ..setNavigationDelegate(
+              NavigationDelegate(
+                onProgress: (int progress) {
+                  breederDetailsCubit.emitPedigreeLoading();
+                },
+                onPageStarted: (String url) {},
+                onPageFinished: (String url) {
+                  breederDetailsCubit.emitPedigreeWebViewSuccess();
+                },
+                onHttpError: (HttpResponseError error) {},
+                onWebResourceError: (WebResourceError error) {},
+                onNavigationRequest: (NavigationRequest request) {
+                  //TODO
+                  if (request.url.startsWith('https://www.youtube.com/')) {
+                    return NavigationDecision.prevent;
+                  }
+                  return NavigationDecision.navigate;
+                },
+              ),
+            )
+            ..loadRequest(
+              Uri.parse(
+                state.pedigreeUrlModel.pedigreeUrl,
+              ),
+            );
+        }
+      },
       buildWhen: (prev, curr) => curr is BreederPedigreeState,
       builder: (context, state) {
-        if (state is BreederPedigreeFetch) {
+        final webViewController = this.webViewController;
+        if (state is BreederPedigreeWebViewSuccess &&
+            webViewController != null) {
           return WebViewWidget(
-            controller: WebViewController()
-              ..setJavaScriptMode(JavaScriptMode.unrestricted)
-              ..setBackgroundColor(const Color(0x00000000))
-              ..setNavigationDelegate(
-                NavigationDelegate(
-                  onProgress: (int progress) {
-                    context.loaderOverlay.show();
-                  },
-                  onPageStarted: (String url) {},
-                  onPageFinished: (String url) {
-                    context.loaderOverlay.hide();
-                  },
-                  onHttpError: (HttpResponseError error) {
-                    context.loaderOverlay.hide();
-                  },
-                  onWebResourceError: (WebResourceError error) {
-                    context.loaderOverlay.hide();
-                  },
-                  onNavigationRequest: (NavigationRequest request) {
-                    if (request.url.startsWith('https://www.youtube.com/')) {
-                      return NavigationDecision.prevent;
-                    }
-                    return NavigationDecision.navigate;
-                  },
-                ),
-              )
-              ..loadRequest(
-                Uri.parse(
-                  state.pedigreeUrlModel.pedigreeUrl,
-                ),
-              ),
+            controller: webViewController,
+          );
+        } else if (state is BreederPedigreeLoading) {
+          return Center(
+            child: LoadingIndicator(
+              color: context.cs.primary,
+            ),
           );
         } else if (state is BreederPedigreeFail) {
           return MainErrorWidget(
