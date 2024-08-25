@@ -198,6 +198,7 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: HealthView(
           key: args.key,
+          addSuffixEmptySpace: args.addSuffixEmptySpace,
           breederId: args.breederId,
           ailmentsController: args.ailmentsController,
           treatmentsController: args.treatmentsController,
@@ -232,7 +233,7 @@ abstract class _$AppRouter extends RootStackRouter {
           addSuffixEmptySpace: args.addSuffixEmptySpace,
           breederId: args.breederId,
           litterId: args.litterId,
-          controller: args.controler,
+          controller: args.controller,
         ),
       );
     },
@@ -930,6 +931,7 @@ class DashboardRoute extends PageRouteInfo<void> {
 class HealthRoute extends PageRouteInfo<HealthRouteArgs> {
   HealthRoute({
     Key? key,
+    bool addSuffixEmptySpace = false,
     int? breederId,
     ScrollController? ailmentsController,
     ScrollController? treatmentsController,
@@ -938,6 +940,7 @@ class HealthRoute extends PageRouteInfo<HealthRouteArgs> {
           HealthRoute.name,
           args: HealthRouteArgs(
             key: key,
+            addSuffixEmptySpace: addSuffixEmptySpace,
             breederId: breederId,
             ailmentsController: ailmentsController,
             treatmentsController: treatmentsController,
@@ -953,12 +956,15 @@ class HealthRoute extends PageRouteInfo<HealthRouteArgs> {
 class HealthRouteArgs {
   const HealthRouteArgs({
     this.key,
+    this.addSuffixEmptySpace = false,
     this.breederId,
     this.ailmentsController,
     this.treatmentsController,
   });
 
   final Key? key;
+
+  final bool addSuffixEmptySpace;
 
   final int? breederId;
 
@@ -968,7 +974,7 @@ class HealthRouteArgs {
 
   @override
   String toString() {
-    return 'HealthRouteArgs{key: $key, breederId: $breederId, ailmentsController: $ailmentsController, treatmentsController: $treatmentsController}';
+    return 'HealthRouteArgs{key: $key, addSuffixEmptySpace: $addSuffixEmptySpace, breederId: $breederId, ailmentsController: $ailmentsController, treatmentsController: $treatmentsController}';
   }
 }
 
@@ -1022,7 +1028,7 @@ class LedgerRoute extends PageRouteInfo<LedgerRouteArgs> {
     bool addSuffixEmptySpace = false,
     int? breederId,
     int? litterId,
-    ScrollController? controler,
+    ScrollController? controller,
     List<PageRouteInfo>? children,
   }) : super(
           LedgerRoute.name,
@@ -1031,7 +1037,7 @@ class LedgerRoute extends PageRouteInfo<LedgerRouteArgs> {
             addSuffixEmptySpace: addSuffixEmptySpace,
             breederId: breederId,
             litterId: litterId,
-            controler: controler,
+            controller: controller,
           ),
           initialChildren: children,
         );
@@ -1047,7 +1053,7 @@ class LedgerRouteArgs {
     this.addSuffixEmptySpace = false,
     this.breederId,
     this.litterId,
-    this.controler,
+    this.controller,
   });
 
   final Key? key;
@@ -1058,11 +1064,11 @@ class LedgerRouteArgs {
 
   final int? litterId;
 
-  final ScrollController? controler;
+  final ScrollController? controller;
 
   @override
   String toString() {
-    return 'LedgerRouteArgs{key: $key, addSuffixEmptySpace: $addSuffixEmptySpace, breederId: $breederId, litterId: $litterId, controler: $controler}';
+    return 'LedgerRouteArgs{key: $key, addSuffixEmptySpace: $addSuffixEmptySpace, breederId: $breederId, litterId: $litterId, controller: $controller}';
   }
 }
 

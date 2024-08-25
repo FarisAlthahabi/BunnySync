@@ -28,6 +28,7 @@ import 'package:bunny_sync/global/mixins/create_scroll_listener_mixin.dart';
 import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:bunny_sync/global/widgets/custom_app_bar.dart';
+import 'package:bunny_sync/global/widgets/keep_alive_widget.dart';
 import 'package:bunny_sync/global/widgets/main_show_bottom_sheet.dart';
 import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:flutter/material.dart';
@@ -448,43 +449,62 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
                   SliverFillRemaining(
                     child: TabBarView(
                       children: [
-                        ProfileTab(
-                          breederId: widget.breederEntryModel.id,
-                          controller: childScrollController[0],
+                        KeepAliveWidget(
+                          child: ProfileTab(
+                            breederId: widget.breederEntryModel.id,
+                            controller: childScrollController[0],
+                          ),
                         ),
-                        LittersTab(
-                          breederId: widget.breederEntryModel.id,
-                          controller: childScrollController[1],
+                        KeepAliveWidget(
+                          child: LittersTab(
+                            breederId: widget.breederEntryModel.id,
+                            controller: childScrollController[1],
+                          ),
                         ),
-                        TasksView(
-                          scrollController: childScrollController[2],
-                          addSuffixEmptySpace: true,
+                        KeepAliveWidget(
+                          child: TasksView(
+                            scrollController: childScrollController[2],
+                            addSuffixEmptySpace: true,
+                          ),
                         ),
-                        PedigreeTab(
-                          breederId: widget.breederEntryModel.id,
-                          controller: childScrollController[3],
+                        KeepAliveWidget(
+                          child: PedigreeTab(
+                            breederId: widget.breederEntryModel.id,
+                            controller: childScrollController[3],
+                          ),
                         ),
-                        HealthView(
-                          breederId: widget.breederEntryModel.id,
-                          ailmentsController: childScrollController[4],
-                          treatmentsController: childScrollController[5],
+                        KeepAliveWidget(
+                          child: HealthView(
+                            breederId: widget.breederEntryModel.id,
+                            ailmentsController: childScrollController[4],
+                            treatmentsController: childScrollController[5],
+                            addSuffixEmptySpace: true,
+                          ),
                         ),
-                        LedgerView(
-                          breederId: widget.breederEntryModel.id,
-                          controller: childScrollController[6],
-                          addSuffixEmptySpace: true,
+                        KeepAliveWidget(
+                          child: LedgerView(
+                            breederId: widget.breederEntryModel.id,
+                            controller: childScrollController[6],
+                            addSuffixEmptySpace: true,
+                          ),
                         ),
-                        NotesTab(
-                          breederId: widget.breederEntryModel.id,
-                          controller: childScrollController[7],
+                        KeepAliveWidget(
+                          child: NotesTab(
+                            breederId: widget.breederEntryModel.id,
+                            controller: childScrollController[7],
+                          ),
                         ),
-                        ImagesTab(
-                          breederId: widget.breederEntryModel.id,
-                          controller: childScrollController[8],
+                        KeepAliveWidget(
+                          child: ImagesTab(
+                            breederId: widget.breederEntryModel.id,
+                            controller: childScrollController[8],
+                          ),
                         ),
-                        AttachmentTab(
-                          breederId: widget.breederEntryModel.id,
-                          controller: childScrollController[9],
+                        KeepAliveWidget(
+                          child: AttachmentTab(
+                            breederId: widget.breederEntryModel.id,
+                            controller: childScrollController[9],
+                          ),
                         ),
                       ],
                     ),

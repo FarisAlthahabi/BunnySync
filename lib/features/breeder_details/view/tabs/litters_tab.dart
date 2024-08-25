@@ -164,10 +164,12 @@ class _LittersTabState extends State<LittersTab>
   void onChanged(String value) {
     // TODO: implement onChaned
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
+        controller: widget.controller,
         child: Column(
           children: [
             const SizedBox(
@@ -189,26 +191,26 @@ class _LittersTabState extends State<LittersTab>
             BlocConsumer<LittersCubit, GeneralLittersState>(
               listener: (context, state) {
                 if (state is DeleteLitterSuccess) {
-              context.loaderOverlay.hide();
-              MainSnackBar.showSuccessMessageBar(
-                context,
-                'litter_delete'.i18n,
-              );
-            } else if (state is LittersFail) {
-              context.loaderOverlay.hide();
-              MainSnackBar.showErrorMessageBar(
-                context,
-                state.message,
-              );
-            } else if (state is DeleteLitterLoading) {
-              context.loaderOverlay.show();
-            } else if (state is DeleteLitterFail) {
-              context.loaderOverlay.hide();
-              MainSnackBar.showErrorMessageBar(
-                context,
-                state.message,
-              );
-            }
+                  context.loaderOverlay.hide();
+                  MainSnackBar.showSuccessMessageBar(
+                    context,
+                    'litter_delete'.i18n,
+                  );
+                } else if (state is LittersFail) {
+                  context.loaderOverlay.hide();
+                  MainSnackBar.showErrorMessageBar(
+                    context,
+                    state.message,
+                  );
+                } else if (state is DeleteLitterLoading) {
+                  context.loaderOverlay.show();
+                } else if (state is DeleteLitterFail) {
+                  context.loaderOverlay.hide();
+                  MainSnackBar.showErrorMessageBar(
+                    context,
+                    state.message,
+                  );
+                }
               },
               buildWhen: (previous, current) => current is LittersState,
               builder: (context, state) {
@@ -216,7 +218,7 @@ class _LittersTabState extends State<LittersTab>
                   return Skeletonizer(
                     enabled: state is LittersLoading,
                     child: ListView.separated(
-                      controller: widget.controller,
+                      physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       padding: AppConstants.padding16,
                       itemCount: state.littersStatusModel.all.length,

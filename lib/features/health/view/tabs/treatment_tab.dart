@@ -9,6 +9,7 @@ import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:bunny_sync/global/widgets/element_tile.dart';
+import 'package:bunny_sync/global/widgets/list_suffix_empty_space_widget.dart';
 import 'package:bunny_sync/global/widgets/main_error_widget.dart';
 import 'package:bunny_sync/global/widgets/main_show_bottom_sheet.dart';
 import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
@@ -33,10 +34,12 @@ abstract class TreatmentTabCallBacks {
 class TreatmentTab extends StatefulWidget {
   const TreatmentTab({
     super.key,
+    this.addSuffixEmptySpace = false,
     this.breederId,
     this.controller,
   });
 
+  final bool addSuffixEmptySpace;
   final int? breederId;
   final ScrollController? controller;
 
@@ -44,11 +47,12 @@ class TreatmentTab extends StatefulWidget {
   State<TreatmentTab> createState() => _TreatmentTabState();
 }
 
-class _TreatmentTabState extends State<TreatmentTab> with PostFrameMixin
+class _TreatmentTabState extends State<TreatmentTab>
+    with PostFrameMixin
     implements TreatmentTabCallBacks {
   late final HealthCubit healthCubit = context.read();
 
-   @override
+  @override
   void onPostFrame() {
     healthCubit.getTreatments(
       breederId: widget.breederId,
@@ -202,6 +206,10 @@ class _TreatmentTabState extends State<TreatmentTab> with PostFrameMixin
                         },
                       ),
                       const SizedBox(height: 50),
+                      if (widget.addSuffixEmptySpace)
+                        ListSuffixEmptySpaceWidget(
+                          length: state.treatments.length,
+                        ),
                     ],
                   ),
                 ),

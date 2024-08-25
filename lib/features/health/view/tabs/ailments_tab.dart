@@ -9,6 +9,7 @@ import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:bunny_sync/global/widgets/element_tile.dart';
+import 'package:bunny_sync/global/widgets/list_suffix_empty_space_widget.dart';
 import 'package:bunny_sync/global/widgets/main_error_widget.dart';
 import 'package:bunny_sync/global/widgets/main_show_bottom_sheet.dart';
 import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
@@ -33,10 +34,12 @@ abstract class AilmentsTabCallBacks {
 class AilmentsTab extends StatefulWidget {
   const AilmentsTab({
     super.key,
+    this.addSuffixEmptySpace = false,
     this.breederId,
     this.controller,
   });
 
+  final bool addSuffixEmptySpace;
   final int? breederId;
   final ScrollController? controller;
 
@@ -44,7 +47,8 @@ class AilmentsTab extends StatefulWidget {
   State<AilmentsTab> createState() => _AilmentsTabState();
 }
 
-class _AilmentsTabState extends State<AilmentsTab> with PostFrameMixin
+class _AilmentsTabState extends State<AilmentsTab>
+    with PostFrameMixin
     implements AilmentsTabCallBacks {
   late final HealthCubit healthCubit = context.read();
 
@@ -199,6 +203,10 @@ class _AilmentsTabState extends State<AilmentsTab> with PostFrameMixin
                         },
                       ),
                       const SizedBox(height: 50),
+                      if (widget.addSuffixEmptySpace)
+                        ListSuffixEmptySpaceWidget(
+                          length: state.ailments.length,
+                        ),
                     ],
                   ),
                 ),

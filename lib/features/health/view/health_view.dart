@@ -15,11 +15,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class HealthView extends StatelessWidget {
   const HealthView({
     super.key,
+    this.addSuffixEmptySpace = false,
     this.breederId,
     this.ailmentsController,
     this.treatmentsController,
   });
 
+  final bool addSuffixEmptySpace;
   final int? breederId;
   final ScrollController? ailmentsController;
   final ScrollController? treatmentsController;
@@ -29,6 +31,7 @@ class HealthView extends StatelessWidget {
     return BlocProvider(
       create: (context) => get<HealthCubit>(),
       child: HealthPage(
+        addSuffixEmptySpace: addSuffixEmptySpace,
         breederId: breederId,
         ailmentsController: ailmentsController,
         treatmentsController: treatmentsController,
@@ -40,11 +43,13 @@ class HealthView extends StatelessWidget {
 class HealthPage extends StatefulWidget {
   const HealthPage({
     super.key,
+    this.addSuffixEmptySpace = false,
     this.breederId,
     this.ailmentsController,
     this.treatmentsController,
   });
 
+  final bool addSuffixEmptySpace;
   final int? breederId;
   final ScrollController? ailmentsController;
   final ScrollController? treatmentsController;
@@ -97,10 +102,12 @@ class _HealthPageState extends State<HealthPage> {
               AilmentsTab(
                 breederId: widget.breederId,
                 controller: widget.ailmentsController,
+                addSuffixEmptySpace: widget.addSuffixEmptySpace,
               ),
               TreatmentTab(
                 breederId: widget.breederId,
                 controller: widget.treatmentsController,
+                addSuffixEmptySpace: widget.addSuffixEmptySpace,
               ),
             ],
           ),
