@@ -26,6 +26,7 @@ import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/mixins/create_scroll_listener_mixin.dart';
 import 'package:bunny_sync/global/router/router.dart';
+import 'package:bunny_sync/global/utils/enums/entity_types.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:bunny_sync/global/widgets/custom_app_bar.dart';
 import 'package:bunny_sync/global/widgets/keep_alive_widget.dart';
@@ -208,7 +209,7 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
           children: [
             TextButton(
               onPressed: () {
-                rabbitConcernsCubit.setActive(breederEntryModel.id);
+                rabbitConcernsCubit.setActive(breederId: breederEntryModel.id);
               },
               child: Text('yes'.i18n),
             ),
@@ -335,6 +336,7 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
         isTitleCenter: true,
         title: 'weights'.i18n,
         child: UpdateBreederWeightView(
+          entityType: EntityTypes.breeder,
           breederId: breederEntryModel.id,
         ),
       ),

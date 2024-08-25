@@ -40,7 +40,8 @@ abstract class RabbitConcernsRepo {
     WeightPostModel weightPostModel,
   );
 
-  Future<void> setActive(
-    int breederId,
-  );
+  Future<void> setActive({
+    int? breederId,
+    int? litterId,
+  });
 }

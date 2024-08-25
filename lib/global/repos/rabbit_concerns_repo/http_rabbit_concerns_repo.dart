@@ -99,10 +99,12 @@ class HttpRabbitConcernsRepo implements RabbitConcernsRepo {
   }
 
   @override
-  Future<void> setActive(int breederId) async {
+  Future<void> setActive({int? breederId, int? litterId}) async {
     try {
       await _dioClient.get(
-        '/breeders/$breederId/change-status/undo-sold',
+        breederId != null && litterId == null
+            ? '/breeders/$breederId/change-status/undo-sold'
+            : '/litters/$litterId/change-status/unarchive/',
       );
     } on Exception catch (e) {
       if (e is NotFoundException) {

@@ -211,12 +211,13 @@ class RabbitConcernsCubit extends Cubit<GeneralRabbitConcernsState> {
     }
   }
 
-  Future<void> setActive(int breederId) async {
+  Future<void> setActive({int? breederId ,int? litterId}) async {
     emit(SetActiveLoading());
 
     try {
       await _rabbitConcernsRepo.setActive(
-        breederId,
+       breederId:  breederId,
+       litterId: litterId,
       );
       emit(SetActiveSuccess());
     } catch (e, s) {

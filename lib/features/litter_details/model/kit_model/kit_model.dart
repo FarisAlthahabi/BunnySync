@@ -19,6 +19,7 @@ class KitModel extends Equatable implements DropDownItemModel {
     required this.code,
     required this.createdAt,
     required this.updatedAt,
+    this.status,
     this.kitName,
     this.prefix,
     this.color,
@@ -26,7 +27,6 @@ class KitModel extends Equatable implements DropDownItemModel {
     this.cage,
     this.gender,
     this.note,
-    this.status,
   });
 
   factory KitModel.fromJsonStr(String str) =>

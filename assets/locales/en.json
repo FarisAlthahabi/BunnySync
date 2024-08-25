@@ -425,5 +425,11 @@
   "are_you_sure_to_set_breeder_active": "Are you sure to set this breeder active?",
   "are_you_sure_to_delete_litter": "Are you sure to delete this litter?",
   "litter_delete": "Litter is deleted successfully",
-  "coming_soon": "Coming Soon"
+  "coming_soon": "Coming Soon",
+  "litter_sell" : "Litter is sold successfully",
+  "individual_kits" : "Individual kits",
+  "entire_kits" : "Entire kits",
+  "are_you_sure_to_set_litter_active": "Are you sure to set this litter active?",
+  "set_litter_active_success" : "Litter is active now",
+  "litter_butcher" : "Litter is butchered successfully"
 }

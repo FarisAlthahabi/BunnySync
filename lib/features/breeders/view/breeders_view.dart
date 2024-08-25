@@ -18,6 +18,7 @@ import 'package:bunny_sync/global/mixins/create_scroll_listener_mixin.dart';
 import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
+import 'package:bunny_sync/global/utils/enums/entity_types.dart';
 import 'package:bunny_sync/global/utils/enums/gender_types_enum.dart';
 import 'package:bunny_sync/global/utils/utils.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
@@ -223,7 +224,7 @@ class _BreedersPageState extends State<BreedersPage>
           children: [
             TextButton(
               onPressed: () {
-                rabbitConcernsCubit.setActive(breederEntryModel.id);
+                rabbitConcernsCubit.setActive(breederId: breederEntryModel.id);
               },
               child: Text('yes'.i18n),
             ),
@@ -373,6 +374,7 @@ class _BreedersPageState extends State<BreedersPage>
         isTitleCenter: true,
         title: 'weights'.i18n,
         child: UpdateBreederWeightView(
+          entityType: EntityTypes.breeder,
           breederId: breederEntryModel.id,
         ),
       ),
