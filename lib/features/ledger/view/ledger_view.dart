@@ -11,6 +11,7 @@ import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:bunny_sync/global/widgets/element_tile.dart';
+import 'package:bunny_sync/global/widgets/list_suffix_empty_space_widget.dart';
 import 'package:bunny_sync/global/widgets/main_error_widget.dart';
 import 'package:bunny_sync/global/widgets/main_show_bottom_sheet.dart';
 import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
@@ -39,11 +40,13 @@ abstract class LedgerViewCallBacks {
 class LedgerView extends StatelessWidget {
   const LedgerView({
     super.key,
+    this.addSuffixEmptySpace = false,
     this.breederId,
     this.litterId,
     this.controler,
   });
 
+  final bool addSuffixEmptySpace;
   final int? breederId;
   final int? litterId;
   final ScrollController? controler;
@@ -53,6 +56,7 @@ class LedgerView extends StatelessWidget {
     return BlocProvider(
       create: (context) => get<LedgersCubit>(),
       child: LedgerPage(
+        addSuffixEmptySpace: addSuffixEmptySpace,
         breederId: breederId,
         litterId: litterId,
         controler: controler,
@@ -64,10 +68,13 @@ class LedgerView extends StatelessWidget {
 class LedgerPage extends StatefulWidget {
   const LedgerPage({
     super.key,
+    this.addSuffixEmptySpace = false,
     this.breederId,
-    this.litterId, this.controler,
+    this.litterId,
+    this.controler,
   });
 
+  final bool addSuffixEmptySpace;
   final int? breederId;
   final int? litterId;
   final ScrollController? controler;
@@ -246,44 +253,52 @@ class _LedgerPageState extends State<LedgerPage>
                 return Skeletonizer.sliver(
                   enabled: state is LedgersLoading,
                   child: SliverToBoxAdapter(
-                    child: ListView.separated(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      padding: AppConstants.padding16,
-                      itemCount: state.ledgers.length,
-                      itemBuilder: (context, index) {
-                        final ledger = state.ledgers[index];
-                        return ElementTile(
-                          onTap: onLedgerTap,
-                          model: ledger,
-                          leading: Skeleton.shade(
-                            child: BorderedTextualWidget(
-                              text: '${index + 1}',
-                            ),
+                    child: Column(
+                      children: [
+                        ListView.separated(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          padding: AppConstants.padding16,
+                          itemCount: state.ledgers.length,
+                          itemBuilder: (context, index) {
+                            final ledger = state.ledgers[index];
+                            return ElementTile(
+                              onTap: onLedgerTap,
+                              model: ledger,
+                              leading: Skeleton.shade(
+                                child: BorderedTextualWidget(
+                                  text: '${index + 1}',
+                                ),
+                              ),
+                              title: Text(
+                                strutStyle: const StrutStyle(height: 1.6),
+                                ledger.name,
+                                style: context.tt.titleSmall?.copyWith(
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              tag: ledger.type.displayName,
+                              type: Text(
+                                ledger.amount.contains("\$")
+                                    ? ledger.amount
+                                    : '\$ ${ledger.amount}',
+                              ),
+                              secondaryTag: ledger.category.displayName,
+                              createdAt: ledger.date.formatMMddYYYY,
+                              note: ledger.notes,
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return const SizedBox(
+                              height: 16,
+                            );
+                          },
+                        ),
+                        if (widget.addSuffixEmptySpace)
+                          ListSuffixEmptySpaceWidget(
+                            length: state.ledgers.length,
                           ),
-                          title: Text(
-                            strutStyle: const StrutStyle(height: 1.6),
-                            ledger.name,
-                            style: context.tt.titleSmall?.copyWith(
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          tag: ledger.type.displayName,
-                          type: Text(
-                            ledger.amount.contains("\$")
-                                ? ledger.amount
-                                : '\$ ${ledger.amount}',
-                          ),
-                          secondaryTag: ledger.category.displayName,
-                          createdAt: ledger.date.formatMMddYYYY,
-                          note: ledger.notes,
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(
-                          height: 16,
-                        );
-                      },
+                      ],
                     ),
                   ),
                 );

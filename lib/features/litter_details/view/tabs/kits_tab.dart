@@ -6,6 +6,7 @@ import 'package:bunny_sync/global/models/rabbit_property_model.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/info_properties_widget.dart';
+import 'package:bunny_sync/global/widgets/list_suffix_empty_space_widget.dart';
 import 'package:bunny_sync/global/widgets/main_error_widget.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -134,6 +135,10 @@ class _KitsTabState extends State<KitsTab> implements KitsTabCallbacks {
                           );
                         },
                       ),
+                    ),
+                    ListSuffixEmptySpaceWidget(
+                      length:
+                          state.litterDetailsResponseModel.litter.kits.length,
                     ),
                   ],
                 ),

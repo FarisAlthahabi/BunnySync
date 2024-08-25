@@ -237,6 +237,8 @@ class _LitterDetailsPageState extends State<LitterDetailsPage>
                 ),
               ),
             ],
+                          addSuffixEmptySpace: true,
+                          addSuffixEmptySpace: true,
           ),
         ),
       ),

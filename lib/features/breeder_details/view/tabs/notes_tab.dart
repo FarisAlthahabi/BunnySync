@@ -7,6 +7,7 @@ import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
+import 'package:bunny_sync/global/widgets/list_suffix_empty_space_widget.dart';
 import 'package:bunny_sync/global/widgets/main_error_widget.dart';
 import 'package:bunny_sync/global/widgets/main_show_bottom_sheet.dart';
 import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
@@ -86,10 +87,8 @@ class _NotesTabState extends State<NotesTab> implements NotesTabCallbacks {
               onPressed: () {
                 context.router.popForced();
                 notesCubit.deleteNote(
-                  breederId:
-                      widget.breederId != null ? noteModel.id : null,
-                  litterId:
-                      widget.litterId != null ? noteModel.id : null,
+                  breederId: widget.breederId != null ? noteModel.id : null,
+                  litterId: widget.litterId != null ? noteModel.id : null,
                 );
               },
               child: Text('yes'.i18n),
@@ -173,6 +172,9 @@ class _NotesTabState extends State<NotesTab> implements NotesTabCallbacks {
                             );
                           },
                         ),
+                      ),
+                      ListSuffixEmptySpaceWidget(
+                        length: state.notes.length,
                       ),
                     ],
                   ),

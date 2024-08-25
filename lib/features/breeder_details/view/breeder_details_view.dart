@@ -472,6 +472,7 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
                         LedgerView(
                           breederId: widget.breederEntryModel.id,
                           controler: childScrollController[6],
+                          addSuffixEmptySpace: true,
                         ),
                         NotesTab(
                           breederId: widget.breederEntryModel.id,

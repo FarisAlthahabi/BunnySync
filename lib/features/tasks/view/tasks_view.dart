@@ -9,6 +9,7 @@ import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:bunny_sync/global/widgets/element_tile.dart';
+import 'package:bunny_sync/global/widgets/list_suffix_empty_space_widget.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
 import 'package:bunny_sync/global/widgets/main_error_widget.dart';
 import 'package:bunny_sync/global/widgets/main_show_bottom_sheet.dart';
@@ -35,12 +36,14 @@ abstract class TasksViewCallBacks {
 class TasksView extends StatelessWidget {
   const TasksView({
     super.key,
+    this.addSuffixEmptySpace = false,
     this.title,
     this.scrollController,
     this.breederId,
     this.litterId,
   });
 
+  final bool addSuffixEmptySpace;
   final String? title;
   final ScrollController? scrollController;
   final int? breederId;
@@ -51,6 +54,7 @@ class TasksView extends StatelessWidget {
     return BlocProvider(
       create: (context) => get<TasksCubit>(),
       child: TasksPage(
+        addSuffixEmptySpace: addSuffixEmptySpace,
         scrollController: scrollController,
         title: title,
         breederId: breederId,
@@ -63,12 +67,14 @@ class TasksView extends StatelessWidget {
 class TasksPage extends StatefulWidget {
   const TasksPage({
     super.key,
+    this.addSuffixEmptySpace = false,
     this.title,
     this.scrollController,
     this.breederId,
     this.litterId,
   });
 
+  final bool addSuffixEmptySpace;
   final String? title;
   final ScrollController? scrollController;
   final int? breederId;
@@ -241,6 +247,10 @@ class _TasksPageState extends State<TasksPage> implements TasksViewCallBacks {
                         },
                       ),
                       const SizedBox(height: 50),
+                      if (widget.addSuffixEmptySpace)
+                        ListSuffixEmptySpaceWidget(
+                          length: state.tasks.length,
+                        ),
                     ],
                   ),
                 ),
