@@ -10,11 +10,6 @@ mixin CreateScrollListenerMixin<T extends StatefulWidget> on State<T> {
     required ScrollController child,
   }) {
     return () {
-      print(
-          'child.position.userScrollDirection: ${child.position.userScrollDirection}');
-      print('isParentScrollingDownward: $isParentScrollingDownward');
-      print('isParentScrollingUpward: $isParentScrollingUpward');
-
       if (child.position.userScrollDirection == ScrollDirection.reverse &&
           !isParentScrollingDownward) {
         parent.animateTo(

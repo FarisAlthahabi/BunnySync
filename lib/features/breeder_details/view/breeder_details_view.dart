@@ -130,6 +130,7 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
   late final RabbitConcernsCubit rabbitConcernsCubit = context.read();
 
   final parentScrollController = ScrollController();
+
   final List<ScrollController> childScrollController =
       List.generate(10, (index) => ScrollController());
 
@@ -457,6 +458,7 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
                         ),
                         TasksView(
                           scrollController: childScrollController[2],
+                          addSuffixEmptySpace: true,
                         ),
                         PedigreeTab(
                           breederId: widget.breederEntryModel.id,
