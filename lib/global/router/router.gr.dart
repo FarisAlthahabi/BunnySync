@@ -232,7 +232,7 @@ abstract class _$AppRouter extends RootStackRouter {
           addSuffixEmptySpace: args.addSuffixEmptySpace,
           breederId: args.breederId,
           litterId: args.litterId,
-          controler: args.controler,
+          controller: args.controler,
         ),
       );
     },

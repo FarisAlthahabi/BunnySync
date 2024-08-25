@@ -43,13 +43,13 @@ class LedgerView extends StatelessWidget {
     this.addSuffixEmptySpace = false,
     this.breederId,
     this.litterId,
-    this.controler,
+    this.controller,
   });
 
   final bool addSuffixEmptySpace;
   final int? breederId;
   final int? litterId;
-  final ScrollController? controler;
+  final ScrollController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +59,7 @@ class LedgerView extends StatelessWidget {
         addSuffixEmptySpace: addSuffixEmptySpace,
         breederId: breederId,
         litterId: litterId,
-        controler: controler,
+        controler: controller,
       ),
     );
   }

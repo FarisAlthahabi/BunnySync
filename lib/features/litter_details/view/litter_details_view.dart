@@ -262,7 +262,7 @@ class _LitterDetailsPageState extends State<LitterDetailsPage>
                       KeepAliveWidget(
                         child: LedgerView(
                           litterId: widget.litter.id,
-                          controler: childScrollController[2],
+                          controller: childScrollController[2],
                           addSuffixEmptySpace: true,
                         ),
                       ),
