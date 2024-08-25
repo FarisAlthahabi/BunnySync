@@ -19,6 +19,12 @@ class LitterDetailsSuccess extends LitterDetailsFetch {
   LitterDetailsSuccess(super.litterDetailsResponseModel);
 }
 
+class LitterEntrySuccess extends LitterDetailsState {
+  LitterEntrySuccess(this.litter);
+
+  final LitterEntryModel litter;
+}
+
 class LitterDetailsFail extends LitterDetailsState {
   LitterDetailsFail(this.message);
 

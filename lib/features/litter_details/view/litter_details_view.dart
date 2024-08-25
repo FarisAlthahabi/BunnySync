@@ -11,17 +11,17 @@ import 'package:bunny_sync/global/blocs/note_cubit/cubit/notes_cubit.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/mixins/create_scroll_listener_mixin.dart';
-import 'package:bunny_sync/global/mixins/mixins.dart';
 import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:bunny_sync/global/widgets/custom_app_bar.dart';
+import 'package:bunny_sync/global/widgets/keep_alive_widget.dart';
 import 'package:bunny_sync/global/widgets/main_show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 abstract class LitterDetailsViewCallbacks {
-
   void onMoreOptionsTap(LitterEntryModel litterEntryModel);
 
   void onEditLitterTab(LitterEntryModel litterEntryModel);
@@ -53,7 +53,9 @@ class LitterDetailsView extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => get<LitterDetailsCubit>(),
+          create: (context) => get<LitterDetailsCubit>(
+            param1: litter,
+          ),
         ),
         BlocProvider(
           create: (context) => get<NotesCubit>(),
@@ -79,19 +81,22 @@ class LitterDetailsPage extends StatefulWidget {
 }
 
 class _LitterDetailsPageState extends State<LitterDetailsPage>
-    with CreateScrollListenerMixin , PostFrameMixin
+    with CreateScrollListenerMixin
     implements LitterDetailsViewCallbacks {
   late final LitterDetailsCubit litterDetailsCubit = context.read();
 
   late final NotesCubit notesCubit = context.read();
 
   final parentScrollController = ScrollController();
+
   final List<ScrollController> childScrollController =
       List.generate(4, (index) => ScrollController());
 
   @override
-  void onPostFrame() {
-     for (final element in childScrollController) {
+  void initState() {
+    super.initState();
+
+    for (final element in childScrollController) {
       element.addListener(
         createScrollListener(
           parent: parentScrollController,
@@ -99,6 +104,8 @@ class _LitterDetailsPageState extends State<LitterDetailsPage>
         ),
       );
     }
+
+    litterDetailsCubit.getLitterEntry();
   }
 
   @override
@@ -109,7 +116,7 @@ class _LitterDetailsPageState extends State<LitterDetailsPage>
     }
     super.dispose();
   }
-  
+
   @override
   void onArchive(LitterEntryModel litterEntryModel) {
     // TODO: implement onArchive
@@ -177,68 +184,99 @@ class _LitterDetailsPageState extends State<LitterDetailsPage>
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: tabs.length,
-      child: Scaffold(
-        body: SafeArea(
-          child: CustomScrollView(
-            controller: parentScrollController,
-            physics: const NeverScrollableScrollPhysics(),
-            slivers: [
-              SliverAppBar(
-                expandedHeight: 250,
-                centerTitle: true,
-                title: Text(
-                  'litter'.i18n,
-                  style: Theme.of(context).textTheme.titleLarge,
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        statusBarIconBrightness: Brightness.dark,
+      ),
+      child: DefaultTabController(
+        length: tabs.length,
+        child: Scaffold(
+          body: SafeArea(
+            child: CustomScrollView(
+              controller: parentScrollController,
+              physics: const NeverScrollableScrollPhysics(),
+              slivers: [
+                BlocBuilder<LitterDetailsCubit, GeneralLitterDetailsState>(
+                  buildWhen: (prev, curr) => curr is LitterEntrySuccess,
+                  builder: (context, state) {
+                    if (state is LitterEntrySuccess) {
+                      return Skeletonizer.sliver(
+                        enabled: state is LitterDetailsLoading,
+                        child: SliverAppBar(
+                          expandedHeight: 250,
+                          centerTitle: true,
+                          collapsedHeight: 60,
+                          title: Text(
+                            'litter'.i18n,
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                          actions: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 16),
+                              child: IconButton(
+                                onPressed: () =>
+                                    onMoreOptionsTap(widget.litter),
+                                icon: const Icon(Icons.more_horiz_outlined),
+                              ),
+                            ),
+                          ],
+                          flexibleSpace: FlexibleSpaceBar(
+                            background: LitterProfileInfoWidget(
+                              paddingTop: 70,
+                              litter: state.litter,
+                            ),
+                          ),
+                          bottom: PreferredSize(
+                            preferredSize: const Size.fromHeight(0),
+                            child: Center(
+                              child: Skeleton.shade(
+                                child: DetailsTabBar(tabs: tabs),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+
+                    return const SliverToBoxAdapter(
+                      child: SizedBox(),
+                    );
+                  },
                 ),
-                actions: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 16),
-                    child: IconButton(
-                      onPressed: ()=> onMoreOptionsTap(widget.litter),
-                      icon: const Icon(Icons.more_horiz_outlined),
-                    ),
-                  ),
-                ],
-                flexibleSpace: FlexibleSpaceBar(
-                  background: LitterProfileInfoWidget(
-                    paddingTop: 70,
-                    litter: widget.litter,
-                  ),
-                ),
-                bottom: PreferredSize(
-                  preferredSize: const Size.fromHeight(0),
-                  child: Skeleton.shade(
-                    child: DetailsTabBar(tabs: tabs),
-                  ),
-                ),
-              ),
-              SliverFillRemaining(
-                child: TabBarView(
-                  children: [
-                    KitsTab(
-                      litterId: widget.litter.id,
-                      scrollController: childScrollController[0],
-                    ),
-                    TasksView(
-                      litterId: widget.litter.id,
-                      scrollController: childScrollController[1],
-                    ),
-                    LedgerView(
-                      litterId: widget.litter.id,
-                      controler: childScrollController[2],
-                    ),
-                    NotesTab(
-                      litterId: widget.litter.id,
-                      controller: childScrollController[3],
-                    ),
-                  ],
-                ),
-              ),
-            ],
+                SliverFillRemaining(
+                  child: TabBarView(
+                    children: [
+                      KeepAliveWidget(
+                        child: KitsTab(
+                          litterId: widget.litter.id,
+                          scrollController: childScrollController[0],
+                        ),
+                      ),
+                      KeepAliveWidget(
+                        child: TasksView(
+                          litterId: widget.litter.id,
+                          scrollController: childScrollController[1],
                           addSuffixEmptySpace: true,
+                        ),
+                      ),
+                      KeepAliveWidget(
+                        child: LedgerView(
+                          litterId: widget.litter.id,
+                          controler: childScrollController[2],
                           addSuffixEmptySpace: true,
+                        ),
+                      ),
+                      KeepAliveWidget(
+                        child: NotesTab(
+                          litterId: widget.litter.id,
+                          controller: childScrollController[3],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
