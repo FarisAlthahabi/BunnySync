@@ -62,10 +62,6 @@ class _PedigreeTabState extends State<PedigreeTab>
                 onHttpError: (HttpResponseError error) {},
                 onWebResourceError: (WebResourceError error) {},
                 onNavigationRequest: (NavigationRequest request) {
-                  //TODO
-                  if (request.url.startsWith('https://www.youtube.com/')) {
-                    return NavigationDecision.prevent;
-                  }
                   return NavigationDecision.navigate;
                 },
               ),
