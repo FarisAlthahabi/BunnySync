@@ -41,7 +41,7 @@ class AttachmentModel implements BottomSheetItemModel {
   final String path;
 
   @JsonKey(
-    fromJson: BunnySyncJsonUtils.setBreedersFileUrlFromJson,
+    fromJson: BunnySyncJsonUtils.setFileUrlFromJson,
     readValue: JsonUtils.readValue,
   )
   final String url;

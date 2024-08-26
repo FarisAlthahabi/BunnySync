@@ -36,7 +36,7 @@ class BreederImageModel implements BottomSheetItemModel {
   final String path;
 
   @JsonKey(
-    fromJson: BunnySyncJsonUtils.setBreedersFileUrlFromJson,
+    fromJson: BunnySyncJsonUtils.setBreedersImageUrlFromJson,
     readValue: JsonUtils.readValue,
   )
   final String imageUrl;

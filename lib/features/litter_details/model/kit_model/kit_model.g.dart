@@ -10,7 +10,7 @@ KitModel _$KitModelFromJson(Map<String, dynamic> json) => KitModel(
       id: (json['id'] as num).toInt(),
       userId: (json['user_id'] as num?)?.toInt() ?? -1,
       litterId: (json['litter_id'] as num).toInt(),
-      code: json['code'] as String,
+      code: json['code'] as String? ?? '',
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
       status: json['status'] == null

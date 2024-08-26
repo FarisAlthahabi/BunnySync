@@ -52,6 +52,7 @@ class KitModel extends Equatable
   @JsonKey(name: 'litter_id')
   final int litterId;
 
+  @JsonKey(defaultValue: '')
   final String code;
 
   @JsonKey(name: 'name')

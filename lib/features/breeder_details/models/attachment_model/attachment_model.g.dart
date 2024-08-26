@@ -12,7 +12,7 @@ AttachmentModel _$AttachmentModelFromJson(Map<String, dynamic> json) =>
       breederId: const IntConverter().fromJson(json['breeder_id']),
       title: json['title'] as String,
       path: json['path'] as String,
-      url: BunnySyncJsonUtils.setBreedersFileUrlFromJson(
+      url: BunnySyncJsonUtils.setFileUrlFromJson(
           JsonUtils.readValue(json, 'url') as Map<String, dynamic>),
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),

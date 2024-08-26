@@ -168,7 +168,7 @@ abstract class _$AppRouter extends RootStackRouter {
         child: BreederDetailsView(
           key: args.key,
           breederEntryModel: args.breederEntryModel,
-          initialIndex: args.initailIndex,
+          initialIndex: args.initialIndex,
         ),
       );
     },
@@ -872,14 +872,14 @@ class BreederDetailsRoute extends PageRouteInfo<BreederDetailsRouteArgs> {
   BreederDetailsRoute({
     Key? key,
     required BreederEntryModel breederEntryModel,
-    int? initailIndex,
+    int? initialIndex,
     List<PageRouteInfo>? children,
   }) : super(
           BreederDetailsRoute.name,
           args: BreederDetailsRouteArgs(
             key: key,
             breederEntryModel: breederEntryModel,
-            initailIndex: initailIndex,
+            initialIndex: initialIndex,
           ),
           initialChildren: children,
         );
@@ -894,18 +894,18 @@ class BreederDetailsRouteArgs {
   const BreederDetailsRouteArgs({
     this.key,
     required this.breederEntryModel,
-    this.initailIndex,
+    this.initialIndex,
   });
 
   final Key? key;
 
   final BreederEntryModel breederEntryModel;
 
-  final int? initailIndex;
+  final int? initialIndex;
 
   @override
   String toString() {
-    return 'BreederDetailsRouteArgs{key: $key, breederEntryModel: $breederEntryModel, initailIndex: $initailIndex}';
+    return 'BreederDetailsRouteArgs{key: $key, breederEntryModel: $breederEntryModel, initialIndex: $initialIndex}';
   }
 }
 

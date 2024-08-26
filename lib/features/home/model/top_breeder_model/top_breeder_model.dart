@@ -14,7 +14,7 @@ class TopBreederModel {
     required this.id,
     required this.name,
     required this.live,
-    required this.image,
+    this.image,
   });
 
   factory TopBreederModel.fromJsonStr(String str) =>
@@ -30,11 +30,11 @@ class TopBreederModel {
   final int live;
 
   @JsonKey(
-    fromJson: BunnySyncJsonUtils.setBreedersFileUrlFromJson,
+    fromJson: BunnySyncJsonUtils.setBreedersImageUrlFromJson,
     readValue: JsonUtils.readValue,
   )
   @JsonKey(name: 'breeder_images_path')
-  final String image;
+  final String? image;
 
   String toJsonStr() => jsonEncode(toJson());
 

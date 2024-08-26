@@ -25,12 +25,12 @@ class PedigreeUrlModel {
   final String path;
 
   @JsonKey(
-    fromJson: BunnySyncJsonUtils.setBreedersFileUrlFromJson,
+    fromJson: BunnySyncJsonUtils.setBreedersPedigreeUrlFromJson,
     readValue: JsonUtils.readValue,
   )
   final String pedigreeUrl;
 
-   String toJsonStr() => jsonEncode(toJson());
+  String toJsonStr() => jsonEncode(toJson());
 
   Map<String, dynamic> toJson() => _$PedigreeUrlModelToJson(this);
 }

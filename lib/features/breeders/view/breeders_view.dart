@@ -333,7 +333,7 @@ class _BreedersPageState extends State<BreedersPage>
     context.router.push(
       BreederDetailsRoute(
         breederEntryModel: breederEntryModel,
-        initailIndex: 6,
+        initialIndex: 6,
       ),
     );
   }
@@ -344,7 +344,7 @@ class _BreedersPageState extends State<BreedersPage>
     context.router.push(
       BreederDetailsRoute(
         breederEntryModel: breederEntryModel,
-        initailIndex: 3,
+        initialIndex: 3,
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bunny_sync/global/extensions/string_x.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
@@ -48,8 +49,9 @@ class HomeTile extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 4),
-          Text(
+          AutoSizeText(
             subtitle,
+            maxLines: 1,
             style: context.tt.headlineMedium?.copyWith(
               color: context.cs.surface,
             ),
