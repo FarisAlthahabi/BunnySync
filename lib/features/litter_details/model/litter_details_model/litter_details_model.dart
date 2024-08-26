@@ -82,4 +82,44 @@ class LitterDetailsModel {
   String toJsonStr() => jsonEncode(toJson());
 
   Map<String, dynamic> toJson() => _$LitterDetailsModelToJson(this);
+
+  LitterDetailsModel copyWith({
+    int? id,
+    int? userId,
+    int? breedPairId,
+    String? litterId,
+    String? type,
+    String? prefix,
+    DateTime? breedDate,
+    DateTime? bronDate,
+    String? status,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    List<KitModel>? kits,
+    BreederPairModel? breederPairModel,
+    String? tatto,
+    String? note,
+    String? cage,
+    String? breed,
+  }) {
+    return LitterDetailsModel(
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      breedPairId: breedPairId ?? this.breedPairId,
+      litterId: litterId ?? this.litterId,
+      type: type ?? this.type,
+      prefix: prefix ?? this.prefix,
+      breedDate: breedDate ?? this.breedDate,
+      bronDate: bronDate ?? this.bronDate,
+      status: status ?? this.status,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      kits: kits ?? this.kits,
+      breederPairModel: breederPairModel ?? this.breederPairModel,
+      tatto: tatto ?? this.tatto,
+      note: note ?? this.note,
+      cage: cage ?? this.cage,
+      breed: breed ?? this.breed,
+    );
+  }
 }

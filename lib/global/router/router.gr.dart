@@ -82,6 +82,17 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    AddKitRoute.name: (routeData) {
+      final args = routeData.argsAs<AddKitRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: AddKitView(
+          key: args.key,
+          litterId: args.litterId,
+          kitModel: args.kitModel,
+        ),
+      );
+    },
     AddLedgerRoute.name: (routeData) {
       final args = routeData.argsAs<AddLedgerRouteArgs>();
       return AutoRoutePage<dynamic>(
@@ -567,6 +578,48 @@ class AddCustomerRouteArgs {
   @override
   String toString() {
     return 'AddCustomerRouteArgs{key: $key, customersCubit: $customersCubit, customerModel: $customerModel}';
+  }
+}
+
+/// generated route for
+/// [AddKitView]
+class AddKitRoute extends PageRouteInfo<AddKitRouteArgs> {
+  AddKitRoute({
+    Key? key,
+    required int litterId,
+    KitModel? kitModel,
+    List<PageRouteInfo>? children,
+  }) : super(
+          AddKitRoute.name,
+          args: AddKitRouteArgs(
+            key: key,
+            litterId: litterId,
+            kitModel: kitModel,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'AddKitRoute';
+
+  static const PageInfo<AddKitRouteArgs> page = PageInfo<AddKitRouteArgs>(name);
+}
+
+class AddKitRouteArgs {
+  const AddKitRouteArgs({
+    this.key,
+    required this.litterId,
+    this.kitModel,
+  });
+
+  final Key? key;
+
+  final int litterId;
+
+  final KitModel? kitModel;
+
+  @override
+  String toString() {
+    return 'AddKitRouteArgs{key: $key, litterId: $litterId, kitModel: $kitModel}';
   }
 }
 

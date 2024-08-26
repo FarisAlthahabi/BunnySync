@@ -4,6 +4,7 @@ import 'package:bunny_sync/global/models/rabbit_property_model.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/breeder_image_widget.dart';
+import 'package:bunny_sync/global/widgets/buttons/more_menu_button.dart';
 import 'package:bunny_sync/global/widgets/info_properties_widget.dart';
 import 'package:bunny_sync/global/widgets/main_tile.dart';
 import 'package:flutter/material.dart';
@@ -104,15 +105,10 @@ class BreederTile extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 3),
-              TextButton(
-                onPressed: () {
+              MoreMenuButton(
+                onTap: () {
                   onMoreOptionsTap(breeder);
                 },
-                style: TextButton.styleFrom(
-                  padding: AppConstants.padding4,
-                  minimumSize: Size.zero,
-                ),
-                child: const Icon(Icons.more_vert_rounded),
               ),
             ],
           ),
