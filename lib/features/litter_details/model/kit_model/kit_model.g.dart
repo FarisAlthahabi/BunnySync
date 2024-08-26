@@ -13,6 +13,9 @@ KitModel _$KitModelFromJson(Map<String, dynamic> json) => KitModel(
       code: json['code'] as String,
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
+      status: json['status'] == null
+          ? null
+          : KitStatusModel.fromJson(json['status'] as Map<String, dynamic>),
       kitName: json['name'] as String?,
       prefix: json['prefix'] as String?,
       color: json['color'] as String?,
@@ -20,9 +23,6 @@ KitModel _$KitModelFromJson(Map<String, dynamic> json) => KitModel(
       cage: json['cage'] as String?,
       gender: $enumDecodeNullable(_$GenderTypesEnumMap, json['gender']),
       note: json['note'] as String?,
-      status: json['status'] == null
-          ? null
-          : KitStatusModel.fromJson(json['status'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$KitModelToJson(KitModel instance) => <String, dynamic>{

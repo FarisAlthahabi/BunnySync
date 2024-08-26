@@ -7,9 +7,9 @@ import 'package:bunny_sync/features/breeders/view/breed_view.dart';
 import 'package:bunny_sync/features/breeders/view/save_birth_view.dart';
 import 'package:bunny_sync/features/breeders/view/set_butcher_view.dart';
 import 'package:bunny_sync/features/breeders/view/set_sell_view.dart';
-import 'package:bunny_sync/features/breeders/view/update_breeder_weight_view.dart';
 import 'package:bunny_sync/features/breeders/view/widgets/breeders_list_widget.dart';
 import 'package:bunny_sync/features/main_navigation/cubit/main_navigation_cubit.dart';
+import 'package:bunny_sync/features/weight/view/weights_view.dart';
 import 'package:bunny_sync/global/blocs/delete_breeder_cubit/delete_breeder_cubit.dart';
 import 'package:bunny_sync/global/blocs/rabbit_concerns_cubit/rabbit_concerns_cubit.dart';
 import 'package:bunny_sync/global/di/di.dart';
@@ -223,7 +223,7 @@ class _BreedersPageState extends State<BreedersPage>
           children: [
             TextButton(
               onPressed: () {
-                rabbitConcernsCubit.setActive(breederEntryModel.id);
+                rabbitConcernsCubit.setActive(breederId: breederEntryModel.id);
               },
               child: Text('yes'.i18n),
             ),
@@ -372,8 +372,8 @@ class _BreedersPageState extends State<BreedersPage>
       widget: BottomSheetWidget(
         isTitleCenter: true,
         title: 'weights'.i18n,
-        child: UpdateBreederWeightView(
-          breederId: breederEntryModel.id,
+        child: WeightView(
+          weightableModel: breederEntryModel,
         ),
       ),
     );

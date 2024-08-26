@@ -7,7 +7,6 @@ import 'package:bunny_sync/global/models/save_birth_model/save_birth_model.dart'
 import 'package:bunny_sync/global/models/save_butcher_model/save_butcher_model.dart';
 import 'package:bunny_sync/global/models/save_sell_model/save_sell_model.dart';
 import 'package:bunny_sync/global/models/weight_model/weight_model.dart';
-import 'package:bunny_sync/global/models/weight_post_model/weight_post_model.dart';
 import 'package:bunny_sync/global/repos/rabbit_concerns_repo/rabbit_concerns_repo.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
@@ -42,8 +41,6 @@ class RabbitConcernsCubit extends Cubit<GeneralRabbitConcernsState> {
   SaveBirthModel _saveBirthModel = const SaveBirthModel();
 
   BreedModel _breedModel = const BreedModel();
-
-  WeightPostModel _weightPostModel = const WeightPostModel();
 
   void setButcherDate(DateTime date) {
     _saveButcherModel = _saveButcherModel.copyWith(
@@ -135,18 +132,6 @@ class RabbitConcernsCubit extends Cubit<GeneralRabbitConcernsState> {
     );
   }
 
-  void setWeight(String weight) {
-    _weightPostModel = _weightPostModel.copyWith(
-      weight: () => double.tryParse(weight),
-    );
-  }
-
-  void setWeightDate(DateTime date) {
-    _weightPostModel = _weightPostModel.copyWith(
-      date: () => date,
-    );
-  }
-
   Future<void> saveButcher(int breederId) async {
     emit(SaveButcherLoading());
 
@@ -211,50 +196,18 @@ class RabbitConcernsCubit extends Cubit<GeneralRabbitConcernsState> {
     }
   }
 
-  Future<void> setActive(int breederId) async {
+  Future<void> setActive({int? breederId, int? litterId}) async {
     emit(SetActiveLoading());
 
     try {
       await _rabbitConcernsRepo.setActive(
-        breederId,
+        breederId: breederId,
+        litterId: litterId,
       );
       emit(SetActiveSuccess());
     } catch (e, s) {
       addError(e, s);
       emit(SetActiveFail(e.toString()));
-    }
-  }
-
-  Future<void> updateBreederWeight(int weightId) async {
-    emit(UpdateBreederWeightLoading());
-
-    try {
-      final response = await _rabbitConcernsRepo.updateBreederWeight(
-        weightId,
-        _weightPostModel,
-      );
-      emit(UpdateBreederWeightSuccess(response));
-    } catch (e, s) {
-      addError(e, s);
-      emit(UpdateBreederWeightFail(e.toString()));
-    }
-  }
-
-  Future<void> getBreederWeights(int breederId) async {
-    emit(BreederWeightsLoading());
-
-    try {
-      final response = await _rabbitConcernsRepo.getBreederWeights(
-        breederId,
-      );
-      if (response.isEmpty) {
-        emit(BreederWeightsEmpty("no_weights".i18n));
-      }else{
-        emit(BreederWeightsSuccess(response));
-      }
-    } catch (e, s) {
-      addError(e, s);
-      emit(BreederWeightsFail(e.toString()));
     }
   }
 }

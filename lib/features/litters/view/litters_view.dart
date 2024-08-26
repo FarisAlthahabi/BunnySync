@@ -1,14 +1,19 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/litters/cubit/litters_cubit.dart';
 import 'package:bunny_sync/features/litters/models/litter_entry_model/litter_entry_model.dart';
+import 'package:bunny_sync/features/litters/view/butcher_litter_view.dart';
+import 'package:bunny_sync/features/litters/view/sell_litter_view.dart';
 import 'package:bunny_sync/features/litters/view/widgets/litters_list_widget.dart';
 import 'package:bunny_sync/features/main_navigation/cubit/main_navigation_cubit.dart';
+import 'package:bunny_sync/features/weight/view/weights_view.dart';
 import 'package:bunny_sync/global/blocs/note_cubit/cubit/notes_cubit.dart';
+import 'package:bunny_sync/global/blocs/rabbit_concerns_cubit/rabbit_concerns_cubit.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/mixins/create_scroll_listener_mixin.dart';
 import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
+import 'package:bunny_sync/global/utils/utils.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:bunny_sync/global/widgets/custom_app_bar.dart';
 import 'package:bunny_sync/global/widgets/keep_alive_widget.dart';
@@ -28,6 +33,8 @@ abstract class LittersViewCallbacks {
   void onMoreOptionsTap(LitterEntryModel litterEntryModel);
 
   void onEditLitterTab(LitterEntryModel litterEntryModel);
+
+  void onSetActive(LitterEntryModel litterEntryModel);
 
   void onDeleteLitterTab(LitterEntryModel litterEntryModel);
 
@@ -75,6 +82,8 @@ class _LittersPageState extends State<LittersPage>
   late final LittersCubit littersCubit = context.read();
 
   late final NotesCubit notesCubit = context.read();
+
+  late final RabbitConcernsCubit rabbitConcernsCubit = context.read();
 
   final parentScrollController = ScrollController();
   final child1ScrollController = ScrollController();
@@ -126,18 +135,50 @@ class _LittersPageState extends State<LittersPage>
   }
 
   @override
+  void onSetActive(LitterEntryModel litterEntryModel) {
+    context.router.popForced();
+    mainShowBottomSheet(
+      context,
+      widget: BottomSheetWidget(
+        title: 'are_you_sure_to_set_litter_active'.i18n,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextButton(
+              onPressed: () {
+                rabbitConcernsCubit.setActive(litterId: litterEntryModel.id);
+              },
+              child: Text('yes'.i18n),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
   void onArchive(LitterEntryModel litterEntryModel) {
-    // TODO: implement onArchive
+    Utils.showComingSoonToast();
   }
 
   @override
   void onButcher(LitterEntryModel litterEntryModel) {
-    // TODO: implement onButcher
+    context.router.popForced();
+    mainShowBottomSheet(
+      context,
+      widget: BottomSheetWidget(
+        isTitleCenter: true,
+        title: 'sell'.i18n,
+        child: ButcherLitterView(
+          litterEntryModel: litterEntryModel,
+        ),
+      ),
+    );
   }
 
   @override
   void onCageCard(LitterEntryModel litterEntryModel) {
-    // TODO: implement onCageCard
+    Utils.showComingSoonToast();
   }
 
   @override
@@ -180,6 +221,7 @@ class _LittersPageState extends State<LittersPage>
       widget: BottomSheetWidget(
         title: 'litter_options'.i18n,
         onEdit: onEditLitterTab,
+        onSetActive: onSetActive,
         onDelete: onDeleteLitterTab,
         onSell: onSell,
         onWeight: onWeight,
@@ -193,12 +235,32 @@ class _LittersPageState extends State<LittersPage>
 
   @override
   void onSell(LitterEntryModel litterEntryModel) {
-    // TODO: implement onSell
+    context.router.popForced();
+    mainShowBottomSheet(
+      context,
+      widget: BottomSheetWidget(
+        isTitleCenter: true,
+        title: 'sell'.i18n,
+        child: SellLitterView(
+          litterEntryModel: litterEntryModel,
+        ),
+      ),
+    );
   }
 
   @override
   void onWeight(LitterEntryModel litterEntryModel) {
-    // TODO: implement onWeight
+    context.router.popForced();
+    mainShowBottomSheet(
+      context,
+      widget: BottomSheetWidget(
+        isTitleCenter: true,
+        title: 'weight'.i18n,
+        child: WeightView(
+          weightableModel: litterEntryModel,
+        ),
+      ),
+    );
   }
 
   @override
@@ -215,6 +277,26 @@ class _LittersPageState extends State<LittersPage>
             if (state is LitterAdded) {
               //TODO: add litter manually
               littersCubit.getLitters();
+            }
+          },
+        ),
+        BlocListener<RabbitConcernsCubit, GeneralRabbitConcernsState>(
+          listener: (context, state) {
+            if (state is SetActiveSuccess) {
+              context.router.popForced();
+              context.loaderOverlay.hide();
+              MainSnackBar.showSuccessMessageBar(
+                context,
+                'set_litter_active_success'.i18n,
+              );
+            } else if (state is SetActiveLoading) {
+              context.loaderOverlay.show();
+            } else if (state is SetActiveFail) {
+              context.loaderOverlay.hide();
+              MainSnackBar.showErrorMessageBar(
+                context,
+                state.message,
+              );
             }
           },
         ),
@@ -254,6 +336,7 @@ class _LittersPageState extends State<LittersPage>
               physics: const NeverScrollableScrollPhysics(),
               slivers: [
                 BlocBuilder<LittersCubit, GeneralLittersState>(
+                  buildWhen: (previous, current) => current is LittersState,
                   builder: (context, state) {
                     if (state is LittersFetch) {
                       return Skeletonizer.sliver(

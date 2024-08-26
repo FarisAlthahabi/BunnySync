@@ -431,5 +431,12 @@
   "kit_updated": "Kit is updated successfully",
   "kit_deleted": "Kit is deleted successfully",
   "are_you_sure_to_delete_kit": "Are you sure to delete this kit?",
-  "kits_options": "Kits Options"
+  "kits_options": "Kits Options",
+  "litter_sell": "Litter is sold successfully",
+  "individual_kits": "Individual kits",
+  "entire_kits": "Entire kits",
+  "are_you_sure_to_set_litter_active": "Are you sure to set this litter active?",
+  "set_litter_active_success": "Litter is active now",
+  "litter_butcher": "Litter is butchered successfully",
+  "add_weight": "Add Weight"
 }

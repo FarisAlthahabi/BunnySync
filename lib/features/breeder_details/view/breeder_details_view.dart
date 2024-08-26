@@ -13,12 +13,12 @@ import 'package:bunny_sync/features/breeders/view/breed_view.dart';
 import 'package:bunny_sync/features/breeders/view/save_birth_view.dart';
 import 'package:bunny_sync/features/breeders/view/set_butcher_view.dart';
 import 'package:bunny_sync/features/breeders/view/set_sell_view.dart';
-import 'package:bunny_sync/features/breeders/view/update_breeder_weight_view.dart';
 import 'package:bunny_sync/features/health/view/health_view.dart';
 import 'package:bunny_sync/features/ledger/view/ledger_view.dart';
 import 'package:bunny_sync/features/litters/cubit/litters_cubit.dart';
 import 'package:bunny_sync/features/main_navigation/cubit/main_navigation_cubit.dart';
 import 'package:bunny_sync/features/tasks/view/tasks_view.dart';
+import 'package:bunny_sync/features/weight/view/weights_view.dart';
 import 'package:bunny_sync/global/blocs/delete_breeder_cubit/delete_breeder_cubit.dart';
 import 'package:bunny_sync/global/blocs/note_cubit/cubit/notes_cubit.dart';
 import 'package:bunny_sync/global/blocs/rabbit_concerns_cubit/rabbit_concerns_cubit.dart';
@@ -73,11 +73,11 @@ class BreederDetailsView extends StatelessWidget {
   const BreederDetailsView({
     super.key,
     required this.breederEntryModel,
-    this.initailIndex,
+    this.initialIndex,
   });
 
   final BreederEntryModel breederEntryModel;
-  final int? initailIndex;
+  final int? initialIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +99,7 @@ class BreederDetailsView extends StatelessWidget {
       ],
       child: BreederDetailsPage(
         breederEntryModel: breederEntryModel,
-        initailIndex: initailIndex,
+        initailIndex: initialIndex,
       ),
     );
   }
@@ -208,7 +208,7 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
           children: [
             TextButton(
               onPressed: () {
-                rabbitConcernsCubit.setActive(breederEntryModel.id);
+                rabbitConcernsCubit.setActive(breederId: breederEntryModel.id);
               },
               child: Text('yes'.i18n),
             ),
@@ -334,8 +334,8 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
       widget: BottomSheetWidget(
         isTitleCenter: true,
         title: 'weights'.i18n,
-        child: UpdateBreederWeightView(
-          breederId: breederEntryModel.id,
+        child: WeightView(
+          weightableModel: breederEntryModel,
         ),
       ),
     );

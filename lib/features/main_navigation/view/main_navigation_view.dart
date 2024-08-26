@@ -20,7 +20,6 @@ class MainNavigationView extends StatelessWidget {
         BlocProvider(
           create: (context) => get<RabbitConcernsCubit>(),
         ),
-        //KitsCubit
         BlocProvider(
           create: (context) => get<KitsCubit>(),
         ),

@@ -28,7 +28,6 @@ extension StringX2 on String {
         this,
         width: width,
         height: height,
-        //TODO
         color: color,
       );
 

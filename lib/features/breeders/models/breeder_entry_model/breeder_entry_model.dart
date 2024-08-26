@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:bunny_sync/features/litter_details/model/kit_model/kit_model.dart';
+import 'package:bunny_sync/features/weight/models/weightable_model/weightable_model.dart';
 import 'package:bunny_sync/global/utils/bunny_sync_json_utils.dart';
+import 'package:bunny_sync/global/utils/enums/entity_types.dart';
 import 'package:bunny_sync/global/utils/enums/gender_types_enum.dart';
 import 'package:bunny_sync/global/utils/json_converters/string_converter.dart';
 import 'package:bunny_sync/global/utils/json_utils.dart';
@@ -16,7 +18,7 @@ part 'breeder_entry_model.g.dart';
 @immutable
 @JsonSerializable()
 class BreederEntryModel extends Equatable
-    implements DropDownItemModel, BottomSheetItemModel {
+    implements DropDownItemModel, BottomSheetItemModel, WeightableModel {
   const BreederEntryModel({
     required this.id,
     required this.userId,
@@ -39,13 +41,16 @@ class BreederEntryModel extends Equatable
     this.tatto,
     this.breed,
     this.categoryBreederId,
-  });
+  }) : entityType = EntityTypes.breeder;
 
   factory BreederEntryModel.fromJsonStr(String str) =>
       BreederEntryModel.fromJson(jsonDecode(str) as Map<String, dynamic>);
 
   factory BreederEntryModel.fromJson(Map<String, dynamic> json) =>
       _$BreederEntryModelFromJson(json);
+
+  @override
+  final EntityTypes entityType;
 
   @override
   final int id;
@@ -86,6 +91,7 @@ class BreederEntryModel extends Equatable
   @JsonKey(name: 'category_breeder_id')
   final int? categoryBreederId;
 
+  @override
   final String? weight;
 
   @StringConverter()
@@ -185,4 +191,13 @@ class BreederEntryModel extends Equatable
 
   @override
   List<Object?> get props => [id];
+
+  @override
+  List<WeightableModel> get subEntities => [];
+
+  @override
+  String get httpEndpoint => 'breeders/$id/data-weights';
+
+  @override
+  String get emptySubEntitiesMessage => '';
 }
