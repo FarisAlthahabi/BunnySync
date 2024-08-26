@@ -1,7 +1,10 @@
 import 'dart:convert';
 
 import 'package:bunny_sync/features/litter_details/model/kit_model/kit_model.dart';
+import 'package:bunny_sync/features/weight/models/weightable_model/weightable_model.dart';
+import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/utils/bunny_sync_json_utils.dart';
+import 'package:bunny_sync/global/utils/enums/entity_types.dart';
 import 'package:bunny_sync/global/utils/json_converters/string_converter.dart';
 import 'package:bunny_sync/global/utils/json_utils.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
@@ -13,7 +16,8 @@ part 'litter_entry_model.g.dart';
 
 @JsonSerializable()
 @immutable
-class LitterEntryModel implements DropDownItemModel,BottomSheetItemModel {
+class LitterEntryModel
+    implements DropDownItemModel, BottomSheetItemModel, WeightableModel {
   const LitterEntryModel({
     required this.id,
     required this.userId,
@@ -42,13 +46,16 @@ class LitterEntryModel implements DropDownItemModel,BottomSheetItemModel {
     this.breedText,
     this.note,
     this.tatto,
-  });
+  }) : entityType = EntityTypes.litter;
 
   factory LitterEntryModel.fromJsonStr(String str) =>
       LitterEntryModel.fromJson(jsonDecode(str) as Map<String, dynamic>);
 
   factory LitterEntryModel.fromJson(Map<String, dynamic> json) =>
       _$LitterEntryModelFromJson(json);
+
+  @override
+  final EntityTypes entityType;
 
   @override
   final int id;
@@ -126,4 +133,16 @@ class LitterEntryModel implements DropDownItemModel,BottomSheetItemModel {
 
   @override
   String get displayName => litterId;
+
+  @override
+  String? get weight => null;
+
+  @override
+  List<WeightableModel> get subEntities => allKits;
+
+  @override
+  String get httpEndpoint => 'litters/kits/$id/data';
+
+  @override
+  String get emptySubEntitiesMessage => 'kits_empty'.i18n;
 }

@@ -89,7 +89,6 @@ class _ButcherLitterPageState extends State<ButcherLitterPage>
     setState(() {
       weightType = value;
     });
-    litterConcernsCubit.setWeightType(value);
   }
 
   @override
@@ -98,17 +97,10 @@ class _ButcherLitterPageState extends State<ButcherLitterPage>
   }
 
   @override
-  void onWeightDateSelected(DateTime date, List<int> args) {
-    litterConcernsCubit.setWeightDate(date);
-  }
+  void onWeightDateSelected(DateTime date, List<int> args) {}
 
   @override
-  void onWeightChanged(String weight, {int? kitId}) {
-    litterConcernsCubit.setWeights(
-      weight,
-      kitId: kitId,
-    );
-  }
+  void onWeightChanged(String weight, {int? kitId}) {}
 
   @override
   void onPreWeightChanged(String weight, {int? kitId}) {
@@ -285,7 +277,7 @@ class _ButcherLitterPageState extends State<ButcherLitterPage>
                         focusNode: weightsFocusNode[index],
                         keyboardType: TextInputType.number,
                         hintText: "weight".i18n,
-                        textFieldLabelText: item.code,
+                        labelText: item.code,
                       ),
                       const SizedBox(
                         height: 25,

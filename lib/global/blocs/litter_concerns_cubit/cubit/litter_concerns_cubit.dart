@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:bunny_sync/global/models/butcher_litter_model/butcher_litter_model.dart';
 import 'package:bunny_sync/global/models/save_sell_litter_model/save_sell_litter_model.dart';
-import 'package:bunny_sync/global/models/save_weight_litter_model/save_weight_litter_model.dart';
 import 'package:bunny_sync/global/repos/litter_concers_repo/litter_concerns_repo.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
@@ -25,8 +24,6 @@ class LitterConcernsCubit extends Cubit<GeneralLitterConcernsState> {
 
   ButcherLitterModel _butcherLitterModel = const ButcherLitterModel();
 
-  SaveWeightLitterModel _saveWeightLitterModel = const SaveWeightLitterModel();
-
   final Map<String, double> pricesMap = {};
 
   final Map<String, double> weightsMap = {};
@@ -44,7 +41,7 @@ class LitterConcernsCubit extends Cubit<GeneralLitterConcernsState> {
   }
 
   void setSellPrices(String prices, {int? kitId}) {
-    //TODO : fix this 
+    //TODO : fix this
     // if (_saveSellLitterModel.sellType &&
     //     _saveSellLitterModel.prices is! Map<String, double>) {
     //   emit(SaveSellLitterFail('if sell type is on, prices should be plural'));
@@ -73,33 +70,6 @@ class LitterConcernsCubit extends Cubit<GeneralLitterConcernsState> {
 
   void setSellDate(DateTime date) {
     _saveSellLitterModel = _saveSellLitterModel.copyWith(
-      date: () => date,
-    );
-  }
-
-  void setWeights(String weights, {int? kitId}) {
-    dynamic value;
-
-    if (_saveWeightLitterModel.weightType && kitId != null) {
-      weightsMap["$kitId"] = double.parse(weights);
-      value = weightsMap;
-    } else {
-      value = double.tryParse(weights);
-    }
-
-    _saveWeightLitterModel = _saveWeightLitterModel.copyWith(
-      weights: () => value,
-    );
-  }
-
-  void setWeightType(bool? weightType) {
-    _saveWeightLitterModel = _saveWeightLitterModel.copyWith(
-      weightType: () => weightType,
-    );
-  }
-
-   void setWeightDate(DateTime date) {
-    _saveWeightLitterModel = _saveWeightLitterModel.copyWith(
       date: () => date,
     );
   }
@@ -161,7 +131,6 @@ class LitterConcernsCubit extends Cubit<GeneralLitterConcernsState> {
     );
   }
 
-
   Future<void> saveSell(int litterId) async {
     emit(SaveSellLitterLoading());
 
@@ -174,21 +143,6 @@ class LitterConcernsCubit extends Cubit<GeneralLitterConcernsState> {
     } catch (e, s) {
       addError(e, s);
       emit(SaveSellLitterFail(e.toString()));
-    }
-  }
-
-  Future<void> saveWeight(int litterId) async {
-    emit(SaveWeightLitterLoading());
-
-    try {
-      await _litterConcernsRepo.saveWeight(
-        litterId,
-        _saveWeightLitterModel,
-      );
-      emit(SaveWeightLitterSuccess());
-    } catch (e, s) {
-      addError(e, s);
-      emit(SaveWeightLitterFail(e.toString()));
     }
   }
 

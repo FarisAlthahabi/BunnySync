@@ -1,12 +1,11 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:bunny_sync/features/breeders/view/update_breeder_weight_view.dart';
 import 'package:bunny_sync/features/litters/cubit/litters_cubit.dart';
 import 'package:bunny_sync/features/litters/models/litter_entry_model/litter_entry_model.dart';
 import 'package:bunny_sync/features/litters/view/butcher_litter_view.dart';
 import 'package:bunny_sync/features/litters/view/sell_litter_view.dart';
-import 'package:bunny_sync/features/litters/view/set_weight_litter_view.dart';
 import 'package:bunny_sync/features/litters/view/widgets/litters_list_widget.dart';
 import 'package:bunny_sync/features/main_navigation/cubit/main_navigation_cubit.dart';
+import 'package:bunny_sync/features/weight/view/weights_view.dart';
 import 'package:bunny_sync/global/blocs/note_cubit/cubit/notes_cubit.dart';
 import 'package:bunny_sync/global/blocs/rabbit_concerns_cubit/rabbit_concerns_cubit.dart';
 import 'package:bunny_sync/global/di/di.dart';
@@ -14,7 +13,6 @@ import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/mixins/create_scroll_listener_mixin.dart';
 import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
-import 'package:bunny_sync/global/utils/enums/entity_types.dart';
 import 'package:bunny_sync/global/utils/utils.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:bunny_sync/global/widgets/custom_app_bar.dart';
@@ -148,7 +146,7 @@ class _LittersPageState extends State<LittersPage>
           children: [
             TextButton(
               onPressed: () {
-                rabbitConcernsCubit.setActive(litterId:litterEntryModel.id);
+                rabbitConcernsCubit.setActive(litterId: litterEntryModel.id);
               },
               child: Text('yes'.i18n),
             ),
@@ -258,9 +256,8 @@ class _LittersPageState extends State<LittersPage>
       widget: BottomSheetWidget(
         isTitleCenter: true,
         title: 'weight'.i18n,
-        child: UpdateBreederWeightView(
-          entityType: EntityTypes.litter,
-          litterEntryModel: litterEntryModel,
+        child: WeightView(
+          weightableModel: litterEntryModel,
         ),
       ),
     );

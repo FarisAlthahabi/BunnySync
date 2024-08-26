@@ -23,24 +23,6 @@ class HttpLitterConcernsRepo implements LitterConcernsRepo {
   }
 
   @override
-  Future<void> saveWeight(
-    int litterId,
-    SaveWeightLitterModel saveWeightLitterModel,
-  ) async {
-    try {
-      await _dioClient.post(
-        '/litters/$litterId/save-weigh',
-        data: saveWeightLitterModel.toJson(),
-      );
-    } catch (e) {
-      if (e is NotFoundException) {
-        throw e.message ?? 'something_went_wrong'.i18n;
-      }
-      rethrow;
-    }
-  }
-
-  @override
   Future<void> butcher(
     int litterId,
     ButcherLitterModel butcherLitterModel,

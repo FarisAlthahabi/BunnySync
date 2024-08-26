@@ -78,27 +78,6 @@ class HttpRabbitConcernsRepo implements RabbitConcernsRepo {
   }
 
   @override
-  Future<List<WeightModel>> getBreederWeights(int breederId) async {
-    try {
-      final response = await _dioClient.post(
-        '/breeders/$breederId/data-weights',
-      );
-
-      final data = (response.data as Map<String, dynamic>)['data'] as List;
-
-      return List.generate(
-        data.length,
-        (index) => WeightModel.fromJson(data[index] as Map<String, dynamic>),
-      );
-    } on Exception catch (e) {
-      if (e is NotFoundException) {
-        throw e.message ?? 'something_went_wrong'.i18n;
-      }
-      rethrow;
-    }
-  }
-
-  @override
   Future<void> setActive({int? breederId, int? litterId}) async {
     try {
       await _dioClient.get(

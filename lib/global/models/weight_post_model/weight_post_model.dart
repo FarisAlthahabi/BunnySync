@@ -1,7 +1,9 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
+import 'package:bunny_sync/global/utils/json_converters/bool_on_off_converter.dart';
+import 'package:bunny_sync/global/utils/json_converters/date_time_converter.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:meta/meta.dart';
 
 part 'weight_post_model.g.dart';
 
@@ -9,10 +11,12 @@ part 'weight_post_model.g.dart';
 @immutable
 class WeightPostModel {
   const WeightPostModel({
-    double? weight,
+    bool? weightType = true,
     DateTime? date,
-  })  : _weight = weight,
-        _date = date;
+    dynamic weights,
+  })  : _weightType = weightType,
+        _date = date,
+        _weights = weights;
 
   factory WeightPostModel.fromJsonStr(String str) =>
       WeightPostModel.fromJson(jsonDecode(str) as Map<String, dynamic>);
@@ -20,16 +24,19 @@ class WeightPostModel {
   factory WeightPostModel.fromJson(Map<String, dynamic> json) =>
       _$WeightPostModelFromJson(json);
 
-  final double? _weight;
+  final bool? _weightType;
   final DateTime? _date;
+  final dynamic _weights;
 
   WeightPostModel copyWith({
-    double? Function()? weight,
+    bool? Function()? weightType,
     DateTime? Function()? date,
+    dynamic Function()? weights,
   }) {
     return WeightPostModel(
-      weight: weight != null ? weight() : _weight,
+      weightType: weightType != null ? weightType() : _weightType,
       date: date != null ? date() : _date,
+      weights: weights != null ? weights() : _weights,
     );
   }
 
@@ -37,13 +44,28 @@ class WeightPostModel {
 
   Map<String, dynamic> toJson() => _$WeightPostModelToJson(this);
 
-  double get weight {
-    return _weight == null || _weight.toString().isEmpty
-        ? (throw Exception("weight can't be empty"))
-        : _weight;
+  @BoolOnOffConverter()
+  @JsonKey(name: 'typeWeigh')
+  bool get weightType {
+    return _weightType ?? true;
   }
 
+  @DateTimeConverter()
   DateTime get date {
     return _date ?? (throw Exception("Date can't be empty"));
+  }
+
+  @JsonKey(toJson: weightsToJson)
+  dynamic get weights {
+    return _weights ?? (throw Exception("Weights can't be empty"));
+  }
+
+  static String weightsToJson(dynamic value) {
+    if (value is double) {
+      return value.toString();
+    } else if (value is Map<String, double>) {
+      return jsonEncode(value);
+    }
+    throw "value type is not supported";
   }
 }

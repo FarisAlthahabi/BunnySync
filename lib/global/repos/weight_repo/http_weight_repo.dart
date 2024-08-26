@@ -5,28 +5,35 @@ class HttpWeightRepo implements WeightRepo {
   final DioClient _dioClient = DioClient();
 
   @override
-  Future<void> updateWeight(
-    EntityTypes entityType,
-    {WeightPostModel? weightPostModel,
-    SaveWeightLitterModel? saveWeightLitterModel,
-    int? weightId,
-    int? litterId,
-    int? kitId,
-    }
+  Future<List<WeightModel>> getEntityWeights(
+    WeightableModel weightableModel,
   ) async {
     try {
-      await _dioClient.post(
-        entityType == EntityTypes.breeder ?
-        '/breeders/$weightId/update-weight':
-        entityType == EntityTypes.litter ?
-        '/litters/$litterId/save-weigh':
-        '/litters/kits/$kitId/update-weight/$weightId',
-        data: entityType == EntityTypes.breeder ?
-         weightPostModel?.toJson() :
-         entityType == EntityTypes.litter ?
-         saveWeightLitterModel?.toJson() :
-         weightPostModel?.toJson(),
+      final response = await _dioClient.post(
+        weightableModel.httpEndpoint,
       );
+
+      final data = (response.data as Map<String, dynamic>)['data'] as List;
+
+      return List.generate(
+        data.length,
+        (index) => WeightModel.fromJson(data[index] as Map<String, dynamic>),
+      );
+    } on Exception catch (e) {
+      if (e is NotFoundException) {
+        throw e.message ?? 'something_went_wrong'.i18n;
+      }
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> addWeight(
+    WeightableModel weightableModel,
+    WeightPostModel weightPostModel,
+  ) async {
+    try {
+      //TODO
     } on Exception catch (e) {
       if (e is NotFoundException) {
         throw e.message ?? 'something_went_wrong'.i18n;

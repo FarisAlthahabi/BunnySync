@@ -127,7 +127,7 @@ class _SellLitterPageState extends State<SellLitterPage>
 
   @override
   void onSellPricesSubmitted(String price, int index) {
-    //TODO : fix this logic 
+    //TODO : fix this logic
     if (index != sellPricesFocusNode.length - 1) {
       sellPricesFocusNode[index].unfocus();
       sellPricesFocusNode[index + 1].requestFocus();
@@ -139,11 +139,10 @@ class _SellLitterPageState extends State<SellLitterPage>
   @override
   Widget build(BuildContext context) {
     //TODO : fix this , if statement go to else , althought status is not null
-    //? status in kit model has to be nullable, 
+    //? status in kit model has to be nullable,
     //? if not , serialization will not work
 
-    final activeKits =
-        widget.litterEntryModel.allKits.where((element) {
+    final activeKits = widget.litterEntryModel.allKits.where((element) {
       final status = element.status;
       if (status != null) {
         return status.isActive;
@@ -284,7 +283,7 @@ class _SellLitterPageState extends State<SellLitterPage>
                         focusNode: sellPricesFocusNode[index],
                         keyboardType: TextInputType.number,
                         hintText: "price".i18n,
-                        textFieldLabelText: item.code,
+                        labelText: item.code,
                       ),
                       const SizedBox(
                         height: 25,

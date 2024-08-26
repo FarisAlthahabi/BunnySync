@@ -14,7 +14,6 @@ final fakeCages = List.generate(
     size: CageSizeTypes.index3X5,
     orientation: CageOrientationTypes.horizontal,
     hole: AnswerTypes.yes,
-    settings: const [],
     createdAt: DateTime.now(),
     updatedAt: DateTime.now(),
   ),

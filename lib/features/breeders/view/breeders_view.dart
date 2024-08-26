@@ -7,9 +7,9 @@ import 'package:bunny_sync/features/breeders/view/breed_view.dart';
 import 'package:bunny_sync/features/breeders/view/save_birth_view.dart';
 import 'package:bunny_sync/features/breeders/view/set_butcher_view.dart';
 import 'package:bunny_sync/features/breeders/view/set_sell_view.dart';
-import 'package:bunny_sync/features/breeders/view/update_breeder_weight_view.dart';
 import 'package:bunny_sync/features/breeders/view/widgets/breeders_list_widget.dart';
 import 'package:bunny_sync/features/main_navigation/cubit/main_navigation_cubit.dart';
+import 'package:bunny_sync/features/weight/view/weights_view.dart';
 import 'package:bunny_sync/global/blocs/delete_breeder_cubit/delete_breeder_cubit.dart';
 import 'package:bunny_sync/global/blocs/rabbit_concerns_cubit/rabbit_concerns_cubit.dart';
 import 'package:bunny_sync/global/di/di.dart';
@@ -18,7 +18,6 @@ import 'package:bunny_sync/global/mixins/create_scroll_listener_mixin.dart';
 import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
-import 'package:bunny_sync/global/utils/enums/entity_types.dart';
 import 'package:bunny_sync/global/utils/enums/gender_types_enum.dart';
 import 'package:bunny_sync/global/utils/utils.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
@@ -373,9 +372,8 @@ class _BreedersPageState extends State<BreedersPage>
       widget: BottomSheetWidget(
         isTitleCenter: true,
         title: 'weights'.i18n,
-        child: UpdateBreederWeightView(
-          entityType: EntityTypes.breeder,
-          breederId: breederEntryModel.id,
+        child: WeightView(
+          weightableModel: breederEntryModel,
         ),
       ),
     );

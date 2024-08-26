@@ -8,13 +8,22 @@ part of 'weight_post_model.dart';
 
 WeightPostModel _$WeightPostModelFromJson(Map<String, dynamic> json) =>
     WeightPostModel(
-      weight: (json['weight'] as num?)?.toDouble(),
-      date:
-          json['date'] == null ? null : DateTime.parse(json['date'] as String),
+      weightType: _$JsonConverterFromJson<String, bool>(
+              json['typeWeigh'], const BoolOnOffConverter().fromJson) ??
+          true,
+      date: const DateTimeConverter().fromJson(json['date'] as String?),
+      weights: json['weights'],
     );
 
 Map<String, dynamic> _$WeightPostModelToJson(WeightPostModel instance) =>
     <String, dynamic>{
-      'weight': instance.weight,
-      'date': instance.date.toIso8601String(),
+      'typeWeigh': const BoolOnOffConverter().toJson(instance.weightType),
+      'date': const DateTimeConverter().toJson(instance.date),
+      'weights': WeightPostModel.weightsToJson(instance.weights),
     };
+
+Value? _$JsonConverterFromJson<Json, Value>(
+  Object? json,
+  Value? Function(Json json) fromJson,
+) =>
+    json == null ? null : fromJson(json as Json);

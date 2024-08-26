@@ -23,7 +23,8 @@ class LitterDetailsResponseModel {
 
   factory LitterDetailsResponseModel.fromJsonStr(String str) =>
       LitterDetailsResponseModel.fromJson(
-          jsonDecode(str) as Map<String, dynamic>);
+        jsonDecode(str) as Map<String, dynamic>,
+      );
 
   factory LitterDetailsResponseModel.fromJson(Map<String, dynamic> json) =>
       _$LitterDetailsResponseModelFromJson(json);

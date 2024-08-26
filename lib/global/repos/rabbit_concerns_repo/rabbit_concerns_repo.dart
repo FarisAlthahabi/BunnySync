@@ -31,10 +31,6 @@ abstract class RabbitConcernsRepo {
     BreedModel breedModel,
   );
 
-  Future<List<WeightModel>> getBreederWeights(
-    int breederId,
-  );
-
   Future<WeightModel> updateBreederWeight(
     int weightId,
     WeightPostModel weightPostModel,
