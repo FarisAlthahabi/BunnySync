@@ -26,18 +26,6 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
-    AddAttachmentRoute.name: (routeData) {
-      final args = routeData.argsAs<AddAttachmentRouteArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: AddAttachmentView(
-          key: args.key,
-          breederId: args.breederId,
-          breederDetailsCubit: args.breederDetailsCubit,
-          attachmentModel: args.attachmentModel,
-        ),
-      );
-    },
     AddBreederRoute.name: (routeData) {
       final args = routeData.argsAs<AddBreederRouteArgs>(
           orElse: () => const AddBreederRouteArgs());
@@ -79,17 +67,6 @@ abstract class _$AppRouter extends RootStackRouter {
           key: args.key,
           customersCubit: args.customersCubit,
           customerModel: args.customerModel,
-        ),
-      );
-    },
-    AddKitRoute.name: (routeData) {
-      final args = routeData.argsAs<AddKitRouteArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: AddKitView(
-          key: args.key,
-          litterId: args.litterId,
-          kitModel: args.kitModel,
         ),
       );
     },
@@ -367,54 +344,6 @@ class AddAilmentRouteArgs {
 }
 
 /// generated route for
-/// [AddAttachmentView]
-class AddAttachmentRoute extends PageRouteInfo<AddAttachmentRouteArgs> {
-  AddAttachmentRoute({
-    Key? key,
-    required int breederId,
-    required BreederDetailsCubit breederDetailsCubit,
-    AttachmentModel? attachmentModel,
-    List<PageRouteInfo>? children,
-  }) : super(
-          AddAttachmentRoute.name,
-          args: AddAttachmentRouteArgs(
-            key: key,
-            breederId: breederId,
-            breederDetailsCubit: breederDetailsCubit,
-            attachmentModel: attachmentModel,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'AddAttachmentRoute';
-
-  static const PageInfo<AddAttachmentRouteArgs> page =
-      PageInfo<AddAttachmentRouteArgs>(name);
-}
-
-class AddAttachmentRouteArgs {
-  const AddAttachmentRouteArgs({
-    this.key,
-    required this.breederId,
-    required this.breederDetailsCubit,
-    this.attachmentModel,
-  });
-
-  final Key? key;
-
-  final int breederId;
-
-  final BreederDetailsCubit breederDetailsCubit;
-
-  final AttachmentModel? attachmentModel;
-
-  @override
-  String toString() {
-    return 'AddAttachmentRouteArgs{key: $key, breederId: $breederId, breederDetailsCubit: $breederDetailsCubit, attachmentModel: $attachmentModel}';
-  }
-}
-
-/// generated route for
 /// [AddBreederView]
 class AddBreederRoute extends PageRouteInfo<AddBreederRouteArgs> {
   AddBreederRoute({
@@ -582,48 +511,6 @@ class AddCustomerRouteArgs {
 }
 
 /// generated route for
-/// [AddKitView]
-class AddKitRoute extends PageRouteInfo<AddKitRouteArgs> {
-  AddKitRoute({
-    Key? key,
-    required int litterId,
-    KitModel? kitModel,
-    List<PageRouteInfo>? children,
-  }) : super(
-          AddKitRoute.name,
-          args: AddKitRouteArgs(
-            key: key,
-            litterId: litterId,
-            kitModel: kitModel,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'AddKitRoute';
-
-  static const PageInfo<AddKitRouteArgs> page = PageInfo<AddKitRouteArgs>(name);
-}
-
-class AddKitRouteArgs {
-  const AddKitRouteArgs({
-    this.key,
-    required this.litterId,
-    this.kitModel,
-  });
-
-  final Key? key;
-
-  final int litterId;
-
-  final KitModel? kitModel;
-
-  @override
-  String toString() {
-    return 'AddKitRouteArgs{key: $key, litterId: $litterId, kitModel: $kitModel}';
-  }
-}
-
-/// generated route for
 /// [AddLedgerView]
 class AddLedgerRoute extends PageRouteInfo<AddLedgerRouteArgs> {
   AddLedgerRoute({
@@ -709,7 +596,7 @@ class AddLitterRouteArgs {
 class AddNoteRoute extends PageRouteInfo<AddNoteRouteArgs> {
   AddNoteRoute({
     Key? key,
-    required NotesCubit notesCubit,
+    required InvalidType notesCubit,
     int? breederId,
     int? litterId,
     List<PageRouteInfo>? children,
@@ -740,7 +627,7 @@ class AddNoteRouteArgs {
 
   final Key? key;
 
-  final NotesCubit notesCubit;
+  final InvalidType notesCubit;
 
   final int? breederId;
 
