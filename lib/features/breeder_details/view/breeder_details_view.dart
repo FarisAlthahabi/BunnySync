@@ -73,12 +73,11 @@ class BreederDetailsView extends StatelessWidget {
   const BreederDetailsView({
     super.key,
     required this.breederEntryModel,
-    this.initailIndex,
+    this.initialIndex,
   });
 
   final BreederEntryModel breederEntryModel;
-  //TODO
-  final int? initailIndex;
+  final int? initialIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +99,7 @@ class BreederDetailsView extends StatelessWidget {
       ],
       child: BreederDetailsPage(
         breederEntryModel: breederEntryModel,
-        initailIndex: initailIndex,
+        initailIndex: initialIndex,
       ),
     );
   }

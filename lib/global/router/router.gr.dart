@@ -168,7 +168,7 @@ abstract class _$AppRouter extends RootStackRouter {
         child: BreederDetailsView(
           key: args.key,
           breederEntryModel: args.breederEntryModel,
-          initailIndex: args.initailIndex,
+          initialIndex: args.initailIndex,
         ),
       );
     },
