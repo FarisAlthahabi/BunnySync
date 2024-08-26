@@ -19,7 +19,6 @@ class MainTextField extends StatefulWidget {
     this.maxLines,
     this.fillColor,
     this.enabled,
-    this.textFieldLabelText,
   });
 
   final String hintText;
@@ -37,7 +36,6 @@ class MainTextField extends StatefulWidget {
   final Color? fillColor;
   final bool? enabled;
   final bool readOnly;
-  final String? textFieldLabelText;
 
   @override
   State<MainTextField> createState() => _MainTextFieldState();
@@ -80,7 +78,6 @@ class _MainTextFieldState extends State<MainTextField> {
           maxLines: widget.maxLines,
           readOnly: widget.readOnly,
           decoration: InputDecoration(
-            labelText: widget.textFieldLabelText,
             fillColor: widget.fillColor,
             prefixIconConstraints: const BoxConstraints(
               minWidth: 40,
