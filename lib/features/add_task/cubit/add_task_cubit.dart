@@ -6,7 +6,7 @@ import 'package:bunny_sync/features/add_task/model/task_types/task_types.dart';
 import 'package:bunny_sync/features/add_task/repo/add_task_repo.dart';
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
 import 'package:bunny_sync/features/litters/models/litter_entry_model/litter_entry_model.dart';
-import 'package:bunny_sync/features/tasks/model/task_model/task_model.dart';
+import 'package:bunny_sync/features/tasks/models/task_model/task_model.dart';
 import 'package:bunny_sync/global/localization/translations.i18n.dart';
 import 'package:collection/collection.dart';
 import 'package:injectable/injectable.dart';

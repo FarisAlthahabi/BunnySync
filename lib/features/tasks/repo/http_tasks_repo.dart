@@ -14,7 +14,7 @@ class HttpTasksRepo implements TasksRepo {
         '/schedule/data',
         queries: {
           if (breederId != null && litterId == null) 'breeder_id': breederId,
-          if (litterId != null && breederId == null) 'litter_id' : litterId,
+          if (litterId != null && breederId == null) 'litter_id': litterId,
         },
       );
 
@@ -38,6 +38,31 @@ class HttpTasksRepo implements TasksRepo {
       await _dioClient.delete(
         '/schedule/$taskId',
       );
+    } catch (e) {
+      if (e is NotFoundException) {
+        throw e.message ?? 'something_went_wrong'.i18n;
+      }
+      rethrow;
+    }
+  }
+
+  @override
+  Future<TaskModel> changeTaskStatus(
+    int taskId,
+    TaskStatusTypes taskStatusType,
+  ) async {
+    try {
+      final response = await _dioClient.post(
+        '/schedule/status/$taskId',
+        data: {
+          "status" : taskStatusType.name,
+        },
+      );
+
+      final body = (response.data as Map<String, dynamic>)['data']
+          as Map<String, dynamic>;
+
+      return TaskModel.fromJson(body['task'] as Map<String, dynamic>);
     } catch (e) {
       if (e is NotFoundException) {
         throw e.message ?? 'something_went_wrong'.i18n;

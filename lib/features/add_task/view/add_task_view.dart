@@ -8,7 +8,7 @@ import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_
 import 'package:bunny_sync/features/litters/cubit/litters_cubit.dart';
 import 'package:bunny_sync/features/litters/models/litter_entry_model/litter_entry_model.dart';
 import 'package:bunny_sync/features/tasks/cubit/tasks_cubit.dart';
-import 'package:bunny_sync/features/tasks/model/task_model/task_model.dart';
+import 'package:bunny_sync/features/tasks/models/task_model/task_model.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/mixins/mixins.dart';

@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/tasks/cubit/tasks_cubit.dart';
-import 'package:bunny_sync/features/tasks/model/task_model/task_model.dart';
+import 'package:bunny_sync/features/tasks/models/task_model/task_model.dart';
+import 'package:bunny_sync/features/tasks/view/change_task_status_view.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/extensions/date_time_x.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
@@ -26,6 +27,8 @@ abstract class TasksViewCallBacks {
   void onTryAgain();
 
   void onTaskTap(TaskModel taskModel);
+
+  void onTaskStatusTab(TaskModel taskModel);
 
   void onEditTap(TaskModel taskModel);
 
@@ -151,6 +154,7 @@ class _TasksPageState extends State<TasksPage> implements TasksViewCallBacks {
         title: 'task_options'.i18n,
         onEdit: onEditTap,
         onDelete: onDeleteTap,
+        onChangeStatus: onTaskStatusTab,
         model: taskModel,
       ),
     );
@@ -237,6 +241,7 @@ class _TasksPageState extends State<TasksPage> implements TasksViewCallBacks {
                                 ),
                               ],
                             ),
+                            secondaryTag:item.status ,
                             note: item.note,
                           );
                         },
@@ -277,6 +282,22 @@ class _TasksPageState extends State<TasksPage> implements TasksViewCallBacks {
           ),
           backgroundColor: context.cs.secondaryContainer,
           child: const Icon(Icons.add),
+        ),
+      ),
+    );
+  }
+
+  @override
+  void onTaskStatusTab(TaskModel taskModel) {
+    context.router.popForced();
+    mainShowBottomSheet(
+      context,
+      widget: BottomSheetWidget(
+        isTitleCenter: true,
+        title: 'task_status'.i18n,
+        child: ChangeTaskStatusView(
+          tasksCubit: tasksCubit,
+          taskId: taskModel.id,
         ),
       ),
     );

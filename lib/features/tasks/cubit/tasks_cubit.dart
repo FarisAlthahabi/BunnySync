@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:bunny_sync/features/tasks/model/task_model/task_model.dart';
-import 'package:bunny_sync/features/tasks/model/tasks_fake_model.dart';
+import 'package:bunny_sync/features/tasks/models/task_model/task_model.dart';
+import 'package:bunny_sync/features/tasks/models/task_status_types/task_status_types.dart';
+import 'package:bunny_sync/features/tasks/models/tasks_fake_model.dart';
 import 'package:bunny_sync/features/tasks/repo/tasks_repo.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:injectable/injectable.dart';
@@ -9,6 +10,8 @@ import 'package:meta/meta.dart';
 part 'states/tasks_state.dart';
 
 part 'states/delete_task_state.dart';
+
+part 'states/change_task_status_state.dart';
 
 part 'states/general_tasks_state.dart';
 
@@ -19,6 +22,8 @@ class TasksCubit extends Cubit<GeneralTasksState> {
   final TasksRepo _tasksRepo;
 
   List<TaskModel> tasks = [];
+
+  TaskStatusTypes taskStatusType = TaskStatusTypes.archive;
 
   Future<void> getTasks({
     int? breederId,
@@ -74,6 +79,29 @@ class TasksCubit extends Cubit<GeneralTasksState> {
     } catch (e, s) {
       addError(e, s);
       emit(DeleteTaskFail(e.toString()));
+    }
+  }
+
+  Future<void> changeTaskStatus(int taskId) async {
+    emit(ChangeTaskStatusLoading());
+    try {
+      final response = await _tasksRepo.changeTaskStatus(
+        taskId,
+        taskStatusType,
+      );
+      emit(ChangeTaskStatusSuccess(response));
+
+      // tasks = tasks.map((e) {
+      //   if (e.id == taskId) {
+      //     return response;
+      //   }
+      //   return e;
+      // }).toList();
+      // emit(TasksSuccess(tasks));
+
+    } catch (e, s) {
+      addError(e, s);
+      emit(ChangeTaskStatusFail(e.toString()));
     }
   }
 }
