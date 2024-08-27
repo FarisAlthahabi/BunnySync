@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bunny_sync/features/add_customer/model/customer_types/customer_types.dart';
+import 'package:bunny_sync/features/tasks/models/task_status_types/task_status_types.dart';
 import 'package:bunny_sync/global/utils/json_converters/date_time_nullable_converter.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:bunny_sync/global/widgets/main_drop_down_widget.dart';
@@ -52,7 +53,7 @@ class CustomerModel implements BottomSheetItemModel, DropDownItemModel {
 
   final String email;
 
-  final String? status;
+  final StatusTypes? status;
 
   @JsonKey(name: 'company_name')
   final String? companyName;

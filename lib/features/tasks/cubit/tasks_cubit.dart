@@ -25,6 +25,15 @@ class TasksCubit extends Cubit<GeneralTasksState> {
 
   StatusTypes taskStatusType = StatusTypes.archive;
 
+  // TODO : fix this :
+  void setTaskStatusType(StatusTypes? statusType) {
+    if (statusType == null) {
+      taskStatusType = StatusTypes.archive;
+    } else {
+      taskStatusType = statusType;
+    }
+  }
+
   Future<void> getTasks({
     int? breederId,
     int? litterId,
@@ -83,8 +92,15 @@ class TasksCubit extends Cubit<GeneralTasksState> {
   }
 
   Future<void> changeTaskStatus(int taskId) async {
+    final taskStatusType = this.taskStatusType;
     emit(ChangeTaskStatusLoading());
+
+    //TODO : fix this , it is always throwing even if we change status
     try {
+      //    if (taskStatusType == null) {
+      //   throw "task_status_is_not_changed".i18n;
+      // }
+
       final response = await _tasksRepo.changeTaskStatus(
         taskId,
         taskStatusType,

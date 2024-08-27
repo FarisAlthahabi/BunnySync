@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:bunny_sync/features/add_ailment/model/recurring_periods_types/recurring_periods_types.dart';
 import 'package:bunny_sync/features/add_task/model/task_genres/task_genres.dart';
+import 'package:bunny_sync/features/tasks/models/task_status_types/task_status_types.dart';
 import 'package:bunny_sync/global/localization/translations.i18n.dart';
 import 'package:bunny_sync/global/utils/json_converters/date_time_converter.dart';
 import 'package:bunny_sync/global/utils/json_converters/int_nullable_converter.dart';
@@ -57,7 +58,7 @@ class TaskModel implements BottomSheetItemModel {
 
   final String name;
 
-  final String? status;
+  final StatusTypes? status;
 
   @DateTimeConverter()
   @JsonKey(name: 'start_date')

@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:bunny_sync/features/tasks/cubit/tasks_cubit.dart';
-import 'package:bunny_sync/features/tasks/models/task_model/task_model.dart';
+import 'package:bunny_sync/features/add_ledger/models/ledger_model/ledger_model.dart';
+import 'package:bunny_sync/features/ledger/cubit/ledgers_cubit.dart';
 import 'package:bunny_sync/features/tasks/models/task_status_types/task_status_types.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
@@ -12,58 +12,57 @@ import 'package:bunny_sync/global/widgets/radio_selector_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+abstract class ChangeLedgerStatusViewCallBacks {
+  void onLedgerStatusTypeSelected(StatusTypes ledgerStatusType);
 
-abstract class ChangeTaskStatusViewCallBacks {
-  void onTaskStatusTypeSelected(StatusTypes taskStatusType);
-
-  void onSaveTaskStatus();
+  void onSaveLedgerStatus();
 }
 
-class ChangeTaskStatusView extends StatelessWidget {
-  const ChangeTaskStatusView({
+class ChangeLedgerStatusView extends StatelessWidget {
+  const ChangeLedgerStatusView({
     super.key,
-    required this.task,
-    required this.tasksCubit,
+    required this.ledger,
+    required this.ledgersCubit,
   });
 
-  final TaskModel task;
-  final TasksCubit tasksCubit;
+  final LedgerModel ledger;
+  final LedgersCubit ledgersCubit;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
-      value: tasksCubit,
-      child: ChangeTaskStatusPage(
-        task: task,
+      value: ledgersCubit,
+      child: ChangeLedgerStatusPage(
+        ledger: ledger,
       ),
     );
   }
 }
 
-class ChangeTaskStatusPage extends StatefulWidget {
-  const ChangeTaskStatusPage({
+class ChangeLedgerStatusPage extends StatefulWidget {
+  const ChangeLedgerStatusPage({
     super.key,
-    required this.task,
+    required this.ledger,
   });
 
-  final TaskModel task;
+  final LedgerModel ledger;
 
   @override
-  State<ChangeTaskStatusPage> createState() => _ChangeTaskStatusPageState();
+  State<ChangeLedgerStatusPage> createState() => _ChangeLedgerStatusPageState();
 }
 
-class _ChangeTaskStatusPageState extends State<ChangeTaskStatusPage>
-    implements ChangeTaskStatusViewCallBacks {
-  late final TasksCubit tasksCubit = context.read();
+class _ChangeLedgerStatusPageState extends State<ChangeLedgerStatusPage>
+    implements ChangeLedgerStatusViewCallBacks {
+  late final LedgersCubit ledgersCubit = context.read();
 
   @override
-  void onTaskStatusTypeSelected(StatusTypes? taskStatusType) {
-    tasksCubit.setTaskStatusType(taskStatusType);
+  void onLedgerStatusTypeSelected(StatusTypes? ledgerStatusType) {
+    ledgersCubit.setLedgerStatusType(ledgerStatusType);
   }
 
   @override
-  void onSaveTaskStatus() {
-    tasksCubit.changeTaskStatus(widget.task.id);
+  void onSaveLedgerStatus() {
+    ledgersCubit.changeLedgerStatus(widget.ledger.id);
   }
 
   @override
@@ -77,7 +76,7 @@ class _ChangeTaskStatusPageState extends State<ChangeTaskStatusPage>
             height: 30,
           ),
           Text(
-            'task_status'.i18n,
+            'ledger_status'.i18n,
             style: context.tt.bodyLarge?.copyWith(
               fontWeight: FontWeight.w700,
               color: context.cs.surfaceContainerHighest,
@@ -87,25 +86,25 @@ class _ChangeTaskStatusPageState extends State<ChangeTaskStatusPage>
             height: 8,
           ),
           RadioSelectorWidget(
-            selected: widget.task.status,
+            selected: widget.ledger.status,
             items: StatusTypes.values,
-            onSelected: onTaskStatusTypeSelected,
+            onSelected: onLedgerStatusTypeSelected,
           ),
           const SizedBox(
             height: 25,
           ),
           SizedBox(
             width: double.maxFinite,
-            child: BlocConsumer<TasksCubit, GeneralTasksState>(
+            child: BlocConsumer<LedgersCubit, GeneralLedgersState>(
               listener: (context, state) {
-                if (state is ChangeTaskStatusSuccess) {
-                  tasksCubit.updateTask(state.task);
+                if (state is ChangeLedgerStatusSuccess) {
+                  ledgersCubit.updateLedger(state.ledger);
                   MainSnackBar.showSuccessMessageBar(
                     context,
-                    "task_status_updated".i18n,
+                    "ledger_status_updated".i18n,
                   );
                   context.router.maybePop();
-                } else if (state is ChangeTaskStatusFail) {
+                } else if (state is ChangeLedgerStatusFail) {
                   MainSnackBar.showErrorMessageBar(
                     context,
                     state.message,
@@ -113,9 +112,9 @@ class _ChangeTaskStatusPageState extends State<ChangeTaskStatusPage>
                 }
               },
               builder: (context, state) {
-                var onTap = () => onSaveTaskStatus();
+                var onTap = () => onSaveLedgerStatus();
                 Widget? child;
-                if (state is ChangeTaskStatusLoading) {
+                if (state is ChangeLedgerStatusLoading) {
                   onTap = () {};
                   child = const LoadingIndicator();
                 }

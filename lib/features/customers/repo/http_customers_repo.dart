@@ -22,11 +22,34 @@ class HttpCustomersRepo implements CustomersRepo {
       rethrow;
     }
   }
-  
+
   @override
-  Future<void> deleteCustomer(int customerId) async{
+  Future<void> deleteCustomer(int customerId) async {
     try {
       await _dioClient.delete('/finance/customer/$customerId');
+    } catch (e) {
+      if (e is NotFoundException) {
+        throw e.message ?? 'something_went_wrong'.i18n;
+      }
+      rethrow;
+    }
+  }
+
+  @override
+  Future<CustomerModel> changeCustomerStatus(
+    int customerId,
+    StatusTypes statusType,
+  ) async {
+    final customerStatusType = StatusTypes.nameToJson(statusType);
+    try {
+      final response = await _dioClient.get(
+        '/finance/customer/$customerId/change-status/$customerStatusType',
+      );
+
+      final body = (response.data as Map<String, dynamic>)['data']
+          as Map<String, dynamic>;
+
+      return CustomerModel.fromJson(body['customer'] as Map<String, dynamic>);
     } catch (e) {
       if (e is NotFoundException) {
         throw e.message ?? 'something_went_wrong'.i18n;

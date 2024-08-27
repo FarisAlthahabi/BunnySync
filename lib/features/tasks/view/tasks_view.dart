@@ -28,7 +28,7 @@ abstract class TasksViewCallBacks {
 
   void onTaskTap(TaskModel taskModel);
 
-  void onTaskStatusTab(TaskModel taskModel);
+  void onTaskStatusTap(TaskModel taskModel);
 
   void onEditTap(TaskModel taskModel);
 
@@ -136,6 +136,22 @@ class _TasksPageState extends State<TasksPage> implements TasksViewCallBacks {
   }
 
   @override
+  void onTaskStatusTap(TaskModel taskModel) {
+    context.router.popForced();
+    mainShowBottomSheet(
+      context,
+      widget: BottomSheetWidget(
+        isTitleCenter: true,
+        title: 'task_status'.i18n,
+        child: ChangeTaskStatusView(
+          tasksCubit: tasksCubit,
+          task: taskModel,
+        ),
+      ),
+    );
+  }
+
+  @override
   void onEditTap(TaskModel taskModel) {
     Navigator.pop(context);
     context.router.push(
@@ -154,7 +170,7 @@ class _TasksPageState extends State<TasksPage> implements TasksViewCallBacks {
         title: 'task_options'.i18n,
         onEdit: onEditTap,
         onDelete: onDeleteTap,
-        onChangeStatus: onTaskStatusTab,
+        onChangeStatus: onTaskStatusTap,
         model: taskModel,
       ),
     );
@@ -241,7 +257,7 @@ class _TasksPageState extends State<TasksPage> implements TasksViewCallBacks {
                                 ),
                               ],
                             ),
-                            secondaryTag:item.status ,
+                            secondaryTag:item.status?.displayName ,
                             note: item.note,
                           );
                         },
@@ -282,22 +298,6 @@ class _TasksPageState extends State<TasksPage> implements TasksViewCallBacks {
           ),
           backgroundColor: context.cs.secondaryContainer,
           child: const Icon(Icons.add),
-        ),
-      ),
-    );
-  }
-
-  @override
-  void onTaskStatusTab(TaskModel taskModel) {
-    context.router.popForced();
-    mainShowBottomSheet(
-      context,
-      widget: BottomSheetWidget(
-        isTitleCenter: true,
-        title: 'task_status'.i18n,
-        child: ChangeTaskStatusView(
-          tasksCubit: tasksCubit,
-          taskId: taskModel.id,
         ),
       ),
     );

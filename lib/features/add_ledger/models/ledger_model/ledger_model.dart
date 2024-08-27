@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:bunny_sync/features/add_task/model/task_types/task_types.dart';
 import 'package:bunny_sync/features/ledger/models/ledger_types.dart';
+import 'package:bunny_sync/features/tasks/models/task_status_types/task_status_types.dart';
 import 'package:bunny_sync/global/utils/json_converters/date_time_converter.dart';
 import 'package:bunny_sync/global/utils/json_converters/string_converter.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
@@ -55,7 +56,7 @@ class LedgerModel implements BottomSheetItemModel {
   @JsonKey(fromJson: LedgerTypes.fromJson)
   final LedgerTypes type;
 
-  final String? status;
+  final StatusTypes? status;
 
   @StringConverter()
   final String amount;

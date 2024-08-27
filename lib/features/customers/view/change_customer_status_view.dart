@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:bunny_sync/features/tasks/cubit/tasks_cubit.dart';
-import 'package:bunny_sync/features/tasks/models/task_model/task_model.dart';
+import 'package:bunny_sync/features/customers/cubit/customers_cubit.dart';
+import 'package:bunny_sync/features/customers/model/customer_model/customer_model.dart';
 import 'package:bunny_sync/features/tasks/models/task_status_types/task_status_types.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
@@ -12,58 +12,57 @@ import 'package:bunny_sync/global/widgets/radio_selector_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+abstract class ChangeCustomerStatusViewCallBacks {
+  void onCustomerStatusTypeSelected(StatusTypes customerStatusType);
 
-abstract class ChangeTaskStatusViewCallBacks {
-  void onTaskStatusTypeSelected(StatusTypes taskStatusType);
-
-  void onSaveTaskStatus();
+  void onSaveCustomerStatus();
 }
 
-class ChangeTaskStatusView extends StatelessWidget {
-  const ChangeTaskStatusView({
+class ChangeCustomerStatusView extends StatelessWidget {
+  const ChangeCustomerStatusView({
     super.key,
-    required this.task,
-    required this.tasksCubit,
+    required this.customer,
+    required this.customersCubit,
   });
 
-  final TaskModel task;
-  final TasksCubit tasksCubit;
+  final CustomerModel customer;
+  final CustomersCubit customersCubit;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
-      value: tasksCubit,
-      child: ChangeTaskStatusPage(
-        task: task,
+      value: customersCubit,
+      child: ChangeCustomerStatusPage(
+        customer: customer,
       ),
     );
   }
 }
 
-class ChangeTaskStatusPage extends StatefulWidget {
-  const ChangeTaskStatusPage({
+class ChangeCustomerStatusPage extends StatefulWidget {
+  const ChangeCustomerStatusPage({
     super.key,
-    required this.task,
+    required this.customer,
   });
 
-  final TaskModel task;
+  final CustomerModel customer;
 
   @override
-  State<ChangeTaskStatusPage> createState() => _ChangeTaskStatusPageState();
+  State<ChangeCustomerStatusPage> createState() => _ChangeCustomerStatusPageState();
 }
 
-class _ChangeTaskStatusPageState extends State<ChangeTaskStatusPage>
-    implements ChangeTaskStatusViewCallBacks {
-  late final TasksCubit tasksCubit = context.read();
+class _ChangeCustomerStatusPageState extends State<ChangeCustomerStatusPage>
+    implements ChangeCustomerStatusViewCallBacks {
+  late final CustomersCubit customersCubit = context.read();
 
   @override
-  void onTaskStatusTypeSelected(StatusTypes? taskStatusType) {
-    tasksCubit.setTaskStatusType(taskStatusType);
+  void onCustomerStatusTypeSelected(StatusTypes? customerStatusType) {
+    customersCubit.setCustomerStatusType(customerStatusType);
   }
 
   @override
-  void onSaveTaskStatus() {
-    tasksCubit.changeTaskStatus(widget.task.id);
+  void onSaveCustomerStatus() {
+    customersCubit.changeCustomerStatus(widget.customer.id);
   }
 
   @override
@@ -77,7 +76,7 @@ class _ChangeTaskStatusPageState extends State<ChangeTaskStatusPage>
             height: 30,
           ),
           Text(
-            'task_status'.i18n,
+            'customer_status'.i18n,
             style: context.tt.bodyLarge?.copyWith(
               fontWeight: FontWeight.w700,
               color: context.cs.surfaceContainerHighest,
@@ -87,25 +86,25 @@ class _ChangeTaskStatusPageState extends State<ChangeTaskStatusPage>
             height: 8,
           ),
           RadioSelectorWidget(
-            selected: widget.task.status,
+            selected: widget.customer.status,
             items: StatusTypes.values,
-            onSelected: onTaskStatusTypeSelected,
+            onSelected: onCustomerStatusTypeSelected,
           ),
           const SizedBox(
             height: 25,
           ),
           SizedBox(
             width: double.maxFinite,
-            child: BlocConsumer<TasksCubit, GeneralTasksState>(
+            child: BlocConsumer<CustomersCubit, GeneralCustomersState>(
               listener: (context, state) {
-                if (state is ChangeTaskStatusSuccess) {
-                  tasksCubit.updateTask(state.task);
+                if (state is ChangeCustomerStatusSuccess) {
+                  customersCubit.updateCustomer(state.customer);
                   MainSnackBar.showSuccessMessageBar(
                     context,
-                    "task_status_updated".i18n,
+                    "customer_status_updated".i18n,
                   );
                   context.router.maybePop();
-                } else if (state is ChangeTaskStatusFail) {
+                } else if (state is ChangeCustomerStatusFail) {
                   MainSnackBar.showErrorMessageBar(
                     context,
                     state.message,
@@ -113,9 +112,9 @@ class _ChangeTaskStatusPageState extends State<ChangeTaskStatusPage>
                 }
               },
               builder: (context, state) {
-                var onTap = () => onSaveTaskStatus();
+                var onTap = () => onSaveCustomerStatus();
                 Widget? child;
-                if (state is ChangeTaskStatusLoading) {
+                if (state is ChangeCustomerStatusLoading) {
                   onTap = () {};
                   child = const LoadingIndicator();
                 }

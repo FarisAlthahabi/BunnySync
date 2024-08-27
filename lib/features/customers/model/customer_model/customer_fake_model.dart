@@ -1,12 +1,13 @@
 import 'package:bunny_sync/features/add_customer/model/customer_types/customer_types.dart';
 import 'package:bunny_sync/features/customers/model/customer_model/customer_model.dart';
+import 'package:bunny_sync/features/tasks/models/task_status_types/task_status_types.dart';
 
 final customersFakeModel = List.generate(
   3,
   (index) => CustomerModel(
     id: index,
     userId: 51,
-    status: 'active',
+    status: StatusTypes.active,
     email: 'bayuangkasa@gmail.com',
     name: 'Bayu Santoso',
     type: CustomerTypes.customer,
