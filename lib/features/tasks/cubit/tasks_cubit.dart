@@ -23,7 +23,7 @@ class TasksCubit extends Cubit<GeneralTasksState> {
 
   List<TaskModel> tasks = [];
 
-  TaskStatusTypes taskStatusType = TaskStatusTypes.archive;
+  StatusTypes taskStatusType = StatusTypes.archive;
 
   Future<void> getTasks({
     int? breederId,
@@ -90,15 +90,6 @@ class TasksCubit extends Cubit<GeneralTasksState> {
         taskStatusType,
       );
       emit(ChangeTaskStatusSuccess(response));
-
-      // tasks = tasks.map((e) {
-      //   if (e.id == taskId) {
-      //     return response;
-      //   }
-      //   return e;
-      // }).toList();
-      // emit(TasksSuccess(tasks));
-
     } catch (e, s) {
       addError(e, s);
       emit(ChangeTaskStatusFail(e.toString()));

@@ -17,6 +17,6 @@ abstract class TasksRepo {
 
   Future<TaskModel> changeTaskStatus(
     int taskId,
-    TaskStatusTypes taskStatusType,
+    StatusTypes taskStatusType,
   );
 }

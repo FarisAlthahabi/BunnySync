@@ -1,9 +1,9 @@
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/widgets/radio_selector_widget.dart';
 
-enum TaskStatusTypes implements RadioSelectorItemModel{
+enum StatusTypes implements RadioSelectorItemModel{
   archive,
-  unarchive;
+  active;
 
   @override
   dynamic get value => this;
@@ -11,10 +11,19 @@ enum TaskStatusTypes implements RadioSelectorItemModel{
   @override
   String get displayName {
     switch (this) {
-      case TaskStatusTypes.archive:
+      case StatusTypes.archive:
         return 'archive'.i18n;
-      case TaskStatusTypes.unarchive:
-        return 'unarchive'.i18n;
+      case StatusTypes.active:
+        return 'active'.i18n;
+    }
+  }
+
+  static String nameToJson(StatusTypes statusType){
+    switch (statusType) {
+      case StatusTypes.archive:
+        return 'archive';
+      case StatusTypes.active:
+        return 'unarchive';
     }
   }
 }

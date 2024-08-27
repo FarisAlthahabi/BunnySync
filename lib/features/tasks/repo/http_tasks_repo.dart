@@ -49,13 +49,13 @@ class HttpTasksRepo implements TasksRepo {
   @override
   Future<TaskModel> changeTaskStatus(
     int taskId,
-    TaskStatusTypes taskStatusType,
+    StatusTypes statusType,
   ) async {
     try {
       final response = await _dioClient.post(
         '/schedule/status/$taskId',
         data: {
-          "status" : taskStatusType.name,
+          "status" : StatusTypes.nameToJson(statusType),
         },
       );
 

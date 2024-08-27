@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 abstract class ChangeTaskStatusViewCallBacks {
-  void onTaskStatusTypeSelected(TaskStatusTypes taskStatusType);
+  void onTaskStatusTypeSelected(StatusTypes taskStatusType);
 
   void onSaveTaskStatus();
 }
@@ -55,7 +55,7 @@ class _ChangeTaskStatusPageState extends State<ChangeTaskStatusPage>
   late final TasksCubit tasksCubit = context.read();
 
   @override
-  void onTaskStatusTypeSelected(TaskStatusTypes taskStatusType) {
+  void onTaskStatusTypeSelected(StatusTypes taskStatusType) {
     tasksCubit.taskStatusType = taskStatusType;
   }
 
@@ -85,8 +85,8 @@ class _ChangeTaskStatusPageState extends State<ChangeTaskStatusPage>
             height: 8,
           ),
           RadioSelectorWidget(
-            selected: TaskStatusTypes.archive,
-            items: TaskStatusTypes.values,
+            selected: StatusTypes.archive,
+            items: StatusTypes.values,
             onSelected: onTaskStatusTypeSelected,
           ),
           const SizedBox(
