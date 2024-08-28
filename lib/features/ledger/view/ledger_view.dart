@@ -2,8 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/add_ledger/models/ledger_model/ledger_model.dart';
 import 'package:bunny_sync/features/ledger/cubit/ledgers_cubit.dart';
 import 'package:bunny_sync/features/ledger/models/ledger_types.dart';
-import 'package:bunny_sync/features/ledger/view/change_ledger_status_view.dart';
 import 'package:bunny_sync/features/ledger/view/widgets/ledger_types_widget.dart';
+import 'package:bunny_sync/features/status/view/change_status_view.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/extensions/date_time_x.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
@@ -135,17 +135,23 @@ class _LedgerPageState extends State<LedgerPage>
     );
   }
 
-   @override
+  @override
   void onLedgerStatusTap(LedgerModel ledgerModel) {
-     context.router.popForced();
+    context.router.popForced();
     mainShowBottomSheet(
       context,
       widget: BottomSheetWidget(
         isTitleCenter: true,
         title: 'ledger_status'.i18n,
-        child: ChangeLedgerStatusView(
-          ledgersCubit: ledgersCubit,
-          ledger: ledgerModel,
+        child: ChangeStatusView(
+          title: 'ledger_status'.i18n,
+          successMessgage: "ledger_status_updated".i18n,
+          statusableModel: ledgerModel,
+          onSuccess: (statusableModel) {
+            ledgersCubit.updateLedger(
+              statusableModel as LedgerModel,
+            );
+          },
         ),
       ),
     );

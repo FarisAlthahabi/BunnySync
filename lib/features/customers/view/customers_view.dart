@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/customers/cubit/customers_cubit.dart';
 import 'package:bunny_sync/features/customers/model/customer_model/customer_model.dart';
-import 'package:bunny_sync/features/customers/view/change_customer_status_view.dart';
+import 'package:bunny_sync/features/status/view/change_status_view.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/extensions/date_time_x.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
@@ -101,22 +101,28 @@ class _CustomersPageState extends State<CustomersPage>
     );
   }
 
-    @override
+  @override
   void onCustomerStatusTap(CustomerModel customerModel) {
-     context.router.popForced();
+    context.router.popForced();
     mainShowBottomSheet(
       context,
       widget: BottomSheetWidget(
         isTitleCenter: true,
         title: 'customer_status'.i18n,
-        child: ChangeCustomerStatusView(
-          customersCubit: customersCubit,
-          customer: customerModel,
+        child: ChangeStatusView(
+          statusableModel: customerModel,
+          title: 'customer_status'.i18n,
+          successMessgage: "customer_status_updated".i18n,
+          onSuccess: (statusableModel) {
+            customersCubit.updateCustomer(
+              statusableModel as CustomerModel,
+            );
+          },
         ),
       ),
     );
   }
-  
+
   @override
   void onEditTap(CustomerModel customerModel) {
     Navigator.pop(context);

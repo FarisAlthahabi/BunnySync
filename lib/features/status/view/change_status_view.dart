@@ -1,69 +1,82 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:bunny_sync/features/tasks/cubit/tasks_cubit.dart';
-import 'package:bunny_sync/features/tasks/models/task_model/task_model.dart';
+import 'package:bunny_sync/features/status/cubit/status_cubit.dart';
+import 'package:bunny_sync/features/status/models/statusable_model.dart';
 import 'package:bunny_sync/features/tasks/models/task_status_types/task_status_types.dart';
-import 'package:bunny_sync/global/localization/localization.dart';
+import 'package:bunny_sync/global/di/di.dart';
+import 'package:bunny_sync/global/localization/translations.i18n.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/buttons/main_action_button.dart';
 import 'package:bunny_sync/global/widgets/loading_indicator.dart';
 import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:bunny_sync/global/widgets/radio_selector_widget.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+abstract class ChangeStatusViewCallBacks {
+  void onStatusTypeSelected(StatusTypes statusType);
 
-abstract class ChangeTaskStatusViewCallBacks {
-  void onTaskStatusTypeSelected(StatusTypes taskStatusType);
-
-  void onSaveTaskStatus();
+  void onSaveStatus();
 }
 
-class ChangeTaskStatusView extends StatelessWidget {
-  const ChangeTaskStatusView({
+class ChangeStatusView extends StatelessWidget {
+  const ChangeStatusView({
     super.key,
-    required this.task,
-    required this.tasksCubit,
+    required this.statusableModel,
+    required this.onSuccess,
+    required this.title,
+    required this.successMessgage,
   });
 
-  final TaskModel task;
-  final TasksCubit tasksCubit;
+  final StatusableModel statusableModel;
+  final ValueSetter<StatusableModel> onSuccess;
+  final String title;
+  final String successMessgage;
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: tasksCubit,
-      child: ChangeTaskStatusPage(
-        task: task,
+    return BlocProvider(
+      create: (context) => get<StatusCubit>(),
+      child: ChangeStatusPage(
+        statusableModel: statusableModel,
+        onSuccess: onSuccess,
+        title: title,
+        successMessgage: successMessgage,
       ),
     );
   }
 }
 
-class ChangeTaskStatusPage extends StatefulWidget {
-  const ChangeTaskStatusPage({
+class ChangeStatusPage extends StatefulWidget {
+  const ChangeStatusPage({
     super.key,
-    required this.task,
+    required this.statusableModel,
+    required this.onSuccess,
+    required this.title,
+    required this.successMessgage,
   });
 
-  final TaskModel task;
+  final StatusableModel statusableModel;
+  final ValueSetter<StatusableModel> onSuccess;
+  final String title;
+  final String successMessgage;
 
   @override
-  State<ChangeTaskStatusPage> createState() => _ChangeTaskStatusPageState();
+  State<ChangeStatusPage> createState() => _ChangeStatusPageState();
 }
 
-class _ChangeTaskStatusPageState extends State<ChangeTaskStatusPage>
-    implements ChangeTaskStatusViewCallBacks {
-  late final TasksCubit tasksCubit = context.read();
+class _ChangeStatusPageState extends State<ChangeStatusPage>
+    implements ChangeStatusViewCallBacks {
+  late final StatusCubit statusCubit = context.read();
 
   @override
-  void onTaskStatusTypeSelected(StatusTypes? taskStatusType) {
-    tasksCubit.setTaskStatusType(taskStatusType);
+  void onStatusTypeSelected(StatusTypes? statusType) {
+    statusCubit.setStatusType(statusType);
   }
 
   @override
-  void onSaveTaskStatus() {
-    tasksCubit.changeTaskStatus(widget.task.id);
+  void onSaveStatus() {
+    statusCubit.changeStatus(widget.statusableModel);
   }
 
   @override
@@ -77,7 +90,7 @@ class _ChangeTaskStatusPageState extends State<ChangeTaskStatusPage>
             height: 30,
           ),
           Text(
-            'task_status'.i18n,
+            widget.title,
             style: context.tt.bodyLarge?.copyWith(
               fontWeight: FontWeight.w700,
               color: context.cs.surfaceContainerHighest,
@@ -87,25 +100,25 @@ class _ChangeTaskStatusPageState extends State<ChangeTaskStatusPage>
             height: 8,
           ),
           RadioSelectorWidget(
-            selected: widget.task.status,
+            selected: widget.statusableModel.status,
             items: StatusTypes.values,
-            onSelected: onTaskStatusTypeSelected,
+            onSelected: onStatusTypeSelected,
           ),
           const SizedBox(
             height: 25,
           ),
           SizedBox(
             width: double.maxFinite,
-            child: BlocConsumer<TasksCubit, GeneralTasksState>(
+            child: BlocConsumer<StatusCubit, GeneralStatusState>(
               listener: (context, state) {
-                if (state is ChangeTaskStatusSuccess) {
-                  tasksCubit.updateTask(state.task);
+                if (state is ChangeStatusSuccess) {
+                  widget.onSuccess(state.statusableModel);
                   MainSnackBar.showSuccessMessageBar(
                     context,
-                    "task_status_updated".i18n,
+                    widget.successMessgage,
                   );
                   context.router.maybePop();
-                } else if (state is ChangeTaskStatusFail) {
+                } else if (state is ChangeStatusFail) {
                   MainSnackBar.showErrorMessageBar(
                     context,
                     state.message,
@@ -113,9 +126,9 @@ class _ChangeTaskStatusPageState extends State<ChangeTaskStatusPage>
                 }
               },
               builder: (context, state) {
-                var onTap = () => onSaveTaskStatus();
+                var onTap = () => onSaveStatus();
                 Widget? child;
-                if (state is ChangeTaskStatusLoading) {
+                if (state is ChangeStatusLoading) {
                   onTap = () {};
                   child = const LoadingIndicator();
                 }

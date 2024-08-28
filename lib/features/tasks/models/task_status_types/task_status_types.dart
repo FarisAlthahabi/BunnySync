@@ -1,7 +1,7 @@
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/widgets/radio_selector_widget.dart';
 
-enum StatusTypes implements RadioSelectorItemModel{
+enum StatusTypes implements RadioSelectorItemModel {
   archive,
   active;
 
@@ -18,12 +18,22 @@ enum StatusTypes implements RadioSelectorItemModel{
     }
   }
 
-  static String nameToJson(StatusTypes statusType){
+  static String nameToJson(StatusTypes statusType) {
     switch (statusType) {
       case StatusTypes.archive:
         return 'archive';
       case StatusTypes.active:
         return 'unarchive';
     }
+  }
+
+  static StatusTypes fromJson(String status) {
+    switch (status) {
+      case 'archive':
+        return StatusTypes.archive;
+      case 'active':
+        return StatusTypes.active;
+    }
+    throw 'Unsupported status type';
   }
 }
