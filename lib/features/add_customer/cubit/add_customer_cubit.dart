@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:bunny_sync/features/add_customer/model/customer_post_model/customer_post_model.dart';
 import 'package:bunny_sync/features/add_customer/model/customer_types/customer_types.dart';
 import 'package:bunny_sync/features/add_customer/repo/add_customer_repo.dart';
-import 'package:bunny_sync/features/customers/model/customer_model/customer_model.dart';
+import 'package:bunny_sync/features/customers/models/customer_model/customer_model.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 

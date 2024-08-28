@@ -15,9 +15,9 @@ class CustomerModel implements BottomSheetItemModel, DropDownItemModel {
   const CustomerModel({
     required this.id,
     required this.userId,
-    required this.type,
     required this.name,
     required this.email,
+    this.type,
     this.status,
     this.companyName,
     this.phone,
@@ -46,7 +46,7 @@ class CustomerModel implements BottomSheetItemModel, DropDownItemModel {
   final int userId;
 
   @JsonKey(fromJson: CustomerTypes.fromJson)
-  final CustomerTypes type;
+  final CustomerTypes? type;
 
   final String name;
 

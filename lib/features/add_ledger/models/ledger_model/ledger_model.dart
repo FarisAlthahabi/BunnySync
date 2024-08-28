@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:bunny_sync/features/add_task/model/task_types/task_types.dart';
 import 'package:bunny_sync/features/ledger/models/ledger_types.dart';
 import 'package:bunny_sync/global/utils/json_converters/date_time_converter.dart';
+import 'package:bunny_sync/global/utils/json_converters/int_converter.dart';
+import 'package:bunny_sync/global/utils/json_converters/int_nullable_converter.dart';
 import 'package:bunny_sync/global/utils/json_converters/string_converter.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -44,6 +46,7 @@ class LedgerModel implements BottomSheetItemModel {
   @JsonKey(name: 'user_id')
   final int userId;
 
+  @IntConverter()
   @JsonKey(name: 'category_id')
   final int categoryId;
 
@@ -71,12 +74,15 @@ class LedgerModel implements BottomSheetItemModel {
   @JsonKey(fromJson: TaskTypes.fromJson)
   final TaskTypes category;
 
+  @IntNullableConverter()
   @JsonKey(name: 'breeder_id')
   final int? breederId;
 
+  @IntNullableConverter()
   @JsonKey(name: 'litter_id')
   final int? litterId;
 
+  @IntNullableConverter()
   @JsonKey(name: 'customer_id')
   final int? customerId;
 

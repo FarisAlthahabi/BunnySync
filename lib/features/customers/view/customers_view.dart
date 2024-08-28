@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/customers/cubit/customers_cubit.dart';
-import 'package:bunny_sync/features/customers/model/customer_model/customer_model.dart';
+import 'package:bunny_sync/features/customers/models/customer_model/customer_model.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/extensions/date_time_x.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
@@ -184,7 +184,8 @@ class _CustomersPageState extends State<CustomersPage>
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
-                            type: Text(item.type.displayName),
+                            type:
+                                Text(item.type?.displayName ?? "unknown".i18n),
                             tag: item.companyName,
                             secondaryTag: item.phone,
                             note: item.note,

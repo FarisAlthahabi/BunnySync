@@ -1,13 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/add_ledger/cubit/add_ledger_cubit.dart';
 import 'package:bunny_sync/features/add_ledger/models/ledger_model/ledger_model.dart';
+import 'package:bunny_sync/features/add_ledger/view/quick_add_cutomer_view.dart';
 import 'package:bunny_sync/features/add_task/model/task_types/task_types.dart';
 import 'package:bunny_sync/features/breeders/cubit/breeders_cubit.dart';
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
 import 'package:bunny_sync/features/categories/cubit/categories_cubit.dart';
 import 'package:bunny_sync/features/categories/model/category_model.dart';
 import 'package:bunny_sync/features/customers/cubit/customers_cubit.dart';
-import 'package:bunny_sync/features/customers/model/customer_model/customer_model.dart';
+import 'package:bunny_sync/features/customers/models/customer_model/customer_model.dart';
 import 'package:bunny_sync/features/ledger/cubit/ledgers_cubit.dart';
 import 'package:bunny_sync/features/ledger/models/ledger_types.dart';
 import 'package:bunny_sync/features/litters/cubit/litters_cubit.dart';
@@ -19,12 +20,14 @@ import 'package:bunny_sync/global/mixins/mixins.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/animation/animated_switchers/animated_switchers.dart';
+import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:bunny_sync/global/widgets/buttons/main_action_button.dart';
 import 'package:bunny_sync/global/widgets/loading_indicator.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
 import 'package:bunny_sync/global/widgets/main_date_picker.dart';
 import 'package:bunny_sync/global/widgets/main_drop_down_widget.dart';
 import 'package:bunny_sync/global/widgets/main_error_widget.dart';
+import 'package:bunny_sync/global/widgets/main_show_bottom_sheet.dart';
 import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
 import 'package:bunny_sync/global/widgets/main_text_field.dart';
 import 'package:bunny_sync/global/widgets/radio_selector_widget.dart';
@@ -50,6 +53,8 @@ abstract class AddLedgerViewCallBacks {
   void onCategoryIdSelected(CategoryModel? categoryId);
 
   void onDateSelected(DateTime date, List<int> numbers);
+
+  void onAddCustomerTap();
 
   void onNoteChanged(String note);
 
@@ -477,17 +482,32 @@ class _AddLedgerPageState extends State<AddLedgerPage>
                     const SizedBox(
                       height: 25,
                     ),
-                    Text(
-                      'contact'.i18n,
-                      style: context.tt.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: context.cs.surfaceContainerHighest,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'contact'.i18n,
+                          style: context.tt.bodyLarge?.copyWith(
+                            fontWeight: FontWeight.w700,
+                            color: context.cs.surfaceContainerHighest,
+                          ),
+                        ),
+                        CircleAvatar(
+                          backgroundColor: AppColors.mainColorShade2,
+                          radius: 13,
+                          child: InkWell(
+                            onTap: onAddCustomerTap,
+                            child: const Icon(Icons.add),
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(
                       height: 8,
                     ),
                     BlocBuilder<CustomersCubit, GeneralCustomersState>(
+                      buildWhen: (previous, current) =>
+                          current is CustomersState,
                       builder: (context, state) {
                         Widget child;
                         if (state is CustomersSuccess) {
@@ -737,6 +757,20 @@ class _AddLedgerPageState extends State<AddLedgerPage>
               ],
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  void onAddCustomerTap() {
+    mainShowBottomSheet(
+      context,
+      widget: BottomSheetWidget(
+        isTitleCenter: true,
+        title: 'add_customer'.i18n,
+        child: QuickAddCustomerView(
+          customersCubit: customersCubit,
         ),
       ),
     );
