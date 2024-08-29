@@ -439,6 +439,8 @@
   "set_litter_active_success": "Litter is active now",
   "litter_butcher": "Litter is butchered successfully",
   "add_weight": "Add Weight",
+  "copy" : "Copy",
+  "cage_copy_added": "Copy cage is added successfully",
   "add_customer" : "Add customer",
   "unarchive" : "Unarchive",
   "task_status" : "Task Status",

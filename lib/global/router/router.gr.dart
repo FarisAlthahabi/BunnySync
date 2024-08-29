@@ -57,6 +57,7 @@ abstract class _$AppRouter extends RootStackRouter {
           key: args.key,
           cageCardsCubit: args.cageCardsCubit,
           cageModel: args.cageModel,
+          isCopy: args.isCopy,
         ),
       );
     },
@@ -459,6 +460,7 @@ class AddCageRoute extends PageRouteInfo<AddCageRouteArgs> {
     Key? key,
     required CageCardsCubit cageCardsCubit,
     CageModel? cageModel,
+    bool? isCopy,
     List<PageRouteInfo>? children,
   }) : super(
           AddCageRoute.name,
@@ -466,6 +468,7 @@ class AddCageRoute extends PageRouteInfo<AddCageRouteArgs> {
             key: key,
             cageCardsCubit: cageCardsCubit,
             cageModel: cageModel,
+            isCopy: isCopy,
           ),
           initialChildren: children,
         );
@@ -481,6 +484,7 @@ class AddCageRouteArgs {
     this.key,
     required this.cageCardsCubit,
     this.cageModel,
+    this.isCopy,
   });
 
   final Key? key;
@@ -489,9 +493,11 @@ class AddCageRouteArgs {
 
   final CageModel? cageModel;
 
+  final bool? isCopy;
+
   @override
   String toString() {
-    return 'AddCageRouteArgs{key: $key, cageCardsCubit: $cageCardsCubit, cageModel: $cageModel}';
+    return 'AddCageRouteArgs{key: $key, cageCardsCubit: $cageCardsCubit, cageModel: $cageModel, isCopy: $isCopy}';
   }
 }
 

@@ -28,6 +28,8 @@ abstract class CageCardsViewCallBacks {
 
   void onEditCageTap(CageModel cageModel);
 
+  void onAddCageCopyTap(CageModel cageModel);
+
   void onDeleteCageTap(CageModel cageModel);
 }
 
@@ -68,6 +70,7 @@ class _CageCardsPageState extends State<CageCardsPage>
       widget: BottomSheetWidget(
         title: 'cages_options'.i18n,
         onEdit: onEditCageTap,
+        onCopy: onAddCageCopyTap,
         onDelete: onDeleteCageTap,
         model: cageModel,
       ),
@@ -81,6 +84,19 @@ class _CageCardsPageState extends State<CageCardsPage>
       AddCageRoute(
         cageCardsCubit: cageCardsCubit,
         cageModel: cageModel,
+        isCopy: false,
+      ),
+    );
+  }
+
+  @override
+  void onAddCageCopyTap(CageModel cageModel) {
+    Navigator.pop(context);
+    context.router.push(
+      AddCageRoute(
+        cageCardsCubit: cageCardsCubit,
+        cageModel: cageModel,
+        isCopy: true,
       ),
     );
   }
@@ -111,7 +127,9 @@ class _CageCardsPageState extends State<CageCardsPage>
   @override
   void onAddTap() {
     context.router.push(
-      AddCageRoute(cageCardsCubit: cageCardsCubit),
+      AddCageRoute(
+        cageCardsCubit: cageCardsCubit,
+      ),
     );
   }
 
