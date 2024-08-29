@@ -57,27 +57,4 @@ class HttpLedgersRepo implements LedgersRepo {
       rethrow;
     }
   }
-
-  @override
-  Future<LedgerModel> changeLedgerStatus(
-    int ledgerId,
-    StatusTypes statusType,
-  ) async {
-    final ledgerStatusType = StatusTypes.nameToJson(statusType);
-    try {
-      final response = await _dioClient.get(
-        '/finance/$ledgerId/change-status/$ledgerStatusType',
-      );
-
-      final body = (response.data as Map<String, dynamic>)['data']
-          as Map<String, dynamic>;
-
-      return LedgerModel.fromJson(body['ledger'] as Map<String, dynamic>);
-    } catch (e) {
-      if (e is NotFoundException) {
-        throw e.message ?? 'something_went_wrong'.i18n;
-      }
-      rethrow;
-    }
-  }
 }

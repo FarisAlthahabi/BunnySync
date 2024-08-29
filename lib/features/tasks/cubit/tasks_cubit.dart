@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:bunny_sync/features/tasks/models/task_model/task_model.dart';
-import 'package:bunny_sync/features/tasks/models/task_status_types/task_status_types.dart';
 import 'package:bunny_sync/features/tasks/models/tasks_fake_model.dart';
 import 'package:bunny_sync/features/tasks/repo/tasks_repo.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
@@ -11,8 +10,6 @@ part 'states/tasks_state.dart';
 
 part 'states/delete_task_state.dart';
 
-part 'states/change_task_status_state.dart';
-
 part 'states/general_tasks_state.dart';
 
 @injectable
@@ -22,17 +19,6 @@ class TasksCubit extends Cubit<GeneralTasksState> {
   final TasksRepo _tasksRepo;
 
   List<TaskModel> tasks = [];
-
-  StatusTypes taskStatusType = StatusTypes.archive;
-
-  // TODO : fix this :
-  void setTaskStatusType(StatusTypes? statusType) {
-    if (statusType == null) {
-      taskStatusType = StatusTypes.archive;
-    } else {
-      taskStatusType = statusType;
-    }
-  }
 
   Future<void> getTasks({
     int? breederId,
@@ -88,27 +74,6 @@ class TasksCubit extends Cubit<GeneralTasksState> {
     } catch (e, s) {
       addError(e, s);
       emit(DeleteTaskFail(e.toString()));
-    }
-  }
-
-  Future<void> changeTaskStatus(int taskId) async {
-    final taskStatusType = this.taskStatusType;
-    emit(ChangeTaskStatusLoading());
-
-    //TODO : fix this , it is always throwing even if we change status
-    try {
-      //    if (taskStatusType == null) {
-      //   throw "task_status_is_not_changed".i18n;
-      // }
-
-      final response = await _tasksRepo.changeTaskStatus(
-        taskId,
-        taskStatusType,
-      );
-      emit(ChangeTaskStatusSuccess(response));
-    } catch (e, s) {
-      addError(e, s);
-      emit(ChangeTaskStatusFail(e.toString()));
     }
   }
 }

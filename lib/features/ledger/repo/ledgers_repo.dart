@@ -1,6 +1,5 @@
 import 'package:bunny_sync/features/add_ledger/models/ledger_model/ledger_model.dart';
 import 'package:bunny_sync/features/ledger/models/ledger_stats_model/ledger_stats_model.dart';
-import 'package:bunny_sync/features/tasks/models/task_status_types/task_status_types.dart';
 import 'package:bunny_sync/global/dio/dio_client.dart';
 import 'package:bunny_sync/global/dio/exceptions.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
@@ -17,9 +16,4 @@ abstract class LedgersRepo {
   Future<void> deleteLedger(int ledgerId);
 
   Future<LedgerStatsModel> getLedgerStats();
-
-  Future<LedgerModel> changeLedgerStatus(
-    int ledgerId,
-    StatusTypes statusType,
-  );
 }

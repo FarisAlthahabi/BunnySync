@@ -45,29 +45,4 @@ class HttpTasksRepo implements TasksRepo {
       rethrow;
     }
   }
-
-  @override
-  Future<TaskModel> changeTaskStatus(
-    int taskId,
-    StatusTypes statusType,
-  ) async {
-    try {
-      final response = await _dioClient.post(
-        '/schedule/status/$taskId',
-        data: {
-          "status" : StatusTypes.nameToJson(statusType),
-        },
-      );
-
-      final body = (response.data as Map<String, dynamic>)['data']
-          as Map<String, dynamic>;
-
-      return TaskModel.fromJson(body['task'] as Map<String, dynamic>);
-    } catch (e) {
-      if (e is NotFoundException) {
-        throw e.message ?? 'something_went_wrong'.i18n;
-      }
-      rethrow;
-    }
-  }
 }

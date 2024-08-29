@@ -5,7 +5,6 @@ import 'package:bunny_sync/features/ledger/models/ledger_stats_model/ledger_stat
 import 'package:bunny_sync/features/ledger/models/ledger_stats_model/ledger_stats_model.dart';
 import 'package:bunny_sync/features/ledger/models/ledger_types.dart';
 import 'package:bunny_sync/features/ledger/repo/ledgers_repo.dart';
-import 'package:bunny_sync/features/tasks/models/task_status_types/task_status_types.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
@@ -15,8 +14,6 @@ part 'states/ledgers_state.dart';
 part 'states/general_ledgers_state.dart';
 
 part 'states/delete_ledger_state.dart';
-
-part 'states/change_ledger_status_state.dart';
 
 part 'states/ledger_stats_state.dart';
 
@@ -47,16 +44,6 @@ class LedgersCubit extends Cubit<GeneralLedgersState> {
             ledger.type == LedgerTypes.expenses && ledger.breederId != null,
       )
       .toList();
-
-  StatusTypes ledgerStatusType = StatusTypes.archive;
-
-  void setLedgerStatusType(StatusTypes? statusType) {
-    if (statusType == null) {
-      ledgerStatusType = StatusTypes.archive;
-    } else {
-      ledgerStatusType = statusType;
-    }
-  }
 
   Future<void> getLedgers({int? breederId, int? litterId}) async {
     emit(LedgersLoading(ledgersFakeModel));
@@ -138,21 +125,6 @@ class LedgersCubit extends Cubit<GeneralLedgersState> {
     } catch (e, s) {
       addError(e, s);
       emit(DeleteLedgerFail(e.toString()));
-    }
-  }
-
-  Future<void> changeLedgerStatus(int ledgerId) async {
-    emit(ChangeLedgerStatusLoading());
-
-    try {
-      final response = await _ledgersRepo.changeLedgerStatus(
-        ledgerId,
-        ledgerStatusType,
-      );
-      emit(ChangeLedgerStatusSuccess(response));
-    } catch (e, s) {
-      addError(e, s);
-      emit(ChangeLedgerStatusFail(e.toString()));
     }
   }
 }

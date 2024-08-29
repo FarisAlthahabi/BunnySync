@@ -16,18 +16,10 @@ class HttpStatusRepo implements StatusRepo {
             "status" : StatusTypes.nameToJson(statusType),
             },
         );
-        // final data = ((response.data as Map<String, dynamic>)['data']
-        //         as Map<String, dynamic>)[statusableModel.entityType.name]
-        //     as Map<String, dynamic>;
-        // return StatusTypes.fromJson(data['status'] as String);
       } else {
         await _dioClient.get(
           '${statusableModel.httpEndpoint}${StatusTypes.nameToJson(statusType)}',
         );
-        // final data = ((response.data as Map<String, dynamic>)['data']
-        //         as Map<String, dynamic>)[statusableModel.entityType.name]
-        //     as Map<String, dynamic>;
-        // return StatusTypes.fromJson(data['status'] as String);
       }
     } on Exception catch (e) {
       if (e is NotFoundException) {
