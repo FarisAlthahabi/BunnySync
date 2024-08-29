@@ -20,6 +20,7 @@ class CustomersCubit extends Cubit<GeneralCustomersState> {
 
   List<CustomerModel> customers = [];
 
+
   Future<void> getCustomers() async {
     emit(CustomersLoading(customersFakeModel));
     try {

@@ -22,9 +22,9 @@ class HttpCustomersRepo implements CustomersRepo {
       rethrow;
     }
   }
-  
+
   @override
-  Future<void> deleteCustomer(int customerId) async{
+  Future<void> deleteCustomer(int customerId) async {
     try {
       await _dioClient.delete('/finance/customer/$customerId');
     } catch (e) {

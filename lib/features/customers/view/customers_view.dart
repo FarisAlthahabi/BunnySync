@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/customers/cubit/customers_cubit.dart';
 import 'package:bunny_sync/features/customers/model/customer_model/customer_model.dart';
+import 'package:bunny_sync/features/status/view/change_status_view.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/extensions/date_time_x.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
@@ -25,6 +26,8 @@ abstract class CustomersViewCallBacks {
   void onTryAgainTap();
 
   void onCustomerTap(CustomerModel customerModel);
+
+  void onCustomerStatusTap(CustomerModel customerModel);
 
   void onEditTap(CustomerModel customerModel);
 
@@ -68,6 +71,7 @@ class _CustomersPageState extends State<CustomersPage>
       widget: BottomSheetWidget(
         title: 'customers_options'.i18n,
         onEdit: onEditTap,
+        onChangeStatus: onCustomerStatusTap,
         onDelete: onDeleteTap,
         model: customerModel,
       ),
@@ -92,6 +96,28 @@ class _CustomersPageState extends State<CustomersPage>
               child: Text('yes'.i18n),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  void onCustomerStatusTap(CustomerModel customerModel) {
+    context.router.popForced();
+    mainShowBottomSheet(
+      context,
+      widget: BottomSheetWidget(
+        isTitleCenter: true,
+        title: 'customer_status'.i18n,
+        child: ChangeStatusView(
+          statusableModel: customerModel,
+          title: 'customer_status'.i18n,
+          successMessgage: "customer_status_updated".i18n,
+          onSuccess: (statusableModel) {
+            customersCubit.updateCustomer(
+              statusableModel as CustomerModel,
+            );
+          },
         ),
       ),
     );
