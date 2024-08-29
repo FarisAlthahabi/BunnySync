@@ -6,11 +6,14 @@ class HttpAddCageRepo implements AddCageRepo {
 
   @override
   Future<CageModel> addCage(
-    CagePostModel cagePostModel,
-  ) async {
+    CagePostModel cagePostModel, {
+    int? cageId,
+  }) async {
     try {
       final response = await _dioClient.post(
-        '/cage-cards',
+        cageId == null ?
+        '/cage-cards' :
+        '/cage-cards/copy/$cageId',
         data: cagePostModel.toJson(),
       );
 

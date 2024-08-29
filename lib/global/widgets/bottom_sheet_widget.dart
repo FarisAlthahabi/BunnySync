@@ -28,11 +28,13 @@ class BottomSheetWidget<T extends BottomSheetItemModel>
     this.onNotes,
     this.onSetActive,
     this.isTitleCenter,
+    this.onCopy,
   });
 
   final String title;
   final Widget? child;
   final ValueSetter<T>? onEdit;
+  final ValueSetter<T>? onCopy;
   final ValueSetter<T>? onConfirm;
   final ValueSetter<T>? onBreed;
   final ValueSetter<T>? onBirth;
@@ -54,6 +56,7 @@ class BottomSheetWidget<T extends BottomSheetItemModel>
   Widget build(BuildContext context) {
     final child = this.child;
     final onEdit = this.onEdit;
+    final onCopy = this.onCopy;
     final onConfirm = this.onConfirm;
     final onBreed = this.onBreed;
     final onBirth = this.onBirth;
@@ -112,6 +115,16 @@ class BottomSheetWidget<T extends BottomSheetItemModel>
                         ),
                         child: Text(
                           "edit".i18n,
+                        ),
+                      ),
+                      if (onCopy != null && model != null)
+                      TextButton(
+                        onPressed: () => onCopy(model),
+                        style: TextButton.styleFrom(
+                          alignment: AlignmentDirectional.centerStart,
+                        ),
+                        child: Text(
+                          "copy".i18n,
                         ),
                       ),
                     if (onSetActive != null && model != null)

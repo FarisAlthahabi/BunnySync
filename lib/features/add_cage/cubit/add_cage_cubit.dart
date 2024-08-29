@@ -89,11 +89,14 @@ class AddCageCubit extends Cubit<GeneralAddCageState> {
     );
   }
 
-  Future<void> addCage() async {
+  Future<void> addCage({int? cageId}) async {
     emit(AddCageLoading());
 
     try {
-      final response = await _addCageRepo.addCage(_cagePostModel);
+      final response = await _addCageRepo.addCage(
+        _cagePostModel,
+        cageId: cageId,
+      );
       emit(AddCageSuccess(response));
     } catch (e, s) {
       addError(e, s);
