@@ -34,4 +34,24 @@ class HttpCustomersRepo implements CustomersRepo {
       rethrow;
     }
   }
+
+  @override
+  Future<CustomerModel> quickAddCustomer(
+    CustomerQuickPostModel customer,
+  ) async {
+    try {
+      final response = await _dioClient.post(
+        '/finance/quick-create-save',
+        data: customer.toJson(),
+      );
+      final data = (response.data as Map<String, dynamic>)['data']
+          as Map<String, dynamic>;
+      return CustomerModel.fromJson(data['customer'] as Map<String, dynamic>);
+    } on Exception catch (e) {
+      if (e is NotFoundException) {
+        throw e.message ?? 'something_went_wrong'.i18n;
+      }
+      rethrow;
+    }
+  }
 }

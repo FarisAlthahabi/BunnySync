@@ -439,6 +439,7 @@
   "set_litter_active_success": "Litter is active now",
   "litter_butcher": "Litter is butchered successfully",
   "add_weight": "Add Weight",
+  "add_customer" : "Add customer",
   "unarchive" : "Unarchive",
   "task_status" : "Task Status",
   "task_status_updated" : "Task status is updated successfully",

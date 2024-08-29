@@ -9,7 +9,9 @@ class HttpAddLedgerRepo implements AddLedgerRepo {
     try {
       final response = await dioClient.post(
         '/finance',
-        data: ledgerPostModel.toJson(),
+        data: FormData.fromMap(
+          ledgerPostModel.toJson(),
+        ),
       );
 
       final body = (response.data as Map<String, dynamic>)['data']

@@ -23,13 +23,15 @@ enum CustomerTypes implements DropDownItemModel {
     }
   }
 
-  static CustomerTypes fromJson(String value) {
-    switch (value.toLowerCase()) {
+  static CustomerTypes fromJson(String? value) {
+    switch (value?.toLowerCase()) {
       case 'lead':
         return CustomerTypes.lead;
       case 'vendor':
         return CustomerTypes.vendor;
       case 'customer':
+        return CustomerTypes.customer;
+      case null :
         return CustomerTypes.customer;
       default:
         // throw Exception('Unknown CustomerTypes value: $value');

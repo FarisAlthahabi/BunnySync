@@ -31,7 +31,7 @@ Map<String, dynamic> _$LedgerPostModelToJson(LedgerPostModel instance) =>
       'customer': instance.customerId,
       'date': const DateTimeConverter().toJson(instance.date),
       'note': instance.note,
-      'file': instance.file,
+      'file': JsonUtils.fileToJson(instance.file),
     };
 
 const _$LedgerTypesEnumMap = {
