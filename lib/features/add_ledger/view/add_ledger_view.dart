@@ -493,7 +493,7 @@ class _AddLedgerPageState extends State<AddLedgerPage>
                           ),
                         ),
                         CircleAvatar(
-                          backgroundColor: AppColors.mainColorShade2,
+                          //backgroundColor: context.tt.p,
                           radius: 13,
                           child: InkWell(
                             onTap: onAddCustomerTap,
@@ -770,8 +770,11 @@ class _AddLedgerPageState extends State<AddLedgerPage>
         isTitleCenter: true,
         title: 'add_customer'.i18n,
         child: QuickAddCustomerView(
-          customersCubit: customersCubit,
-        ),
+            customersCubit: customersCubit,
+            // onsuccess: (customer) {
+            //   ledgersCubit.setCustomer;
+            // }
+            ),
       ),
     );
   }

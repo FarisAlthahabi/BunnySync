@@ -125,6 +125,8 @@ class _QuickAddCustomerPageState extends State<QuickAddCustomerPage>
                   );
                 }
                 if (state is QuickAddCustomerSuccess) {
+                  //TODO .....
+                  //widget.onSuccess(state.customer);
                   customersCubit.addCustomer(state.customer);
                   MainSnackBar.showSuccessMessageBar(
                     context,
