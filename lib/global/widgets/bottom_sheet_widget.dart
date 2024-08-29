@@ -28,6 +28,7 @@ class BottomSheetWidget<T extends BottomSheetItemModel>
     this.onNotes,
     this.onSetActive,
     this.isTitleCenter,
+    this.onChangeStatus,
     this.onCopy,
   });
 
@@ -48,6 +49,7 @@ class BottomSheetWidget<T extends BottomSheetItemModel>
   final ValueSetter<T>? onCull;
   final ValueSetter<T>? onNotes;
   final ValueSetter<T>? onSetActive;
+  final ValueSetter<T>? onChangeStatus;
   final ValueSetter<T>? onDelete;
   final T? model;
   final bool? isTitleCenter;
@@ -71,6 +73,7 @@ class BottomSheetWidget<T extends BottomSheetItemModel>
     final onNotes = this.onNotes;
     final onDelete = this.onDelete;
     final onSetActive = this.onSetActive;
+    final onChangeStatus = this.onChangeStatus;
     final model = this.model;
 
     if (child == null && model == null) {
@@ -117,7 +120,7 @@ class BottomSheetWidget<T extends BottomSheetItemModel>
                           "edit".i18n,
                         ),
                       ),
-                      if (onCopy != null && model != null)
+                    if (onCopy != null && model != null) 
                       TextButton(
                         onPressed: () => onCopy(model),
                         style: TextButton.styleFrom(
@@ -135,6 +138,16 @@ class BottomSheetWidget<T extends BottomSheetItemModel>
                         ),
                         child: Text(
                           "set_active".i18n,
+                        ),
+                      ),
+                    if(onChangeStatus != null && model != null)
+                      TextButton(
+                        onPressed: () => onChangeStatus(model),
+                        style: TextButton.styleFrom(
+                          alignment: AlignmentDirectional.centerStart,
+                        ),
+                        child: Text(
+                          "status".i18n,
                         ),
                       ),
                     if (onBreed != null && model != null)

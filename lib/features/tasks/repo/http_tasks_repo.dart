@@ -14,7 +14,7 @@ class HttpTasksRepo implements TasksRepo {
         '/schedule/data',
         queries: {
           if (breederId != null && litterId == null) 'breeder_id': breederId,
-          if (litterId != null && breederId == null) 'litter_id' : litterId,
+          if (litterId != null && breederId == null) 'litter_id': litterId,
         },
       );
 

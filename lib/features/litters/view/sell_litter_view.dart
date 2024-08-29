@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/customers/cubit/customers_cubit.dart';
-import 'package:bunny_sync/features/customers/model/customer_model/customer_model.dart';
+import 'package:bunny_sync/features/customers/models/customer_model/customer_model.dart';
 import 'package:bunny_sync/features/litters/models/litter_entry_model/litter_entry_model.dart';
 import 'package:bunny_sync/global/blocs/litter_concerns_cubit/cubit/litter_concerns_cubit.dart';
 import 'package:bunny_sync/global/di/di.dart';

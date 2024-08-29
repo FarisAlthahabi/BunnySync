@@ -440,5 +440,14 @@
   "litter_butcher": "Litter is butchered successfully",
   "add_weight": "Add Weight",
   "copy" : "Copy",
-  "cage_copy_added": "Copy cage is added successfully"
+  "cage_copy_added": "Copy cage is added successfully",
+  "add_customer" : "Add customer",
+  "unarchive" : "Unarchive",
+  "task_status" : "Task Status",
+  "task_status_updated" : "Task status is updated successfully",
+  "task_status_is_not_changed" : "Task status is not changed",
+  "customer_status" : "Customer Status",
+  "customer_status_updated" : "Customer status is updated successfully",
+  "ledger_status" : "Ledger Status",
+  "ledger_status_updated" : "Ledger status is updated successfully"
 }

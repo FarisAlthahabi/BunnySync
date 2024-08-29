@@ -10,10 +10,10 @@ CustomerModel _$CustomerModelFromJson(Map<String, dynamic> json) =>
     CustomerModel(
       id: (json['id'] as num).toInt(),
       userId: (json['user_id'] as num).toInt(),
-      type: CustomerTypes.fromJson(json['type'] as String),
       name: json['name'] as String,
       email: json['email'] as String,
-      status: json['status'] as String?,
+      type: CustomerTypes.fromJson(json['type'] as String?),
+      status: $enumDecodeNullable(_$StatusTypesEnumMap, json['status']),
       companyName: json['company_name'] as String?,
       phone: json['phone'] as String?,
       createdAt: json['created_at'] == null
@@ -36,10 +36,10 @@ Map<String, dynamic> _$CustomerModelToJson(CustomerModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'user_id': instance.userId,
-      'type': _$CustomerTypesEnumMap[instance.type]!,
+      'type': _$CustomerTypesEnumMap[instance.type],
       'name': instance.name,
       'email': instance.email,
-      'status': instance.status,
+      'status': _$StatusTypesEnumMap[instance.status],
       'company_name': instance.companyName,
       'phone': instance.phone,
       'created_at': instance.createdAt?.toIso8601String(),
@@ -53,6 +53,11 @@ Map<String, dynamic> _$CustomerModelToJson(CustomerModel instance) =>
       'DT_RowIndex': instance.dtRowIndex,
       'state': instance.state,
     };
+
+const _$StatusTypesEnumMap = {
+  StatusTypes.archive: 'archive',
+  StatusTypes.active: 'active',
+};
 
 const _$CustomerTypesEnumMap = {
   CustomerTypes.lead: 'lead',
