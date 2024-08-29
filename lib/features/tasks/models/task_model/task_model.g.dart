@@ -23,7 +23,7 @@ TaskModel _$TaskModelFromJson(Map<String, dynamic> json) => TaskModel(
       recurring: RecurringPeriodsTypes.fromId(json['recurring'] as String?),
       note: json['note'] as String?,
       breedPairId: (json['breed_pair_id'] as num?)?.toInt(),
-      status: json['status'] as String?,
+      status: $enumDecodeNullable(_$StatusTypesEnumMap, json['status']),
       breederId: const IntNullableConverter().fromJson(json['breeder_id']),
       litterId: const IntNullableConverter().fromJson(json['litter_id']),
       who: TaskModel._whoFromJson(json['who']),
@@ -37,7 +37,7 @@ Map<String, dynamic> _$TaskModelToJson(TaskModel instance) => <String, dynamic>{
       'litter_id': const IntNullableConverter().toJson(instance.litterId),
       'breed_pair_id': instance.breedPairId,
       'name': instance.name,
-      'status': instance.status,
+      'status': _$StatusTypesEnumMap[instance.status],
       'start_date': const DateTimeConverter().toJson(instance.startDate),
       'due_date': const DateTimeConverter().toJson(instance.dueDate),
       'type': _$TaskGenresEnumMap[instance.type]!,
@@ -48,6 +48,11 @@ Map<String, dynamic> _$TaskModelToJson(TaskModel instance) => <String, dynamic>{
       'who': instance.who,
       'DT_RowIndex': instance.dtRowIndex,
     };
+
+const _$StatusTypesEnumMap = {
+  StatusTypes.archive: 'archive',
+  StatusTypes.active: 'active',
+};
 
 const _$TaskGenresEnumMap = {
   TaskGenres.breed: 'breed',

@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:bunny_sync/features/tasks/model/task_model/task_model.dart';
-import 'package:bunny_sync/features/tasks/model/tasks_fake_model.dart';
+import 'package:bunny_sync/features/tasks/models/task_model/task_model.dart';
+import 'package:bunny_sync/features/tasks/models/tasks_fake_model.dart';
 import 'package:bunny_sync/features/tasks/repo/tasks_repo.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:injectable/injectable.dart';

@@ -11,11 +11,11 @@ class HttpLedgersRepo implements LedgersRepo {
   }) async {
     try {
       final response = await _dioClient.post(
-        breederId != null && litterId == null ?
-        '/finance/data?breeder_id=$breederId' :
-        breederId == null && litterId != null ?
-        '/finance/data?litter_id=$litterId' :
-        '/finance/data',
+        breederId != null && litterId == null
+            ? '/finance/data?breeder_id=$breederId'
+            : breederId == null && litterId != null
+                ? '/finance/data?litter_id=$litterId'
+                : '/finance/data',
       );
       final data = (response.data as Map<String, dynamic>)['data'] as List;
       return List.generate(

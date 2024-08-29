@@ -13,7 +13,7 @@ LedgerModel _$LedgerModelFromJson(Map<String, dynamic> json) => LedgerModel(
       name: json['name'] as String,
       date: const DateTimeConverter().fromJson(json['date'] as String?),
       type: LedgerTypes.fromJson(json['type'] as String),
-      status: json['status'] as String?,
+      status: $enumDecodeNullable(_$StatusTypesEnumMap, json['status']),
       amount: const StringConverter().fromJson(json['amount']),
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
@@ -34,7 +34,7 @@ Map<String, dynamic> _$LedgerModelToJson(LedgerModel instance) =>
       'name': instance.name,
       'date': const DateTimeConverter().toJson(instance.date),
       'type': _$LedgerTypesEnumMap[instance.type]!,
-      'status': instance.status,
+      'status': _$StatusTypesEnumMap[instance.status],
       'amount': const StringConverter().toJson(instance.amount),
       'created_at': instance.createdAt.toIso8601String(),
       'updated_at': instance.updatedAt.toIso8601String(),
@@ -46,6 +46,11 @@ Map<String, dynamic> _$LedgerModelToJson(LedgerModel instance) =>
       'customer': instance.customerName,
       'DT_RowIndex': instance.dtRowIndex,
     };
+
+const _$StatusTypesEnumMap = {
+  StatusTypes.archive: 'archive',
+  StatusTypes.active: 'active',
+};
 
 const _$LedgerTypesEnumMap = {
   LedgerTypes.income: 'income',

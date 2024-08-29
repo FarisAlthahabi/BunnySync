@@ -49,7 +49,7 @@ import 'package:bunny_sync/features/settings/view/settings_view.dart';
 import 'package:bunny_sync/features/sign_in/view/sign_in_view.dart';
 import 'package:bunny_sync/features/splash/view/splash_view.dart';
 import 'package:bunny_sync/features/tasks/cubit/tasks_cubit.dart';
-import 'package:bunny_sync/features/tasks/model/task_model/task_model.dart';
+import 'package:bunny_sync/features/tasks/models/task_model/task_model.dart';
 import 'package:bunny_sync/features/tasks/view/tasks_view.dart';
 import 'package:bunny_sync/global/blocs/note_cubit/cubit/notes_cubit.dart';
 import 'package:flutter/material.dart';
