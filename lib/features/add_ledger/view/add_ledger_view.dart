@@ -493,7 +493,7 @@ class _AddLedgerPageState extends State<AddLedgerPage>
                           ),
                         ),
                         CircleAvatar(
-                          //backgroundColor: context.tt.p,
+                          backgroundColor: context.cs.primary,
                           radius: 13,
                           child: InkWell(
                             onTap: onAddCustomerTap,
@@ -507,39 +507,49 @@ class _AddLedgerPageState extends State<AddLedgerPage>
                     ),
                     BlocBuilder<CustomersCubit, GeneralCustomersState>(
                       buildWhen: (previous, current) =>
-                          current is CustomersState,
+                          current is SetAddedCustomerState,
                       builder: (context, state) {
-                        Widget child;
-                        if (state is CustomersSuccess) {
-                          final selectedValue =
-                              state.customers.firstWhereOrNull(
-                            (e) => e.id == widget.ledger?.customerId,
-                          );
-                          child = MainDropDownWidget<CustomerModel>(
-                            selectedValue: selectedValue,
-                            items: state.customers,
-                            text: 'select_contact'.i18n,
-                            onChanged: onContactSelected,
-                          );
-                        } else if (state is CustomersLoading) {
-                          child = Center(
-                            child: LoadingIndicator(
-                              color: context.cs.primary,
-                            ),
-                          );
-                        } else if (state is CustomersFail) {
-                          child = MainErrorWidget(
-                            error: state.message,
-                            onTap: () {
-                              customersCubit.getCustomers();
-                            },
-                          );
-                        } else {
-                          child = const SizedBox();
-                        }
+                        return BlocBuilder<CustomersCubit,
+                            GeneralCustomersState>(
+                          buildWhen: (previous, current) =>
+                              current is CustomersState,
+                          builder: (context, innerState) {
+                            Widget child;
+                            if (innerState is CustomersSuccess) {
+                              CustomerModel? selectedValue =
+                                  innerState.customers.firstWhereOrNull(
+                                (e) => e.id == widget.ledger?.customerId,
+                              );
+                              if (state is SetAddedCustomerState) {
+                                selectedValue = state.customer;
+                              }
+                              child = MainDropDownWidget<CustomerModel>(
+                                selectedValue: selectedValue,
+                                items: innerState.customers,
+                                text: 'select_contact'.i18n,
+                                onChanged: onContactSelected,
+                              );
+                            } else if (innerState is CustomersLoading) {
+                              child = Center(
+                                child: LoadingIndicator(
+                                  color: context.cs.primary,
+                                ),
+                              );
+                            } else if (innerState is CustomersFail) {
+                              child = MainErrorWidget(
+                                error: innerState.message,
+                                onTap: () {
+                                  customersCubit.getCustomers();
+                                },
+                              );
+                            } else {
+                              child = const SizedBox();
+                            }
 
-                        return AnimatedSwitcherWithSize(
-                          child: child,
+                            return AnimatedSwitcherWithSize(
+                              child: child,
+                            );
+                          },
                         );
                       },
                     ),
@@ -770,11 +780,11 @@ class _AddLedgerPageState extends State<AddLedgerPage>
         isTitleCenter: true,
         title: 'add_customer'.i18n,
         child: QuickAddCustomerView(
-            customersCubit: customersCubit,
-            // onsuccess: (customer) {
-            //   ledgersCubit.setCustomer;
-            // }
-            ),
+          customersCubit: customersCubit,
+          // onsuccess: (customer) {
+          //   ledgersCubit.setCustomer;
+          // }
+        ),
       ),
     );
   }

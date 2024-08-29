@@ -13,6 +13,8 @@ part 'states/general_customers_state.dart';
 
 part 'states/delete_customer_state.dart';
 
+part 'states/set_added_customer_state.dart';
+
 part 'states/quick_add_customer_state.dart';
 
 part 'states/quick_add_customer_name_state.dart';
@@ -111,7 +113,7 @@ class CustomersCubit extends Cubit<GeneralCustomersState> {
         _customerQuickPostModel,
       );
       emit(QuickAddCustomerSuccess(customer));
-      
+      emit(SetAddedCustomerState(customer));
     } catch (e, s) {
       addError(e, s);
       emit(QuickAddCustomerFail(e.toString()));
