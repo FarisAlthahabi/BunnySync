@@ -14,6 +14,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.actions,
     this.backgroundColor,
     this.bottom,
+    this.flexibleSpace,
   });
 
   final double toolbarHeight;
@@ -25,10 +26,12 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget>? actions;
   final Color? backgroundColor;
   final PreferredSizeWidget? bottom;
+  final Widget? flexibleSpace;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      flexibleSpace: flexibleSpace,
       systemOverlayStyle: SystemUiOverlayStyle(
         statusBarColor: context.cs.surface,
         statusBarIconBrightness: Brightness.dark,

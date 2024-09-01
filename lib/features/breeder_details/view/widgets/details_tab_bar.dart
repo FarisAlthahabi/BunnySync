@@ -9,10 +9,12 @@ class DetailsTabBar extends StatelessWidget implements PreferredSizeWidget {
     super.key,
     required this.tabs,
     this.margin = AppConstants.paddingV12,
+    this.tabController,
   });
 
   final List<TabModel> tabs;
   final EdgeInsetsGeometry margin;
+  final TabController? tabController;
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +22,7 @@ class DetailsTabBar extends StatelessWidget implements PreferredSizeWidget {
       margin: margin,
       height: 36,
       child: TabBar(
+        controller: tabController,
         padding: AppConstants.paddingH24,
         tabAlignment: TabAlignment.start,
         isScrollable: true,

@@ -81,7 +81,7 @@ class _SettingsPageState extends State<SettingsPage>
 
   @override
   void onReportsTap() {
-    // TODO: implement onReportsTap
+    context.router.push(const ReportsRoute());
   }
 
   @override
