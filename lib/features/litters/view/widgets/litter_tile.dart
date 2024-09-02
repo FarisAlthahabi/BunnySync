@@ -3,6 +3,7 @@ import 'package:bunny_sync/features/litters/models/litter_entry_model/litter_ent
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/models/rabbit_property_model.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
+import 'package:bunny_sync/global/widgets/buttons/more_menu_button.dart';
 import 'package:bunny_sync/global/widgets/info_properties_widget.dart';
 import 'package:bunny_sync/global/widgets/main_tile.dart';
 import 'package:flutter/material.dart';
@@ -66,15 +67,8 @@ class LitterTile extends StatelessWidget {
               PositionedDirectional(
                 top: 0,
                 end: 0,
-                child: TextButton(
-                  onPressed: () {
-                    onMoreOptionsTap(litter);
-                  },
-                  style: TextButton.styleFrom(
-                    padding: AppConstants.padding4,
-                    minimumSize: Size.zero,
-                  ),
-                  child: const Icon(Icons.more_vert_rounded),
+                child: MoreMenuButton(
+                  onTap: () => onMoreOptionsTap(litter),
                 ),
               ),
             ],
