@@ -5,6 +5,7 @@ import 'package:bunny_sync/features/weight/models/weightable_model/weightable_mo
 import 'package:bunny_sync/features/weight/view/add_weight_view.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
+import 'package:bunny_sync/global/models/weight_model/weight_model.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
@@ -21,6 +22,8 @@ abstract class WeightViewCallBacks {
   void onTryAgainTap();
 
   void onAddWeightTap();
+
+  void onWeightTap(WeightModel weightModel);
 }
 
 class WeightView extends StatelessWidget {
@@ -65,6 +68,22 @@ class _WeightPageState extends State<WeightPage>
   }
 
   @override
+  void onWeightTap(WeightModel weightModel) {
+    context.router.popForced();
+    mainShowBottomSheet(
+      context,
+      widget: BottomSheetWidget(
+        isTitleCenter: true,
+        title: 'update_weight'.i18n,
+        child: AddWeightView(
+          weightableModel: widget.weightableModel,
+          weightModel: weightModel,
+        ),
+      ),
+    );
+  }
+
+  @override
   void onAddWeightTap() {
     context.router.popForced();
     mainShowBottomSheet(
@@ -105,6 +124,7 @@ class _WeightPageState extends State<WeightPage>
                 itemBuilder: (context, index) {
                   final item = state.weights[index];
                   return ElementTile(
+                    onTap: onWeightTap,
                     model: item,
                     leading: BorderedTextualWidget(
                       text: (index + 1).toString(),

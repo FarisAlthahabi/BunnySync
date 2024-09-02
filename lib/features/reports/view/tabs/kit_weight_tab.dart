@@ -1,9 +1,11 @@
 import 'package:bunny_sync/features/reports/cubit/reports_cubit.dart';
 import 'package:bunny_sync/features/reports/view/widgets/column_chart_widget.dart';
+import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/main_error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 abstract class KitWeightTabCallBacks {
   void onTryAgainTap();
@@ -47,18 +49,28 @@ class _KitWeightPageState extends State<KitWeightPage>
         buildWhen: (previous, current) => current is KitWeightReportState,
         builder: (context, state) {
           if (state is KitWeightReportFetch) {
-            final List<ColumnChartModel> data = List.generate(
-              state.kitWeightReport.breeders.length,
-              (index) => ColumnChartModel(
-                xAxisProperty: state.kitWeightReport.breeders[index],
-                yAxisProperty: state.kitWeightReport.avgWeight[index],
+            final item = state.kitWeightReport;
+            final List<ChartModel> data = List.generate(
+              item.breeders.length,
+              (index) => ChartModel(
+                xAxisProperty: item.breeders[index],
+                yAxisProperty: item.avgWeight[index],
               ),
             );
+            if (data.isEmpty) {
+              return const Padding(
+                padding: AppConstants.padding16,
+                child: SfCartesianChart(),
+              );
+            }
             return Skeletonizer(
               enabled: state is KitWeightReportLoading,
-              child: ColumnChartWidget(
-                data: data,
-                animationDuration: state is KitWeightReportLoading ? 0 : 1500,
+              child: Padding(
+                padding: AppConstants.padding16,
+                child: ColumnChartWidget(
+                  data: data,
+                  animationDuration: state is KitWeightReportLoading ? 0 : 1500,
+                ),
               ),
             );
           } else if (state is KitWeightReportFail) {

@@ -148,6 +148,23 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
     }
   }
 
+  void setBreederButchered(int breederId) {
+    activeBreeders.removeWhere(
+      (element) => element.id == breederId,
+    );
+    for (final element in allBreeders) {
+      if (element.id == breederId) {
+        inactiveBreeders.add(element);
+      }
+    }
+    _breedersStatusModel = BreedersStatusModel(
+      all: allBreeders,
+      active: activeBreeders,
+      inactive: inactiveBreeders,
+    );
+    emit(BreedersSuccess(breedersStatusModel));
+  }
+
   void addLitter(AddLitterModel addLitterModel) {
     allBreeders = allBreeders.map((e) {
       if (e.id == addLitterModel.femaleBreederId ||

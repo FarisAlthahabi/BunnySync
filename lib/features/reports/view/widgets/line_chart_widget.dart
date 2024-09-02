@@ -1,19 +1,10 @@
+import 'package:bunny_sync/features/reports/view/widgets/column_chart_widget.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class ChartModel {
-  ChartModel({
-    required this.xAxisProperty,
-    required this.yAxisProperty,
-  });
-
-  final String xAxisProperty;
-  final double yAxisProperty;
-}
-
-class ColumnChartWidget extends StatefulWidget {
-  const ColumnChartWidget({
+class LineChartWidget extends StatefulWidget {
+  const LineChartWidget({
     super.key,
     required this.data,
     this.animationDuration,
@@ -23,10 +14,10 @@ class ColumnChartWidget extends StatefulWidget {
   final double? animationDuration;
 
   @override
-  State<ColumnChartWidget> createState() => _ColumnChartWidgetState();
+  State<LineChartWidget> createState() => _LineChartWidgetState();
 }
 
-class _ColumnChartWidgetState extends State<ColumnChartWidget> {
+class _LineChartWidgetState extends State<LineChartWidget> {
   @override
   Widget build(BuildContext context) {
     return SfCartesianChart(
@@ -37,8 +28,8 @@ class _ColumnChartWidgetState extends State<ColumnChartWidget> {
         labelStyle: context.tt.titleMedium,
       ),
       series: <CartesianSeries<ChartModel, String>>[
-        ColumnSeries<ChartModel, String>(
-          width: 0.3,
+        LineSeries<ChartModel, String>(
+          width: 3,
           animationDuration: widget.animationDuration ?? 1500,
           color: context.cs.primary,
           dataSource: widget.data,

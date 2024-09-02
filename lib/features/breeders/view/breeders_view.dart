@@ -307,6 +307,7 @@ class _BreedersPageState extends State<BreedersPage>
         title: 'butcher'.i18n,
         child: SetButcherView(
           breederId: breederEntryModel.id,
+          breedersCubit: breedersCubit,
         ),
       ),
     );
@@ -414,12 +415,12 @@ class _BreedersPageState extends State<BreedersPage>
         BlocListener<RabbitConcernsCubit, GeneralRabbitConcernsState>(
           listener: (context, state) {
             if (state is SetActiveSuccess) {
-              context.router.popForced();
               context.loaderOverlay.hide();
               MainSnackBar.showSuccessMessageBar(
                 context,
                 'set_active_success'.i18n,
               );
+              context.router.maybePop();
             } else if (state is SetActiveLoading) {
               context.loaderOverlay.show();
             } else if (state is SetActiveFail) {

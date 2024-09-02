@@ -1,5 +1,6 @@
 import 'package:bunny_sync/features/reports/cubit/reports_cubit.dart';
 import 'package:bunny_sync/features/reports/view/widgets/column_chart_widget.dart';
+import 'package:bunny_sync/features/reports/view/widgets/line_chart_widget.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/main_error_widget.dart';
 import 'package:flutter/material.dart';
@@ -7,54 +8,54 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-abstract class LiveAndDeadTabCallBacks {
+abstract class GestationDaysTabCallBacks {
   void onTryAgainTap();
 }
 
-class LiveAndDeadTab extends StatelessWidget {
-  const LiveAndDeadTab({super.key});
+class GestationDaysTab extends StatelessWidget {
+  const GestationDaysTab({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const LiveAndDeadPage();
+    return const GestationDaysPage();
   }
 }
 
-class LiveAndDeadPage extends StatefulWidget {
-  const LiveAndDeadPage({super.key});
+class GestationDaysPage extends StatefulWidget {
+  const GestationDaysPage({super.key});
 
   @override
-  State<LiveAndDeadPage> createState() => _LiveAndDeadPageState();
+  State<GestationDaysPage> createState() => _GestationDaysPageState();
 }
 
-class _LiveAndDeadPageState extends State<LiveAndDeadPage>
-    implements LiveAndDeadTabCallBacks {
+class _GestationDaysPageState extends State<GestationDaysPage>
+    implements GestationDaysTabCallBacks {
   late final ReportsCubit reportsCubit = context.read();
 
   @override
   void initState() {
     super.initState();
-    reportsCubit.getLiveAndDead();
+    reportsCubit.getGestationDays();
   }
 
   @override
   void onTryAgainTap() {
-    reportsCubit.getLiveAndDead();
+    reportsCubit.getGestationDays();
   }
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: BlocBuilder<ReportsCubit, GeneralReportsState>(
-        buildWhen: (previous, current) => current is LiveAndDeadState,
+        buildWhen: (previous, current) => current is GestationDaysState,
         builder: (context, state) {
-          if (state is LiveAndDeadFetch) {
-            final item = state.liveAndDead;
+          if (state is GestationDaysFetch) {
+            final item = state.gestationDays;
             final List<ChartModel> data = List.generate(
               item.breeders.length,
               (index) => ChartModel(
                 xAxisProperty: item.breeders[index],
-                yAxisProperty: item.live[index].toDouble(),
+                yAxisProperty: item.days[index].toDouble(),
               ),
             );
             if (data.isEmpty) {
@@ -64,16 +65,16 @@ class _LiveAndDeadPageState extends State<LiveAndDeadPage>
               );
             }
             return Skeletonizer(
-              enabled: state is LiveAndDeadLoading,
+              enabled: state is GestationDaysLoading,
               child: Padding(
                 padding: AppConstants.padding16,
-                child: ColumnChartWidget(
+                child: LineChartWidget(
                   data: data,
-                  animationDuration: state is LiveAndDeadLoading ? 0 : 1500,
+                  animationDuration: state is GestationDaysLoading ? 0 : 1500,
                 ),
               ),
             );
-          } else if (state is LiveAndDeadFail) {
+          } else if (state is GestationDaysFail) {
             return MainErrorWidget(
               error: state.message,
               onTap: onTryAgainTap,

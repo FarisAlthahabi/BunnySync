@@ -4,6 +4,7 @@ import 'package:bunny_sync/features/weight/cubit/add_weight_cubit/add_weight_cub
 import 'package:bunny_sync/features/weight/models/weightable_model/weightable_model.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/translations.i18n.dart';
+import 'package:bunny_sync/global/models/weight_model/weight_model.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/utils/enums/entity_types.dart';
@@ -33,9 +34,11 @@ class AddWeightView extends StatelessWidget {
   const AddWeightView({
     super.key,
     required this.weightableModel,
+    this.weightModel,
   });
 
   final WeightableModel weightableModel;
+  final WeightModel? weightModel;
 
   @override
   Widget build(BuildContext context) {
@@ -43,15 +46,21 @@ class AddWeightView extends StatelessWidget {
       create: (context) => get<AddWeightCubit>(),
       child: UpdateWeightPage(
         weightableModel: weightableModel,
+        weightModel: weightModel,
       ),
     );
   }
 }
 
 class UpdateWeightPage extends StatefulWidget {
-  const UpdateWeightPage({super.key, required this.weightableModel});
+  const UpdateWeightPage({
+    super.key,
+    required this.weightableModel,
+    this.weightModel,
+  });
 
   final WeightableModel weightableModel;
+  final WeightModel? weightModel;
 
   @override
   State<UpdateWeightPage> createState() => _UpdateWeightPageState();
@@ -62,11 +71,23 @@ class _UpdateWeightPageState extends State<UpdateWeightPage>
   late final AddWeightCubit addWeightCubit = context.read();
 
   List<FocusNode> weightsFocusNode = [];
+  bool isIndividualKits = false;
 
   @override
   void initState() {
     super.initState();
-    addWeightCubit.setWeightType(true);
+    final weightModel = widget.weightModel;
+    if (weightModel != null) {
+      addWeightCubit.setWeight(
+        weightModel.weight,
+        widget.weightableModel.entityType,
+      );
+      addWeightCubit.setWeightDate(
+        weightModel.date,
+      );
+    }
+    addWeightCubit.setWeightType(false);
+    addWeightCubit.setWeightDate(DateTime.now());
   }
 
   @override
@@ -91,17 +112,33 @@ class _UpdateWeightPageState extends State<UpdateWeightPage>
 
   @override
   void onDateSelected(DateTime date, List<int> args) {
-    // rabbitConcernsCubit.setWeightDate(date);
+    addWeightCubit.setWeightDate(
+      date,
+    );
   }
 
   @override
   void onWeightChanged(String weight, {int? kitId}) {
-    // rabbitConcernsCubit.setWeight(weight);
+    addWeightCubit.setWeight(
+      weight,
+      widget.weightableModel.entityType,
+      kitId: kitId,
+    );
   }
 
   @override
   void onSave() {
-    addWeightCubit.saveWeight(widget.weightableModel);
+    final weightModel = widget.weightModel;
+    if (weightModel != null) {
+      addWeightCubit.updateWeight(
+        widget.weightableModel,
+        weightId: weightModel.id,
+      );
+    } else {
+      addWeightCubit.addWeight(
+        widget.weightableModel,
+      );
+    }
   }
 
   @override
@@ -117,6 +154,7 @@ class _UpdateWeightPageState extends State<UpdateWeightPage>
               height: 30,
             ),
             MainTextField(
+              initialValue: widget.weightModel?.weight,
               onChanged: onWeightChanged,
               keyboardType: TextInputType.number,
               hintText: "weight".i18n,
@@ -135,6 +173,7 @@ class _UpdateWeightPageState extends State<UpdateWeightPage>
             const SizedBox(height: 10),
             Center(
               child: MainDatePicker(
+                initialDate: widget.weightModel?.date,
                 onChange: onDateSelected,
               ),
             ),
@@ -146,6 +185,12 @@ class _UpdateWeightPageState extends State<UpdateWeightPage>
               child: BlocConsumer<AddWeightCubit, GeneralAddWeightState>(
                 listener: (context, state) {
                   if (state is AddWeightSuccess) {
+                    MainSnackBar.showSuccessMessageBar(
+                      context,
+                      "weight_added".i18n,
+                    );
+                    context.router.maybePop();
+                  } else if (state is UpdateWeightSuccess) {
                     MainSnackBar.showSuccessMessageBar(
                       context,
                       "weight_updated".i18n,
@@ -181,186 +226,185 @@ class _UpdateWeightPageState extends State<UpdateWeightPage>
       return BlocBuilder<AddWeightCubit, GeneralAddWeightState>(
         builder: (context, state) {
           if (state is SetLitterWeightTypeState) {
-            if (!state.isIndividualKits) {
+            isIndividualKits = state.isIndividualKits;
+            if (isIndividualKits) {
               weightsFocusNode = List.generate(
                 widget.weightableModel.subEntities.length,
                 (index) => FocusNode(),
               );
             }
-
-            return Padding(
-              padding: AppConstants.paddingH16,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Switch(
-                        inactiveTrackColor: context.cs.onPrimary,
-                        value: state.isIndividualKits,
-                        onChanged: onWeightTypeSelected,
-                      ),
-                      const SizedBox(width: 10),
-                      Text(
-                        state.isIndividualKits
-                            ? 'individual_kits'.i18n
-                            : 'entire_kits'.i18n,
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: context.cs.primaryFixed,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  Text(
-                    "set_date".i18n,
-                    style: context.tt.bodyLarge?.copyWith(
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.darkGrey,
+          }
+          return Padding(
+            padding: AppConstants.paddingH16,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 30,
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Switch(
+                      inactiveTrackColor: context.cs.onPrimary,
+                      value: isIndividualKits,
+                      onChanged: onWeightTypeSelected,
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  Center(
-                    child: MainDatePicker(
-                      onChange: onDateSelected,
+                    const SizedBox(width: 10),
+                    Text(
+                      isIndividualKits
+                          ? 'individual_kits'.i18n
+                          : 'entire_kits'.i18n,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: context.cs.primaryFixed,
+                      ),
                     ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 25,
+                ),
+                Text(
+                  "set_date".i18n,
+                  style: context.tt.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.darkGrey,
                   ),
-                  const SizedBox(
-                    height: 25,
+                ),
+                const SizedBox(height: 10),
+                Center(
+                  child: MainDatePicker(
+                    onChange: onDateSelected,
                   ),
-                  AnimatedHeightAndFade(
-                    child: state.isIndividualKits
-                        ? Column(
-                            key: const Key('individual_kits'),
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              MainTextField(
-                                onSubmitted: onWeightSubmitted,
-                                onChanged: (String weight) {
-                                  onWeightChanged(weight);
-                                },
-                                keyboardType: TextInputType.number,
-                                hintText: "weight".i18n,
-                                labelText: "weight".i18n,
+                ),
+                const SizedBox(
+                  height: 25,
+                ),
+                AnimatedHeightAndFade(
+                  child: !isIndividualKits
+                      ? Column(
+                          key: const Key('individual_kits'),
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            MainTextField(
+                              initialValue: widget.weightModel?.weight,
+                              onSubmitted: onWeightSubmitted,
+                              onChanged: (String weight) {
+                                onWeightChanged(weight);
+                              },
+                              keyboardType: TextInputType.number,
+                              hintText: "weight".i18n,
+                              labelText: "weight".i18n,
+                            ),
+                            const SizedBox(
+                              height: 25,
+                            ),
+                          ],
+                        )
+                      : Column(
+                          key: const Key('entire_kits'),
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'weight'.i18n,
+                              style: context.tt.bodyLarge?.copyWith(
+                                fontWeight: FontWeight.w700,
+                                color: context.cs.surfaceContainerHighest,
                               ),
-                              const SizedBox(
-                                height: 25,
-                              ),
-                            ],
-                          )
-                        : Column(
-                            key: const Key('entire_kits'),
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'weight'.i18n,
-                                style: context.tt.bodyLarge?.copyWith(
-                                  fontWeight: FontWeight.w700,
-                                  color: context.cs.surfaceContainerHighest,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              ...List.generate(
-                                  widget.weightableModel.subEntities.length,
-                                  (index) {
-                                weightsFocusNode = List.generate(
-                                  widget.weightableModel.subEntities.length,
-                                  (index) => FocusNode(),
-                                );
-                                final item =
-                                    widget.weightableModel.subEntities[index];
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    MainTextField(
-                                      onSubmitted: (String weight) {
-                                        onWeightsSubmitted(weight, index);
-                                      },
-                                      onChanged: (String weight) {
-                                        onWeightChanged(weight, kitId: item.id);
-                                      },
-                                      focusNode: weightsFocusNode[index],
-                                      keyboardType: TextInputType.number,
-                                      hintText: "weight".i18n,
-                                      labelText: item.displayName,
-                                    ),
-                                    const SizedBox(
-                                      height: 25,
-                                    ),
-                                  ],
-                                );
-                              }),
-                              if (widget.weightableModel.subEntities.isEmpty)
-                                Column(
-                                  children: [
-                                    Center(
-                                      child: Text(
-                                        'kits_empty'.i18n,
-                                        style: context.tt.bodyLarge?.copyWith(
-                                          fontWeight: FontWeight.w700,
-                                          color: context
-                                              .cs.surfaceContainerHighest,
-                                        ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            ...List.generate(
+                                widget.weightableModel.subEntities.length,
+                                (index) {
+                              weightsFocusNode = List.generate(
+                                widget.weightableModel.subEntities.length,
+                                (index) => FocusNode(),
+                              );
+                              final item =
+                                  widget.weightableModel.subEntities[index];
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  MainTextField(
+                                    onSubmitted: (String weight) {
+                                      onWeightsSubmitted(weight, index);
+                                    },
+                                    onChanged: (String weight) {
+                                      onWeightChanged(weight, kitId: item.id);
+                                    },
+                                    focusNode: weightsFocusNode[index],
+                                    keyboardType: TextInputType.number,
+                                    hintText: "weight".i18n,
+                                    labelText: item.displayName,
+                                  ),
+                                  const SizedBox(
+                                    height: 25,
+                                  ),
+                                ],
+                              );
+                            }),
+                            if (widget.weightableModel.subEntities.isEmpty)
+                              Column(
+                                children: [
+                                  Center(
+                                    child: Text(
+                                      'kits_empty'.i18n,
+                                      style: context.tt.bodyLarge?.copyWith(
+                                        fontWeight: FontWeight.w700,
+                                        color:
+                                            context.cs.surfaceContainerHighest,
                                       ),
                                     ),
-                                    const SizedBox(
-                                      height: 25,
-                                    ),
-                                  ],
-                                ),
-                            ],
-                          ),
-                  ),
-                  SizedBox(
-                    width: double.maxFinite,
-                    child: BlocConsumer<AddWeightCubit, GeneralAddWeightState>(
-                      listener: (context, state) {
-                        if (state is AddWeightSuccess) {
-                          MainSnackBar.showSuccessMessageBar(
-                            context,
-                            "weight_updated".i18n,
-                          );
-                          context.router.maybePop();
-                        } else if (state is AddWeightFail) {
-                          MainSnackBar.showErrorMessageBar(
-                            context,
-                            state.message,
-                          );
-                        }
-                      },
-                      builder: (context, state) {
-                        var onTap = () => onSave();
-                        Widget? child;
-                        if (state is AddWeightLoading) {
-                          onTap = () {};
-                          child = const LoadingIndicator();
-                        }
-                        return MainActionButton(
-                          onTap: onTap,
-                          text: "save".i18n,
-                          child: child,
+                                  ),
+                                  const SizedBox(
+                                    height: 25,
+                                  ),
+                                ],
+                              ),
+                          ],
+                        ),
+                ),
+                SizedBox(
+                  width: double.maxFinite,
+                  child: BlocConsumer<AddWeightCubit, GeneralAddWeightState>(
+                    listener: (context, state) {
+                      if (state is AddWeightSuccess) {
+                        MainSnackBar.showSuccessMessageBar(
+                          context,
+                          "weight_updated".i18n,
                         );
-                      },
-                    ),
+                        context.router.maybePop();
+                      } else if (state is AddWeightFail) {
+                        MainSnackBar.showErrorMessageBar(
+                          context,
+                          state.message,
+                        );
+                      }
+                    },
+                    builder: (context, state) {
+                      var onTap = () => onSave();
+                      Widget? child;
+                      if (state is AddWeightLoading) {
+                        onTap = () {};
+                        child = const LoadingIndicator();
+                      }
+                      return MainActionButton(
+                        onTap: onTap,
+                        text: "save".i18n,
+                        child: child,
+                      );
+                    },
                   ),
-                  const SizedBox(height: 25),
-                ],
-              ),
-            );
-          }
-
-          return const SizedBox.shrink();
+                ),
+                const SizedBox(height: 25),
+              ],
+            ),
+          );
         },
       );
     }

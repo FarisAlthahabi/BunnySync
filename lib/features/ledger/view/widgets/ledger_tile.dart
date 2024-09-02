@@ -4,8 +4,8 @@ import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class LedgerTile extends StatelessWidget {
-  const LedgerTile({
+class StatsTile extends StatelessWidget {
+  const StatsTile({
     super.key,
     required this.leading,
     required this.title,

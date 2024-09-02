@@ -1,9 +1,11 @@
 import 'package:bunny_sync/features/reports/cubit/reports_cubit.dart';
 import 'package:bunny_sync/features/reports/view/widgets/column_chart_widget.dart';
+import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/main_error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 abstract class CouseDeathTabCallBacks {
   void onTryAgainTap();
@@ -47,18 +49,28 @@ class _CouseDeathPageState extends State<CouseDeathPage>
         buildWhen: (previous, current) => current is CouseDeathState,
         builder: (context, state) {
           if (state is CouseDeathFetch) {
-            final List<ColumnChartModel> data = List.generate(
-              state.couseDeath.reason.length,
-              (index) => ColumnChartModel(
-                xAxisProperty: state.couseDeath.reason[index],
-                yAxisProperty: state.couseDeath.count[index].toDouble(),
+            final item = state.couseDeath;
+            final List<ChartModel> data = List.generate(
+              item.reason.length,
+              (index) => ChartModel(
+                xAxisProperty: item.reason[index],
+                yAxisProperty: item.count[index].toDouble(),
               ),
             );
+            if (data.isEmpty) {
+              return const Padding(
+                padding: AppConstants.padding16,
+                child: SfCartesianChart(),
+              );
+            }
             return Skeletonizer(
               enabled: state is CouseDeathLoading,
-              child: ColumnChartWidget(
-                data: data,
-                animationDuration: state is CouseDeathLoading ? 0 : 1500,
+              child: Padding(
+                padding: AppConstants.padding16,
+                child: ColumnChartWidget(
+                  data: data,
+                  animationDuration: state is CouseDeathLoading ? 0 : 1500,
+                ),
               ),
             );
           } else if (state is CouseDeathFail) {

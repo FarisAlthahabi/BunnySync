@@ -114,7 +114,10 @@ class _ButcherLitterPageState extends State<ButcherLitterPage>
 
   @override
   void onPriceChanged(String weight, {int? kitId}) {
-    litterConcernsCubit.setButcherPrice(weight, kitId: kitId);
+    litterConcernsCubit.setButcherPrice(
+      weight,
+      kitId: kitId,
+    );
   }
 
   @override

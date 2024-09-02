@@ -17,4 +17,10 @@ abstract class WeightRepo {
     WeightableModel weightableModel,
     WeightPostModel weightPostModel,
   );
+
+  Future<void> updateWeight(
+    WeightableModel weightableModel,
+    WeightPostModel weightPostModel, {
+    int? weightId,
+  });
 }

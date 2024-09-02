@@ -450,5 +450,7 @@
   "couse_of_death" : "Couse of Death",
   "breeder_mortality" : "Breeder Mortality",
   "kits_mortality" : "Kits Mortality",
-  "inactive_breeders" : "Inactive Breeders"
+  "inactive_breeders" : "Inactive Breeders",
+  "weight_added": "Weight is added successfully",
+  "add_kit" : "Add Kit"
 }

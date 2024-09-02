@@ -110,4 +110,12 @@ class KitModel extends Equatable
 
   @override
   String get emptySubEntitiesMessage => throw UnimplementedError();
+
+  @override
+  String updateHttpEndpoint({int? weightId}) {
+    return 'litters/kits/$id/update-weight/$weightId';
+  }
+  
+  @override
+  String get addHttpEndpoint => 'litters/kits/$id/save-weight';
 }

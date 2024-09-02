@@ -1,9 +1,11 @@
 import 'package:bunny_sync/features/reports/cubit/reports_cubit.dart';
 import 'package:bunny_sync/features/reports/view/widgets/column_chart_widget.dart';
+import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/main_error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 abstract class SurvivalRateTabCallBacks {
   void onTryAgainTap();
@@ -47,18 +49,28 @@ class _SurvivalRatePageState extends State<SurvivalRatePage>
         buildWhen: (previous, current) => current is SurvivalRateState,
         builder: (context, state) {
           if (state is SurvivalRateFetch) {
-            final List<ColumnChartModel> data = List.generate(
-              state.survivalRate.breeders.length,
-              (index) => ColumnChartModel(
-                xAxisProperty: state.survivalRate.breeders[index],
-                yAxisProperty: state.survivalRate.count[index],
+            final item = state.survivalRate;
+            final List<ChartModel> data = List.generate(
+              item.breeders.length,
+              (index) => ChartModel(
+                xAxisProperty: item.breeders[index],
+                yAxisProperty: item.count[index],
               ),
             );
+            if (data.isEmpty) {
+              return const Padding(
+                padding: AppConstants.padding16,
+                child: SfCartesianChart(),
+              );
+            }
             return Skeletonizer(
               enabled: state is SurvivalRateLoading,
-              child: ColumnChartWidget(
-                data: data,
-                animationDuration: state is SurvivalRateLoading ? 0 : 1500,
+              child: Padding(
+                padding: AppConstants.padding16,
+                child: ColumnChartWidget(
+                  data: data,
+                  animationDuration: state is SurvivalRateLoading ? 0 : 1500,
+                ),
               ),
             );
           } else if (state is SurvivalRateFail) {

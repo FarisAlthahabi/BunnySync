@@ -3,9 +3,11 @@ import 'package:bunny_sync/features/breeder_details/view/widgets/details_tab_bar
 import 'package:bunny_sync/features/reports/cubit/reports_cubit.dart';
 import 'package:bunny_sync/features/reports/view/tabs/couse_death_tab.dart';
 import 'package:bunny_sync/features/reports/view/tabs/doe_cost_tab.dart';
+import 'package:bunny_sync/features/reports/view/tabs/gestation_days_tab.dart';
 import 'package:bunny_sync/features/reports/view/tabs/kit_weight_tab.dart';
 import 'package:bunny_sync/features/reports/view/tabs/litter_size_tab.dart';
 import 'package:bunny_sync/features/reports/view/tabs/live_and_dead_tab.dart';
+import 'package:bunny_sync/features/reports/view/tabs/rabbit_misses_tab.dart';
 import 'package:bunny_sync/features/reports/view/tabs/survival_rate_tab.dart';
 import 'package:bunny_sync/features/reports/view/widgets/report_stats_widget.dart';
 import 'package:bunny_sync/global/di/di.dart';
@@ -67,14 +69,18 @@ class _ReportsPageState extends State<ReportsPage>
       ];
 
   final pages = [
-    const Center(
-      child: SfCartesianChart(),
+    const KeepAliveWidget(
+      child: GestationDaysTab(),
     ),
-    const Center(
-      child: SfCartesianChart(),
+    const KeepAliveWidget(
+      child: RabbitMissesTab(
+        rabbitgender: 'doe',
+      ),
     ),
-    const Center(
-      child: SfCartesianChart(),
+    const KeepAliveWidget(
+      child: RabbitMissesTab(
+        rabbitgender: 'buck',
+      ),
     ),
     const KeepAliveWidget(
       child: LitterSizeTab(),
@@ -91,24 +97,24 @@ class _ReportsPageState extends State<ReportsPage>
     const KeepAliveWidget(
       child: KitWeightTab(),
     ),
-    const ColoredBox(
-      color: Colors.blue,
-      child: Text('hello'),
+    const Padding(
+      padding: AppConstants.padding16,
+      child: SfCartesianChart(),
     ),
     const KeepAliveWidget(
       child: CouseDeathTab(),
     ),
-    const ColoredBox(
-      color: Colors.blue,
-      child: Text('hello'),
+    const Padding(
+      padding: AppConstants.padding16,
+      child: SfCartesianChart(),
     ),
-    const ColoredBox(
-      color: Colors.blue,
-      child: Text('hello'),
+    const Padding(
+      padding: AppConstants.padding16,
+      child: SfCartesianChart(),
     ),
-    const ColoredBox(
-      color: Colors.blue,
-      child: Text('hello'),
+    const Padding(
+      padding: AppConstants.padding16,
+      child: SfCartesianChart(),
     ),
   ];
 
@@ -143,46 +149,43 @@ class _ReportsPageState extends State<ReportsPage>
       child: Scaffold(
         appBar: const MainAppBar(),
         body: SingleChildScrollView(
-          child: Padding(
-            padding: AppConstants.padding16,
-            child: Column(
-              children: [
-                BlocBuilder<ReportsCubit, GeneralReportsState>(
-                  buildWhen: (previous, current) => current is ReportStatsState,
-                  builder: (context, state) {
-                    if (state is ReportStatsFetch) {
-                      return Skeletonizer(
-                        enabled: state is ReportStatsLoading,
-                        child: ReportStatsWidget(
-                          reportStats: state.reportStats,
-                        ),
-                      );
-                    } else if (state is ReportStatsFail) {
-                      return MainErrorWidget(
-                        error: state.message,
-                        onTap: onTryAgainTap,
-                      );
-                    } else {
-                      return const SizedBox.shrink();
-                    }
-                  },
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                DetailsTabBar(
-                  tabs: tabs,
-                  tabController: tabController,
-                ),
-                ExpandablePageView.builder(
-                  controller: pageController,
-                  itemCount: tabs.length,
-                  itemBuilder: (context, index) {
-                    return pages[index];
-                  },
-                ),
-              ],
-            ),
+          child: Column(
+            children: [
+              BlocBuilder<ReportsCubit, GeneralReportsState>(
+                buildWhen: (previous, current) => current is ReportStatsState,
+                builder: (context, state) {
+                  if (state is ReportStatsFetch) {
+                    return Skeletonizer(
+                      enabled: state is ReportStatsLoading,
+                      child: ReportStatsWidget(
+                        reportStats: state.reportStats,
+                      ),
+                    );
+                  } else if (state is ReportStatsFail) {
+                    return MainErrorWidget(
+                      error: state.message,
+                      onTap: onTryAgainTap,
+                    );
+                  } else {
+                    return const SizedBox.shrink();
+                  }
+                },
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              DetailsTabBar(
+                tabs: tabs,
+                tabController: tabController,
+              ),
+              ExpandablePageView.builder(
+                controller: pageController,
+                itemCount: tabs.length,
+                itemBuilder: (context, index) {
+                  return pages[index];
+                },
+              ),
+            ],
           ),
         ),
       ),

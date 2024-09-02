@@ -37,7 +37,7 @@ class _LedgerTypesWidgetState extends State<LedgerTypesWidget> {
       ),
       children: LedgerTypes.values.map(
         (e) {
-          return LedgerTile(
+          return StatsTile(
             onTap: () {
               setState(() {
                 selectedType = selectedType == e ? null : e;

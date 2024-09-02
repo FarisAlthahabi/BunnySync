@@ -115,4 +115,36 @@ class HttpReportsRepo implements ReportsRepo {
       rethrow;
     }
   }
+  
+  @override
+  Future<GestationDaysModel> getGestationDays() async{
+    try {
+      final response = await _dioClient.get('/reports/gestation-days');
+      
+      final data = (response.data as Map<String, dynamic>)["data"]
+          as Map<String, dynamic>;
+      return GestationDaysModel.fromJson(data);
+    } on Exception catch (e) {
+      if (e is NotFoundException) {
+        throw e.message ?? 'something_went_wrong'.i18n;
+      }
+      rethrow;
+    }
+  }
+  
+  @override
+  Future<RabbitMissesModel> getRabbitMisses(String rabbitgender)async {
+    try {
+      final response = await _dioClient.get('/reports/$rabbitgender-misses');
+      
+      final data = (response.data as Map<String, dynamic>)["data"]
+          as Map<String, dynamic>;
+      return RabbitMissesModel.fromJson(data);
+    } on Exception catch (e) {
+      if (e is NotFoundException) {
+        throw e.message ?? 'something_went_wrong'.i18n;
+      }
+      rethrow;
+    }
+  }
 }
