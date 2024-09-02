@@ -76,18 +76,11 @@ class _AttachmentTabState extends State<AttachmentTab>
       context,
       widget: BottomSheetWidget(
         title: 'are_you_sure_to_delete_attachment'.i18n,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextButton(
-              onPressed: () {
-                context.router.popForced();
-                breederDetailsCubit.deleteAttachment(attachmentModel.id);
-              },
-              child: Text('yes'.i18n),
-            ),
-          ],
-        ),
+        model: attachmentModel,
+        onConfirm: (attachmentModel) {
+          context.router.popForced();
+          breederDetailsCubit.deleteAttachment(attachmentModel.id);
+        },
       ),
     );
   }

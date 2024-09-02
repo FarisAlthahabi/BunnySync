@@ -119,18 +119,11 @@ class _TasksPageState extends State<TasksPage> implements TasksViewCallBacks {
       context,
       widget: BottomSheetWidget(
         title: 'are_you_sure_to_delete_task'.i18n,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextButton(
-              onPressed: () {
-                context.router.popForced();
-                tasksCubit.deleteTask(taskModel.id);
-              },
-              child: Text('yes'.i18n),
-            ),
-          ],
-        ),
+        model: taskModel,
+        onConfirm: (taskModel) {
+          context.router.popForced();
+          tasksCubit.deleteTask(taskModel.id);
+        },
       ),
     );
   }

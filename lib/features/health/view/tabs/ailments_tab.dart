@@ -88,18 +88,11 @@ class _AilmentsTabState extends State<AilmentsTab>
       context,
       widget: BottomSheetWidget(
         title: 'are_you_sure_to_delete_ailment'.i18n,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextButton(
-              onPressed: () {
-                context.router.popForced();
-                healthCubit.deleteAilment(ailmentModel.id);
-              },
-              child: Text('yes'.i18n),
-            ),
-          ],
-        ),
+        model: ailmentModel,
+        onConfirm: (ailmentModel) {
+          context.router.popForced();
+          healthCubit.deleteAilment(ailmentModel.id);
+        },
       ),
     );
   }

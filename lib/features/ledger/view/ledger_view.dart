@@ -108,18 +108,11 @@ class _LedgerPageState extends State<LedgerPage>
       context,
       widget: BottomSheetWidget(
         title: 'are_you_sure_to_delete_ledger'.i18n,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextButton(
-              onPressed: () {
-                context.router.popForced();
-                ledgersCubit.deleteLedger(ledgerModel.id);
-              },
-              child: Text('yes'.i18n),
-            ),
-          ],
-        ),
+        model: ledgerModel,
+        onConfirm: (ledgerModel) {
+          context.router.popForced();
+          ledgersCubit.deleteLedger(ledgerModel.id);
+        },
       ),
     );
   }

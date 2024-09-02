@@ -75,18 +75,11 @@ class _TreatmentTabState extends State<TreatmentTab>
       context,
       widget: BottomSheetWidget(
         title: 'are_you_sure_to_delete_treatment'.i18n,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextButton(
-              onPressed: () {
-                context.router.popForced();
-                healthCubit.deleteTreatment(treatmentModel.id);
-              },
-              child: Text('yes'.i18n),
-            ),
-          ],
-        ),
+        model: treatmentModel,
+        onConfirm: (treatmentModel) {
+          context.router.popForced();
+          healthCubit.deleteTreatment(treatmentModel.id);
+        },
       ),
     );
   }

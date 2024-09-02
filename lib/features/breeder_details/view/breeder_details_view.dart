@@ -203,17 +203,9 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
       context,
       widget: BottomSheetWidget(
         title: 'are_you_sure_to_set_breeder_active'.i18n,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextButton(
-              onPressed: () {
-                rabbitConcernsCubit.setActive(breederId: breederEntryModel.id);
-              },
-              child: Text('yes'.i18n),
-            ),
-          ],
-        ),
+        model: breederEntryModel,
+        onConfirm: (breederEntryModel) =>
+            rabbitConcernsCubit.setActive(breederId: breederEntryModel.id),
       ),
     );
   }
@@ -348,18 +340,11 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
       context,
       widget: BottomSheetWidget(
         title: 'are_you_sure_to_delete_breeder'.i18n,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextButton(
-              onPressed: () {
-                context.router.popForced();
-                deleteBreederCubit.deleteBreeder(breederEntryModel);
-              },
-              child: Text('yes'.i18n),
-            ),
-          ],
-        ),
+        model: breederEntryModel,
+        onConfirm: (breederEntryModel) {
+          context.router.popForced();
+          deleteBreederCubit.deleteBreeder(breederEntryModel);
+        },
       ),
     );
   }

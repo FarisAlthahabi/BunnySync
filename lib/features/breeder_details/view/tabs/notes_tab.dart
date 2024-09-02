@@ -80,21 +80,14 @@ class _NotesTabState extends State<NotesTab> implements NotesTabCallbacks {
       context,
       widget: BottomSheetWidget(
         title: 'are_you_sure_to_delete_note'.i18n,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextButton(
-              onPressed: () {
-                context.router.popForced();
-                notesCubit.deleteNote(
-                  breederId: widget.breederId != null ? noteModel.id : null,
-                  litterId: widget.litterId != null ? noteModel.id : null,
-                );
-              },
-              child: Text('yes'.i18n),
-            ),
-          ],
-        ),
+        model: noteModel,
+        onConfirm: (noteModel) {
+          context.router.popForced();
+          notesCubit.deleteNote(
+            breederId: widget.breederId != null ? noteModel.id : null,
+            litterId: widget.litterId != null ? noteModel.id : null,
+          );
+        },
       ),
     );
   }

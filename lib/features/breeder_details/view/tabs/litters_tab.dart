@@ -134,18 +134,11 @@ class _LittersTabState extends State<LittersTab>
       context,
       widget: BottomSheetWidget(
         title: 'are_you_sure_to_delete_litter'.i18n,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextButton(
-              onPressed: () {
-                context.router.popForced();
-                littersCubit.deleteLitter(litterEntryModel.id);
-              },
-              child: Text('yes'.i18n),
-            ),
-          ],
-        ),
+        model: litterEntryModel,
+        onConfirm: (litterEntryModel) {
+          context.router.popForced();
+          littersCubit.deleteLitter(litterEntryModel.id);
+        },
       ),
     );
   }

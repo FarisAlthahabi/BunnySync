@@ -92,18 +92,11 @@ class _CageCardsPageState extends State<CageCardsPage>
       context,
       widget: BottomSheetWidget(
         title: 'are_you_sure_to_delete_cage'.i18n,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextButton(
-              onPressed: () {
-                context.router.popForced();
-                cageCardsCubit.deleteCageCard(cageModel.id);
-              },
-              child: Text('yes'.i18n),
-            ),
-          ],
-        ),
+        model: cageModel,
+        onConfirm: (cageModel) {
+          context.router.popForced();
+          cageCardsCubit.deleteCageCard(cageModel.id);
+        },
       ),
     );
   }
