@@ -14,8 +14,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 abstract class ProfileViewCallBacks {
-  void onEditTap();
-
   void onTryAgainTap();
 }
 
@@ -47,11 +45,6 @@ class _ProfilePageState extends State<ProfilePage>
   void initState() {
     profileCubit.getProfile();
     super.initState();
-  }
-
-  @override
-  void onEditTap() {
-    // TODO: implement onEdit
   }
 
   @override
