@@ -80,7 +80,7 @@ enum TaskGenres implements DropDownItemModel {
     } else if (value == TaskGenres.trophy.name) {
       return TaskGenres.trophy;
     } else {
-      throw Exception('Unknown TaskGenres value: $value');
+      throw 'Unknown TaskGenres value: $value';
     }
   }
 }

@@ -44,16 +44,16 @@ class SaveSellModel {
 
   double get price {
     return _price == null || _price.toString().isEmpty
-        ? (throw Exception("Price can't be empty"))
+        ? (throw "Price can't be empty")
         : _price;
   }
 
   @JsonKey(name: 'customer')
   int get customerId {
-    return _customerId ?? (throw Exception("Customer can't be empty"));
+    return _customerId ?? (throw "Customer can't be empty");
   }
 
   DateTime get date {
-    return _date ?? (throw Exception("Date can't be empty"));
+    return _date ?? (throw "Date can't be empty");
   }
 }

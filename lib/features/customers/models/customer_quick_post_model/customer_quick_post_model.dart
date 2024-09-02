@@ -59,13 +59,13 @@ class CustomerQuickPostModel {
 
   String get name {
     return _name == null || _name.isEmpty
-        ? (throw Exception("Name can't be empty"))
+        ? (throw "Name can't be empty")
         : _name;
   }
 
   String get email {
     return _email == null || _email.isEmpty
-        ? (throw Exception("Email can't be empty"))
+        ? (throw "Email can't be empty")
         : _email;
   }
 }

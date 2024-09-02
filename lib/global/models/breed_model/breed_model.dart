@@ -51,13 +51,13 @@ class BreedModel {
 
   @JsonKey(name: 'male')
   int get maleBreederId {
-    return _maleBreederId ?? (throw Exception("Male Breeder can't be empty"));
+    return _maleBreederId ?? (throw "Male Breeder can't be empty");
   }
 
   @JsonKey(name: 'female')
   int get femaleBreederId {
     return _femaleBreederId ??
-        (throw Exception("Female Breeder can't be empty"));
+        (throw "Female Breeder can't be empty");
   }
 
   @JsonKey(
@@ -66,10 +66,10 @@ class BreedModel {
     toJson: BreedTimeTypes.toJson,
   )
   BreedTimeTypes get breedTimeType {
-    return _breedTimeType ?? (throw Exception("Type can't be empty"));
+    return _breedTimeType ?? (throw "Type can't be empty");
   }
 
   DateTime get date {
-    return _date ?? (throw Exception("Date can't be empty"));
+    return _date ?? (throw "Date can't be empty");
   }
 }

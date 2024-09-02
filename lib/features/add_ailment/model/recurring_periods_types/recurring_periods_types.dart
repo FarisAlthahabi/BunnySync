@@ -61,7 +61,7 @@ enum RecurringPeriodsTypes implements DropDownItemModel {
       case RecurringPeriodsTypes.everyMonth:
         return '4';
       default:
-        throw Exception('Unknown RecurringPeriodsTypes value: $value');
+        throw 'Unknown RecurringPeriodsTypes value: $value';
     }
   }
 }

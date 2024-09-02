@@ -119,14 +119,14 @@ class PostSignUpModel {
   }
 
   String get name {
-    return _name ?? (throw Exception('fullName is null'));
+    return _name ?? (throw 'FullName is required');
   }
 
   String get email {
-    return _email ?? (throw Exception('email is null'));
+    return _email ?? (throw 'E is required');
   }
 
   String get password {
-    return _password ?? (throw Exception('password is null'));
+    return _password ?? (throw 'Password is required');
   }
 }
