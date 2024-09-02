@@ -57,7 +57,7 @@ class WeightPostModel {
 
   @DateTimeConverter()
   DateTime get date {
-    return _date ?? (throw Exception("Date can't be empty"));
+    return _date ?? (throw "Date can't be empty");
   }
 
   @JsonKey(toJson: weightsToJson)
@@ -65,14 +65,14 @@ class WeightPostModel {
     if (!weightType) {
       return null;
     }
-    return _weights ?? (throw Exception("Weights can't be empty"));
+    return _weights ?? (throw "Weights can't be empty");
   }
 
   double? get weight {
     if (weightType) {
       return null;
     }
-    return _weight ?? (throw Exception("Weight can't be empty"));
+    return _weight ?? (throw "Weight can't be empty");
   }
 
   static String weightsToJson(dynamic value) {
