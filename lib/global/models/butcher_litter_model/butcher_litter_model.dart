@@ -11,7 +11,7 @@ part 'butcher_litter_model.g.dart';
 @immutable
 class ButcherLitterModel {
   const ButcherLitterModel({
-    bool? butcherType = true,
+    bool? butcherType,
     DateTime? date,
     double? preWeight,
     double? weight,
@@ -101,24 +101,31 @@ class ButcherLitterModel {
     return _weight ?? (throw "Weight can't be empty");
   }
 
+  @JsonKey(toJson: mapToJson)
   Map<String, dynamic>? get prices {
-    if (butcherType) {
+    if (!butcherType) {
       return null;
     }
     return _prices ?? (throw "Prices can't be empty");
   }
 
+  @JsonKey(toJson: mapToJson)
   Map<String, dynamic>? get preWeights {
-    if (butcherType) {
+    if (!butcherType) {
       return null;
     }
     return _preWeights ?? (throw "Preweight can't be empty");
   }
 
+  @JsonKey(toJson: mapToJson)
   Map<String, dynamic>? get weights {
-    if (butcherType) {
+    if (!butcherType) {
       return null;
     }
     return _weights ?? (throw "Weight can't be empty");
+  }
+
+  static String mapToJson(dynamic value) {
+    return jsonEncode(value);
   }
 }
