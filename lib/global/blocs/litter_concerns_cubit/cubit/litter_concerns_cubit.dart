@@ -125,7 +125,7 @@ class LitterConcernsCubit extends Cubit<GeneralLitterConcernsState> {
     } else {
       try {
         _butcherLitterModel = _butcherLitterModel.copyWith(
-          weight: () => double.parse(butcherPreWeights),
+          preWeight: () => double.parse(butcherPreWeights),
         );
       } catch (e) {
         if (butcherPreWeights.isNotEmpty) {
