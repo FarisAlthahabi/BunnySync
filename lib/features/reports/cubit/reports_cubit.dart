@@ -1,10 +1,14 @@
 import 'package:bloc/bloc.dart';
+import 'package:bunny_sync/features/reports/models/breeder_mortality_model/breeder_mortality_fake_model.dart';
+import 'package:bunny_sync/features/reports/models/breeder_mortality_model/breeder_mortality_model.dart';
 import 'package:bunny_sync/features/reports/models/couse_death_model/couse_death_fake_model.dart';
 import 'package:bunny_sync/features/reports/models/couse_death_model/couse_death_model.dart';
 import 'package:bunny_sync/features/reports/models/doe_cost_model/doe_cost_fake_model.dart';
 import 'package:bunny_sync/features/reports/models/doe_cost_model/doe_cost_model.dart';
 import 'package:bunny_sync/features/reports/models/gestation_days_model/gestation_days_fake_model.dart';
 import 'package:bunny_sync/features/reports/models/gestation_days_model/gestation_days_model.dart';
+import 'package:bunny_sync/features/reports/models/kit_mortality_model/kit_mortaality_fake_model.dart';
+import 'package:bunny_sync/features/reports/models/kit_mortality_model/kit_mortality_model.dart';
 import 'package:bunny_sync/features/reports/models/kit_weight_report_model/kit_weight_report_fake_model.dart';
 import 'package:bunny_sync/features/reports/models/kit_weight_report_model/kit_weight_report_model.dart';
 import 'package:bunny_sync/features/reports/models/litter_size_model/litter_size_fake_model.dart';
@@ -18,6 +22,7 @@ import 'package:bunny_sync/features/reports/models/report_stats_model/report_sta
 import 'package:bunny_sync/features/reports/models/survival_rate_model/survival_rate_fake_model.dart';
 import 'package:bunny_sync/features/reports/models/survival_rate_model/survival_rate_model.dart';
 import 'package:bunny_sync/features/reports/repo/reports_repo.dart';
+import 'package:bunny_sync/global/localization/translations.i18n.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
@@ -38,6 +43,10 @@ part 'states/live_and_dead_state.dart';
 part 'states/gestation_days_state.dart';
 
 part 'states/rabbit_misses_state.dart';
+
+part 'states/kit_mortality_state.dart';
+
+part 'states/breeder_mortality_state.dart';
 
 part 'states/general_reports_state.dart';
 
@@ -161,6 +170,42 @@ class ReportsCubit extends Cubit<GeneralReportsState> {
     } catch (e, s) {
       addError(e, s);
       emit(RabbitMissesFail(e.toString()));
+    }
+  }
+
+  Future<void> getKitMortality() async {
+    emit(KitMortalityLoading(kitMortalityFake));
+
+    try {
+      final response = await _reportsRepo.getKitMortality();
+
+      if(response.isEmpty){
+        emit(KitMortalityEmpty("no_data".i18n));
+      }else{
+        emit(KitMortalitySuccess(response));
+      }
+      
+    } catch (e, s) {
+      addError(e, s);
+      emit(KitMortalityFail(e.toString()));
+    }
+  }
+
+  Future<void> getBreederMortality() async {
+    emit(BreederMortalityLoading(breederMortalityFake));
+
+    try {
+      final response = await _reportsRepo.getBreederMortality();
+
+      if(response.isEmpty){
+        emit(BreederMortalityEmpty("no_data".i18n));
+      }else{
+        emit(BreederMortalitySuccess(response));
+      }
+      
+    } catch (e, s) {
+      addError(e, s);
+      emit(BreederMortalityFail(e.toString()));
     }
   }
 }

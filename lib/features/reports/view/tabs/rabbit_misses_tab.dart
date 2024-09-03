@@ -6,7 +6,6 @@ import 'package:bunny_sync/global/widgets/main_error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 abstract class RabbitMissesTabCallBacks {
   void onTryAgainTap();
@@ -70,12 +69,6 @@ class _RabbitMissesPageState extends State<RabbitMissesPage>
                 yAxisProperty: item.missed[index].toDouble(),
               ),
             );
-            if (data.isEmpty) {
-              return const Padding(
-                padding: AppConstants.padding16,
-                child: SfCartesianChart(),
-              );
-            }
             return Skeletonizer(
               enabled: state is RabbitMissesLoading,
               child: Padding(

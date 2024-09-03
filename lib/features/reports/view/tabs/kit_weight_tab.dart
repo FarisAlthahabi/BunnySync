@@ -5,7 +5,6 @@ import 'package:bunny_sync/global/widgets/main_error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 abstract class KitWeightTabCallBacks {
   void onTryAgainTap();
@@ -57,12 +56,6 @@ class _KitWeightPageState extends State<KitWeightPage>
                 yAxisProperty: item.avgWeight[index],
               ),
             );
-            if (data.isEmpty) {
-              return const Padding(
-                padding: AppConstants.padding16,
-                child: SfCartesianChart(),
-              );
-            }
             return Skeletonizer(
               enabled: state is KitWeightReportLoading,
               child: Padding(

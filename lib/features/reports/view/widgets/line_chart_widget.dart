@@ -20,24 +20,30 @@ class LineChartWidget extends StatefulWidget {
 class _LineChartWidgetState extends State<LineChartWidget> {
   @override
   Widget build(BuildContext context) {
-    return SfCartesianChart(
-      primaryYAxis: NumericAxis(
-        labelStyle: context.tt.bodyMedium,
-      ),
-      primaryXAxis: CategoryAxis(
-        labelStyle: context.tt.titleMedium,
-      ),
-      series: <CartesianSeries<ChartModel, String>>[
-        LineSeries<ChartModel, String>(
-          width: 3,
-          animationDuration: widget.animationDuration ?? 1500,
-          color: context.cs.primary,
-          dataSource: widget.data,
-          xValueMapper: (ChartModel xAxis, index) =>
-              '${index + 1} ${xAxis.xAxisProperty.replaceAll('"', '')}',
-          yValueMapper: (ChartModel yAxis, index) => yAxis.yAxisProperty,
+    if (widget.data.isNotEmpty) {
+      return SfCartesianChart(
+        primaryYAxis: NumericAxis(
+          labelStyle: context.tt.bodyMedium,
         ),
-      ],
-    );
+        primaryXAxis: CategoryAxis(
+          labelStyle: context.tt.titleMedium,
+        ),
+        series: <CartesianSeries<ChartModel, String>>[
+          LineSeries<ChartModel, String>(
+            width: 3,
+            animationDuration: widget.animationDuration ?? 1500,
+            color: context.cs.primary,
+            dataSource: widget.data,
+            xValueMapper: (ChartModel xAxis, index) =>
+            // TODO : we have to find another way of (index + 1) to 
+            // TODO : differentiate between elements that have the same xValue 
+                '${index + 1} ${xAxis.xAxisProperty.replaceAll('"', '')}',
+            yValueMapper: (ChartModel yAxis, index) => yAxis.yAxisProperty,
+          ),
+        ],
+      );
+    } else {
+      return const SfCartesianChart();
+    }
   }
 }

@@ -1,6 +1,8 @@
+import 'package:bunny_sync/features/reports/models/breeder_mortality_model/breeder_mortality_model.dart';
 import 'package:bunny_sync/features/reports/models/couse_death_model/couse_death_model.dart';
 import 'package:bunny_sync/features/reports/models/doe_cost_model/doe_cost_model.dart';
 import 'package:bunny_sync/features/reports/models/gestation_days_model/gestation_days_model.dart';
+import 'package:bunny_sync/features/reports/models/kit_mortality_model/kit_mortality_model.dart';
 import 'package:bunny_sync/features/reports/models/kit_weight_report_model/kit_weight_report_model.dart';
 import 'package:bunny_sync/features/reports/models/litter_size_model/litter_size_model.dart';
 import 'package:bunny_sync/features/reports/models/live_and_dead_model/live_and_dead_model.dart';
@@ -32,4 +34,8 @@ abstract class ReportsRepo {
   Future<GestationDaysModel> getGestationDays();
 
   Future<RabbitMissesModel> getRabbitMisses(String rabbitgender);
+
+  Future<List<KitMortalityModel>> getKitMortality();
+
+  Future<List<BreederMortalityModel>> getBreederMortality();
 }

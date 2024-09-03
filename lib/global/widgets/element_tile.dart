@@ -88,6 +88,8 @@ class ElementTile<T> extends StatelessWidget {
                       Row(
                         children: [
                           Text(
+                            strutStyle: const StrutStyle(height: 1.2),
+                            textAlign: TextAlign.center,
                             createdAt,
                             style: context.tt.labelSmall?.copyWith(
                               fontWeight: FontWeight.w700,

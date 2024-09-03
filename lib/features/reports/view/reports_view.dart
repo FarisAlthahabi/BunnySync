@@ -1,9 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/breeder_details/view/widgets/details_tab_bar.dart';
 import 'package:bunny_sync/features/reports/cubit/reports_cubit.dart';
+import 'package:bunny_sync/features/reports/view/tabs/breeder_mortality_tab.dart';
 import 'package:bunny_sync/features/reports/view/tabs/couse_death_tab.dart';
 import 'package:bunny_sync/features/reports/view/tabs/doe_cost_tab.dart';
 import 'package:bunny_sync/features/reports/view/tabs/gestation_days_tab.dart';
+import 'package:bunny_sync/features/reports/view/tabs/kit_mortality_tab.dart';
 import 'package:bunny_sync/features/reports/view/tabs/kit_weight_tab.dart';
 import 'package:bunny_sync/features/reports/view/tabs/litter_size_tab.dart';
 import 'package:bunny_sync/features/reports/view/tabs/live_and_dead_tab.dart';
@@ -12,6 +14,7 @@ import 'package:bunny_sync/features/reports/view/tabs/survival_rate_tab.dart';
 import 'package:bunny_sync/features/reports/view/widgets/report_stats_widget.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
+import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/custom_app_bar.dart';
 import 'package:bunny_sync/global/widgets/keep_alive_widget.dart';
@@ -97,22 +100,20 @@ class _ReportsPageState extends State<ReportsPage>
     const KeepAliveWidget(
       child: KitWeightTab(),
     ),
-    const Padding(
+    const Padding( // TODO : Grouth rate tab : unknown api
       padding: AppConstants.padding16,
       child: SfCartesianChart(),
     ),
     const KeepAliveWidget(
       child: CouseDeathTab(),
     ),
-    const Padding(
-      padding: AppConstants.padding16,
-      child: SfCartesianChart(),
+     const KeepAliveWidget( //TODO : still fixing model : unknown data form
+      child: BreederMortalityTab(),
     ),
-    const Padding(
-      padding: AppConstants.padding16,
-      child: SfCartesianChart(),
+   const KeepAliveWidget(
+      child: KitMortalityTab(),
     ),
-    const Padding(
+    const Padding(  // TODO : Inactive breeders tab : unknown api
       padding: AppConstants.padding16,
       child: SfCartesianChart(),
     ),
@@ -150,7 +151,21 @@ class _ReportsPageState extends State<ReportsPage>
         appBar: const MainAppBar(),
         body: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(
+                  height: 10,
+                ),
+              Padding(
+                padding: AppConstants.paddingH16,
+                child: Text(
+                    'reports'.i18n,
+                    style: context.tt.displayLarge,
+                  ),
+              ),
+                const SizedBox(
+                  height: 10,
+                ),
               BlocBuilder<ReportsCubit, GeneralReportsState>(
                 buildWhen: (previous, current) => current is ReportStatsState,
                 builder: (context, state) {
@@ -170,9 +185,6 @@ class _ReportsPageState extends State<ReportsPage>
                     return const SizedBox.shrink();
                   }
                 },
-              ),
-              const SizedBox(
-                height: 20,
               ),
               DetailsTabBar(
                 tabs: tabs,

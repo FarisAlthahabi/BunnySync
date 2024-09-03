@@ -6,7 +6,6 @@ import 'package:bunny_sync/global/widgets/main_error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 abstract class GestationDaysTabCallBacks {
   void onTryAgainTap();
@@ -58,12 +57,6 @@ class _GestationDaysPageState extends State<GestationDaysPage>
                 yAxisProperty: item.days[index].toDouble(),
               ),
             );
-            if (data.isEmpty) {
-              return const Padding(
-                padding: AppConstants.padding16,
-                child: SfCartesianChart(),
-              );
-            }
             return Skeletonizer(
               enabled: state is GestationDaysLoading,
               child: Padding(

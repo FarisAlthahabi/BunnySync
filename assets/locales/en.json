@@ -452,5 +452,7 @@
   "kits_mortality" : "Kits Mortality",
   "inactive_breeders" : "Inactive Breeders",
   "weight_added": "Weight is added successfully",
-  "add_kit" : "Add Kit"
+  "add_kit" : "Add Kit",
+  "no_data" : "There is no data",
+  "died_on" : "Died on"
 }
