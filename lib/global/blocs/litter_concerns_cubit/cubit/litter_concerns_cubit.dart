@@ -41,13 +41,7 @@ class LitterConcernsCubit extends Cubit<GeneralLitterConcernsState> {
   }
 
   void setSellPrices(String prices, {int? kitId}) {
-    //TODO : fix this
-    // if (_saveSellLitterModel.sellType &&
-    //     _saveSellLitterModel.prices is! Map<String, double>) {
-    //   emit(SaveSellLitterFail('if sell type is on, prices should be plural'));
-    //   return;
-    // }
-
+    
     dynamic value;
 
     if (_saveSellLitterModel.sellType && kitId != null) {

@@ -140,18 +140,6 @@ class _ButcherLitterPageState extends State<ButcherLitterPage>
 
   @override
   Widget build(BuildContext context) {
-    //TODO : fix this , if statement go to else , althought status is not null
-    //? status in kit model has to be nullable,
-    //? if not , serialization will not work
-
-    final activeKits = widget.litterEntryModel.allKits.where((element) {
-      final status = element.status;
-      if (status != null) {
-        return status.isActive;
-      } else {
-        return true;
-      }
-    }).toList();
     return Padding(
       padding: AppConstants.paddingH16,
       child: Column(
@@ -258,12 +246,12 @@ class _ButcherLitterPageState extends State<ButcherLitterPage>
                 const SizedBox(
                   height: 20,
                 ),
-                ...List.generate(activeKits.length, (index) {
+                ...List.generate(widget.litterEntryModel.allKits.length, (index) {
                   weightsFocusNode = List.generate(
                     widget.litterEntryModel.allKits.length,
                     (index) => FocusNode(),
                   );
-                  final item = activeKits[index];
+                  final item = widget.litterEntryModel.allKits[index];
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -285,7 +273,7 @@ class _ButcherLitterPageState extends State<ButcherLitterPage>
                     ],
                   );
                 }),
-                if (activeKits.isEmpty)
+                if (widget.litterEntryModel.allKits.isEmpty)
                   Column(
                     children: [
                       Center(
