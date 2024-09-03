@@ -89,185 +89,192 @@ class _BreedPageState extends State<BreedPage> implements BreedViewCallBacks {
   Widget build(BuildContext context) {
     return Padding(
       padding: AppConstants.paddingH16,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 30,
-          ),
-          Text(
-            'male_breeder'.i18n,
-            style: context.tt.bodyLarge?.copyWith(
-              fontWeight: FontWeight.w700,
-              color: context.cs.surfaceContainerHighest,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
             ),
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          BlocBuilder<BreedersCubit, GeneralBreedersState>(
-            builder: (context, state) {
-              Widget child;
-              if (state is BreedersByGenderSuccess) {
-                child = Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    MainDropDownWidget<BreederEntryModel>(
-                      items: state.breedersGenderModel.maleBreeders,
-                      text: 'select_male_breeder'.i18n,
-                      onChanged: onMaleBreederIdSelected,
-                    ),
-                  ],
-                );
-              } else if (state is BreedersLoading) {
-                child = Center(
-                  child: LoadingIndicator(
-                    color: context.cs.primary,
-                  ),
-                );
-              } else if (state is MaleBreedersEmpty) {
-                child = MainErrorWidget(
-                  error: state.message,
-                );
-              } else if (state is BreedersFail) {
-                child = MainErrorWidget(
-                  error: state.message,
-                  onTap: () {
-                    breedersCubit.getBreedersByAllGenders();
-                  },
-                );
-              } else {
-                child = const SizedBox();
-              }
-              return AnimatedSwitcherWithSize(
-                child: child,
-              );
-            },
-          ),
-          const SizedBox(
-            height: 25,
-          ),
-          Text(
-            'female_breeder'.i18n,
-            style: context.tt.bodyLarge?.copyWith(
-              fontWeight: FontWeight.w700,
-              color: context.cs.surfaceContainerHighest,
-            ),
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          BlocBuilder<BreedersCubit, GeneralBreedersState>(
-            builder: (context, state) {
-              Widget child;
-              if (state is BreedersByGenderSuccess) {
-                child = Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    MainDropDownWidget<BreederEntryModel>(
-                      items: state.breedersGenderModel.femaleBreeders,
-                      text: 'select_female_breeder'.i18n,
-                      onChanged: onFemaleBreederIdSelected,
-                    ),
-                  ],
-                );
-              } else if (state is BreedersLoading) {
-                child = Center(
-                  child: LoadingIndicator(
-                    color: context.cs.primary,
-                  ),
-                );
-              } else if (state is FemaleBreedersEmpty) {
-                child = MainErrorWidget(
-                  error: state.message,
-                );
-              } else if (state is BreedersFail) {
-                child = MainErrorWidget(
-                  error: state.message,
-                  onTap: () {
-                    breedersCubit.getBreedersByAllGenders();
-                  },
-                );
-              } else {
-                child = const SizedBox();
-              }
-              return AnimatedSwitcherWithSize(
-                child: child,
-              );
-            },
-          ),
-          const SizedBox(
-            height: 25,
-          ),
-          Text(
-            'breed_time'.i18n,
-            style: context.tt.bodyLarge?.copyWith(
-              fontWeight: FontWeight.w700,
-              color: context.cs.surfaceContainerHighest,
-            ),
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          RadioSelectorWidget<BreedTimeTypes>(
-            items: BreedTimeTypes.values,
-            onSelected: onBreedTimeTypeSelected,
-          ),
-          const SizedBox(
-            height: 25,
-          ),
-          Text(
-            "set_date".i18n,
-            style: context.tt.bodyLarge?.copyWith(
-              fontWeight: FontWeight.w700,
-              color: AppColors.darkGrey,
-            ),
-          ),
-          const SizedBox(height: 10),
-          Center(
-            child: MainDatePicker(
-              onChange: onDateSelected,
-            ),
-          ),
-          const SizedBox(
-            height: 25,
-          ),
-          SizedBox(
-            width: double.maxFinite,
-            child:
-                BlocConsumer<RabbitConcernsCubit, GeneralRabbitConcernsState>(
-              listener: (context, state) {
-                if (state is BreedSuccess) {
-                  MainSnackBar.showSuccessMessageBar(
-                    context,
-                    "breed_success".i18n,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 30,
+              ),
+              Text(
+                'male_breeder'.i18n,
+                style: context.tt.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: context.cs.surfaceContainerHighest,
+                ),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              BlocBuilder<BreedersCubit, GeneralBreedersState>(
+                builder: (context, state) {
+                  Widget child;
+                  if (state is BreedersByGenderSuccess) {
+                    child = Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        MainDropDownWidget<BreederEntryModel>(
+                          items: state.breedersGenderModel.maleBreeders,
+                          text: 'select_male_breeder'.i18n,
+                          onChanged: onMaleBreederIdSelected,
+                        ),
+                      ],
+                    );
+                  } else if (state is BreedersLoading) {
+                    child = Center(
+                      child: LoadingIndicator(
+                        color: context.cs.primary,
+                      ),
+                    );
+                  } else if (state is MaleBreedersEmpty) {
+                    child = MainErrorWidget(
+                      error: state.message,
+                    );
+                  } else if (state is BreedersFail) {
+                    child = MainErrorWidget(
+                      error: state.message,
+                      onTap: () {
+                        breedersCubit.getBreedersByAllGenders();
+                      },
+                    );
+                  } else {
+                    child = const SizedBox();
+                  }
+                  return AnimatedSwitcherWithSize(
+                    child: child,
                   );
-                  context.router.maybePop();
-                } else if (state is BreedFail) {
-                  MainSnackBar.showErrorMessageBar(
-                    context,
-                    state.message,
+                },
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              Text(
+                'female_breeder'.i18n,
+                style: context.tt.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: context.cs.surfaceContainerHighest,
+                ),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              BlocBuilder<BreedersCubit, GeneralBreedersState>(
+                builder: (context, state) {
+                  Widget child;
+                  if (state is BreedersByGenderSuccess) {
+                    child = Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        MainDropDownWidget<BreederEntryModel>(
+                          items: state.breedersGenderModel.femaleBreeders,
+                          text: 'select_female_breeder'.i18n,
+                          onChanged: onFemaleBreederIdSelected,
+                        ),
+                      ],
+                    );
+                  } else if (state is BreedersLoading) {
+                    child = Center(
+                      child: LoadingIndicator(
+                        color: context.cs.primary,
+                      ),
+                    );
+                  } else if (state is FemaleBreedersEmpty) {
+                    child = MainErrorWidget(
+                      error: state.message,
+                    );
+                  } else if (state is BreedersFail) {
+                    child = MainErrorWidget(
+                      error: state.message,
+                      onTap: () {
+                        breedersCubit.getBreedersByAllGenders();
+                      },
+                    );
+                  } else {
+                    child = const SizedBox();
+                  }
+                  return AnimatedSwitcherWithSize(
+                    child: child,
                   );
-                }
-              },
-              builder: (context, state) {
-                var onTap = onSave;
-                Widget? child;
-                if (state is BreedLoading) {
-                  onTap = () {};
-                  child = const LoadingIndicator();
-                }
-                return MainActionButton(
-                  onTap: onTap,
-                  text: "save".i18n,
-                  child: child,
-                );
-              },
-            ),
+                },
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              Text(
+                'breed_time'.i18n,
+                style: context.tt.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: context.cs.surfaceContainerHighest,
+                ),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              RadioSelectorWidget<BreedTimeTypes>(
+                items: BreedTimeTypes.values,
+                onSelected: onBreedTimeTypeSelected,
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              Text(
+                "set_date".i18n,
+                style: context.tt.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.darkGrey,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Center(
+                child: MainDatePicker(
+                  onChange: onDateSelected,
+                ),
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              SizedBox(
+                width: double.maxFinite,
+                child:
+                    BlocConsumer<RabbitConcernsCubit, GeneralRabbitConcernsState>(
+                  listener: (context, state) {
+                    if (state is BreedSuccess) {
+                      MainSnackBar.showSuccessMessageBar(
+                        context,
+                        "breed_success".i18n,
+                      );
+                      context.router.maybePop();
+                    } else if (state is BreedFail) {
+                      MainSnackBar.showErrorMessageBar(
+                        context,
+                        state.message,
+                      );
+                    }
+                  },
+                  builder: (context, state) {
+                    var onTap = onSave;
+                    Widget? child;
+                    if (state is BreedLoading) {
+                      onTap = () {};
+                      child = const LoadingIndicator();
+                    }
+                    return MainActionButton(
+                      onTap: onTap,
+                      text: "save".i18n,
+                      child: child,
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 25),
+            ],
           ),
-          const SizedBox(height: 25),
-        ],
+        ),
       ),
     );
   }

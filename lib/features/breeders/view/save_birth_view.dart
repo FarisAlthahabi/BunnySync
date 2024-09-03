@@ -124,167 +124,174 @@ class _SaveBirthPageState extends State<SaveBirthPage>
   Widget build(BuildContext context) {
     return Padding(
       padding: AppConstants.paddingH16,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 30,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
           ),
-          Text(
-            'breeder_pair'.i18n,
-            style: context.tt.bodyLarge?.copyWith(
-              fontWeight: FontWeight.w700,
-              color: context.cs.surfaceContainerHighest,
-            ),
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          BlocBuilder<BreedersCubit, GeneralBreedersState>(
-            builder: (context, state) {
-              Widget child;
-              if (state is BreederPairsSuccess) {
-                child = Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    MainDropDownWidget<BreederPairModel>(
-                      items: state.breederPairs,
-                      text: 'select_breeder_pair'.i18n,
-                      onChanged: onBreederPairIdSelected,
-                    ),
-                  ],
-                );
-              } else if (state is BreederPairsLoading) {
-                child = Center(
-                  child: LoadingIndicator(
-                    color: context.cs.primary,
-                  ),
-                );
-              } else if (state is BreederPairsEmpty) {
-                child = MainErrorWidget(
-                  error: state.message,
-                );
-              } else if (state is BreederPairsFail) {
-                child = MainErrorWidget(
-                  error: state.message,
-                  onTap: () {
-                    breedersCubit.getBreederPairs();
-                  },
-                );
-              } else {
-                child = const SizedBox();
-              }
-              return AnimatedSwitcherWithSize(
-                child: child,
-              );
-            },
-          ),
-          const SizedBox(
-            height: 25,
-          ),
-          Text(
-            'litter'.i18n,
-            style: context.tt.bodyLarge?.copyWith(
-              fontWeight: FontWeight.w700,
-              color: context.cs.surfaceContainerHighest,
-            ),
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          BlocBuilder<LittersCubit, GeneralLittersState>(
-            builder: (context, state) {
-              Widget child;
-              if (state is LittersSuccess) {
-                child = Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    MainDropDownWidget<LitterEntryModel>(
-                      items: state.littersStatusModel.all,
-                      text: 'select_litter'.i18n,
-                      onChanged: onLitterIdSelected,
-                    ),
-                  ],
-                );
-              } else if (state is LittersLoading) {
-                child = Center(
-                  child: LoadingIndicator(
-                    color: context.cs.primary,
-                  ),
-                );
-              } else if (state is LittersFail) {
-                child = MainErrorWidget(
-                  error: state.message,
-                  onTap: () {
-                    littersCubit.getLitters();
-                  },
-                );
-              } else {
-                child = const SizedBox();
-              }
-
-              return AnimatedSwitcherWithSize(
-                child: child,
-              );
-            },
-          ),
-          const SizedBox(
-            height: 25,
-          ),
-          MainTextField(
-            onSubmitted: onLiveKitsCountSubmitted,
-            onChanged: onLiveKitsCountChanged,
-            focusNode: liveKitsCountFocusNode,
-            hintText: "live_kits_count".i18n,
-            labelText: "live_kits_count".i18n,
-          ),
-          const SizedBox(
-            height: 25,
-          ),
-          MainTextField(
-            onSubmitted: onDeadKitsCountSubmitted,
-            onChanged: onDeadKitsCountChanged,
-            focusNode: deadKitsCountFocusNode,
-            hintText: "dead_kits_count".i18n,
-            labelText: "dead_kits_count".i18n,
-          ),
-          const SizedBox(height: 25),
-          SizedBox(
-            width: double.maxFinite,
-            child:
-                BlocConsumer<RabbitConcernsCubit, GeneralRabbitConcernsState>(
-              listener: (context, state) {
-                if (state is SaveBirthSuccess) {
-                  MainSnackBar.showSuccessMessageBar(
-                    context,
-                    "breeder_birth".i18n,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 30,
+              ),
+              Text(
+                'breeder_pair'.i18n,
+                style: context.tt.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: context.cs.surfaceContainerHighest,
+                ),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              BlocBuilder<BreedersCubit, GeneralBreedersState>(
+                builder: (context, state) {
+                  Widget child;
+                  if (state is BreederPairsSuccess) {
+                    child = Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        MainDropDownWidget<BreederPairModel>(
+                          items: state.breederPairs,
+                          text: 'select_breeder_pair'.i18n,
+                          onChanged: onBreederPairIdSelected,
+                        ),
+                      ],
+                    );
+                  } else if (state is BreederPairsLoading) {
+                    child = Center(
+                      child: LoadingIndicator(
+                        color: context.cs.primary,
+                      ),
+                    );
+                  } else if (state is BreederPairsEmpty) {
+                    child = MainErrorWidget(
+                      error: state.message,
+                    );
+                  } else if (state is BreederPairsFail) {
+                    child = MainErrorWidget(
+                      error: state.message,
+                      onTap: () {
+                        breedersCubit.getBreederPairs();
+                      },
+                    );
+                  } else {
+                    child = const SizedBox();
+                  }
+                  return AnimatedSwitcherWithSize(
+                    child: child,
                   );
-                  context.router.maybePop();
-                } else if (state is SaveBirthFail) {
-                  MainSnackBar.showErrorMessageBar(
-                    context,
-                    state.message,
+                },
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              Text(
+                'litter'.i18n,
+                style: context.tt.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: context.cs.surfaceContainerHighest,
+                ),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              BlocBuilder<LittersCubit, GeneralLittersState>(
+                builder: (context, state) {
+                  Widget child;
+                  if (state is LittersSuccess) {
+                    child = Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        MainDropDownWidget<LitterEntryModel>(
+                          items: state.littersStatusModel.all,
+                          text: 'select_litter'.i18n,
+                          onChanged: onLitterIdSelected,
+                        ),
+                      ],
+                    );
+                  } else if (state is LittersLoading) {
+                    child = Center(
+                      child: LoadingIndicator(
+                        color: context.cs.primary,
+                      ),
+                    );
+                  } else if (state is LittersFail) {
+                    child = MainErrorWidget(
+                      error: state.message,
+                      onTap: () {
+                        littersCubit.getLitters();
+                      },
+                    );
+                  } else {
+                    child = const SizedBox();
+                  }
+        
+                  return AnimatedSwitcherWithSize(
+                    child: child,
                   );
-                }
-              },
-              builder: (context, state) {
-                var onTap = onSave;
-                Widget? child;
-                if (state is SaveBirthLoading) {
-                  onTap = () {};
-                  child = const LoadingIndicator();
-                }
-                return MainActionButton(
-                  onTap: onTap,
-                  text: "save".i18n,
-                  child: child,
-                );
-              },
-            ),
+                },
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              MainTextField(
+                onSubmitted: onLiveKitsCountSubmitted,
+                onChanged: onLiveKitsCountChanged,
+                focusNode: liveKitsCountFocusNode,
+                hintText: "live_kits_count".i18n,
+                labelText: "live_kits_count".i18n,
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              MainTextField(
+                onSubmitted: onDeadKitsCountSubmitted,
+                onChanged: onDeadKitsCountChanged,
+                focusNode: deadKitsCountFocusNode,
+                hintText: "dead_kits_count".i18n,
+                labelText: "dead_kits_count".i18n,
+              ),
+              const SizedBox(height: 25),
+              SizedBox(
+                width: double.maxFinite,
+                child:
+                    BlocConsumer<RabbitConcernsCubit, GeneralRabbitConcernsState>(
+                  listener: (context, state) {
+                    if (state is SaveBirthSuccess) {
+                      MainSnackBar.showSuccessMessageBar(
+                        context,
+                        "breeder_birth".i18n,
+                      );
+                      context.router.maybePop();
+                    } else if (state is SaveBirthFail) {
+                      MainSnackBar.showErrorMessageBar(
+                        context,
+                        state.message,
+                      );
+                    }
+                  },
+                  builder: (context, state) {
+                    var onTap = onSave;
+                    Widget? child;
+                    if (state is SaveBirthLoading) {
+                      onTap = () {};
+                      child = const LoadingIndicator();
+                    }
+                    return MainActionButton(
+                      onTap: onTap,
+                      text: "save".i18n,
+                      child: child,
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 25),
+            ],
           ),
-          const SizedBox(height: 25),
-        ],
+        ),
       ),
     );
   }

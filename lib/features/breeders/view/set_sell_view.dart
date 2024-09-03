@@ -109,109 +109,116 @@ class _SetSellPageState extends State<SetSellPage>
   Widget build(BuildContext context) {
     return Padding(
       padding: AppConstants.paddingH16,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 30,
-          ),
-          MainTextField(
-            onSubmitted: onSellPriceSubmitted,
-            onChanged: onSellPriceChanged,
-            focusNode: sellPriceFocusNode,
-            keyboardType: TextInputType.number,
-            hintText: "price".i18n,
-            labelText: "price".i18n,
-          ),
-          const SizedBox(
-            height: 25,
-          ),
-          BlocBuilder<CustomersCubit, GeneralCustomersState>(
-            builder: (context, state) {
-              Widget child;
-              if (state is CustomersSuccess) {
-                child = MainDropDownWidget<CustomerModel>(
-                  items: state.customers,
-                  text: 'select_contact'.i18n,
-                  onChanged: onSellCustomerSelected,
-                );
-              } else if (state is CustomersLoading) {
-                child = Center(
-                  child: LoadingIndicator(
-                    color: context.cs.primary,
-                  ),
-                );
-              } else if (state is CustomersFail) {
-                child = MainErrorWidget(
-                  error: state.message,
-                  onTap: () {
-                    customersCubit.getCustomers();
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 30,
+              ),
+              MainTextField(
+                onSubmitted: onSellPriceSubmitted,
+                onChanged: onSellPriceChanged,
+                focusNode: sellPriceFocusNode,
+                keyboardType: TextInputType.number,
+                hintText: "price".i18n,
+                labelText: "price".i18n,
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              BlocBuilder<CustomersCubit, GeneralCustomersState>(
+                builder: (context, state) {
+                  Widget child;
+                  if (state is CustomersSuccess) {
+                    child = MainDropDownWidget<CustomerModel>(
+                      items: state.customers,
+                      text: 'select_contact'.i18n,
+                      onChanged: onSellCustomerSelected,
+                    );
+                  } else if (state is CustomersLoading) {
+                    child = Center(
+                      child: LoadingIndicator(
+                        color: context.cs.primary,
+                      ),
+                    );
+                  } else if (state is CustomersFail) {
+                    child = MainErrorWidget(
+                      error: state.message,
+                      onTap: () {
+                        customersCubit.getCustomers();
+                      },
+                    );
+                  } else {
+                    child = const SizedBox();
+                  }
+          
+                  return AnimatedSwitcherWithSize(
+                    child: child,
+                  );
+                },
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              Text(
+                "set_date".i18n,
+                style: context.tt.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.darkGrey,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Center(
+                child: MainDatePicker(
+                  onChange: onSellDateSelected,
+                ),
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              SizedBox(
+                width: double.maxFinite,
+                child:
+                    BlocConsumer<RabbitConcernsCubit, GeneralRabbitConcernsState>(
+                  listener: (context, state) {
+                    if (state is SaveSellSuccess) {
+                      MainSnackBar.showSuccessMessageBar(
+                        context,
+                        "breeder_sell".i18n,
+                      );
+                      context.router.maybePop();
+                    } else if (state is SaveSellFail) {
+                      MainSnackBar.showErrorMessageBar(
+                        context,
+                        state.message,
+                      );
+                    }
                   },
-                );
-              } else {
-                child = const SizedBox();
-              }
-
-              return AnimatedSwitcherWithSize(
-                child: child,
-              );
-            },
+                  builder: (context, state) {
+                    var onTap = () => onSaveSell(widget.breederId);
+                    Widget? child;
+                    if (state is SaveSellLoading) {
+                      onTap = () {};
+                      child = const LoadingIndicator();
+                    }
+                    return MainActionButton(
+                      onTap: onTap,
+                      text: "save".i18n,
+                      child: child,
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 25),
+            ],
           ),
-          const SizedBox(
-            height: 25,
-          ),
-          Text(
-            "set_date".i18n,
-            style: context.tt.bodyLarge?.copyWith(
-              fontWeight: FontWeight.w700,
-              color: AppColors.darkGrey,
-            ),
-          ),
-          const SizedBox(height: 10),
-          Center(
-            child: MainDatePicker(
-              onChange: onSellDateSelected,
-            ),
-          ),
-          const SizedBox(
-            height: 25,
-          ),
-          SizedBox(
-            width: double.maxFinite,
-            child:
-                BlocConsumer<RabbitConcernsCubit, GeneralRabbitConcernsState>(
-              listener: (context, state) {
-                if (state is SaveSellSuccess) {
-                  MainSnackBar.showSuccessMessageBar(
-                    context,
-                    "breeder_sell".i18n,
-                  );
-                  context.router.maybePop();
-                } else if (state is SaveSellFail) {
-                  MainSnackBar.showErrorMessageBar(
-                    context,
-                    state.message,
-                  );
-                }
-              },
-              builder: (context, state) {
-                var onTap = () => onSaveSell(widget.breederId);
-                Widget? child;
-                if (state is SaveSellLoading) {
-                  onTap = () {};
-                  child = const LoadingIndicator();
-                }
-                return MainActionButton(
-                  onTap: onTap,
-                  text: "save".i18n,
-                  child: child,
-                );
-              },
-            ),
-          ),
-          const SizedBox(height: 25),
-        ],
+        ),
       ),
     );
   }

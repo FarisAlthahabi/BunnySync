@@ -157,191 +157,198 @@ class _ButcherLitterPageState extends State<ButcherLitterPage>
     }).toList();
     return Padding(
       padding: AppConstants.paddingH16,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 30,
-          ),
-          Row(
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
+          child: Column(
             mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Switch(
-                inactiveTrackColor: context.cs.onPrimary,
-                value: weightType,
-                onChanged: onWeightTypeSelected,
+              const SizedBox(
+                height: 30,
               ),
-              const SizedBox(width: 10),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Switch(
+                    inactiveTrackColor: context.cs.onPrimary,
+                    value: weightType,
+                    onChanged: onWeightTypeSelected,
+                  ),
+                  const SizedBox(width: 10),
+                  Text(
+                    weightType ? 'individual_kits'.i18n : 'entire_kits'.i18n,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: context.cs.primaryFixed,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 25,
+              ),
               Text(
-                weightType ? 'individual_kits'.i18n : 'entire_kits'.i18n,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: context.cs.primaryFixed,
+                "set_date".i18n,
+                style: context.tt.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.darkGrey,
                 ),
               ),
+              const SizedBox(height: 10),
+              Center(
+                child: MainDatePicker(
+                  onChange: onWeightDateSelected,
+                ),
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              if (!weightType)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    MainTextField(
+                      onSubmitted: onWeightSubmitted,
+                      onChanged: (String weight) {
+                        onWeightChanged(weight);
+                      },
+                      focusNode: weightFocusNode,
+                      keyboardType: TextInputType.number,
+                      hintText: "weight".i18n,
+                      labelText: "weight".i18n,
+                    ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    MainTextField(
+                      onSubmitted: onPreWeightSubmitted,
+                      onChanged: (String weight) {
+                        onPreWeightChanged(weight);
+                      },
+                      focusNode: preweightFocusNode,
+                      keyboardType: TextInputType.number,
+                      hintText: "preWeight".i18n,
+                      labelText: "preWeight".i18n,
+                    ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    MainTextField(
+                      onSubmitted: onPriceSubmitted,
+                      onChanged: (String weight) {
+                        onPriceChanged(weight);
+                      },
+                      focusNode: priceFocusNode,
+                      keyboardType: TextInputType.number,
+                      hintText: "price".i18n,
+                      labelText: "price".i18n,
+                    ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                  ],
+                ),
+              if (weightType)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'weight'.i18n,
+                      style: context.tt.bodyLarge?.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: context.cs.surfaceContainerHighest,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    ...List.generate(activeKits.length, (index) {
+                      weightsFocusNode = List.generate(
+                        widget.litterEntryModel.allKits.length,
+                        (index) => FocusNode(),
+                      );
+                      final item = activeKits[index];
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          MainTextField(
+                            onSubmitted: (String weight) {
+                              onWeightsSubmitted(weight, index);
+                            },
+                            onChanged: (String weight) {
+                              onWeightChanged(weight, kitId: item.id);
+                            },
+                            focusNode: weightsFocusNode[index],
+                            keyboardType: TextInputType.number,
+                            hintText: "weight".i18n,
+                            labelText: item.code,
+                          ),
+                          const SizedBox(
+                            height: 25,
+                          ),
+                        ],
+                      );
+                    }),
+                    if (activeKits.isEmpty)
+                      Column(
+                        children: [
+                          Center(
+                            child: Text(
+                              'kits_empty'.i18n,
+                              style: context.tt.bodyLarge?.copyWith(
+                                fontWeight: FontWeight.w700,
+                                color: context.cs.surfaceContainerHighest,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 25,
+                          ),
+                        ],
+                      ),
+                  ],
+                ),
+              SizedBox(
+                width: double.maxFinite,
+                child:
+                    BlocConsumer<LitterConcernsCubit, GeneralLitterConcernsState>(
+                  listener: (context, state) {
+                    if (state is ButcherLitterSuccess) {
+                      MainSnackBar.showSuccessMessageBar(
+                        context,
+                        "litter_butcher".i18n,
+                      );
+                      context.router.maybePop();
+                    } else if (state is ButcherLitterFail) {
+                      MainSnackBar.showErrorMessageBar(
+                        context,
+                        state.message,
+                      );
+                    }
+                  },
+                  builder: (context, state) {
+                    var onTap = () => onButcher(widget.litterEntryModel.id);
+                    Widget? child;
+                    if (state is ButcherLitterLoading) {
+                      onTap = () {};
+                      child = const LoadingIndicator();
+                    }
+                    return MainActionButton(
+                      onTap: onTap,
+                      text: "save".i18n,
+                      child: child,
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 25),
             ],
           ),
-          const SizedBox(
-            height: 25,
-          ),
-          Text(
-            "set_date".i18n,
-            style: context.tt.bodyLarge?.copyWith(
-              fontWeight: FontWeight.w700,
-              color: AppColors.darkGrey,
-            ),
-          ),
-          const SizedBox(height: 10),
-          Center(
-            child: MainDatePicker(
-              onChange: onWeightDateSelected,
-            ),
-          ),
-          const SizedBox(
-            height: 25,
-          ),
-          if (!weightType)
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                MainTextField(
-                  onSubmitted: onWeightSubmitted,
-                  onChanged: (String weight) {
-                    onWeightChanged(weight);
-                  },
-                  focusNode: weightFocusNode,
-                  keyboardType: TextInputType.number,
-                  hintText: "weight".i18n,
-                  labelText: "weight".i18n,
-                ),
-                const SizedBox(
-                  height: 25,
-                ),
-                MainTextField(
-                  onSubmitted: onPreWeightSubmitted,
-                  onChanged: (String weight) {
-                    onPreWeightChanged(weight);
-                  },
-                  focusNode: preweightFocusNode,
-                  keyboardType: TextInputType.number,
-                  hintText: "preWeight".i18n,
-                  labelText: "preWeight".i18n,
-                ),
-                const SizedBox(
-                  height: 25,
-                ),
-                MainTextField(
-                  onSubmitted: onPriceSubmitted,
-                  onChanged: (String weight) {
-                    onPriceChanged(weight);
-                  },
-                  focusNode: priceFocusNode,
-                  keyboardType: TextInputType.number,
-                  hintText: "price".i18n,
-                  labelText: "price".i18n,
-                ),
-                const SizedBox(
-                  height: 25,
-                ),
-              ],
-            ),
-          if (weightType)
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'weight'.i18n,
-                  style: context.tt.bodyLarge?.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: context.cs.surfaceContainerHighest,
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                ...List.generate(activeKits.length, (index) {
-                  weightsFocusNode = List.generate(
-                    widget.litterEntryModel.allKits.length,
-                    (index) => FocusNode(),
-                  );
-                  final item = activeKits[index];
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      MainTextField(
-                        onSubmitted: (String weight) {
-                          onWeightsSubmitted(weight, index);
-                        },
-                        onChanged: (String weight) {
-                          onWeightChanged(weight, kitId: item.id);
-                        },
-                        focusNode: weightsFocusNode[index],
-                        keyboardType: TextInputType.number,
-                        hintText: "weight".i18n,
-                        labelText: item.code,
-                      ),
-                      const SizedBox(
-                        height: 25,
-                      ),
-                    ],
-                  );
-                }),
-                if (activeKits.isEmpty)
-                  Column(
-                    children: [
-                      Center(
-                        child: Text(
-                          'kits_empty'.i18n,
-                          style: context.tt.bodyLarge?.copyWith(
-                            fontWeight: FontWeight.w700,
-                            color: context.cs.surfaceContainerHighest,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 25,
-                      ),
-                    ],
-                  ),
-              ],
-            ),
-          SizedBox(
-            width: double.maxFinite,
-            child:
-                BlocConsumer<LitterConcernsCubit, GeneralLitterConcernsState>(
-              listener: (context, state) {
-                if (state is ButcherLitterSuccess) {
-                  MainSnackBar.showSuccessMessageBar(
-                    context,
-                    "litter_butcher".i18n,
-                  );
-                  context.router.maybePop();
-                } else if (state is ButcherLitterFail) {
-                  MainSnackBar.showErrorMessageBar(
-                    context,
-                    state.message,
-                  );
-                }
-              },
-              builder: (context, state) {
-                var onTap = () => onButcher(widget.litterEntryModel.id);
-                Widget? child;
-                if (state is ButcherLitterLoading) {
-                  onTap = () {};
-                  child = const LoadingIndicator();
-                }
-                return MainActionButton(
-                  onTap: onTap,
-                  text: "save".i18n,
-                  child: child,
-                );
-              },
-            ),
-          ),
-          const SizedBox(height: 25),
-        ],
+        ),
       ),
     );
   }
