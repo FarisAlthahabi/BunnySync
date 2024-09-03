@@ -23,6 +23,7 @@ import 'package:bunny_sync/global/widgets/main_error_widget.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -100,20 +101,23 @@ class _ReportsPageState extends State<ReportsPage>
     const KeepAliveWidget(
       child: KitWeightTab(),
     ),
-    const Padding( // TODO : Grouth rate tab : unknown api
+    const Padding(
+      // TODO : Grouth rate tab : unknown api
       padding: AppConstants.padding16,
       child: SfCartesianChart(),
     ),
     const KeepAliveWidget(
       child: CouseDeathTab(),
     ),
-     const KeepAliveWidget( //TODO : still fixing model : unknown data form
+    const KeepAliveWidget(
+      //TODO : still fixing model : unknown data form
       child: BreederMortalityTab(),
     ),
-   const KeepAliveWidget(
+    const KeepAliveWidget(
       child: KitMortalityTab(),
     ),
-    const Padding(  // TODO : Inactive breeders tab : unknown api
+    const Padding(
+      // TODO : Inactive breeders tab : unknown api
       padding: AppConstants.padding16,
       child: SfCartesianChart(),
     ),
@@ -154,47 +158,52 @@ class _ReportsPageState extends State<ReportsPage>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(
-                  height: 10,
-                ),
+                height: 10,
+              ),
               Padding(
                 padding: AppConstants.paddingH16,
                 child: Text(
-                    'reports'.i18n,
-                    style: context.tt.displayLarge,
-                  ),
-              ),
-                const SizedBox(
-                  height: 10,
+                  'reports'.i18n,
+                  style: context.tt.displayLarge,
                 ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
               BlocBuilder<ReportsCubit, GeneralReportsState>(
                 buildWhen: (previous, current) => current is ReportStatsState,
                 builder: (context, state) {
                   if (state is ReportStatsFetch) {
                     return Skeletonizer(
                       enabled: state is ReportStatsLoading,
-                      child: ReportStatsWidget(
-                        reportStats: state.reportStats,
+                      child: Column(
+                        children: [
+                          ReportStatsWidget(
+                            reportStats: state.reportStats,
+                          ),
+                          DetailsTabBar(
+                            tabs: tabs,
+                            tabController: tabController,
+                          ),
+                          ExpandablePageView.builder(
+                            controller: pageController,
+                            itemCount: tabs.length,
+                            itemBuilder: (context, index) {
+                              return pages[index];
+                            },
+                          ),
+                        ],
                       ),
                     );
                   } else if (state is ReportStatsFail) {
                     return MainErrorWidget(
+                      height: 0.7.sh,
                       error: state.message,
                       onTap: onTryAgainTap,
                     );
                   } else {
                     return const SizedBox.shrink();
                   }
-                },
-              ),
-              DetailsTabBar(
-                tabs: tabs,
-                tabController: tabController,
-              ),
-              ExpandablePageView.builder(
-                controller: pageController,
-                itemCount: tabs.length,
-                itemBuilder: (context, index) {
-                  return pages[index];
                 },
               ),
             ],
@@ -204,3 +213,6 @@ class _ReportsPageState extends State<ReportsPage>
     );
   }
 }
+
+// when the above throws an error : all ui should throws ,
+// what the buttom throws : only the tab should show the error ,

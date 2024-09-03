@@ -5,6 +5,7 @@ import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/main_error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 abstract class GestationDaysTabCallBacks {
@@ -44,39 +45,38 @@ class _GestationDaysPageState extends State<GestationDaysPage>
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: BlocBuilder<ReportsCubit, GeneralReportsState>(
-        buildWhen: (previous, current) => current is GestationDaysState,
-        builder: (context, state) {
-          if (state is GestationDaysFetch) {
-            final item = state.gestationDays;
-            final List<ChartModel> data = List.generate(
-              item.breeders.length,
-              (index) => ChartModel(
-                xAxisProperty: item.breeders[index],
-                yAxisProperty: item.days[index].toDouble(),
+    return BlocBuilder<ReportsCubit, GeneralReportsState>(
+      buildWhen: (previous, current) => current is GestationDaysState,
+      builder: (context, state) {
+        if (state is GestationDaysFetch) {
+          final item = state.gestationDays;
+          final List<ChartModel> data = List.generate(
+            item.breeders.length,
+            (index) => ChartModel(
+              xAxisProperty: item.breeders[index],
+              yAxisProperty: [item.days[index].toDouble()],
+            ),
+          );
+          return Skeletonizer(
+            enabled: state is GestationDaysLoading,
+            child: Padding(
+              padding: AppConstants.padding16,
+              child: LineChartWidget(
+                data: data,
+                animationDuration: state is GestationDaysLoading ? 0 : 1500,
               ),
-            );
-            return Skeletonizer(
-              enabled: state is GestationDaysLoading,
-              child: Padding(
-                padding: AppConstants.padding16,
-                child: LineChartWidget(
-                  data: data,
-                  animationDuration: state is GestationDaysLoading ? 0 : 1500,
-                ),
-              ),
-            );
-          } else if (state is GestationDaysFail) {
-            return MainErrorWidget(
-              error: state.message,
-              onTap: onTryAgainTap,
-            );
-          } else {
-            return const SizedBox.shrink();
-          }
-        },
-      ),
+            ),
+          );
+        } else if (state is GestationDaysFail) {
+          return MainErrorWidget(
+            error: state.message,
+            height: 0.4.sh,
+            onTap: onTryAgainTap,
+          );
+        } else {
+          return const SizedBox.shrink();
+        }
+      },
     );
   }
 }

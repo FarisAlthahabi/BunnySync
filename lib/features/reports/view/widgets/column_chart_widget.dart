@@ -9,7 +9,7 @@ class ChartModel {
   });
 
   final String xAxisProperty;
-  final double yAxisProperty;
+  final List<double> yAxisProperty;
 }
 
 class ColumnChartWidget extends StatefulWidget {
@@ -17,10 +17,12 @@ class ColumnChartWidget extends StatefulWidget {
     super.key,
     required this.data,
     this.animationDuration,
+    this.columnColor,
   });
 
   final List<ChartModel> data;
   final double? animationDuration;
+  final List<Color?>? columnColor;
 
   @override
   State<ColumnChartWidget> createState() => _ColumnChartWidgetState();
@@ -37,19 +39,18 @@ class _ColumnChartWidgetState extends State<ColumnChartWidget> {
         primaryXAxis: CategoryAxis(
           labelStyle: context.tt.titleMedium,
         ),
-        series: <CartesianSeries<ChartModel, String>>[
-          ColumnSeries<ChartModel, String>(
+        series:List<CartesianSeries<ChartModel, String>>.generate(
+          widget.data[0].yAxisProperty.length , (index) => 
+            ColumnSeries<ChartModel, String>(
             width: 0.3,
             animationDuration: widget.animationDuration ?? 1500,
-            color: context.cs.primary,
+            color: widget.columnColor?[index] ?? context.cs.primary,
             dataSource: widget.data,
-            xValueMapper: (ChartModel xAxis, index) =>
-            // TODO : we have to find another way of (index + 1) to 
-            // TODO : differentiate between elements that have the same xValue 
-                '${index + 1} ${xAxis.xAxisProperty.replaceAll('"', '')}',
-            yValueMapper: (ChartModel yAxis, index) => yAxis.yAxisProperty,
+            xValueMapper: (ChartModel xAxis, ind) =>
+                xAxis.xAxisProperty.replaceAll('"', ''),
+            yValueMapper: (ChartModel yAxis, ind) => yAxis.yAxisProperty[index],
           ),
-        ],
+        ),
       );
     } else {
       return const SfCartesianChart();
