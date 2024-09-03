@@ -287,6 +287,7 @@ class _ButcherLitterPageState extends State<ButcherLitterPage>
                               return LitterButcherTextFieldsWidget(
                                 index: index,
                                 kit: item,
+                                isInitiallyExpanded: index == 0,
                                 onPreWeightChanged: onPreWeightChanged,
                                 onPreWeightsSubmitted: onPreWeightsSubmitted,
                                 onPriceChanged: onPriceChanged,

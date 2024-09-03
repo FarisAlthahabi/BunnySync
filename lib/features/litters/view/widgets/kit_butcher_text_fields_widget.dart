@@ -2,6 +2,7 @@ import 'package:animated_size_and_fade/animated_size_and_fade.dart';
 import 'package:bunny_sync/features/litter_details/model/kit_model/kit_model.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
+import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/buttons/rotating_arrow_buttom.dart';
 import 'package:bunny_sync/global/widgets/main_text_field.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ class LitterButcherTextFieldsWidget extends StatefulWidget {
     required this.weightFocusNode,
     required this.preWeightFocusNode,
     required this.priceFocusNode,
+    required this.isInitiallyExpanded,
   });
 
   final int index;
@@ -33,6 +35,7 @@ class LitterButcherTextFieldsWidget extends StatefulWidget {
   final FocusNode weightFocusNode;
   final FocusNode preWeightFocusNode;
   final FocusNode priceFocusNode;
+  final bool isInitiallyExpanded;
 
   @override
   State<LitterButcherTextFieldsWidget> createState() =>
@@ -41,37 +44,37 @@ class LitterButcherTextFieldsWidget extends StatefulWidget {
 
 class _LitterButcherTextFieldsWidgetState
     extends State<LitterButcherTextFieldsWidget> {
-  late bool isShowTextFields = widget.index == 0;
+  late bool isShowTextFields = widget.isInitiallyExpanded;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Text(
-              widget.kit.displayName,
-              style: context.tt.bodyLarge?.copyWith(
-                fontWeight: FontWeight.w700,
-                color: context.cs.surfaceContainerHighest,
-              ),
+        InkWell(
+          onTap: () {
+            setState(() {
+              isShowTextFields = !isShowTextFields;
+            });
+          },
+          child: Padding(
+            padding: AppConstants.paddingV6,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  widget.kit.displayName,
+                  style: context.tt.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: context.cs.surfaceContainerHighest,
+                  ),
+                ),
+                RotatingArrowButton(
+                  isExpanded: isShowTextFields,
+                ),
+              ],
             ),
-            const Spacer(),
-            InkWell(
-              onTap: () {
-                setState(() {
-                  isShowTextFields = !isShowTextFields;
-                });
-              },
-              child: RotatingArrowButton(
-              isExpanded: isShowTextFields,
-            ),
-            ),
-            const SizedBox(
-              width: 20,
-            ),
-          ],
+          ),
         ),
         const SizedBox(
           height: 20,

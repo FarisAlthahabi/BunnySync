@@ -26,7 +26,7 @@ class _RotatingArrowButtonState extends State<RotatingArrowButton> {
   Widget build(BuildContext context) {
     return AnimatedRotation(
       turns: turns,
-      duration: const Duration(milliseconds: 175),
+      duration: const Duration(milliseconds: 500),
       child: Icon(
         Icons.keyboard_arrow_up_rounded,
         color: context.cs.tertiary,
