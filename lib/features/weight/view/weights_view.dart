@@ -141,7 +141,7 @@ class _WeightPageState extends State<WeightPage>
           );
         } else if (state is GetAllWeightsFail) {
           child = MainErrorWidget(
-            error: 'state.message',
+            error: state.message,
             height: 130,
             onTap: onTryAgainTap,
           );
