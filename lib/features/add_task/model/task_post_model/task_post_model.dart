@@ -93,11 +93,11 @@ class TaskPostModel {
   Map<String, dynamic> toJson() => _$TaskPostModelToJson(this);
 
   TaskTypes get type {
-    return _type ?? (throw 'Type is null');
+    return _type ?? (throw 'Type is required');
   }
 
   String get name {
-    return _name ?? (throw Exception('Name is null'));
+    return _name ?? (throw 'Name is required');
   }
 
   @DateTimeConverter()

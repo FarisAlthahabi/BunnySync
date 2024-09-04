@@ -39,10 +39,10 @@ class AddNoteModel {
   Map<String, dynamic> toJson() => _$AddNoteModelToJson(this);
 
   String get title {
-    return _title ?? (throw Exception('title is null'));
+    return _title ?? (throw 'Title is required');
   }
 
   String get note {
-    return _note ?? (throw Exception('note is null'));
+    return _note ?? (throw 'Note is required');
   }
 }

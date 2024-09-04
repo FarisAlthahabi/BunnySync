@@ -34,7 +34,6 @@ enum CustomerTypes implements DropDownItemModel {
       case null :
         return CustomerTypes.customer;
       default:
-        // throw Exception('Unknown CustomerTypes value: $value');
         return CustomerTypes.lead;
     }
   }

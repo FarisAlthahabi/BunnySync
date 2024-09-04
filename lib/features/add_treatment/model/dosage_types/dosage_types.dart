@@ -32,7 +32,7 @@ enum DosageTypes implements DropDownItemModel {
       case 'oz':
         return DosageTypes.oz;
       default:
-        throw Exception('Unknown DosageTypes value: $value');
+        throw 'Unknown DosageTypes value: $value';
     }
   }
 }

@@ -62,22 +62,22 @@ class ButcherLitterModel {
 
   @DateTimeConverter()
   DateTime get date {
-    return _date ?? (throw Exception("Date can't be empty"));
+    return _date ?? (throw "Date can't be empty");
   }
 
   @JsonKey(toJson: valueToJson)
   dynamic get price {
-    return _price ?? (throw Exception("Prices can't be empty"));
+    return _price ?? (throw "Prices can't be empty");
   }
 
   @JsonKey(toJson: valueToJson)
   dynamic get preWeight {
-    return _preWeight ?? (throw Exception("Preweight can't be empty"));
+    return _preWeight ?? (throw "Preweight can't be empty");
   }
 
   @JsonKey(toJson: valueToJson)
   dynamic get weight {
-    return _weight ?? (throw Exception("Weight can't be empty"));
+    return _weight ?? (throw "Weight can't be empty");
   }
 
   static String valueToJson(dynamic value) {

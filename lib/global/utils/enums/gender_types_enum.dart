@@ -45,7 +45,7 @@ enum GenderTypes implements RadioSelectorItemModel {
     } else if (GenderTypes.female.name == value) {
       return GenderTypes.female;
     } else {
-      throw Exception('Gender type is not supported');
+      throw 'Gender type is not supported';
     }
   }
 

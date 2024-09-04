@@ -29,7 +29,7 @@ enum CageOrientationTypes implements DropDownItemModel {
       case CageOrientationTypes.vertical:
         return 'vertical';
       default:
-        throw Exception('Cage orientation type is not supported');
+        throw 'Cage orientation type is not supported';
     }
   }
 }
