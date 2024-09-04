@@ -12,6 +12,7 @@ import 'package:bunny_sync/global/widgets/images/app_image_widget.dart';
 import 'package:bunny_sync/global/widgets/main_error_widget.dart';
 import 'package:bunny_sync/global/widgets/main_show_bottom_sheet.dart';
 import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -110,12 +111,18 @@ class _ImagesTabState extends State<ImagesTab> implements ImagesTabCallbacks {
   Future<void> pickCameraImage() async {
     context.router.popForced();
     final ImagePicker imagePicker = ImagePicker();
-    final image = await imagePicker.pickImage(source: ImageSource.camera);
-    if (image != null) {
-      breederDetailsCubit.addBreederImage(
-        widget.breederId,
-        image,
-      );
+    try {
+      final image = await imagePicker.pickImage(source: ImageSource.camera);
+      if (image != null) {
+        breederDetailsCubit.addBreederImage(
+          widget.breederId,
+          image,
+        );
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('choose an option');
+      }
     }
   }
 
