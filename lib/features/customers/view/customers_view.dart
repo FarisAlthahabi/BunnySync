@@ -85,18 +85,11 @@ class _CustomersPageState extends State<CustomersPage>
       context,
       widget: BottomSheetWidget(
         title: 'are_you_sure_to_delete_breeder'.i18n,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextButton(
-              onPressed: () {
-                context.router.popForced();
-                customersCubit.deleteCustomer(customerModel.id);
-              },
-              child: Text('yes'.i18n),
-            ),
-          ],
-        ),
+        model: customerModel,
+        onConfirm: (customerModel) {
+          context.router.popForced();
+          customersCubit.deleteCustomer(customerModel.id);
+        },
       ),
     );
   }

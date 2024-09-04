@@ -89,18 +89,11 @@ class _CategoriesPageState extends State<CategoriesPage>
       context,
       widget: BottomSheetWidget(
         title: 'are_you_sure_to_delete_category'.i18n,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextButton(
-              onPressed: () {
-                context.router.popForced();
-                categoriesCubit.deleteCategory(categoryModel.id);
-              },
-              child: Text('yes'.i18n),
-            ),
-          ],
-        ),
+        model: categoryModel,
+        onConfirm: (categoryModel) {
+          context.router.popForced();
+          categoriesCubit.deleteCategory(categoryModel.id);
+        },
       ),
     );
   }

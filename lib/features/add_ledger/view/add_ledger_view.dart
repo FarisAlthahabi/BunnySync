@@ -781,9 +781,6 @@ class _AddLedgerPageState extends State<AddLedgerPage>
         title: 'add_customer'.i18n,
         child: QuickAddCustomerView(
           customersCubit: customersCubit,
-          // onsuccess: (customer) {
-          //   ledgersCubit.setCustomer;
-          // }
         ),
       ),
     );

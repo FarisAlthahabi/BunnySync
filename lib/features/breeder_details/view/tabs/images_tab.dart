@@ -160,25 +160,14 @@ class _ImagesTabState extends State<ImagesTab> implements ImagesTabCallbacks {
       context,
       widget: BottomSheetWidget(
         title: 'are_you_sure_to_delete_image'.i18n,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TextButton(
-              onPressed: () {
-                context.router.popForced();
-                breederDetailsCubit.deleteBreederImage(
-                  widget.breederId,
-                  breederImageModel.id,
-                );
-              },
-              style: const ButtonStyle(
-                alignment: AlignmentDirectional.centerStart,
-              ),
-              child: Text('yes'.i18n),
-            ),
-          ],
-        ),
+        model: breederImageModel,
+        onConfirm: (breederImageModel) {
+          context.router.popForced();
+          breederDetailsCubit.deleteBreederImage(
+            widget.breederId,
+            breederImageModel.id,
+          );
+        },
       ),
     );
   }
