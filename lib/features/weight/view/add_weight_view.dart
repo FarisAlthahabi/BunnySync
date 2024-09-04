@@ -70,6 +70,7 @@ class _UpdateWeightPageState extends State<UpdateWeightPage>
     implements AddWeightViewCallBacks {
   late final AddWeightCubit addWeightCubit = context.read();
 
+  final weightFocusNode = FocusNode();
   List<FocusNode> weightsFocusNode = [];
   bool isIndividualKits = false;
 
@@ -86,6 +87,10 @@ class _UpdateWeightPageState extends State<UpdateWeightPage>
         weightModel.date,
       );
     }
+    weightsFocusNode = List.generate(
+      widget.weightableModel.subEntities.length,
+      (index) => FocusNode(),
+    );
     addWeightCubit.setWeightType(false);
     addWeightCubit.setWeightDate(DateTime.now());
   }
@@ -95,15 +100,24 @@ class _UpdateWeightPageState extends State<UpdateWeightPage>
     for (final element in weightsFocusNode) {
       element.dispose();
     }
+    weightFocusNode.dispose();
 
     super.dispose();
   }
 
   @override
-  void onWeightSubmitted(String weight) {}
+  void onWeightSubmitted(String weight) {
+    weightFocusNode.unfocus();
+  }
 
   @override
-  void onWeightsSubmitted(String price, int index) {}
+  void onWeightsSubmitted(String price, int index) {
+    if (index != weightsFocusNode.length - 1) {
+      weightsFocusNode[index + 1].requestFocus();
+    } else {
+      weightsFocusNode[index].unfocus();
+    }
+  }
 
   @override
   void onWeightTypeSelected(bool value) {
@@ -148,7 +162,7 @@ class _UpdateWeightPageState extends State<UpdateWeightPage>
         padding: AppConstants.paddingH16,
         child: SingleChildScrollView(
           child: Padding(
-           padding: EdgeInsets.only(
+            padding: EdgeInsets.only(
               bottom: MediaQuery.of(context).viewInsets.bottom,
             ),
             child: Column(
@@ -160,6 +174,7 @@ class _UpdateWeightPageState extends State<UpdateWeightPage>
                 ),
                 MainTextField(
                   initialValue: widget.weightModel?.weight,
+                  focusNode: weightFocusNode,
                   onChanged: onWeightChanged,
                   keyboardType: TextInputType.number,
                   hintText: "weight".i18n,
@@ -234,20 +249,14 @@ class _UpdateWeightPageState extends State<UpdateWeightPage>
         builder: (context, state) {
           if (state is SetLitterWeightTypeState) {
             isIndividualKits = state.isIndividualKits;
-            if (isIndividualKits) {
-              weightsFocusNode = List.generate(
-                widget.weightableModel.subEntities.length,
-                (index) => FocusNode(),
-              );
-            }
           }
           return Padding(
             padding: AppConstants.paddingH16,
             child: SingleChildScrollView(
               child: Padding(
                 padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-                        ),
+                  bottom: MediaQuery.of(context).viewInsets.bottom,
+                ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -303,6 +312,7 @@ class _UpdateWeightPageState extends State<UpdateWeightPage>
                               children: [
                                 MainTextField(
                                   initialValue: widget.weightModel?.weight,
+                                  focusNode: weightFocusNode,
                                   onSubmitted: onWeightSubmitted,
                                   onChanged: (String weight) {
                                     onWeightChanged(weight);
@@ -333,21 +343,21 @@ class _UpdateWeightPageState extends State<UpdateWeightPage>
                                 ...List.generate(
                                     widget.weightableModel.subEntities.length,
                                     (index) {
-                                  weightsFocusNode = List.generate(
-                                    widget.weightableModel.subEntities.length,
-                                    (index) => FocusNode(),
-                                  );
                                   final item =
                                       widget.weightableModel.subEntities[index];
                                   return Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       MainTextField(
                                         onSubmitted: (String weight) {
                                           onWeightsSubmitted(weight, index);
                                         },
                                         onChanged: (String weight) {
-                                          onWeightChanged(weight, kitId: item.id);
+                                          onWeightChanged(
+                                            weight,
+                                            kitId: item.id,
+                                          );
                                         },
                                         focusNode: weightsFocusNode[index],
                                         keyboardType: TextInputType.number,
@@ -368,8 +378,8 @@ class _UpdateWeightPageState extends State<UpdateWeightPage>
                                           'kits_empty'.i18n,
                                           style: context.tt.bodyLarge?.copyWith(
                                             fontWeight: FontWeight.w700,
-                                            color:
-                                                context.cs.surfaceContainerHighest,
+                                            color: context
+                                                .cs.surfaceContainerHighest,
                                           ),
                                         ),
                                       ),
@@ -383,7 +393,8 @@ class _UpdateWeightPageState extends State<UpdateWeightPage>
                     ),
                     SizedBox(
                       width: double.maxFinite,
-                      child: BlocConsumer<AddWeightCubit, GeneralAddWeightState>(
+                      child:
+                          BlocConsumer<AddWeightCubit, GeneralAddWeightState>(
                         listener: (context, state) {
                           if (state is AddWeightSuccess) {
                             MainSnackBar.showSuccessMessageBar(
