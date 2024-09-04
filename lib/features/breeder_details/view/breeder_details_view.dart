@@ -26,7 +26,9 @@ import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/mixins/create_scroll_listener_mixin.dart';
 import 'package:bunny_sync/global/router/router.dart';
+import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
+import 'package:bunny_sync/global/widgets/buttons/more_menu_button.dart';
 import 'package:bunny_sync/global/widgets/custom_app_bar.dart';
 import 'package:bunny_sync/global/widgets/keep_alive_widget.dart';
 import 'package:bunny_sync/global/widgets/main_show_bottom_sheet.dart';
@@ -418,10 +420,12 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
                             actions: [
                               Padding(
                                 padding: const EdgeInsets.only(right: 16),
-                                child: IconButton(
-                                  onPressed: () =>
-                                      onMoreOptionsTap(state.breederEntryModel),
-                                  icon: const Icon(Icons.more_horiz_outlined),
+                                child: MoreMenuButton(
+                                  onTap: () => onMoreOptionsTap(
+                                    state.breederEntryModel,
+                                  ),
+                                  isHorizontal: true,
+                                  color: context.cs.onSurface,
                                 ),
                               ),
                             ],

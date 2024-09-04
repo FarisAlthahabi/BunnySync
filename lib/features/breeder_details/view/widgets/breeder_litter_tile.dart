@@ -5,6 +5,7 @@ import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/animation/animated_switchers/animated_switchers.dart';
+import 'package:bunny_sync/global/widgets/buttons/more_menu_button.dart';
 import 'package:bunny_sync/global/widgets/element_tile.dart';
 import 'package:bunny_sync/global/widgets/main_tile.dart';
 import 'package:bunny_sync/global/widgets/texts/bordered_textual_widget.dart';
@@ -69,13 +70,8 @@ class _BreederLitterTileState extends State<BreederLitterTile> {
               PositionedDirectional(
                 top: 0,
                 end: 0,
-                child: TextButton(
-                  onPressed: () => widget.onMoreOptionsTap(widget.litter),
-                  style: TextButton.styleFrom(
-                    padding: AppConstants.padding4,
-                    minimumSize: Size.zero,
-                  ),
-                  child: const Icon(Icons.more_vert_rounded),
+                child: MoreMenuButton(
+                  onTap: () => widget.onMoreOptionsTap(widget.litter),
                 ),
               ),
             ],

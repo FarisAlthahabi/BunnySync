@@ -6,10 +6,14 @@ class MoreMenuButton extends StatelessWidget {
     super.key,
     required this.onTap,
     this.color,
+    this.isHorizontal,
+    this.backgroundColor,
   });
 
   final VoidCallback onTap;
   final Color? color;
+  final bool? isHorizontal;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +22,14 @@ class MoreMenuButton extends StatelessWidget {
       style: TextButton.styleFrom(
         padding: AppConstants.padding4,
         minimumSize: Size.zero,
-        backgroundColor: color,
+        backgroundColor: backgroundColor,
       ),
-      child: const Icon(Icons.more_vert_rounded),
+      child: Icon(
+        color: color,
+        isHorizontal == null
+            ? Icons.more_vert_rounded
+            : Icons.more_horiz_outlined,
+      ),
     );
   }
 }
