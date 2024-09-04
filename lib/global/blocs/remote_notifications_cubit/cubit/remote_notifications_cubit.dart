@@ -6,25 +6,20 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 part 'states/remote_notifications_state.dart';
 
 class RemoteNotificationsCubit extends Cubit<RemoteNotificationsState> {
-  RemoteNotificationsCubit(this.userRepo) : super(SystemNotificationsInitial()){
-    if (userRepo.properties[sendNotifications] as bool) {
-      _activateFirebaseCloudMessaging();
-    } else {
-      _disableFirebaseCloudMessaging();
-    }
+  RemoteNotificationsCubit(this.userRepo)
+      : super(SystemNotificationsInitial()) {
+    _activateFirebaseCloudMessaging();
   }
 
   final UserRepo userRepo;
 
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
-   String? fcmToken;
+  String? fcmToken;
 
   List<ActOnMessage> listeners = [];
 
   void _activateFirebaseCloudMessaging() {
-    FirebaseMessaging.instance.subscribeToTopic(breedersTobic);
-
     _firebaseMessaging.getToken().then(
       (firebaseToken) {
         fcmToken = firebaseToken;
@@ -65,26 +60,17 @@ class RemoteNotificationsCubit extends Cubit<RemoteNotificationsState> {
     );
   }
 
-  void _disableFirebaseCloudMessaging() {
-    FirebaseMessaging.instance.unsubscribeFromTopic(breedersTobic);
-  }
-
   Future<String?> getToken() async {
     return _firebaseMessaging.getToken();
   }
 
   void registerListener(ActOnMessage listener) {
     listeners.add(listener);
-  } 
+  }
 }
 
 ///This has nothing to do with Bloc or Cubit states.
 enum AppState { foreground, background, terminated }
-
-const targetKey = 'target';
-
-//Firebase
-const String breedersTobic = 'mobiles_prices';
 
 ///The data always comes from Firebase in Map<String, String> even though its type
 ///here in the message (RemoteMessage) is Map<String, dynamic>.
