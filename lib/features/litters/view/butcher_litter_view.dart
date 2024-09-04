@@ -202,7 +202,7 @@ class _ButcherLitterPageState extends State<ButcherLitterPage>
           padding: AppConstants.paddingH16,
           child: Padding(
             padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
+              bottom: MediaQuery.of(context).viewInsets.bottom,
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -259,6 +259,7 @@ class _ButcherLitterPageState extends State<ButcherLitterPage>
                           children: [
                             MainTextField(
                               onSubmitted: onWeightSubmitted,
+                              focusNode: weightFocusNode,
                               onChanged: (String weight) {
                                 onWeightChanged(weight);
                               },
@@ -271,6 +272,7 @@ class _ButcherLitterPageState extends State<ButcherLitterPage>
                             ),
                             MainTextField(
                               onSubmitted: onPreWeightSubmitted,
+                              focusNode: preWeightFocusNode,
                               onChanged: (String weight) {
                                 onPreWeightChanged(weight);
                               },
@@ -283,6 +285,7 @@ class _ButcherLitterPageState extends State<ButcherLitterPage>
                             ),
                             MainTextField(
                               onSubmitted: onPriceSubmitted,
+                              focusNode: priceFocusNode,
                               onChanged: (String price) {
                                 onPriceChanged(price);
                               },
@@ -309,8 +312,7 @@ class _ButcherLitterPageState extends State<ButcherLitterPage>
                                   kit: item,
                                   isInitiallyExpanded: index == 0,
                                   onPreWeightChanged: onPreWeightChanged,
-                                  onPreWeightsSubmitted:
-                                      onPreWeightsSubmitted,
+                                  onPreWeightsSubmitted: onPreWeightsSubmitted,
                                   onPriceChanged: onPriceChanged,
                                   onPricesSubmitted: onPricesSubmitted,
                                   onWeightChanged: onWeightChanged,
