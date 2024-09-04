@@ -9,10 +9,10 @@ part 'ledger_stats_model.g.dart';
 @immutable
 class LedgerStatsModel {
   const LedgerStatsModel({
-    required this.income,
-    required this.expenses,
-    required this.incomeByBreeder,
-    required this.expensesByBreeder,
+    this.income = 0,
+    this.expenses = 0,
+    this.incomeByBreeder = 0,
+    this.expensesByBreeder = 0,
   });
 
   factory LedgerStatsModel.fromJsonStr(String str) =>
@@ -21,17 +21,19 @@ class LedgerStatsModel {
   factory LedgerStatsModel.fromJson(Map<String, dynamic> json) =>
       _$LedgerStatsModelFromJson(json);
 
+  @JsonKey(defaultValue: 0)
   final double income;
 
+  @JsonKey(defaultValue: 0)
   final double expenses;
 
-  @JsonKey(name: 'incomeBreeder')
+  @JsonKey(name: 'incomeBreeder', defaultValue: 0)
   final double incomeByBreeder;
 
-  @JsonKey(name: 'expensesBreeder')
+  @JsonKey(name: 'expensesBreeder', defaultValue: 0)
   final double expensesByBreeder;
 
-   String toJsonStr() => jsonEncode(toJson());
+  String toJsonStr() => jsonEncode(toJson());
 
   Map<String, dynamic> toJson() => _$LedgerStatsModelToJson(this);
 }

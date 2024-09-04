@@ -184,6 +184,23 @@ class _AddLedgerPageState extends State<AddLedgerPage>
   }
 
   @override
+  void onAddCustomerTap() {
+    mainShowBottomSheet(
+      context,
+      widget: BottomSheetWidget(
+        isTitleCenter: true,
+        title: 'add_customer'.i18n,
+        child: QuickAddCustomerView(
+          customersCubit: customersCubit,
+          // onsuccess: (customer) {
+          //   ledgersCubit.setCustomer;
+          // }
+        ),
+      ),
+    );
+  }
+
+  @override
   void onCategoryIdSelected(CategoryModel? category) {
     addLedgerCubit.setCategoryId(category?.id);
   }
@@ -767,23 +784,6 @@ class _AddLedgerPageState extends State<AddLedgerPage>
               ],
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  @override
-  void onAddCustomerTap() {
-    mainShowBottomSheet(
-      context,
-      widget: BottomSheetWidget(
-        isTitleCenter: true,
-        title: 'add_customer'.i18n,
-        child: QuickAddCustomerView(
-          customersCubit: customersCubit,
-          // onsuccess: (customer) {
-          //   ledgersCubit.setCustomer;
-          // }
         ),
       ),
     );
