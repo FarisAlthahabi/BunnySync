@@ -80,6 +80,9 @@ class _SellLitterPageState extends State<SellLitterPage>
   @override
   void dispose() {
     sellPriceFocusNode.dispose();
+    for (final element in sellPricesFocusNode) {
+      element.dispose();
+    }
     super.dispose();
   }
 
@@ -87,6 +90,10 @@ class _SellLitterPageState extends State<SellLitterPage>
   void initState() {
     super.initState();
     customersCubit.getCustomers();
+    sellPricesFocusNode = List.generate(
+      widget.litterEntryModel.allKits.length,
+      (index) => FocusNode(),
+    );
   }
 
   @override
@@ -127,7 +134,6 @@ class _SellLitterPageState extends State<SellLitterPage>
 
   @override
   void onSellPricesSubmitted(String price, int index) {
-    //TODO : fix this logic
     if (index != sellPricesFocusNode.length - 1) {
       sellPricesFocusNode[index].unfocus();
       sellPricesFocusNode[index + 1].requestFocus();
@@ -252,11 +258,8 @@ class _SellLitterPageState extends State<SellLitterPage>
                 const SizedBox(
                   height: 20,
                 ),
-                ...List.generate(widget.litterEntryModel.allKits.length, (index) {
-                  sellPricesFocusNode = List.generate(
-                    widget.litterEntryModel.allKits.length,
-                    (index) => FocusNode(),
-                  );
+                ...List.generate(widget.litterEntryModel.allKits.length,
+                    (index) {
                   final item = widget.litterEntryModel.allKits[index];
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
