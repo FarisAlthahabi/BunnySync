@@ -19,6 +19,12 @@ class UpdateCageSuccess extends AddCageState {
   final CageModel cageModel;
 }
 
+class AddCageCopySuccess extends AddCageState {
+  AddCageCopySuccess(this.cageModel);
+
+  final CageModel cageModel;
+}
+
 class AddCageFail extends AddCageState {
   AddCageFail(this.message);
 

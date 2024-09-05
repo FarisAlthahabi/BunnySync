@@ -44,7 +44,7 @@ enum CageSizeTypes implements DropDownItemModel {
       case '4x7':
         return CageSizeTypes.large4x7;
       default:
-        throw Exception('Cage size type is not supported');
+        throw 'Cage size type is not supported';
     }
   }
 
@@ -57,7 +57,7 @@ enum CageSizeTypes implements DropDownItemModel {
       case CageSizeTypes.large4x7:
         return '4x7';
       default:
-        throw Exception('Cage size type is not supported');
+        throw 'Cage size type is not supported';
     }
   }
 }

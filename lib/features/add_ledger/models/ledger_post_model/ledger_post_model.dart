@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:bunny_sync/features/add_task/model/task_types/task_types.dart';
 import 'package:bunny_sync/features/ledger/models/ledger_types.dart';
 import 'package:bunny_sync/global/utils/json_converters/date_time_converter.dart';
+import 'package:bunny_sync/global/utils/json_utils.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
@@ -91,7 +92,12 @@ class LedgerPostModel {
 
   String? get note => _note;
 
-  String? get file => _file;
+  @JsonKey(toJson: JsonUtils.fileToJson)
+  String get file {
+    return _file == null || _file.isEmpty
+        ? (throw "File can't be empty")
+        : _file;
+  }
 
   LedgerPostModel copyWith({
     String? Function()? title,

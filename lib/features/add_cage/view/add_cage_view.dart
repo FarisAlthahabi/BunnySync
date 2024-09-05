@@ -47,10 +47,12 @@ class AddCageView extends StatelessWidget {
     super.key,
     required this.cageCardsCubit,
     this.cageModel,
+    this.isCopy,
   });
 
   final CageCardsCubit cageCardsCubit;
   final CageModel? cageModel;
+  final bool? isCopy;
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +67,7 @@ class AddCageView extends StatelessWidget {
       ],
       child: AddCagePage(
         cageModel: cageModel,
+        isCopy: isCopy,
       ),
     );
   }
@@ -74,9 +77,11 @@ class AddCagePage extends StatefulWidget {
   const AddCagePage({
     super.key,
     this.cageModel,
+    this.isCopy,
   });
 
   final CageModel? cageModel;
+  final bool? isCopy;
 
   @override
   State<AddCagePage> createState() => _AddCagePageState();
@@ -114,8 +119,13 @@ class _AddCagePageState extends State<AddCagePage>
   @override
   void onSave() {
     final cage = widget.cageModel;
-    if (cage != null) {
-      addCageCubit.updateCage(cage.id);
+    final isCopy = widget.isCopy;
+    if (cage != null && isCopy != null) {
+      if (isCopy) {
+        addCageCubit.addCage(cageId: cage.id);
+      } else {
+        addCageCubit.updateCage(cage.id);
+      }
     } else {
       addCageCubit.addCage();
     }
@@ -353,7 +363,9 @@ class _AddCagePageState extends State<AddCagePage>
                         if (state is AddCageSuccess) {
                           MainSnackBar.showSuccessMessageBar(
                             context,
-                            "cage_added".i18n,
+                            widget.isCopy == null
+                                ? "cage_added".i18n
+                                : "cage_copy_added".i18n,
                           );
                           context.router.maybePop();
                           cageCardsCubit.addCageCard(

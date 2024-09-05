@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/customers/cubit/customers_cubit.dart';
-import 'package:bunny_sync/features/customers/model/customer_model/customer_model.dart';
+import 'package:bunny_sync/features/customers/models/customer_model/customer_model.dart';
+import 'package:bunny_sync/features/status/view/change_status_view.dart';
 import 'package:bunny_sync/global/di/di.dart';
 import 'package:bunny_sync/global/extensions/date_time_x.dart';
 import 'package:bunny_sync/global/localization/localization.dart';
@@ -8,6 +9,7 @@ import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
+import 'package:bunny_sync/global/widgets/buttons/main_add_floating_button.dart';
 import 'package:bunny_sync/global/widgets/element_tile.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
 import 'package:bunny_sync/global/widgets/main_error_widget.dart';
@@ -25,6 +27,8 @@ abstract class CustomersViewCallBacks {
   void onTryAgainTap();
 
   void onCustomerTap(CustomerModel customerModel);
+
+  void onCustomerStatusTap(CustomerModel customerModel);
 
   void onEditTap(CustomerModel customerModel);
 
@@ -68,6 +72,7 @@ class _CustomersPageState extends State<CustomersPage>
       widget: BottomSheetWidget(
         title: 'customers_options'.i18n,
         onEdit: onEditTap,
+        onChangeStatus: onCustomerStatusTap,
         onDelete: onDeleteTap,
         model: customerModel,
       ),
@@ -81,17 +86,32 @@ class _CustomersPageState extends State<CustomersPage>
       context,
       widget: BottomSheetWidget(
         title: 'are_you_sure_to_delete_breeder'.i18n,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextButton(
-              onPressed: () {
-                context.router.popForced();
-                customersCubit.deleteCustomer(customerModel.id);
-              },
-              child: Text('yes'.i18n),
-            ),
-          ],
+        model: customerModel,
+        onConfirm: (customerModel) {
+          context.router.popForced();
+          customersCubit.deleteCustomer(customerModel.id);
+        },
+      ),
+    );
+  }
+
+  @override
+  void onCustomerStatusTap(CustomerModel customerModel) {
+    context.router.popForced();
+    mainShowBottomSheet(
+      context,
+      widget: BottomSheetWidget(
+        isTitleCenter: true,
+        title: 'customer_status'.i18n,
+        child: ChangeStatusView(
+          statusableModel: customerModel,
+          title: 'customer_status'.i18n,
+          successMessgage: "customer_status_updated".i18n,
+          onSuccess: (statusableModel) {
+            customersCubit.updateCustomer(
+              statusableModel as CustomerModel,
+            );
+          },
         ),
       ),
     );
@@ -184,7 +204,8 @@ class _CustomersPageState extends State<CustomersPage>
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
-                            type: Text(item.type.displayName),
+                            type:
+                                Text(item.type?.displayName ?? "unknown".i18n),
                             tag: item.companyName,
                             secondaryTag: item.phone,
                             note: item.note,
@@ -214,16 +235,8 @@ class _CustomersPageState extends State<CustomersPage>
           }
         },
       ),
-      floatingActionButton: Padding(
-        padding: AppConstants.padding16,
-        child: FloatingActionButton(
-          onPressed: onAddTap,
-          shape: RoundedRectangleBorder(
-            borderRadius: AppConstants.circularBorderRadius,
-          ),
-          backgroundColor: context.cs.secondaryContainer,
-          child: const Icon(Icons.add),
-        ),
+      floatingActionButton: MainAddFloatingButton(
+        onAddTap: onAddTap,
       ),
     );
   }

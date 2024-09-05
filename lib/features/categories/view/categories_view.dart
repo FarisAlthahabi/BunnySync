@@ -7,6 +7,7 @@ import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
+import 'package:bunny_sync/global/widgets/buttons/main_add_floating_button.dart';
 import 'package:bunny_sync/global/widgets/element_tile.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
 import 'package:bunny_sync/global/widgets/main_error_widget.dart';
@@ -89,18 +90,11 @@ class _CategoriesPageState extends State<CategoriesPage>
       context,
       widget: BottomSheetWidget(
         title: 'are_you_sure_to_delete_category'.i18n,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextButton(
-              onPressed: () {
-                context.router.popForced();
-                categoriesCubit.deleteCategory(categoryModel.id);
-              },
-              child: Text('yes'.i18n),
-            ),
-          ],
-        ),
+        model: categoryModel,
+        onConfirm: (categoryModel) {
+          context.router.popForced();
+          categoriesCubit.deleteCategory(categoryModel.id);
+        },
       ),
     );
   }
@@ -217,16 +211,8 @@ class _CategoriesPageState extends State<CategoriesPage>
           }
         },
       ),
-      floatingActionButton: Padding(
-        padding: AppConstants.padding16,
-        child: FloatingActionButton(
-          onPressed: onAddTap,
-          shape: RoundedRectangleBorder(
-            borderRadius: AppConstants.circularBorderRadius,
-          ),
-          backgroundColor: context.cs.secondaryContainer,
-          child: const Icon(Icons.add),
-        ),
+      floatingActionButton: MainAddFloatingButton(
+        onAddTap: onAddTap,
       ),
     );
   }

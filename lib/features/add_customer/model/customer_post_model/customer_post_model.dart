@@ -107,14 +107,14 @@ class CustomerPostModel {
 
   @JsonKey(name: 'contact_name')
   String get name {
-    return _name ?? (throw 'name is null');
+    return _name ?? (throw "name can't be empty");
   }
 
   String get email {
-    return _email ?? (throw 'email is null');
+    return _email ?? (throw "email can't be empty");
   }
 
   CustomerTypes get type {
-    return _type ?? (throw 'type is null');
+    return _type ?? (throw "type can't be empty");
   }
 }

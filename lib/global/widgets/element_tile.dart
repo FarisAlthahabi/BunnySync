@@ -16,6 +16,7 @@ class ElementTile<T> extends StatelessWidget {
     this.onTap,
     this.model,
     this.boxShadow,
+    this.onLongPress,
   });
 
   final Widget leading;
@@ -26,6 +27,7 @@ class ElementTile<T> extends StatelessWidget {
   final String? secondaryTag;
   final String? note;
   final ValueSetter<T>? onTap;
+  final ValueSetter<T>? onLongPress;
   final T? model;
   final List<BoxShadow>? boxShadow;
 
@@ -37,9 +39,13 @@ class ElementTile<T> extends StatelessWidget {
     final tag = this.tag;
     final note = this.note;
     final onTap = this.onTap;
+    final onLongPress = this.onLongPress;
     final model = this.model;
     return MainTile(
       onTap: onTap == null || model == null ? null : () => onTap(model),
+      onLongPress: onLongPress == null || model == null
+          ? null
+          : () => onLongPress(model),
       boxShadow: boxShadow ?? AppShadows.getTaskTileShadow(context),
       child: Column(
         children: [
@@ -97,10 +103,13 @@ class ElementTile<T> extends StatelessWidget {
                           ),
                           const Spacer(),
                           if (secondaryTag != null)
-                            Text(
-                              secondaryTag,
-                              style: context.tt.labelMedium?.copyWith(
-                                color: context.cs.scrim,
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: Text(
+                                secondaryTag,
+                                style: context.tt.labelMedium?.copyWith(
+                                  color: context.cs.scrim,
+                                ),
                               ),
                             ),
                           const SizedBox(width: 5),

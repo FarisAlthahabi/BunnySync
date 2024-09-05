@@ -6,14 +6,18 @@ class MainAddFloatingButton extends StatelessWidget {
   const MainAddFloatingButton({
     super.key,
     required this.onAddTap,
+    this.padding,
   });
 
   final VoidCallback onAddTap;
+  final double? padding;
 
   @override
   Widget build(BuildContext context) {
+    final padding = this.padding;
     return Padding(
-      padding: AppConstants.padding16,
+      padding:
+          padding != null ? EdgeInsets.all(padding) : AppConstants.padding16,
       child: FloatingActionButton(
         onPressed: onAddTap,
         shape: RoundedRectangleBorder(

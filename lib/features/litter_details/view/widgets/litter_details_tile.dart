@@ -54,7 +54,7 @@ class LitterDetailsTile extends StatelessWidget {
       trailing: onMoreMenu != null
           ? MoreMenuButton(
               onTap: onMoreMenu,
-              color: tileColor,
+              backgroundColor: tileColor,
             )
           : null,
     );

@@ -37,7 +37,7 @@ enum PeriodTypes implements DropDownItemModel {
       case 'years':
         return PeriodTypes.years;
       default:
-        throw Exception('Unknown ScheduleTypes value: $value');
+        throw 'Unknown ScheduleTypes value: $value';
     }
   }
 }

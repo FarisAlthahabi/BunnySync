@@ -9,8 +9,9 @@ part 'http_add_cage_repo.dart';
 
 abstract class AddCageRepo {
   Future<CageModel> addCage(
-    CagePostModel cagePostModel,
-  );
+    CagePostModel cagePostModel, {
+    int? cageId,
+  });
 
   Future<CageModel> updateCage(
     CagePostModel cagePostModel,

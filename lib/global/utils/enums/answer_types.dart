@@ -24,7 +24,7 @@ enum AnswerTypes implements RadioSelectorItemModel {
     } else if (value == 1) {
       return AnswerTypes.yes;
     } else {
-      throw Exception('Answer type is not supported');
+      throw 'Answer type is not supported';
     }
   }
 }

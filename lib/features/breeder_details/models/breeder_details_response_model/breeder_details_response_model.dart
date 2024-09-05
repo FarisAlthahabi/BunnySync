@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 import 'package:bunny_sync/features/breeder_details/models/breeder_details_model/breeder_details_model.dart';

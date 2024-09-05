@@ -106,9 +106,7 @@ class BreederTile extends StatelessWidget {
               ),
               const SizedBox(width: 3),
               MoreMenuButton(
-                onTap: () {
-                  onMoreOptionsTap(breeder);
-                },
+                onTap: () => onMoreOptionsTap(breeder),
               ),
             ],
           ),

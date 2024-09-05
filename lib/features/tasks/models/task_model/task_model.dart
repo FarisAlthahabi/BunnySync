@@ -2,7 +2,11 @@ import 'dart:convert';
 
 import 'package:bunny_sync/features/add_ailment/model/recurring_periods_types/recurring_periods_types.dart';
 import 'package:bunny_sync/features/add_task/model/task_genres/task_genres.dart';
+import 'package:bunny_sync/features/status/models/statusable_model.dart';
+import 'package:bunny_sync/features/tasks/models/task_status_types/task_status_types.dart';
 import 'package:bunny_sync/global/localization/translations.i18n.dart';
+import 'package:bunny_sync/global/utils/enums/http_methods.dart';
+import 'package:bunny_sync/global/utils/enums/statusable_entity_types.dart';
 import 'package:bunny_sync/global/utils/json_converters/date_time_converter.dart';
 import 'package:bunny_sync/global/utils/json_converters/int_nullable_converter.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
@@ -13,7 +17,7 @@ part 'task_model.g.dart';
 
 @JsonSerializable()
 @immutable
-class TaskModel implements BottomSheetItemModel {
+class TaskModel implements BottomSheetItemModel, StatusableModel {
   const TaskModel({
     required this.id,
     required this.userId,
@@ -31,7 +35,7 @@ class TaskModel implements BottomSheetItemModel {
     this.litterId,
     this.who,
     this.dtRowIndex,
-  });
+  }) : entityType = StatusableEntityTypes.task;
 
   factory TaskModel.fromJsonStr(String str) =>
       TaskModel.fromJson(jsonDecode(str) as Map<String, dynamic>);
@@ -39,6 +43,10 @@ class TaskModel implements BottomSheetItemModel {
   factory TaskModel.fromJson(Map<String, dynamic> json) =>
       _$TaskModelFromJson(json);
 
+  @override
+  final StatusableEntityTypes entityType;
+
+  @override
   final int id;
 
   @JsonKey(name: 'user_id')
@@ -57,7 +65,8 @@ class TaskModel implements BottomSheetItemModel {
 
   final String name;
 
-  final String? status;
+  @override
+  final StatusTypes? status;
 
   @DateTimeConverter()
   @JsonKey(name: 'start_date')
@@ -99,5 +108,33 @@ class TaskModel implements BottomSheetItemModel {
       return 'general'.i18n;
     }
     return json as String?;
+  }
+
+  @override
+  String get httpEndpoint => '/schedule/status/$id';
+
+  @override
+  HttpMethods get httpMethod => HttpMethods.post;
+
+  @override
+  StatusableModel copyWithStatus({StatusTypes? status}) {
+    return TaskModel(
+      id: id,
+      userId: userId,
+      breederId: breederId,
+      litterId: litterId,
+      breedPairId: breedPairId,
+      name: name,
+      status: status ?? this.status,
+      startDate: startDate,
+      dueDate: dueDate,
+      type: type,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+      recurring: recurring,
+      note: note,
+      who: who,
+      dtRowIndex: dtRowIndex,
+    );
   }
 }

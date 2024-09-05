@@ -7,6 +7,7 @@ import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
+import 'package:bunny_sync/global/widgets/buttons/main_add_floating_button.dart';
 import 'package:bunny_sync/global/widgets/list_suffix_empty_space_widget.dart';
 import 'package:bunny_sync/global/widgets/main_error_widget.dart';
 import 'package:bunny_sync/global/widgets/main_show_bottom_sheet.dart';
@@ -80,21 +81,14 @@ class _NotesTabState extends State<NotesTab> implements NotesTabCallbacks {
       context,
       widget: BottomSheetWidget(
         title: 'are_you_sure_to_delete_note'.i18n,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextButton(
-              onPressed: () {
-                context.router.popForced();
-                notesCubit.deleteNote(
-                  breederId: widget.breederId != null ? noteModel.id : null,
-                  litterId: widget.litterId != null ? noteModel.id : null,
-                );
-              },
-              child: Text('yes'.i18n),
-            ),
-          ],
-        ),
+        model: noteModel,
+        onConfirm: (noteModel) {
+          context.router.popForced();
+          notesCubit.deleteNote(
+            breederId: widget.breederId != null ? noteModel.id : null,
+            litterId: widget.litterId != null ? noteModel.id : null,
+          );
+        },
       ),
     );
   }
@@ -197,16 +191,8 @@ class _NotesTabState extends State<NotesTab> implements NotesTabCallbacks {
           return const SizedBox.shrink();
         },
       ),
-      floatingActionButton: Padding(
-        padding: AppConstants.padding16,
-        child: FloatingActionButton(
-          onPressed: onAddTap,
-          shape: RoundedRectangleBorder(
-            borderRadius: AppConstants.circularBorderRadius,
-          ),
-          backgroundColor: context.cs.secondaryContainer,
-          child: const Icon(Icons.add),
-        ),
+      floatingActionButton: MainAddFloatingButton(
+        onAddTap: onAddTap,
       ),
     );
   }

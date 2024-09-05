@@ -37,7 +37,7 @@ enum DosagePerTypes implements DropDownItemModel {
       case 'grams':
         return DosagePerTypes.grams;
       default:
-        throw Exception('Unknown DosagePerTypes value: $value');
+        throw 'Unknown DosagePerTypes value: $value';
     }
   }
 }

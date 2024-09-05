@@ -1,6 +1,10 @@
 import 'dart:convert';
 
 import 'package:bunny_sync/features/add_customer/model/customer_types/customer_types.dart';
+import 'package:bunny_sync/features/status/models/statusable_model.dart';
+import 'package:bunny_sync/features/tasks/models/task_status_types/task_status_types.dart';
+import 'package:bunny_sync/global/utils/enums/http_methods.dart';
+import 'package:bunny_sync/global/utils/enums/statusable_entity_types.dart';
 import 'package:bunny_sync/global/utils/json_converters/date_time_nullable_converter.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
 import 'package:bunny_sync/global/widgets/main_drop_down_widget.dart';
@@ -11,13 +15,14 @@ part 'customer_model.g.dart';
 
 @JsonSerializable()
 @immutable
-class CustomerModel implements BottomSheetItemModel, DropDownItemModel {
+class CustomerModel
+    implements BottomSheetItemModel, DropDownItemModel, StatusableModel {
   const CustomerModel({
     required this.id,
     required this.userId,
-    required this.type,
     required this.name,
     required this.email,
+    this.type,
     this.status,
     this.companyName,
     this.phone,
@@ -31,7 +36,7 @@ class CustomerModel implements BottomSheetItemModel, DropDownItemModel {
     this.note,
     this.dtRowIndex,
     this.state,
-  });
+  }) : entityType = StatusableEntityTypes.customer;
 
   factory CustomerModel.fromJsonStr(String str) =>
       CustomerModel.fromJson(jsonDecode(str) as Map<String, dynamic>);
@@ -40,19 +45,23 @@ class CustomerModel implements BottomSheetItemModel, DropDownItemModel {
       _$CustomerModelFromJson(json);
 
   @override
+  final StatusableEntityTypes entityType;
+
+  @override
   final int id;
 
   @JsonKey(name: 'user_id')
   final int userId;
 
   @JsonKey(fromJson: CustomerTypes.fromJson)
-  final CustomerTypes type;
+  final CustomerTypes? type;
 
   final String name;
 
   final String email;
 
-  final String? status;
+  @override
+  final StatusTypes? status;
 
   @JsonKey(name: 'company_name')
   final String? companyName;
@@ -90,4 +99,34 @@ class CustomerModel implements BottomSheetItemModel, DropDownItemModel {
 
   @override
   String get displayName => name;
+
+  @override
+  String get httpEndpoint => 'finance/customer/$id/change-status/';
+
+  @override
+  HttpMethods get httpMethod => HttpMethods.get;
+
+  @override
+  StatusableModel copyWithStatus({StatusTypes? status}) {
+    return CustomerModel(
+      email: email,
+      id: id,
+      name: name,
+      type: type,
+      userId: userId,
+      city: city,
+      companyName: companyName,
+      country: country,
+      createdAt: createdAt,
+      date: date,
+      dtRowIndex: dtRowIndex,
+      note: note,
+      phone: phone,
+      state: state,
+      status: status ?? this.status,
+      street: street,
+      updatedAt: updatedAt,
+      zipCode: zipCode,
+    );
+  }
 }

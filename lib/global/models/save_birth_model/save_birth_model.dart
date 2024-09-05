@@ -49,12 +49,12 @@ class SaveBirthModel {
 
   @JsonKey(name: 'breederPair')
   int get breederPairId {
-    return _breederPairId ?? (throw Exception("Breeder pair can't be empty"));
+    return _breederPairId ?? (throw "Breeder pair can't be empty");
   }
 
   @JsonKey(name: 'litter_id')
   String get litterId {
-    return _litterId ?? (throw Exception("Litter id can't be empty"));
+    return _litterId ?? (throw "Litter id can't be empty");
   }
 
   @JsonKey(name: 'live_kits')
