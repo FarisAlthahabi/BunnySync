@@ -1,5 +1,5 @@
 import 'package:bunny_sync/features/reports/models/breeder_mortality_model/breeder_mortality_model.dart';
-import 'package:bunny_sync/features/reports/models/couse_death_model/couse_death_model.dart';
+import 'package:bunny_sync/features/reports/models/cause_death_model/cause_death_model.dart';
 import 'package:bunny_sync/features/reports/models/doe_cost_model/doe_cost_model.dart';
 import 'package:bunny_sync/features/reports/models/gestation_days_model/gestation_days_model.dart';
 import 'package:bunny_sync/features/reports/models/kit_mortality_model/kit_mortality_model.dart';
@@ -29,7 +29,7 @@ abstract class ReportsRepo {
 
   Future<KitWeightReportModel> getKitWeightReport();
 
-  Future<CouseDeathModel> getCouseDeath();
+  Future<CauseDeathModel> getCauseDeath();
 
   Future<GestationDaysModel> getGestationDays();
 

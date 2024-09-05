@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'couse_death_model.dart';
+part of 'cause_death_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-CouseDeathModel _$CouseDeathModelFromJson(Map<String, dynamic> json) =>
-    CouseDeathModel(
+CauseDeathModel _$CauseDeathModelFromJson(Map<String, dynamic> json) =>
+    CauseDeathModel(
       reason:
           (json['reason'] as List<dynamic>).map((e) => e as String).toList(),
       count: (json['count'] as List<dynamic>)
@@ -15,7 +15,7 @@ CouseDeathModel _$CouseDeathModelFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$CouseDeathModelToJson(CouseDeathModel instance) =>
+Map<String, dynamic> _$CauseDeathModelToJson(CauseDeathModel instance) =>
     <String, dynamic>{
       'reason': instance.reason,
       'count': instance.count,

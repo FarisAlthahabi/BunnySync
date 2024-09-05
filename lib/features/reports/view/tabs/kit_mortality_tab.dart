@@ -87,7 +87,7 @@ class _KitMortalityPageState extends State<KitMortalityPage>
                         ),
                         secondaryTag: "${"litter_id".i18n} : ${item.litterName}",
                         createdAt: "${"died_on".i18n} :\n ${item.deathDate.formatMMddYYYY}",
-                        note: "${"couse_of_death".i18n} : ${item.reason}",
+                        note: "${"cause_of_death".i18n} : ${item.reason}",
                       );
                     },
                     separatorBuilder: (context, index) {

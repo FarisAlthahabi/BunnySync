@@ -37,13 +37,13 @@ class HttpReportsRepo implements ReportsRepo {
   }
 
   @override
-  Future<CouseDeathModel> getCouseDeath() async {
+  Future<CauseDeathModel> getCauseDeath() async {
     try {
       final response = await _dioClient.get('/reports/couse-death');
 
       final data = (response.data as Map<String, dynamic>)["data"]
           as Map<String, dynamic>;
-      return CouseDeathModel.fromJson(data);
+      return CauseDeathModel.fromJson(data);
     } on Exception catch (e) {
       if (e is NotFoundException) {
         throw e.message ?? 'something_went_wrong'.i18n;

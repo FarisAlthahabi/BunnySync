@@ -8,48 +8,48 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-abstract class CouseDeathTabCallBacks {
+abstract class CauseDeathTabCallBacks {
   void onTryAgainTap();
 }
 
-class CouseDeathTab extends StatelessWidget {
-  const CouseDeathTab({super.key});
+class CauseDeathTab extends StatelessWidget {
+  const CauseDeathTab({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const CouseDeathPage();
+    return const CauseDeathPage();
   }
 }
 
-class CouseDeathPage extends StatefulWidget {
-  const CouseDeathPage({super.key});
+class CauseDeathPage extends StatefulWidget {
+  const CauseDeathPage({super.key});
 
   @override
-  State<CouseDeathPage> createState() => _CouseDeathPageState();
+  State<CauseDeathPage> createState() => _CauseDeathPageState();
 }
 
-class _CouseDeathPageState extends State<CouseDeathPage>
-    implements CouseDeathTabCallBacks {
+class _CauseDeathPageState extends State<CauseDeathPage>
+    implements CauseDeathTabCallBacks {
   late final ReportsCubit reportsCubit = context.read();
 
   @override
   void initState() {
     super.initState();
-    reportsCubit.getCouseDeath();
+    reportsCubit.getCauseDeath();
   }
 
   @override
   void onTryAgainTap() {
-    reportsCubit.getCouseDeath();
+    reportsCubit.getCauseDeath();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ReportsCubit, GeneralReportsState>(
-      buildWhen: (previous, current) => current is CouseDeathState,
+      buildWhen: (previous, current) => current is CauseDeathState,
       builder: (context, state) {
-        if (state is CouseDeathFetch) {
-          final item = state.couseDeath;
+        if (state is CauseDeathFetch) {
+          final item = state.causeDeath;
           final List<ChartModel> data = List.generate(
             item.reason.length,
             (index) => ChartModel(
@@ -58,17 +58,17 @@ class _CouseDeathPageState extends State<CouseDeathPage>
             ),
           );
           return Skeletonizer(
-            enabled: state is CouseDeathLoading,
+            enabled: state is CauseDeathLoading,
             child: Padding(
               padding: AppConstants.padding16,
               child: ColumnChartWidget(
                 data: data,
-                animationDuration: state is CouseDeathLoading ? 0 : 1500,
+                animationDuration: state is CauseDeathLoading ? 0 : 1500,
                 columnColor: [context.appThemeExtension.causeOfDeathChartColor],
               ),
             ),
           );
-        } else if (state is CouseDeathFail) {
+        } else if (state is CauseDeathFail) {
           return MainErrorWidget(
             error: state.message,
             height: 0.4.sh,

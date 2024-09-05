@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/breeder_details/view/widgets/details_tab_bar.dart';
 import 'package:bunny_sync/features/reports/cubit/reports_cubit.dart';
 import 'package:bunny_sync/features/reports/view/tabs/breeder_mortality_tab.dart';
-import 'package:bunny_sync/features/reports/view/tabs/couse_death_tab.dart';
+import 'package:bunny_sync/features/reports/view/tabs/cause_death_tab.dart';
 import 'package:bunny_sync/features/reports/view/tabs/doe_cost_tab.dart';
 import 'package:bunny_sync/features/reports/view/tabs/gestation_days_tab.dart';
 import 'package:bunny_sync/features/reports/view/tabs/kit_mortality_tab.dart';
@@ -66,7 +66,7 @@ class _ReportsPageState extends State<ReportsPage>
         TabModel(title: 'live_&_dead_kits'.i18n),
         TabModel(title: 'kit_weight'.i18n),
         TabModel(title: 'growth_rate'.i18n),
-        TabModel(title: 'couse_of_death'.i18n),
+        TabModel(title: 'cause_of_death'.i18n),
         TabModel(title: 'breeder_mortality'.i18n),
         TabModel(title: 'kits_mortality'.i18n),
         TabModel(title: 'inactive_breeders'.i18n),
@@ -107,7 +107,7 @@ class _ReportsPageState extends State<ReportsPage>
       child: SfCartesianChart(),
     ),
     const KeepAliveWidget(
-      child: CouseDeathTab(),
+      child: CauseDeathTab(),
     ),
     const KeepAliveWidget(
       //TODO : still fixing model : unknown data form
@@ -213,6 +213,3 @@ class _ReportsPageState extends State<ReportsPage>
     );
   }
 }
-
-// when the above throws an error : all ui should throws ,
-// what the buttom throws : only the tab should show the error ,

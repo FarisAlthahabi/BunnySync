@@ -80,7 +80,7 @@ class _BreederMortalityPageState extends State<BreederMortalityPage>
                         ),
                         tag: "${"age".i18n} : ${item.age}",
                         createdAt: "${"died_on".i18n} : ${item.deathDate.formatMMddYYYY}",
-                        note: "${"couse_of_death".i18n} : ${item.reason}",
+                        note: "${"cause_of_death".i18n} : ${item.reason}",
                       );
                     },
                     separatorBuilder: (context, index) {

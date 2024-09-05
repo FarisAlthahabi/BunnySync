@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:bunny_sync/features/reports/models/breeder_mortality_model/breeder_mortality_fake_model.dart';
 import 'package:bunny_sync/features/reports/models/breeder_mortality_model/breeder_mortality_model.dart';
-import 'package:bunny_sync/features/reports/models/couse_death_model/couse_death_fake_model.dart';
-import 'package:bunny_sync/features/reports/models/couse_death_model/couse_death_model.dart';
+import 'package:bunny_sync/features/reports/models/cause_death_model/cause_death_fake_model.dart';
+import 'package:bunny_sync/features/reports/models/cause_death_model/cause_death_model.dart';
 import 'package:bunny_sync/features/reports/models/doe_cost_model/doe_cost_fake_model.dart';
 import 'package:bunny_sync/features/reports/models/doe_cost_model/doe_cost_model.dart';
 import 'package:bunny_sync/features/reports/models/gestation_days_model/gestation_days_fake_model.dart';
@@ -36,7 +36,7 @@ part 'states/survival_rate_state.dart';
 
 part 'states/kit_weight_report_state.dart';
 
-part 'states/couse_death_state.dart';
+part 'states/cause_death_state.dart';
 
 part 'states/live_and_dead_state.dart';
 
@@ -121,16 +121,16 @@ class ReportsCubit extends Cubit<GeneralReportsState> {
     }
   }
 
-  Future<void> getCouseDeath() async {
-    emit(CouseDeathLoading(couseDeathFake));
+  Future<void> getCauseDeath() async {
+    emit(CauseDeathLoading(causeDeathFake));
 
     try {
-      final response = await _reportsRepo.getCouseDeath();
+      final response = await _reportsRepo.getCauseDeath();
 
-      emit(CouseDeathSuccess(response));
+      emit(CauseDeathSuccess(response));
     } catch (e, s) {
       addError(e, s);
-      emit(CouseDeathFail(e.toString()));
+      emit(CauseDeathFail(e.toString()));
     }
   }
 
