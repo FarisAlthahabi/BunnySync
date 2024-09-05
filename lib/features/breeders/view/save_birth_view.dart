@@ -228,7 +228,7 @@ class _SaveBirthPageState extends State<SaveBirthPage>
                   } else {
                     child = const SizedBox();
                   }
-        
+
                   return AnimatedSwitcherWithSize(
                     child: child,
                   );
@@ -241,7 +241,7 @@ class _SaveBirthPageState extends State<SaveBirthPage>
                 onSubmitted: onLiveKitsCountSubmitted,
                 onChanged: onLiveKitsCountChanged,
                 focusNode: liveKitsCountFocusNode,
-                hintText: "live_kits_count".i18n,
+                keyboardType: TextInputType.number,hintText: "live_kits_count".i18n,
                 labelText: "live_kits_count".i18n,
               ),
               const SizedBox(
@@ -250,7 +250,7 @@ class _SaveBirthPageState extends State<SaveBirthPage>
               MainTextField(
                 onSubmitted: onDeadKitsCountSubmitted,
                 onChanged: onDeadKitsCountChanged,
-                focusNode: deadKitsCountFocusNode,
+                focusNode: deadKitsCountFocusNode,keyboardType: TextInputType.number,
                 hintText: "dead_kits_count".i18n,
                 labelText: "dead_kits_count".i18n,
               ),

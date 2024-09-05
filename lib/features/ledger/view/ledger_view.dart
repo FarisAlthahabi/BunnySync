@@ -90,6 +90,7 @@ class LedgerPage extends StatefulWidget {
 class _LedgerPageState extends State<LedgerPage>
     implements LedgerViewCallBacks {
   late final LedgersCubit ledgersCubit = context.read();
+
   @override
   void initState() {
     super.initState();
@@ -230,7 +231,8 @@ class _LedgerPageState extends State<LedgerPage>
                           } else if (state is LedgerStatsFail) {
                             ledgersCubit.emitLedgersFail(state.message);
                             return MainErrorWidget(
-                              error: state.message,
+                              height: 0.4.sh,
+                              error: 'state.message',
                               onTap: onTryAgainTap,
                             );
                           } else {

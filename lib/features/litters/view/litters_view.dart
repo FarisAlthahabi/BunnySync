@@ -161,7 +161,7 @@ class _LittersPageState extends State<LittersPage>
       context,
       widget: BottomSheetWidget(
         isTitleCenter: true,
-        title: 'sell'.i18n,
+        title: 'butcher'.i18n,
         child: ButcherLitterView(
           litterEntryModel: litterEntryModel,
         ),

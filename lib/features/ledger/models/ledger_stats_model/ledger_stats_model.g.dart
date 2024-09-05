@@ -8,10 +8,10 @@ part of 'ledger_stats_model.dart';
 
 LedgerStatsModel _$LedgerStatsModelFromJson(Map<String, dynamic> json) =>
     LedgerStatsModel(
-      income: (json['income'] as num).toDouble(),
-      expenses: (json['expenses'] as num).toDouble(),
-      incomeByBreeder: (json['incomeBreeder'] as num).toDouble(),
-      expensesByBreeder: (json['expensesBreeder'] as num).toDouble(),
+      income: (json['income'] as num?)?.toDouble() ?? 0,
+      expenses: (json['expenses'] as num?)?.toDouble() ?? 0,
+      incomeByBreeder: (json['incomeBreeder'] as num?)?.toDouble() ?? 0,
+      expensesByBreeder: (json['expensesBreeder'] as num?)?.toDouble() ?? 0,
     );
 
 Map<String, dynamic> _$LedgerStatsModelToJson(LedgerStatsModel instance) =>
