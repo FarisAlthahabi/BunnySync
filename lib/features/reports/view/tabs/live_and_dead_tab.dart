@@ -69,11 +69,16 @@ class _LiveAndDeadPageState extends State<LiveAndDeadPage>
               child: Column(
                 children: [
                   ColumnColorIndicatorWidget(
-                    colors: [
-                      context.appThemeExtension.survivalRateChartColor,
-                      context.appThemeExtension.diedKitsChartColor,
+                    indicators: [
+                      ColumnChartIndicatorModel(
+                        label: "live".i18n,
+                        color: context.appThemeExtension.survivalRateChartColor,
+                      ),
+                      ColumnChartIndicatorModel(
+                        label: "died".i18n,
+                        color: context.appThemeExtension.diedKitsChartColor,
+                      ),
                     ],
-                    labels: ["live".i18n, "died".i18n],
                   ),
                   const SizedBox(height: 16),
                   ColumnChartWidget(

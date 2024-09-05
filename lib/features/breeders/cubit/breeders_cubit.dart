@@ -162,7 +162,11 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
       active: activeBreeders,
       inactive: inactiveBreeders,
     );
+    if(state is BreedersSuccess){
     emit(BreedersSuccess(breedersStatusModel));
+    }else if(state is SearchBreederSuccess){
+      emit(SearchBreederSuccess(searchedBreeders));
+    }
   }
 
   void addLitter(AddLitterModel addLitterModel) {

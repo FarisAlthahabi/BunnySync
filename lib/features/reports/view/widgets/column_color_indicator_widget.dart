@@ -2,15 +2,22 @@ import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:flutter/material.dart';
 
+class ColumnChartIndicatorModel {
+  ColumnChartIndicatorModel({
+    required this.label,
+    required this.color,
+  });
+  final String label;
+ final  Color color;
+}
+
 class ColumnColorIndicatorWidget extends StatelessWidget {
   const ColumnColorIndicatorWidget({
     super.key,
-    required this.labels,
-    required this.colors,
+    required this.indicators,
   });
 
-  final List<String> labels;
-  final List<Color> colors;
+  final List<ColumnChartIndicatorModel> indicators ;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +27,7 @@ class ColumnColorIndicatorWidget extends StatelessWidget {
           width: 20,
         ),
         ...List.generate(
-          labels.length,
+          indicators.length,
           (index) => Row(
             children: [
               Container(
@@ -28,12 +35,12 @@ class ColumnColorIndicatorWidget extends StatelessWidget {
                 height: 20,
                 decoration: BoxDecoration(
                   borderRadius: AppConstants.borderRadius5,
-                  color: colors[index],
+                  color: indicators[index].color,
                 ),
               ),
               const SizedBox(width: 8),
               Text(
-                labels[index],
+                indicators[index].label,
                 style: context.tt.titleMedium,
               ),
               const SizedBox(width: 16),
