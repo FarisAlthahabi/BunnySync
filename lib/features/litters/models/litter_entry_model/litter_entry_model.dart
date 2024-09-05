@@ -145,4 +145,12 @@ class LitterEntryModel
 
   @override
   String get emptySubEntitiesMessage => 'kits_empty'.i18n;
+
+  @override
+  String updateHttpEndpoint({int? weightId}) {
+    return 'litters/$id/save-weigh';
+  }
+  
+  @override
+  String get addHttpEndpoint => 'litters/$id/save-weigh';
 }

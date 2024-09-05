@@ -8,6 +8,7 @@ import 'package:bunny_sync/features/breeder_details/view/tabs/pedigree_tab.dart'
 import 'package:bunny_sync/features/breeder_details/view/tabs/profile_tab.dart';
 import 'package:bunny_sync/features/breeder_details/view/widgets/breeder_profile_info_widget.dart';
 import 'package:bunny_sync/features/breeder_details/view/widgets/details_tab_bar.dart';
+import 'package:bunny_sync/features/breeders/cubit/breeders_cubit.dart';
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart';
 import 'package:bunny_sync/features/breeders/view/breed_view.dart';
 import 'package:bunny_sync/features/breeders/view/save_birth_view.dart';
@@ -131,6 +132,8 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
   late final DeleteBreederCubit deleteBreederCubit = context.read();
 
   late final RabbitConcernsCubit rabbitConcernsCubit = context.read();
+
+  late final BreedersCubit breedersCubit = context.read();
 
   final parentScrollController = ScrollController();
 
@@ -263,6 +266,7 @@ class _BreederDetailsPageState extends State<BreederDetailsPage>
         title: 'butcher'.i18n,
         child: SetButcherView(
           breederId: breederEntryModel.id,
+          breedersCubit: breedersCubit,
         ),
       ),
     );

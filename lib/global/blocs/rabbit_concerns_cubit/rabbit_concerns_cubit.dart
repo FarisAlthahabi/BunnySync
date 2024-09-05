@@ -140,7 +140,7 @@ class RabbitConcernsCubit extends Cubit<GeneralRabbitConcernsState> {
         breederId,
         _saveButcherModel,
       );
-      emit(SaveButcherSuccess());
+      emit(SaveButcherSuccess(breederId));
     } catch (e, s) {
       addError(e, s);
       emit(SaveButcherFail(e.toString()));

@@ -34,46 +34,79 @@ class AddWeightCubit extends Cubit<GeneralAddWeightState> {
 
   void setWeight(String weight, EntityTypes entityType, {int? kitId}) {
     if (entityType == EntityTypes.litter) {
-      dynamic value;
-
       if (_weightPostModel.weightType && kitId != null) {
-        weightsMap["$kitId"] = double.parse(weight);
-        value = weightsMap;
+        try {
+          weightsMap["$kitId"] = double.parse(weight);
+        } catch (e) {
+          if (weight.isNotEmpty) {
+          emit(AddWeightFail("Invalid Weight"));
+        }
+        }
+        _weightPostModel = _weightPostModel.copyWith(
+          weights: () => weightsMap,
+        );
       } else {
-        value = double.tryParse(weight);
+        try {
+          _weightPostModel = _weightPostModel.copyWith(
+            weight: () => double.parse(weight),
+          );
+        } catch (e) {
+          if (weight.isNotEmpty) {
+          emit(AddWeightFail("Invalid Weight"));
+        }
+        }
       }
-
-      _weightPostModel = _weightPostModel.copyWith(
-        weights: () => value,
-      );
-    } else {
-      _weightPostModel = _weightPostModel.copyWith(
-        weights: () => double.tryParse(weight),
-      );
+    } else if (entityType == EntityTypes.breeder) {
+      try {
+        _weightPostModel = _weightPostModel.copyWith(
+          weight: () => double.parse(weight),
+        );
+      } catch (e) {
+        if (weight.isNotEmpty) {
+          emit(AddWeightFail("Invalid Weight"));
+        }
+      }
     }
   }
 
   void setWeightDate(
     DateTime date,
-    EntityTypes entityType,
   ) {
-    if (entityType == EntityTypes.litter) {
-      _weightPostModel = _weightPostModel.copyWith(
-        date: () => date,
-      );
-    } else {
-      _weightPostModel = _weightPostModel.copyWith(
-        date: () => date,
-      );
-    }
+    _weightPostModel = _weightPostModel.copyWith(
+      date: () => date,
+    );
   }
 
-  Future<void> saveWeight(WeightableModel weightableModel) async {
+  Future<void> addWeight(
+    WeightableModel weightableModel,
+  ) async {
     emit(AddWeightLoading());
 
     try {
-      await _weightRepo.addWeight(weightableModel, _weightPostModel);
+      await _weightRepo.addWeight(
+        weightableModel,
+        _weightPostModel,
+      );
       emit(AddWeightSuccess());
+    } catch (e, s) {
+      addError(e, s);
+      emit(AddWeightFail(e.toString()));
+    }
+  }
+
+  Future<void> updateWeight(
+    WeightableModel weightableModel, {
+    int? weightId,
+  }) async {
+    emit(AddWeightLoading());
+
+    try {
+      await _weightRepo.updateWeight(
+        weightableModel,
+        _weightPostModel,
+        weightId: weightId,
+      );
+      emit(UpdateWeightSuccess());
     } catch (e, s) {
       addError(e, s);
       emit(AddWeightFail(e.toString()));

@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:bunny_sync/features/breeders/cubit/breeders_cubit.dart';
 import 'package:bunny_sync/global/blocs/rabbit_concerns_cubit/rabbit_concerns_cubit.dart';
 import 'package:bunny_sync/global/localization/translations.i18n.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
@@ -33,14 +34,19 @@ class SetButcherView extends StatelessWidget {
   const SetButcherView({
     super.key,
     required this.breederId,
+    required this.breedersCubit,
   });
 
   final int breederId;
+  final BreedersCubit breedersCubit;
 
   @override
   Widget build(BuildContext context) {
-    return SetButcherPage(
-      breederId: breederId,
+    return BlocProvider.value(
+      value: breedersCubit,
+      child: SetButcherPage(
+        breederId: breederId,
+      ),
     );
   }
 }
@@ -60,6 +66,8 @@ class SetButcherPage extends StatefulWidget {
 class _SetButcherPageState extends State<SetButcherPage>
     implements SetButcherViewCallBacks {
   late final RabbitConcernsCubit rabbitConcernsCubit = context.read();
+
+  late final BreedersCubit breedersCubit = context.read();
 
   final FocusNode butcherPriceFocusNode = FocusNode();
 
@@ -119,95 +127,100 @@ class _SetButcherPageState extends State<SetButcherPage>
   Widget build(BuildContext context) {
     return Padding(
       padding: AppConstants.paddingH16,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 30,
-          ),
-          Text(
-            "set_date".i18n,
-            style: context.tt.bodyLarge?.copyWith(
-              fontWeight: FontWeight.w700,
-              color: AppColors.darkGrey,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
             ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 30,
+              ),
+              Text(
+                "set_date".i18n,
+                style: context.tt.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: context.cs.primaryFixed,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Center(
+                child: MainDatePicker(
+                  onChange: onButcherDateSelected,
+                ),
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              MainTextField(
+                onSubmitted: onButcherPreWeightSubmitted,
+                onChanged: onButcherPreWeightChanged,
+                keyboardType: TextInputType.number,focusNode: butcherPreWeightFocusNode,
+                hintText: "preWeight".i18n,
+                labelText: "preWeight".i18n,
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              MainTextField(
+                onSubmitted: onButcherWeightSubmitted,
+                onChanged: onButcherWeightChanged,
+                focusNode: butcherWeightFocusNode,
+                keyboardType: TextInputType.number,hintText: "weight".i18n,
+                labelText: "weight".i18n,
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              MainTextField(
+                onSubmitted: onButcherPriceSubmitted,
+                onChanged: onButcherPriceChanged,
+                focusNode: butcherPriceFocusNode,keyboardType: TextInputType.number,
+                hintText: "price".i18n,
+                labelText: "price".i18n,
+              ),
+              const SizedBox(height: 25),
+              SizedBox(
+                width: double.maxFinite,
+                child:
+                    BlocConsumer<RabbitConcernsCubit, GeneralRabbitConcernsState>(
+                  listener: (context, state) {
+                    if (state is SaveButcherSuccess) {
+                      breedersCubit.setBreederButchered(state.breederid);
+                      MainSnackBar.showSuccessMessageBar(
+                        context,
+                        "breeder_butcher".i18n,
+                      );
+                      context.router.maybePop();
+                    } else if (state is SaveButcherFail) {
+                      MainSnackBar.showErrorMessageBar(
+                        context,
+                        state.message,
+                      );
+                    }
+                  },
+                  builder: (context, state) {
+                    var onTap = () => onSaveButcher(widget.breederId);
+                    Widget? child;
+                    if (state is SaveButcherLoading) {
+                      onTap = () {};
+                      child = const LoadingIndicator();
+                    }
+                    return MainActionButton(
+                      onTap: onTap,
+                      text: "save".i18n,
+                      child: child,
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 25),
+            ],
           ),
-          const SizedBox(height: 10),
-          Center(
-            child: MainDatePicker(
-              onChange: onButcherDateSelected,
-            ),
-          ),
-          const SizedBox(
-            height: 25,
-          ),
-          MainTextField(
-            onSubmitted: onButcherPreWeightSubmitted,
-            onChanged: onButcherPreWeightChanged,
-            keyboardType: TextInputType.number,
-            focusNode: butcherPreWeightFocusNode,
-            hintText: "preWeight".i18n,
-            labelText: "preWeight".i18n,
-          ),
-          const SizedBox(
-            height: 25,
-          ),
-          MainTextField(
-            onSubmitted: onButcherWeightSubmitted,
-            onChanged: onButcherWeightChanged,
-            focusNode: butcherWeightFocusNode,
-            keyboardType: TextInputType.number,
-            hintText: "weight".i18n,
-            labelText: "weight".i18n,
-          ),
-          const SizedBox(
-            height: 25,
-          ),
-          MainTextField(
-            onSubmitted: onButcherPriceSubmitted,
-            onChanged: onButcherPriceChanged,
-            focusNode: butcherPriceFocusNode,
-            keyboardType: TextInputType.number,
-            hintText: "price".i18n,
-            labelText: "price".i18n,
-          ),
-          const SizedBox(height: 25),
-          SizedBox(
-            width: double.maxFinite,
-            child:
-                BlocConsumer<RabbitConcernsCubit, GeneralRabbitConcernsState>(
-              listener: (context, state) {
-                if (state is SaveButcherSuccess) {
-                  MainSnackBar.showSuccessMessageBar(
-                    context,
-                    "breeder_butcher".i18n,
-                  );
-                  context.router.maybePop();
-                } else if (state is SaveButcherFail) {
-                  MainSnackBar.showErrorMessageBar(
-                    context,
-                    state.message,
-                  );
-                }
-              },
-              builder: (context, state) {
-                var onTap = () => onSaveButcher(widget.breederId);
-                Widget? child;
-                if (state is SaveButcherLoading) {
-                  onTap = () {};
-                  child = const LoadingIndicator();
-                }
-                return MainActionButton(
-                  onTap: onTap,
-                  text: "save".i18n,
-                  child: child,
-                );
-              },
-            ),
-          ),
-          const SizedBox(height: 25),
-        ],
+        ),
       ),
     );
   }

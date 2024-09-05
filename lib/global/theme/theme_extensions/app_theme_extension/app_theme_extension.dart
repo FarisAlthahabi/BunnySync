@@ -70,4 +70,19 @@ class _$AppThemeExtension {
     AppColors.lightOrange2,
     AppColors.lightOrange2,
   ];
+
+  static List<Color> causeOfDeathChartColor = [
+    AppColors.redShade3,
+    AppColors.redShade3,
+  ];
+
+  static List<Color> survivalRateChartColor = [
+    AppColors.greenShade6,
+    AppColors.greenShade6,
+  ];
+
+  static List<Color> diedKitsChartColor = [
+    AppColors.blackShade3,
+    AppColors.blackShade3,
+  ];
 }

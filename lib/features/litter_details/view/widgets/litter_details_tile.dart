@@ -44,7 +44,7 @@ class LitterDetailsTile extends StatelessWidget {
               child: Text(
                 subTitle!,
                 style: context.tt.bodySmall?.copyWith(
-                  color: AppColors.greyShade7,
+                  color: context.cs.surfaceContainerHighest,
                   height: 1.2,
                 ),
               ),

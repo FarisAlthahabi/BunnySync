@@ -200,4 +200,12 @@ class BreederEntryModel extends Equatable
 
   @override
   String get emptySubEntitiesMessage => '';
+
+  @override
+  String updateHttpEndpoint({int? weightId}) {
+    return 'breeders/$weightId/update-weight';
+  }
+  
+  @override
+  String get addHttpEndpoint => 'breeders/$id/save-weight';
 }

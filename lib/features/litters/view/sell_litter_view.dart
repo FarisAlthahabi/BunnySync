@@ -146,196 +146,204 @@ class _SellLitterPageState extends State<SellLitterPage>
   Widget build(BuildContext context) {
     return Padding(
       padding: AppConstants.paddingH16,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 30,
-          ),
-          Row(
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
+          child: Column(
             mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Switch(
-                inactiveTrackColor: context.cs.onPrimary,
-                value: sellType,
-                onChanged: onSellTypeSelected,
+              const SizedBox(
+                height: 30,
               ),
-              const SizedBox(width: 10),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Switch(
+                    inactiveTrackColor: context.cs.onPrimary,
+                    value: sellType,
+                    onChanged: onSellTypeSelected,
+                  ),
+                  const SizedBox(width: 10),
+                  Text(
+                    sellType ? 'individual_kits'.i18n : 'entire_kits'.i18n,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: context.cs.primaryFixed,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 25,
+              ),
               Text(
-                sellType ? 'individual_kits'.i18n : 'entire_kits'.i18n,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
+                "set_date".i18n,
+                style: context.tt.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.w700,
                   color: context.cs.primaryFixed,
                 ),
               ),
+              const SizedBox(height: 10),
+              Center(
+                child: MainDatePicker(
+                  onChange: onSellDateSelected,
+                ),
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              BlocBuilder<CustomersCubit, GeneralCustomersState>(
+                builder: (context, state) {
+                  Widget child;
+                  if (state is CustomersSuccess) {
+                    child = MainDropDownWidget<CustomerModel>(
+                      items: state.customers,
+                      text: 'select_contact'.i18n,
+                      onChanged: onSellCustomerSelected,
+                    );
+                  } else if (state is CustomersLoading) {
+                    child = Center(
+                      child: LoadingIndicator(
+                        color: context.cs.primary,
+                      ),
+                    );
+                  } else if (state is CustomersFail) {
+                    child = MainErrorWidget(
+                      error: state.message,
+                      onTap: () {
+                        customersCubit.getCustomers();
+                      },
+                    );
+                  } else {
+                    child = const SizedBox();
+                  }
+
+                  return AnimatedSwitcherWithSize(
+                    child: child,
+                  );
+                },
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              if (!sellType)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    MainTextField(
+                      onSubmitted: onSellPriceSubmitted,
+                      onChanged: (String price) {
+                        onSellPriceChanged(price);
+                      },
+                      focusNode: sellPriceFocusNode,
+                      keyboardType: TextInputType.number,
+                      hintText: "price".i18n,
+                      labelText: "price".i18n,
+                    ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                  ],
+                ),
+              if (sellType)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'price'.i18n,
+                      style: context.tt.bodyLarge?.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: context.cs.surfaceContainerHighest,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    ...List.generate(
+                        widget.litterEntryModel.allKits.length,
+                        (index) {
+                      final item = widget.litterEntryModel.allKits[index];
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          MainTextField(
+                            onSubmitted: (String price) {
+                              onSellPricesSubmitted(price, index);
+                            },
+                            onChanged: (String price) {
+                              onSellPriceChanged(price, kitId: item.id);
+                            },
+                            focusNode: sellPricesFocusNode[index],
+                            keyboardType: TextInputType.number,
+                            hintText: "price".i18n,
+                            labelText: item.code,
+                          ),
+                          const SizedBox(
+                            height: 25,
+                          ),
+                        ],
+                      );
+                    }),
+                    if (widget.litterEntryModel.allKits.isEmpty)
+                      Column(
+                        children: [
+                          Center(
+                            child: Text(
+                              'kits_empty'.i18n,
+                              style: context.tt.bodyLarge?.copyWith(
+                                fontWeight: FontWeight.w700,
+                                color: context.cs.surfaceContainerHighest,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 25,
+                          ),
+                        ],
+                      ),
+                  ],
+                ),
+              SizedBox(
+                width: double.maxFinite,
+                child:
+                    BlocConsumer<LitterConcernsCubit, GeneralLitterConcernsState>(
+                  listener: (context, state) {
+                    if (state is SaveSellLitterSuccess) {
+                      MainSnackBar.showSuccessMessageBar(
+                        context,
+                        "litter_sell".i18n,
+                      );
+                      context.router.maybePop();
+                    } else if (state is SaveSellLitterFail) {
+                      MainSnackBar.showErrorMessageBar(
+                        context,
+                        state.message,
+                      );
+                    }
+                  },
+                  builder: (context, state) {
+                    var onTap = () => onSaveSell(widget.litterEntryModel.id);
+                    Widget? child;
+                    if (state is SaveSellLitterLoading) {
+                      onTap = () {};
+                      child = const LoadingIndicator();
+                    }
+                    return MainActionButton(
+                      onTap: onTap,
+                      text: "save".i18n,
+                      child: child,
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 25),
             ],
           ),
-          const SizedBox(
-            height: 25,
-          ),
-          Text(
-            "set_date".i18n,
-            style: context.tt.bodyLarge?.copyWith(
-              fontWeight: FontWeight.w700,
-              color: AppColors.darkGrey,
-            ),
-          ),
-          const SizedBox(height: 10),
-          Center(
-            child: MainDatePicker(
-              onChange: onSellDateSelected,
-            ),
-          ),
-          const SizedBox(
-            height: 25,
-          ),
-          BlocBuilder<CustomersCubit, GeneralCustomersState>(
-            builder: (context, state) {
-              Widget child;
-              if (state is CustomersSuccess) {
-                child = MainDropDownWidget<CustomerModel>(
-                  items: state.customers,
-                  text: 'select_contact'.i18n,
-                  onChanged: onSellCustomerSelected,
-                );
-              } else if (state is CustomersLoading) {
-                child = Center(
-                  child: LoadingIndicator(
-                    color: context.cs.primary,
-                  ),
-                );
-              } else if (state is CustomersFail) {
-                child = MainErrorWidget(
-                  error: state.message,
-                  onTap: () {
-                    customersCubit.getCustomers();
-                  },
-                );
-              } else {
-                child = const SizedBox();
-              }
-
-              return AnimatedSwitcherWithSize(
-                child: child,
-              );
-            },
-          ),
-          const SizedBox(
-            height: 25,
-          ),
-          if (!sellType)
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                MainTextField(
-                  onSubmitted: onSellPriceSubmitted,
-                  onChanged: (String price) {
-                    onSellPriceChanged(price);
-                  },
-                  focusNode: sellPriceFocusNode,
-                  keyboardType: TextInputType.number,
-                  hintText: "price".i18n,
-                  labelText: "price".i18n,
-                ),
-                const SizedBox(
-                  height: 25,
-                ),
-              ],
-            ),
-          if (sellType)
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'price'.i18n,
-                  style: context.tt.bodyLarge?.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: context.cs.surfaceContainerHighest,
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                ...List.generate(widget.litterEntryModel.allKits.length,
-                    (index) {
-                  final item = widget.litterEntryModel.allKits[index];
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      MainTextField(
-                        onSubmitted: (String price) {
-                          onSellPricesSubmitted(price, index);
-                        },
-                        onChanged: (String price) {
-                          onSellPriceChanged(price, kitId: item.id);
-                        },
-                        focusNode: sellPricesFocusNode[index],
-                        keyboardType: TextInputType.number,
-                        hintText: "price".i18n,
-                        labelText: item.code,
-                      ),
-                      const SizedBox(
-                        height: 25,
-                      ),
-                    ],
-                  );
-                }),
-                if (widget.litterEntryModel.allKits.isEmpty)
-                  Column(
-                    children: [
-                      Center(
-                        child: Text(
-                          'kits_empty'.i18n,
-                          style: context.tt.bodyLarge?.copyWith(
-                            fontWeight: FontWeight.w700,
-                            color: context.cs.surfaceContainerHighest,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 25,
-                      ),
-                    ],
-                  ),
-              ],
-            ),
-          SizedBox(
-            width: double.maxFinite,
-            child:
-                BlocConsumer<LitterConcernsCubit, GeneralLitterConcernsState>(
-              listener: (context, state) {
-                if (state is SaveSellLitterSuccess) {
-                  MainSnackBar.showSuccessMessageBar(
-                    context,
-                    "litter_sell".i18n,
-                  );
-                  context.router.maybePop();
-                } else if (state is SaveSellLitterFail) {
-                  MainSnackBar.showErrorMessageBar(
-                    context,
-                    state.message,
-                  );
-                }
-              },
-              builder: (context, state) {
-                var onTap = () => onSaveSell(widget.litterEntryModel.id);
-                Widget? child;
-                if (state is SaveSellLitterLoading) {
-                  onTap = () {};
-                  child = const LoadingIndicator();
-                }
-                return MainActionButton(
-                  onTap: onTap,
-                  text: "save".i18n,
-                  child: child,
-                );
-              },
-            ),
-          ),
-          const SizedBox(height: 25),
-        ],
+        ),
       ),
     );
   }

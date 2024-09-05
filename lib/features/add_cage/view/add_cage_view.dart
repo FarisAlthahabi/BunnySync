@@ -271,7 +271,7 @@ class _AddCagePageState extends State<AddCagePage>
                             "hole".i18n,
                             style: context.tt.bodyLarge?.copyWith(
                               fontWeight: FontWeight.w700,
-                              color: AppColors.darkGrey,
+                              color: context.cs.primaryFixed,
                             ),
                           ),
                         ),

@@ -9,109 +9,111 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:bunny_sync/features/add_ailment/cubit/add_ailment_cubit.dart'
-    as _i44;
+    as _i45;
 import 'package:bunny_sync/features/add_ailment/repo/add_ailment_repo.dart'
     as _i3;
 import 'package:bunny_sync/features/add_attachment/cubit/add_attachment_cubit.dart'
-    as _i45;
+    as _i46;
 import 'package:bunny_sync/features/add_attachment/repo/add_attachment_repo.dart'
     as _i4;
 import 'package:bunny_sync/features/add_breeder/cubit/add_breeder_cubit.dart'
-    as _i46;
+    as _i47;
 import 'package:bunny_sync/features/add_breeder/repo/add_breeder_repo.dart'
     as _i5;
-import 'package:bunny_sync/features/add_cage/cubit/add_cage_cubit.dart' as _i47;
+import 'package:bunny_sync/features/add_cage/cubit/add_cage_cubit.dart' as _i48;
 import 'package:bunny_sync/features/add_cage/repo/add_cage_repo.dart' as _i6;
 import 'package:bunny_sync/features/add_category/cubit/add_category_cubit.dart'
-    as _i48;
+    as _i49;
 import 'package:bunny_sync/features/add_category/repo/add_category_repo.dart'
     as _i7;
 import 'package:bunny_sync/features/add_customer/cubit/add_customer_cubit.dart'
-    as _i49;
+    as _i50;
 import 'package:bunny_sync/features/add_customer/repo/add_customer_repo.dart'
     as _i8;
-import 'package:bunny_sync/features/add_kit/cubit/add_kit_cubit.dart' as _i50;
+import 'package:bunny_sync/features/add_kit/cubit/add_kit_cubit.dart' as _i51;
 import 'package:bunny_sync/features/add_kit/repo/add_kit_repo.dart' as _i9;
 import 'package:bunny_sync/features/add_ledger/cubit/add_ledger_cubit.dart'
-    as _i51;
+    as _i52;
 import 'package:bunny_sync/features/add_ledger/repo/add_ledger_repo.dart'
     as _i10;
 import 'package:bunny_sync/features/add_litter/cubit/add_litter_cubit.dart'
-    as _i52;
+    as _i53;
 import 'package:bunny_sync/features/add_litter/repo/add_litter_repo.dart'
     as _i11;
-import 'package:bunny_sync/features/add_note/cubit/add_note_cubit.dart' as _i53;
+import 'package:bunny_sync/features/add_note/cubit/add_note_cubit.dart' as _i54;
 import 'package:bunny_sync/features/add_note/repo/add_note_repo.dart' as _i12;
-import 'package:bunny_sync/features/add_task/cubit/add_task_cubit.dart' as _i54;
+import 'package:bunny_sync/features/add_task/cubit/add_task_cubit.dart' as _i55;
 import 'package:bunny_sync/features/add_task/repo/add_task_repo.dart' as _i13;
 import 'package:bunny_sync/features/add_treatment/cubit/add_treatment_cubit.dart'
-    as _i55;
+    as _i56;
 import 'package:bunny_sync/features/add_treatment/repo/add_treatment_repo.dart'
     as _i14;
 import 'package:bunny_sync/features/authentication/bloc/authentication_bloc.dart'
-    as _i57;
+    as _i58;
 import 'package:bunny_sync/features/breeder_details/cubit/breeder_details_cubit.dart'
-    as _i59;
+    as _i60;
 import 'package:bunny_sync/features/breeder_details/repo/breeder_details_repo.dart'
     as _i15;
-import 'package:bunny_sync/features/breeders/cubit/breeders_cubit.dart' as _i61;
+import 'package:bunny_sync/features/breeders/cubit/breeders_cubit.dart' as _i62;
 import 'package:bunny_sync/features/breeders/models/breeder_entry_model/breeder_entry_model.dart'
-    as _i60;
+    as _i61;
 import 'package:bunny_sync/features/breeders/repo/breeders_repo.dart' as _i16;
 import 'package:bunny_sync/features/cage_cards/cubit/cage_cards_cubit.dart'
-    as _i62;
+    as _i63;
 import 'package:bunny_sync/features/cage_cards/repo/cage_cards_repo.dart'
     as _i17;
 import 'package:bunny_sync/features/categories/cubit/categories_cubit.dart'
-    as _i63;
+    as _i64;
 import 'package:bunny_sync/features/categories/repo/categories_repo.dart'
     as _i18;
 import 'package:bunny_sync/features/customers/cubit/customers_cubit.dart'
-    as _i64;
+    as _i65;
 import 'package:bunny_sync/features/customers/repo/customers_repo.dart' as _i19;
 import 'package:bunny_sync/features/dashboard/cubit/dashboard_cubit.dart'
     as _i20;
-import 'package:bunny_sync/features/health/cubit/health_cubit.dart' as _i66;
+import 'package:bunny_sync/features/health/cubit/health_cubit.dart' as _i67;
 import 'package:bunny_sync/features/health/repo/health_repo.dart' as _i23;
-import 'package:bunny_sync/features/home/cubit/home_cubit.dart' as _i67;
+import 'package:bunny_sync/features/home/cubit/home_cubit.dart' as _i68;
 import 'package:bunny_sync/features/home/repo/repo/home_repo.dart' as _i24;
-import 'package:bunny_sync/features/ledger/cubit/ledgers_cubit.dart' as _i68;
+import 'package:bunny_sync/features/ledger/cubit/ledgers_cubit.dart' as _i69;
 import 'package:bunny_sync/features/ledger/repo/ledgers_repo.dart' as _i27;
 import 'package:bunny_sync/features/litter_details/cubit/litter_details_cubit.dart'
-    as _i70;
+    as _i71;
 import 'package:bunny_sync/features/litter_details/repo/litter_details_repo.dart'
     as _i29;
-import 'package:bunny_sync/features/litters/cubit/litters_cubit.dart' as _i72;
+import 'package:bunny_sync/features/litters/cubit/litters_cubit.dart' as _i73;
 import 'package:bunny_sync/features/litters/models/litter_entry_model/litter_entry_model.dart'
-    as _i71;
+    as _i72;
 import 'package:bunny_sync/features/litters/repo/litters_repo.dart' as _i30;
 import 'package:bunny_sync/features/main_navigation/cubit/main_navigation_cubit.dart'
     as _i32;
-import 'package:bunny_sync/features/profile/cubit/profile_cubit.dart' as _i73;
+import 'package:bunny_sync/features/profile/cubit/profile_cubit.dart' as _i74;
 import 'package:bunny_sync/features/profile/repo/profile_repo.dart' as _i36;
-import 'package:bunny_sync/features/sign_in/cubit/sign_in_cubit.dart' as _i75;
-import 'package:bunny_sync/features/sign_in/repo/sign_in_repo.dart' as _i38;
-import 'package:bunny_sync/features/status/cubit/status_cubit.dart' as _i76;
-import 'package:bunny_sync/features/status/repo/status_repo.dart' as _i39;
-import 'package:bunny_sync/features/tasks/cubit/tasks_cubit.dart' as _i77;
-import 'package:bunny_sync/features/tasks/repo/tasks_repo.dart' as _i40;
+import 'package:bunny_sync/features/reports/cubit/reports_cubit.dart' as _i76;
+import 'package:bunny_sync/features/reports/repo/reports_repo.dart' as _i38;
+import 'package:bunny_sync/features/sign_in/cubit/sign_in_cubit.dart' as _i77;
+import 'package:bunny_sync/features/sign_in/repo/sign_in_repo.dart' as _i39;
+import 'package:bunny_sync/features/status/cubit/status_cubit.dart' as _i78;
+import 'package:bunny_sync/features/status/repo/status_repo.dart' as _i40;
+import 'package:bunny_sync/features/tasks/cubit/tasks_cubit.dart' as _i79;
+import 'package:bunny_sync/features/tasks/repo/tasks_repo.dart' as _i41;
 import 'package:bunny_sync/features/weight/cubit/add_weight_cubit/add_weight_cubit.dart'
-    as _i56;
-import 'package:bunny_sync/features/weight/cubit/weight_cubit.dart' as _i78;
+    as _i57;
+import 'package:bunny_sync/features/weight/cubit/weight_cubit.dart' as _i80;
 import 'package:bunny_sync/global/blocs/delete_breeder_cubit/delete_breeder_cubit.dart'
-    as _i65;
+    as _i66;
 import 'package:bunny_sync/global/blocs/kits_cubit/kits_cubit.dart' as _i25;
 import 'package:bunny_sync/global/blocs/litter_concerns_cubit/cubit/litter_concerns_cubit.dart'
-    as _i69;
+    as _i70;
 import 'package:bunny_sync/global/blocs/note_cubit/cubit/notes_cubit.dart'
     as _i34;
 import 'package:bunny_sync/global/blocs/permissions_cubit/permissions_cubit.dart'
     as _i35;
 import 'package:bunny_sync/global/blocs/rabbit_concerns_cubit/rabbit_concerns_cubit.dart'
-    as _i74;
+    as _i75;
 import 'package:bunny_sync/global/blocs/upload_file_cubit/upload_file_cubit.dart'
-    as _i41;
-import 'package:bunny_sync/global/di/modules/app_module.dart' as _i79;
+    as _i42;
+import 'package:bunny_sync/global/di/modules/app_module.dart' as _i81;
 import 'package:bunny_sync/global/dio/dio_client.dart' as _i22;
 import 'package:bunny_sync/global/localization/cubit/localization_cubit.dart'
     as _i31;
@@ -123,9 +125,9 @@ import 'package:bunny_sync/global/repos/litter_concers_repo/litter_concerns_repo
 import 'package:bunny_sync/global/repos/note_repo/note_repo.dart' as _i33;
 import 'package:bunny_sync/global/repos/rabbit_concerns_repo/rabbit_concerns_repo.dart'
     as _i37;
-import 'package:bunny_sync/global/repos/repos.dart' as _i58;
-import 'package:bunny_sync/global/repos/user_repo.dart' as _i42;
-import 'package:bunny_sync/global/repos/weight_repo/weight_repo.dart' as _i43;
+import 'package:bunny_sync/global/repos/repos.dart' as _i59;
+import 'package:bunny_sync/global/repos/user_repo.dart' as _i43;
+import 'package:bunny_sync/global/repos/weight_repo/weight_repo.dart' as _i44;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 
@@ -182,94 +184,97 @@ extension GetItInjectableX on _i1.GetIt {
     gh.factory<_i35.PermissionsCubit>(() => _i35.PermissionsCubit());
     gh.factory<_i36.ProfileRepo>(() => _i36.HttpProfileRepo());
     gh.factory<_i37.RabbitConcernsRepo>(() => _i37.HttpRabbitConcernsRepo());
-    gh.factory<_i38.SignInRepo>(() => _i38.HttpSignInRepo());
-    gh.factory<_i39.StatusRepo>(() => _i39.HttpStatusRepo());
-    gh.factory<_i40.TasksRepo>(() => _i40.HttpTasksRepo());
-    gh.factory<_i41.UploadFileCubit>(() => _i41.UploadFileCubit());
-    await gh.singletonAsync<_i42.UserRepo>(
+    gh.factory<_i38.ReportsRepo>(() => _i38.HttpReportsRepo());
+    gh.factory<_i39.SignInRepo>(() => _i39.HttpSignInRepo());
+    gh.factory<_i40.StatusRepo>(() => _i40.HttpStatusRepo());
+    gh.factory<_i41.TasksRepo>(() => _i41.HttpTasksRepo());
+    gh.factory<_i42.UploadFileCubit>(() => _i42.UploadFileCubit());
+    await gh.singletonAsync<_i43.UserRepo>(
       () {
-        final i = _i42.UserRepo();
+        final i = _i43.UserRepo();
         return i.init().then((_) => i);
       },
       preResolve: true,
     );
-    gh.factory<_i43.WeightRepo>(() => _i43.HttpWeightRepo());
+    gh.factory<_i44.WeightRepo>(() => _i44.HttpWeightRepo());
     gh.singletonAsync<bool>(() => appModule.disablePrintOnRelease());
     gh.singleton<double>(() => appModule.translations());
-    gh.factory<_i44.AddAilmentCubit>(
-        () => _i44.AddAilmentCubit(gh<_i3.AddAilmentRepo>()));
-    gh.factory<_i45.AddAttachmentCubit>(
-        () => _i45.AddAttachmentCubit(gh<_i4.AddAttachmentRepo>()));
-    gh.factory<_i46.AddBreederCubit>(
-        () => _i46.AddBreederCubit(gh<_i5.AddBreederRepo>()));
-    gh.factory<_i47.AddCageCubit>(
-        () => _i47.AddCageCubit(gh<_i6.AddCageRepo>()));
-    gh.factory<_i48.AddCategoryCubit>(
-        () => _i48.AddCategoryCubit(gh<_i7.AddCategoryRepo>()));
-    gh.factory<_i49.AddCustomerCubit>(
-        () => _i49.AddCustomerCubit(gh<_i8.AddCustomerRepo>()));
-    gh.factory<_i50.AddKitCubit>(() => _i50.AddKitCubit(gh<_i9.AddKitRepo>()));
-    gh.factory<_i51.AddLedgerCubit>(
-        () => _i51.AddLedgerCubit(gh<_i10.AddLedgerRepo>()));
-    gh.factory<_i52.AddLitterCubit>(
-        () => _i52.AddLitterCubit(gh<_i11.AddLitterRepo>()));
-    gh.factory<_i53.AddNoteCubit>(
-        () => _i53.AddNoteCubit(gh<_i12.AddNoteRepo>()));
-    gh.factory<_i54.AddTaskCubit>(
-        () => _i54.AddTaskCubit(gh<_i13.AddTaskRepo>()));
-    gh.factory<_i55.AddTreatmentCubit>(
-        () => _i55.AddTreatmentCubit(gh<_i14.AddTreatmentRepo>()));
-    gh.factory<_i56.AddWeightCubit>(
-        () => _i56.AddWeightCubit(gh<_i43.WeightRepo>()));
-    gh.singleton<_i57.AuthenticationBloc>(
-        () => _i57.AuthenticationBloc(gh<_i58.UserRepo>()));
-    gh.factoryParam<_i59.BreederDetailsCubit, _i60.BreederEntryModel, dynamic>((
+    gh.factory<_i45.AddAilmentCubit>(
+        () => _i45.AddAilmentCubit(gh<_i3.AddAilmentRepo>()));
+    gh.factory<_i46.AddAttachmentCubit>(
+        () => _i46.AddAttachmentCubit(gh<_i4.AddAttachmentRepo>()));
+    gh.factory<_i47.AddBreederCubit>(
+        () => _i47.AddBreederCubit(gh<_i5.AddBreederRepo>()));
+    gh.factory<_i48.AddCageCubit>(
+        () => _i48.AddCageCubit(gh<_i6.AddCageRepo>()));
+    gh.factory<_i49.AddCategoryCubit>(
+        () => _i49.AddCategoryCubit(gh<_i7.AddCategoryRepo>()));
+    gh.factory<_i50.AddCustomerCubit>(
+        () => _i50.AddCustomerCubit(gh<_i8.AddCustomerRepo>()));
+    gh.factory<_i51.AddKitCubit>(() => _i51.AddKitCubit(gh<_i9.AddKitRepo>()));
+    gh.factory<_i52.AddLedgerCubit>(
+        () => _i52.AddLedgerCubit(gh<_i10.AddLedgerRepo>()));
+    gh.factory<_i53.AddLitterCubit>(
+        () => _i53.AddLitterCubit(gh<_i11.AddLitterRepo>()));
+    gh.factory<_i54.AddNoteCubit>(
+        () => _i54.AddNoteCubit(gh<_i12.AddNoteRepo>()));
+    gh.factory<_i55.AddTaskCubit>(
+        () => _i55.AddTaskCubit(gh<_i13.AddTaskRepo>()));
+    gh.factory<_i56.AddTreatmentCubit>(
+        () => _i56.AddTreatmentCubit(gh<_i14.AddTreatmentRepo>()));
+    gh.factory<_i57.AddWeightCubit>(
+        () => _i57.AddWeightCubit(gh<_i44.WeightRepo>()));
+    gh.singleton<_i58.AuthenticationBloc>(
+        () => _i58.AuthenticationBloc(gh<_i59.UserRepo>()));
+    gh.factoryParam<_i60.BreederDetailsCubit, _i61.BreederEntryModel, dynamic>((
       breeder,
       _,
     ) =>
-        _i59.BreederDetailsCubit(
+        _i60.BreederDetailsCubit(
           gh<_i15.BreederDetailsRepo>(),
           breeder,
         ));
-    gh.factory<_i61.BreedersCubit>(
-        () => _i61.BreedersCubit(gh<_i16.BreedersRepo>()));
-    gh.factory<_i62.CageCardsCubit>(
-        () => _i62.CageCardsCubit(gh<_i17.CageCardsRepo>()));
-    gh.factory<_i63.CategoriesCubit>(
-        () => _i63.CategoriesCubit(gh<_i18.CategoriesRepo>()));
-    gh.factory<_i64.CustomersCubit>(
-        () => _i64.CustomersCubit(gh<_i19.CustomersRepo>()));
-    gh.factory<_i65.DeleteBreederCubit>(
-        () => _i65.DeleteBreederCubit(gh<_i21.DeleteBreederRepo>()));
-    gh.factory<_i66.HealthCubit>(() => _i66.HealthCubit(gh<_i23.HealthRepo>()));
-    gh.factory<_i67.HomeCubit>(() => _i67.HomeCubit(gh<_i24.HomeRepo>()));
-    gh.factory<_i68.LedgersCubit>(
-        () => _i68.LedgersCubit(gh<_i27.LedgersRepo>()));
-    gh.factory<_i69.LitterConcernsCubit>(
-        () => _i69.LitterConcernsCubit(gh<_i28.LitterConcernsRepo>()));
-    gh.factoryParam<_i70.LitterDetailsCubit, _i71.LitterEntryModel, dynamic>((
+    gh.factory<_i62.BreedersCubit>(
+        () => _i62.BreedersCubit(gh<_i16.BreedersRepo>()));
+    gh.factory<_i63.CageCardsCubit>(
+        () => _i63.CageCardsCubit(gh<_i17.CageCardsRepo>()));
+    gh.factory<_i64.CategoriesCubit>(
+        () => _i64.CategoriesCubit(gh<_i18.CategoriesRepo>()));
+    gh.factory<_i65.CustomersCubit>(
+        () => _i65.CustomersCubit(gh<_i19.CustomersRepo>()));
+    gh.factory<_i66.DeleteBreederCubit>(
+        () => _i66.DeleteBreederCubit(gh<_i21.DeleteBreederRepo>()));
+    gh.factory<_i67.HealthCubit>(() => _i67.HealthCubit(gh<_i23.HealthRepo>()));
+    gh.factory<_i68.HomeCubit>(() => _i68.HomeCubit(gh<_i24.HomeRepo>()));
+    gh.factory<_i69.LedgersCubit>(
+        () => _i69.LedgersCubit(gh<_i27.LedgersRepo>()));
+    gh.factory<_i70.LitterConcernsCubit>(
+        () => _i70.LitterConcernsCubit(gh<_i28.LitterConcernsRepo>()));
+    gh.factoryParam<_i71.LitterDetailsCubit, _i72.LitterEntryModel, dynamic>((
       litter,
       _,
     ) =>
-        _i70.LitterDetailsCubit(
+        _i71.LitterDetailsCubit(
           gh<_i29.LitterDetailsRepo>(),
           litter,
         ));
-    gh.factory<_i72.LittersCubit>(
-        () => _i72.LittersCubit(gh<_i30.LittersRepo>()));
-    gh.factory<_i73.ProfileCubit>(
-        () => _i73.ProfileCubit(gh<_i36.ProfileRepo>()));
-    gh.factory<_i74.RabbitConcernsCubit>(
-        () => _i74.RabbitConcernsCubit(gh<_i37.RabbitConcernsRepo>()));
-    gh.factory<_i75.SignInCubit>(() => _i75.SignInCubit(
-          gh<_i38.SignInRepo>(),
-          gh<_i57.AuthenticationBloc>(),
+    gh.factory<_i73.LittersCubit>(
+        () => _i73.LittersCubit(gh<_i30.LittersRepo>()));
+    gh.factory<_i74.ProfileCubit>(
+        () => _i74.ProfileCubit(gh<_i36.ProfileRepo>()));
+    gh.factory<_i75.RabbitConcernsCubit>(
+        () => _i75.RabbitConcernsCubit(gh<_i37.RabbitConcernsRepo>()));
+    gh.factory<_i76.ReportsCubit>(
+        () => _i76.ReportsCubit(gh<_i38.ReportsRepo>()));
+    gh.factory<_i77.SignInCubit>(() => _i77.SignInCubit(
+          gh<_i39.SignInRepo>(),
+          gh<_i58.AuthenticationBloc>(),
         ));
-    gh.factory<_i76.StatusCubit>(() => _i76.StatusCubit(gh<_i39.StatusRepo>()));
-    gh.factory<_i77.TasksCubit>(() => _i77.TasksCubit(gh<_i40.TasksRepo>()));
-    gh.factory<_i78.WeightCubit>(() => _i78.WeightCubit(gh<_i43.WeightRepo>()));
+    gh.factory<_i78.StatusCubit>(() => _i78.StatusCubit(gh<_i40.StatusRepo>()));
+    gh.factory<_i79.TasksCubit>(() => _i79.TasksCubit(gh<_i41.TasksRepo>()));
+    gh.factory<_i80.WeightCubit>(() => _i80.WeightCubit(gh<_i44.WeightRepo>()));
     return this;
   }
 }
 
-class _$AppModule extends _i79.AppModule {}
+class _$AppModule extends _i81.AppModule {}

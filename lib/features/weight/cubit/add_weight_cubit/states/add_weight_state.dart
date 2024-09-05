@@ -9,6 +9,8 @@ class AddWeightLoading extends AddWeightState {}
 
 class AddWeightSuccess extends AddWeightState {}
 
+class UpdateWeightSuccess extends AddWeightState {}
+
 class AddWeightFail extends AddWeightState {
   AddWeightFail(this.message);
 

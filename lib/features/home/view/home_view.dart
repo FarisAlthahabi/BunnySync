@@ -142,7 +142,7 @@ class _HomePageState extends State<HomePage> implements HomeViewCallBacks {
               }
               return IconButton(
                 iconSize: 30,
-                color: AppColors.mainColor,
+                color: context.cs.primary,
                 onPressed: onLogOutTap,
                 icon: const Icon(Icons.logout_rounded),
               );
@@ -195,7 +195,7 @@ class _HomePageState extends State<HomePage> implements HomeViewCallBacks {
                                   subtitle:
                                       '${item.activeBreeders.allBreedersCount} ${'total'.i18n}',
                                   secondSubtitle:
-                                      '$male ${'does'.i18n} $female ${'bucks'.i18n}',
+                                      '$male ${'bucks'.i18n} $female ${'does'.i18n}',
                                 ),
                               ),
                             ),

@@ -224,7 +224,7 @@ class _KitsTabState extends State<KitsTab> implements KitsTabCallbacks {
                               if (index.isEven) {
                                 tileColor = context.cs.surface;
                               } else {
-                                tileColor = AppColors.greyShade8;
+                                tileColor = context.cs.onTertiaryContainer;
                               }
                               return LitterDetailsTile(
                                 subTitle: item.note,

@@ -11,12 +11,14 @@ part 'weight_post_model.g.dart';
 @immutable
 class WeightPostModel {
   const WeightPostModel({
-    bool? weightType = true,
+    bool? weightType,
     DateTime? date,
-    dynamic weights,
+    Map<String, double>? weights,
+    double? weight,
   })  : _weightType = weightType,
         _date = date,
-        _weights = weights;
+        _weights = weights,
+        _weight = weight;
 
   factory WeightPostModel.fromJsonStr(String str) =>
       WeightPostModel.fromJson(jsonDecode(str) as Map<String, dynamic>);
@@ -26,17 +28,20 @@ class WeightPostModel {
 
   final bool? _weightType;
   final DateTime? _date;
-  final dynamic _weights;
+  final Map<String, double>? _weights;
+  final double? _weight;
 
   WeightPostModel copyWith({
     bool? Function()? weightType,
     DateTime? Function()? date,
-    dynamic Function()? weights,
+    Map<String, double> Function()? weights,
+    double? Function()? weight,
   }) {
     return WeightPostModel(
       weightType: weightType != null ? weightType() : _weightType,
       date: date != null ? date() : _date,
       weights: weights != null ? weights() : _weights,
+      weight: weight != null ? weight() : _weight,
     );
   }
 
@@ -56,16 +61,21 @@ class WeightPostModel {
   }
 
   @JsonKey(toJson: weightsToJson)
-  dynamic get weights {
+  Map<String, double>? get weights {
+    if (!weightType) {
+      return null;
+    }
     return _weights ?? (throw "Weights can't be empty");
   }
 
-  static String weightsToJson(dynamic value) {
-    if (value is double) {
-      return value.toString();
-    } else if (value is Map<String, double>) {
-      return jsonEncode(value);
+  double? get weight {
+    if (weightType) {
+      return null;
     }
-    throw "value type is not supported";
+    return _weight ?? (throw "Weight can't be empty");
+  }
+
+  static String weightsToJson(dynamic value) {
+    return jsonEncode(value);
   }
 }

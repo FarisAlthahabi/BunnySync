@@ -13,5 +13,9 @@ abstract class WeightableModel {
 
   String get httpEndpoint;
 
+  String get addHttpEndpoint;
+
+  String updateHttpEndpoint({int? weightId});
+
   String get emptySubEntitiesMessage;
 }

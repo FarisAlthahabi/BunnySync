@@ -4,8 +4,8 @@ import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class LedgerTile extends StatelessWidget {
-  const LedgerTile({
+class StatsTile extends StatelessWidget {
+  const StatsTile({
     super.key,
     required this.leading,
     required this.title,
@@ -13,6 +13,7 @@ class LedgerTile extends StatelessWidget {
     this.color,
     this.border,
     this.onTap,
+    this.secondSubtitle,
   });
 
   final Widget leading;
@@ -20,10 +21,12 @@ class LedgerTile extends StatelessWidget {
   final String subtitle;
   final Color? color;
   final Border? border;
+  final String? secondSubtitle;
   final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
+    final secondSubtitle = this.secondSubtitle;
     return AnimatedContainer(
       duration: const Duration(milliseconds: 250),
       decoration: BoxDecoration(
@@ -52,6 +55,19 @@ class LedgerTile extends StatelessWidget {
                       Expanded(
                         child: AutoSizeText(
                           subtitle,
+                          style: context.tt.titleLarge?.copyWith(
+                            fontWeight: FontWeight.w400,
+                            color: context.cs.surfaceContainerHighest,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      if(secondSubtitle != null)
+                      Expanded(
+                        child: AutoSizeText(
+                          secondSubtitle,
                           style: context.tt.titleLarge?.copyWith(
                             fontWeight: FontWeight.w400,
                             color: context.cs.surfaceContainerHighest,

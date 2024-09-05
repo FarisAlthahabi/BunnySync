@@ -25,15 +25,15 @@ DataRow2 litterRow({
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: AppColors.greyShade,
+                  color: context.cs.onSurface,
                   width: 1.5,
                 ),
               ),
-              child: const CircleAvatar(
-                backgroundColor: AppColors.greenShade,
+              child: CircleAvatar(
+                backgroundColor: context.cs.onPrimaryFixed,
                 child: Icon(
                   Icons.add,
-                  color: AppColors.backgroundColor,
+                  color: context.cs.surface,
                   size: 16,
                 ),
               ),
@@ -53,7 +53,7 @@ DataRow2 litterRow({
           child: Text(
             'L0624AD',
             style: context.tt.bodyMedium?.copyWith(
-              color: AppColors.mainColor,
+              color: context.cs.primary,
               fontWeight: FontWeight.w700,
             ),
           ),

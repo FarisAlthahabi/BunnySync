@@ -7,7 +7,11 @@ class SaveButcherInitial extends SaveButcherState {}
 
 class SaveButcherLoading extends SaveButcherState {}
 
-class SaveButcherSuccess extends SaveButcherState {}
+class SaveButcherSuccess extends SaveButcherState {
+  SaveButcherSuccess(this.breederid);
+
+  final int breederid;
+}
 
 class SaveButcherFail extends SaveButcherState {
   SaveButcherFail(this.message);

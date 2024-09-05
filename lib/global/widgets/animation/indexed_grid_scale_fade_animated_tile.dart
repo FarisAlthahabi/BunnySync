@@ -7,14 +7,14 @@ class IndexedGridScaleFadeAnimatedTile extends StatelessWidget {
     required this.index,
     required this.columnCount,
     required this.child,
-    required this.onTap,
+    this.onTap,
     this.duration,
   });
 
   final int index;
   final int columnCount;
   final Widget child;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final Duration? duration;
 
   @override

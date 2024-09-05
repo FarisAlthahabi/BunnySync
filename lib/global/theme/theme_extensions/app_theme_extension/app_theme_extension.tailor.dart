@@ -10,6 +10,8 @@ part of 'app_theme_extension.dart';
 
 class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
   const AppThemeExtension({
+    required this.causeOfDeathChartColor,
+    required this.diedKitsChartColor,
     required this.expensesColor,
     required this.expensesIconColor,
     required this.expensesPerBreederColor,
@@ -23,8 +25,11 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
     required this.indicatorInfoColor,
     required this.maleColor,
     required this.plusColor,
+    required this.survivalRateChartColor,
   });
 
+  final Color causeOfDeathChartColor;
+  final Color diedKitsChartColor;
   final Color expensesColor;
   final Color expensesIconColor;
   final Color expensesPerBreederColor;
@@ -38,8 +43,11 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
   final Color indicatorInfoColor;
   final Color maleColor;
   final Color plusColor;
+  final Color survivalRateChartColor;
 
   static final AppThemeExtension light = AppThemeExtension(
+    causeOfDeathChartColor: _$AppThemeExtension.causeOfDeathChartColor[0],
+    diedKitsChartColor: _$AppThemeExtension.diedKitsChartColor[0],
     expensesColor: _$AppThemeExtension.expensesColor[0],
     expensesIconColor: _$AppThemeExtension.expensesIconColor[0],
     expensesPerBreederColor: _$AppThemeExtension.expensesPerBreederColor[0],
@@ -54,9 +62,12 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
     indicatorInfoColor: _$AppThemeExtension.indicatorInfoColor[0],
     maleColor: _$AppThemeExtension.maleColor[0],
     plusColor: _$AppThemeExtension.plusColor[0],
+    survivalRateChartColor: _$AppThemeExtension.survivalRateChartColor[0],
   );
 
   static final AppThemeExtension dark = AppThemeExtension(
+    causeOfDeathChartColor: _$AppThemeExtension.causeOfDeathChartColor[1],
+    diedKitsChartColor: _$AppThemeExtension.diedKitsChartColor[1],
     expensesColor: _$AppThemeExtension.expensesColor[1],
     expensesIconColor: _$AppThemeExtension.expensesIconColor[1],
     expensesPerBreederColor: _$AppThemeExtension.expensesPerBreederColor[1],
@@ -71,6 +82,7 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
     indicatorInfoColor: _$AppThemeExtension.indicatorInfoColor[1],
     maleColor: _$AppThemeExtension.maleColor[1],
     plusColor: _$AppThemeExtension.plusColor[1],
+    survivalRateChartColor: _$AppThemeExtension.survivalRateChartColor[1],
   );
 
   static final themes = [
@@ -80,6 +92,8 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
 
   @override
   AppThemeExtension copyWith({
+    Color? causeOfDeathChartColor,
+    Color? diedKitsChartColor,
     Color? expensesColor,
     Color? expensesIconColor,
     Color? expensesPerBreederColor,
@@ -93,8 +107,12 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
     Color? indicatorInfoColor,
     Color? maleColor,
     Color? plusColor,
+    Color? survivalRateChartColor,
   }) {
     return AppThemeExtension(
+      causeOfDeathChartColor:
+          causeOfDeathChartColor ?? this.causeOfDeathChartColor,
+      diedKitsChartColor: diedKitsChartColor ?? this.diedKitsChartColor,
       expensesColor: expensesColor ?? this.expensesColor,
       expensesIconColor: expensesIconColor ?? this.expensesIconColor,
       expensesPerBreederColor:
@@ -112,6 +130,8 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
       indicatorInfoColor: indicatorInfoColor ?? this.indicatorInfoColor,
       maleColor: maleColor ?? this.maleColor,
       plusColor: plusColor ?? this.plusColor,
+      survivalRateChartColor:
+          survivalRateChartColor ?? this.survivalRateChartColor,
     );
   }
 
@@ -120,6 +140,10 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
       covariant ThemeExtension<AppThemeExtension>? other, double t) {
     if (other is! AppThemeExtension) return this as AppThemeExtension;
     return AppThemeExtension(
+      causeOfDeathChartColor:
+          Color.lerp(causeOfDeathChartColor, other.causeOfDeathChartColor, t)!,
+      diedKitsChartColor:
+          Color.lerp(diedKitsChartColor, other.diedKitsChartColor, t)!,
       expensesColor: Color.lerp(expensesColor, other.expensesColor, t)!,
       expensesIconColor:
           Color.lerp(expensesIconColor, other.expensesIconColor, t)!,
@@ -139,6 +163,8 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
           Color.lerp(indicatorInfoColor, other.indicatorInfoColor, t)!,
       maleColor: Color.lerp(maleColor, other.maleColor, t)!,
       plusColor: Color.lerp(plusColor, other.plusColor, t)!,
+      survivalRateChartColor:
+          Color.lerp(survivalRateChartColor, other.survivalRateChartColor, t)!,
     );
   }
 
@@ -147,6 +173,10 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is AppThemeExtension &&
+            const DeepCollectionEquality()
+                .equals(causeOfDeathChartColor, other.causeOfDeathChartColor) &&
+            const DeepCollectionEquality()
+                .equals(diedKitsChartColor, other.diedKitsChartColor) &&
             const DeepCollectionEquality()
                 .equals(expensesColor, other.expensesColor) &&
             const DeepCollectionEquality()
@@ -170,13 +200,17 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
             const DeepCollectionEquality()
                 .equals(indicatorInfoColor, other.indicatorInfoColor) &&
             const DeepCollectionEquality().equals(maleColor, other.maleColor) &&
-            const DeepCollectionEquality().equals(plusColor, other.plusColor));
+            const DeepCollectionEquality().equals(plusColor, other.plusColor) &&
+            const DeepCollectionEquality()
+                .equals(survivalRateChartColor, other.survivalRateChartColor));
   }
 
   @override
   int get hashCode {
     return Object.hash(
       runtimeType.hashCode,
+      const DeepCollectionEquality().hash(causeOfDeathChartColor),
+      const DeepCollectionEquality().hash(diedKitsChartColor),
       const DeepCollectionEquality().hash(expensesColor),
       const DeepCollectionEquality().hash(expensesIconColor),
       const DeepCollectionEquality().hash(expensesPerBreederColor),
@@ -190,6 +224,7 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
       const DeepCollectionEquality().hash(indicatorInfoColor),
       const DeepCollectionEquality().hash(maleColor),
       const DeepCollectionEquality().hash(plusColor),
+      const DeepCollectionEquality().hash(survivalRateChartColor),
     );
   }
 }
@@ -197,6 +232,8 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
 extension AppThemeExtensionBuildContextProps on BuildContext {
   AppThemeExtension get appThemeExtension =>
       Theme.of(this).extension<AppThemeExtension>()!;
+  Color get causeOfDeathChartColor => appThemeExtension.causeOfDeathChartColor;
+  Color get diedKitsChartColor => appThemeExtension.diedKitsChartColor;
   Color get expensesColor => appThemeExtension.expensesColor;
   Color get expensesIconColor => appThemeExtension.expensesIconColor;
   Color get expensesPerBreederColor =>
@@ -213,4 +250,5 @@ extension AppThemeExtensionBuildContextProps on BuildContext {
   Color get indicatorInfoColor => appThemeExtension.indicatorInfoColor;
   Color get maleColor => appThemeExtension.maleColor;
   Color get plusColor => appThemeExtension.plusColor;
+  Color get survivalRateChartColor => appThemeExtension.survivalRateChartColor;
 }
