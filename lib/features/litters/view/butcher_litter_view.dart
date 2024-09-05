@@ -80,12 +80,12 @@ class _ButcherLitterPageState extends State<ButcherLitterPage>
   List<FocusNode> preWeightsFocusNode = [];
   List<FocusNode> pricesFocusNode = [];
 
-  bool isIndividualKits = false;
-
   @override
   void initState() {
     super.initState();
     litterConcernsCubit.setButcherType(false);
+    litterConcernsCubit.setButcherDate(DateTime.now());
+
     weightsFocusNode = List.generate(
       widget.litterEntryModel.allKits.length,
       (index) => FocusNode(),
@@ -195,6 +195,8 @@ class _ButcherLitterPageState extends State<ButcherLitterPage>
   Widget build(BuildContext context) {
     return BlocBuilder<LitterConcernsCubit, GeneralLitterConcernsState>(
       builder: (context, state) {
+        bool isIndividualKits = false;
+
         if (state is SetLitterButcherTypeState) {
           isIndividualKits = state.isIndividualKits;
         }

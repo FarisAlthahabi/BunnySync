@@ -60,11 +60,6 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
   late BreedersGenderModel breedersGenderModel;
 
   Future<void> getBreeders() async {
-    if (_breedersStatusModel != null) {
-      emit(BreedersSuccess(breedersStatusModel));
-      return;
-    }
-
     emit(BreedersLoading(fakeBreedersStatusModel));
     try {
       final response = await _breedersRepo.getBreeders();
@@ -162,9 +157,9 @@ class BreedersCubit extends Cubit<GeneralBreedersState> {
       active: activeBreeders,
       inactive: inactiveBreeders,
     );
-    if(state is BreedersSuccess){
-    emit(BreedersSuccess(breedersStatusModel));
-    }else if(state is SearchBreederSuccess){
+    if (state is BreedersSuccess) {
+      emit(BreedersSuccess(breedersStatusModel));
+    } else if (state is SearchBreederSuccess) {
       emit(SearchBreederSuccess(searchedBreeders));
     }
   }

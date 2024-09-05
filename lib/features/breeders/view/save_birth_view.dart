@@ -241,7 +241,8 @@ class _SaveBirthPageState extends State<SaveBirthPage>
                 onSubmitted: onLiveKitsCountSubmitted,
                 onChanged: onLiveKitsCountChanged,
                 focusNode: liveKitsCountFocusNode,
-                keyboardType: TextInputType.number,hintText: "live_kits_count".i18n,
+                keyboardType: TextInputType.number,
+                hintText: "live_kits_count".i18n,
                 labelText: "live_kits_count".i18n,
               ),
               const SizedBox(
@@ -250,15 +251,16 @@ class _SaveBirthPageState extends State<SaveBirthPage>
               MainTextField(
                 onSubmitted: onDeadKitsCountSubmitted,
                 onChanged: onDeadKitsCountChanged,
-                focusNode: deadKitsCountFocusNode,keyboardType: TextInputType.number,
+                focusNode: deadKitsCountFocusNode,
+                keyboardType: TextInputType.number,
                 hintText: "dead_kits_count".i18n,
                 labelText: "dead_kits_count".i18n,
               ),
               const SizedBox(height: 25),
               SizedBox(
                 width: double.maxFinite,
-                child:
-                    BlocConsumer<RabbitConcernsCubit, GeneralRabbitConcernsState>(
+                child: BlocConsumer<RabbitConcernsCubit,
+                    GeneralRabbitConcernsState>(
                   listener: (context, state) {
                     if (state is SaveBirthSuccess) {
                       MainSnackBar.showSuccessMessageBar(

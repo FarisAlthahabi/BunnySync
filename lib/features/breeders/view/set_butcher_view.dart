@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:bunny_sync/features/breeders/cubit/breeders_cubit.dart';
 import 'package:bunny_sync/global/blocs/rabbit_concerns_cubit/rabbit_concerns_cubit.dart';
 import 'package:bunny_sync/global/localization/translations.i18n.dart';
+import 'package:bunny_sync/global/mixins/mixins.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/buttons/main_action_button.dart';
@@ -64,6 +65,7 @@ class SetButcherPage extends StatefulWidget {
 }
 
 class _SetButcherPageState extends State<SetButcherPage>
+    with PostFrameMixin
     implements SetButcherViewCallBacks {
   late final RabbitConcernsCubit rabbitConcernsCubit = context.read();
 
@@ -124,14 +126,19 @@ class _SetButcherPageState extends State<SetButcherPage>
   }
 
   @override
+  void onPostFrame() {
+    rabbitConcernsCubit.setButcherDate(DateTime.now());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: AppConstants.paddingH16,
       child: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-            ),
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -158,7 +165,8 @@ class _SetButcherPageState extends State<SetButcherPage>
               MainTextField(
                 onSubmitted: onButcherPreWeightSubmitted,
                 onChanged: onButcherPreWeightChanged,
-                keyboardType: TextInputType.number,focusNode: butcherPreWeightFocusNode,
+                keyboardType: TextInputType.number,
+                focusNode: butcherPreWeightFocusNode,
                 hintText: "preWeight".i18n,
                 labelText: "preWeight".i18n,
               ),
@@ -169,7 +177,8 @@ class _SetButcherPageState extends State<SetButcherPage>
                 onSubmitted: onButcherWeightSubmitted,
                 onChanged: onButcherWeightChanged,
                 focusNode: butcherWeightFocusNode,
-                keyboardType: TextInputType.number,hintText: "weight".i18n,
+                keyboardType: TextInputType.number,
+                hintText: "weight".i18n,
                 labelText: "weight".i18n,
               ),
               const SizedBox(
@@ -178,15 +187,16 @@ class _SetButcherPageState extends State<SetButcherPage>
               MainTextField(
                 onSubmitted: onButcherPriceSubmitted,
                 onChanged: onButcherPriceChanged,
-                focusNode: butcherPriceFocusNode,keyboardType: TextInputType.number,
+                focusNode: butcherPriceFocusNode,
+                keyboardType: TextInputType.number,
                 hintText: "price".i18n,
                 labelText: "price".i18n,
               ),
               const SizedBox(height: 25),
               SizedBox(
                 width: double.maxFinite,
-                child:
-                    BlocConsumer<RabbitConcernsCubit, GeneralRabbitConcernsState>(
+                child: BlocConsumer<RabbitConcernsCubit,
+                    GeneralRabbitConcernsState>(
                   listener: (context, state) {
                     if (state is SaveButcherSuccess) {
                       breedersCubit.setBreederButchered(state.breederid);

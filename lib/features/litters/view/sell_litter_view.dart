@@ -149,8 +149,8 @@ class _SellLitterPageState extends State<SellLitterPage>
       child: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-            ),
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -263,8 +263,7 @@ class _SellLitterPageState extends State<SellLitterPage>
                     const SizedBox(
                       height: 20,
                     ),
-                    ...List.generate(
-                        widget.litterEntryModel.allKits.length,
+                    ...List.generate(widget.litterEntryModel.allKits.length,
                         (index) {
                       final item = widget.litterEntryModel.allKits[index];
                       return Column(
@@ -309,8 +308,8 @@ class _SellLitterPageState extends State<SellLitterPage>
                 ),
               SizedBox(
                 width: double.maxFinite,
-                child:
-                    BlocConsumer<LitterConcernsCubit, GeneralLitterConcernsState>(
+                child: BlocConsumer<LitterConcernsCubit,
+                    GeneralLitterConcernsState>(
                   listener: (context, state) {
                     if (state is SaveSellLitterSuccess) {
                       MainSnackBar.showSuccessMessageBar(

@@ -11,8 +11,11 @@ class BreederPedigreeFetch extends BreederPedigreeState {
   final PedigreeUrlModel pedigreeUrlModel;
 }
 
-class BreederPedigreeLoading extends BreederPedigreeFetch {
+class BreederPedigreeLoading extends BreederPedigreeFetch with EquatableMixin {
   BreederPedigreeLoading(super.pedigreeUrlModel);
+
+  @override
+  List<Object?> get props => [];
 }
 
 class BreederPedigreeSuccess extends BreederPedigreeFetch {

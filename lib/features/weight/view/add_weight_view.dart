@@ -72,7 +72,6 @@ class _UpdateWeightPageState extends State<UpdateWeightPage>
 
   final weightFocusNode = FocusNode();
   List<FocusNode> weightsFocusNode = [];
-  bool isIndividualKits = false;
 
   @override
   void initState() {
@@ -247,9 +246,11 @@ class _UpdateWeightPageState extends State<UpdateWeightPage>
     } else if (widget.weightableModel.entityType == EntityTypes.litter) {
       return BlocBuilder<AddWeightCubit, GeneralAddWeightState>(
         builder: (context, state) {
+          bool isIndividualKits = false;
           if (state is SetLitterWeightTypeState) {
             isIndividualKits = state.isIndividualKits;
           }
+
           return Padding(
             padding: AppConstants.paddingH16,
             child: SingleChildScrollView(
