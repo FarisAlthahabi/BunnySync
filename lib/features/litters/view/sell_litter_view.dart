@@ -80,6 +80,9 @@ class _SellLitterPageState extends State<SellLitterPage>
   @override
   void dispose() {
     sellPriceFocusNode.dispose();
+    for (final element in sellPricesFocusNode) {
+      element.dispose();
+    }
     super.dispose();
   }
 
@@ -87,6 +90,10 @@ class _SellLitterPageState extends State<SellLitterPage>
   void initState() {
     super.initState();
     customersCubit.getCustomers();
+    sellPricesFocusNode = List.generate(
+      widget.litterEntryModel.allKits.length,
+      (index) => FocusNode(),
+    );
   }
 
   @override
@@ -127,7 +134,6 @@ class _SellLitterPageState extends State<SellLitterPage>
 
   @override
   void onSellPricesSubmitted(String price, int index) {
-    //TODO : fix this logic
     if (index != sellPricesFocusNode.length - 1) {
       sellPricesFocusNode[index].unfocus();
       sellPricesFocusNode[index + 1].requestFocus();
@@ -138,18 +144,6 @@ class _SellLitterPageState extends State<SellLitterPage>
 
   @override
   Widget build(BuildContext context) {
-    //TODO : fix this , if statement go to else , althought status is not null
-    //? status in kit model has to be nullable,
-    //? if not , serialization will not work
-
-    final activeKits = widget.litterEntryModel.allKits.where((element) {
-      final status = element.status;
-      if (status != null) {
-        return status.isActive;
-      } else {
-        return true;
-      }
-    }).toList();
     return Padding(
       padding: AppConstants.paddingH16,
       child: Column(
@@ -264,12 +258,9 @@ class _SellLitterPageState extends State<SellLitterPage>
                 const SizedBox(
                   height: 20,
                 ),
-                ...List.generate(activeKits.length, (index) {
-                  sellPricesFocusNode = List.generate(
-                    widget.litterEntryModel.allKits.length,
-                    (index) => FocusNode(),
-                  );
-                  final item = activeKits[index];
+                ...List.generate(widget.litterEntryModel.allKits.length,
+                    (index) {
+                  final item = widget.litterEntryModel.allKits[index];
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -291,7 +282,7 @@ class _SellLitterPageState extends State<SellLitterPage>
                     ],
                   );
                 }),
-                if (activeKits.isEmpty)
+                if (widget.litterEntryModel.allKits.isEmpty)
                   Column(
                     children: [
                       Center(

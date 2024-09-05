@@ -11,6 +11,8 @@ part 'states/save_weight_litter_state.dart';
 
 part 'states/butcher_litter_state.dart';
 
+part 'states/set_litter_butcher_type_state.dart';
+
 part 'states/general_litter_concerns_state.dart';
 
 @injectable
@@ -41,13 +43,6 @@ class LitterConcernsCubit extends Cubit<GeneralLitterConcernsState> {
   }
 
   void setSellPrices(String prices, {int? kitId}) {
-    //TODO : fix this
-    // if (_saveSellLitterModel.sellType &&
-    //     _saveSellLitterModel.prices is! Map<String, double>) {
-    //   emit(SaveSellLitterFail('if sell type is on, prices should be plural'));
-    //   return;
-    // }
-
     dynamic value;
 
     if (_saveSellLitterModel.sellType && kitId != null) {
@@ -75,9 +70,13 @@ class LitterConcernsCubit extends Cubit<GeneralLitterConcernsState> {
   }
 
   void setButcherType(bool? butcherType) {
+    if (butcherType == null) return;
+
     _butcherLitterModel = _butcherLitterModel.copyWith(
       butcherType: () => butcherType,
     );
+
+    emit(SetLitterButcherTypeState(butcherType));
   }
 
   void setButcherDate(DateTime date) {
@@ -87,48 +86,78 @@ class LitterConcernsCubit extends Cubit<GeneralLitterConcernsState> {
   }
 
   void setButcherWeight(String butcherWeights, {int? kitId}) {
-    dynamic value;
-
     if (_butcherLitterModel.butcherType && kitId != null) {
-      butcherWeightsMap["$kitId"] = double.parse(butcherWeights);
-      value = butcherWeightsMap;
+      try {
+        butcherWeightsMap["$kitId"] = double.parse(butcherWeights);
+      } catch (e) {
+        if (butcherWeights.isNotEmpty) {
+          emit(ButcherLitterFail("Invalid Weight"));
+        }
+      }
+      _butcherLitterModel = _butcherLitterModel.copyWith(
+        weights: () => butcherWeightsMap,
+      );
     } else {
-      value = double.tryParse(butcherWeights);
+      try {
+        _butcherLitterModel = _butcherLitterModel.copyWith(
+          weight: () => double.parse(butcherWeights),
+        );
+      } catch (e) {
+        if (butcherWeights.isNotEmpty) {
+          emit(ButcherLitterFail("Invalid Weight"));
+        }
+      }
     }
-
-    _butcherLitterModel = _butcherLitterModel.copyWith(
-      weight: () => value,
-    );
   }
 
   void setButcherPreWeight(String butcherPreWeights, {int? kitId}) {
-    dynamic value;
-
     if (_butcherLitterModel.butcherType && kitId != null) {
-      butcherPreWeightsMap["$kitId"] = double.parse(butcherPreWeights);
-      value = butcherPreWeightsMap;
+      try {
+        butcherPreWeightsMap["$kitId"] = double.parse(butcherPreWeights);
+      } catch (e) {
+        if (butcherPreWeights.isNotEmpty) {
+          emit(ButcherLitterFail("Invalid Weight"));
+        }
+      }
+      _butcherLitterModel = _butcherLitterModel.copyWith(
+        preWeights: () => butcherPreWeightsMap,
+      );
     } else {
-      value = double.tryParse(butcherPreWeights);
+      try {
+        _butcherLitterModel = _butcherLitterModel.copyWith(
+          preWeight: () => double.parse(butcherPreWeights),
+        );
+      } catch (e) {
+        if (butcherPreWeights.isNotEmpty) {
+          emit(ButcherLitterFail("Invalid Weight"));
+        }
+      }
     }
-
-    _butcherLitterModel = _butcherLitterModel.copyWith(
-      preWeight: () => value,
-    );
   }
 
   void setButcherPrice(String butcherPrices, {int? kitId}) {
-    dynamic value;
-
     if (_butcherLitterModel.butcherType && kitId != null) {
-      butcherPricesMap["$kitId"] = double.parse(butcherPrices);
-      value = butcherPricesMap;
+      try {
+        butcherPricesMap["$kitId"] = double.parse(butcherPrices);
+      } catch (e) {
+        if (butcherPrices.isNotEmpty) {
+          emit(ButcherLitterFail("Invalid Price"));
+        }
+      }
+      _butcherLitterModel = _butcherLitterModel.copyWith(
+        prices: () => butcherPricesMap,
+      );
     } else {
-      value = double.tryParse(butcherPrices);
+      try {
+        _butcherLitterModel = _butcherLitterModel.copyWith(
+          price: () => double.parse(butcherPrices),
+        );
+      } catch (e) {
+        if (butcherPrices.isNotEmpty) {
+          emit(ButcherLitterFail("Invalid Price"));
+        }
+      }
     }
-
-    _butcherLitterModel = _butcherLitterModel.copyWith(
-      price: () => value,
-    );
   }
 
   Future<void> saveSell(int litterId) async {

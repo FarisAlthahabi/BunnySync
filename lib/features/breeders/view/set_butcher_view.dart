@@ -145,6 +145,7 @@ class _SetButcherPageState extends State<SetButcherPage>
           MainTextField(
             onSubmitted: onButcherPreWeightSubmitted,
             onChanged: onButcherPreWeightChanged,
+            keyboardType: TextInputType.number,
             focusNode: butcherPreWeightFocusNode,
             hintText: "preWeight".i18n,
             labelText: "preWeight".i18n,
@@ -156,6 +157,7 @@ class _SetButcherPageState extends State<SetButcherPage>
             onSubmitted: onButcherWeightSubmitted,
             onChanged: onButcherWeightChanged,
             focusNode: butcherWeightFocusNode,
+            keyboardType: TextInputType.number,
             hintText: "weight".i18n,
             labelText: "weight".i18n,
           ),
@@ -166,6 +168,7 @@ class _SetButcherPageState extends State<SetButcherPage>
             onSubmitted: onButcherPriceSubmitted,
             onChanged: onButcherPriceChanged,
             focusNode: butcherPriceFocusNode,
+            keyboardType: TextInputType.number,
             hintText: "price".i18n,
             labelText: "price".i18n,
           ),
