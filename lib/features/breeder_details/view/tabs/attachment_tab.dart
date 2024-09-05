@@ -7,6 +7,7 @@ import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/utils/utils.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
+import 'package:bunny_sync/global/widgets/buttons/main_add_floating_button.dart';
 import 'package:bunny_sync/global/widgets/element_tile.dart';
 import 'package:bunny_sync/global/widgets/main_error_widget.dart';
 import 'package:bunny_sync/global/widgets/main_show_bottom_sheet.dart';
@@ -76,18 +77,11 @@ class _AttachmentTabState extends State<AttachmentTab>
       context,
       widget: BottomSheetWidget(
         title: 'are_you_sure_to_delete_attachment'.i18n,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextButton(
-              onPressed: () {
-                context.router.popForced();
-                breederDetailsCubit.deleteAttachment(attachmentModel.id);
-              },
-              child: Text('yes'.i18n),
-            ),
-          ],
-        ),
+        model: attachmentModel,
+        onConfirm: (attachmentModel) {
+          context.router.popForced();
+          breederDetailsCubit.deleteAttachment(attachmentModel.id);
+        },
       ),
     );
   }
@@ -228,13 +222,8 @@ class _AttachmentTabState extends State<AttachmentTab>
           }
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: onAddTap,
-        shape: RoundedRectangleBorder(
-          borderRadius: AppConstants.circularBorderRadius,
-        ),
-        backgroundColor: context.cs.secondaryContainer,
-        child: const Icon(Icons.add),
+      floatingActionButton: MainAddFloatingButton(
+        onAddTap: onAddTap,
       ),
     );
   }

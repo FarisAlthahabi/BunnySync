@@ -81,80 +81,87 @@ class _QuickAddCustomerPageState extends State<QuickAddCustomerPage>
   Widget build(BuildContext context) {
     return Padding(
       padding: AppConstants.padding16,
-      child: Column(
-        children: [
-          const SizedBox(
-            height: 30,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
           ),
-          MainTextField(
-            onSubmitted: onNameSubmitted,
-            onChanged: onNameChanged,
-            focusNode: nameFocusNode,
-            hintText: 'name'.i18n,
-            labelText: 'name'.i18n,
-            keyboardType: TextInputType.name,
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 30,
+              ),
+              MainTextField(
+                onSubmitted: onNameSubmitted,
+                onChanged: onNameChanged,
+                focusNode: nameFocusNode,
+                hintText: 'name'.i18n,
+                labelText: 'name'.i18n,
+                keyboardType: TextInputType.name,
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              MainTextField(
+                onSubmitted: onEmailSubmitted,
+                onChanged: onEmailChanged,
+                focusNode: emailFocusNode,
+                hintText: 'email'.i18n,
+                labelText: 'email'.i18n,
+                keyboardType: TextInputType.emailAddress,
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              SizedBox(
+                width: double.maxFinite,
+                child: BlocConsumer<CustomersCubit, GeneralCustomersState>(
+                  listener: (context, state) {
+                    if (state is QuickAddCustomerEmailInvalid) {
+                      MainSnackBar.showErrorMessageBar(
+                        context,
+                        state.message,
+                      );
+                    }
+                    if (state is QuickAddCustomerNameInvalid) {
+                      MainSnackBar.showErrorMessageBar(
+                        context,
+                        state.message,
+                      );
+                    }
+                    if (state is QuickAddCustomerSuccess) {
+                      customersCubit.addCustomer(state.customer);
+                      MainSnackBar.showSuccessMessageBar(
+                        context,
+                        "customer_added".i18n,
+                      );
+                      context.router.maybePop();
+                    } else if (state is QuickAddCustomerFail) {
+                      MainSnackBar.showErrorMessageBar(
+                        context,
+                        state.message,
+                      );
+                    }
+                  },
+                  builder: (context, state) {
+                    var onTap = onSave;
+                    Widget? child;
+                    if (state is QuickAddCustomerLoading) {
+                      onTap = () {};
+                      child = const LoadingIndicator();
+                    }
+                    return MainActionButton(
+                      onTap: onTap,
+                      text: "save".i18n,
+                      child: child,
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 25),
+            ],
           ),
-          const SizedBox(
-            height: 25,
-          ),
-          MainTextField(
-            onSubmitted: onEmailSubmitted,
-            onChanged: onEmailChanged,
-            focusNode: emailFocusNode,
-            hintText: 'email'.i18n,
-            labelText: 'email'.i18n,
-            keyboardType: TextInputType.emailAddress,
-          ),
-          const SizedBox(
-            height: 25,
-          ),
-          SizedBox(
-            width: double.maxFinite,
-            child: BlocConsumer<CustomersCubit, GeneralCustomersState>(
-              listener: (context, state) {
-                if (state is QuickAddCustomerEmailInvalid) {
-                  MainSnackBar.showErrorMessageBar(
-                    context,
-                    state.message,
-                  );
-                }
-                if (state is QuickAddCustomerNameInvalid) {
-                  MainSnackBar.showErrorMessageBar(
-                    context,
-                    state.message,
-                  );
-                }
-                if (state is QuickAddCustomerSuccess) {
-                  customersCubit.addCustomer(state.customer);
-                  MainSnackBar.showSuccessMessageBar(
-                    context,
-                    "customer_added".i18n,
-                  );
-                  context.router.maybePop();
-                } else if (state is QuickAddCustomerFail) {
-                  MainSnackBar.showErrorMessageBar(
-                    context,
-                    state.message,
-                  );
-                }
-              },
-              builder: (context, state) {
-                var onTap = onSave;
-                Widget? child;
-                if (state is QuickAddCustomerLoading) {
-                  onTap = () {};
-                  child = const LoadingIndicator();
-                }
-                return MainActionButton(
-                  onTap: onTap,
-                  text: "save".i18n,
-                  child: child,
-                );
-              },
-            ),
-          ),
-          const SizedBox(height: 25),
-        ],
+        ),
       ),
     );
   }

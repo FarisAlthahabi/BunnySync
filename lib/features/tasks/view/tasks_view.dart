@@ -9,6 +9,7 @@ import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
+import 'package:bunny_sync/global/widgets/buttons/main_add_floating_button.dart';
 import 'package:bunny_sync/global/widgets/element_tile.dart';
 import 'package:bunny_sync/global/widgets/list_suffix_empty_space_widget.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
@@ -119,18 +120,11 @@ class _TasksPageState extends State<TasksPage> implements TasksViewCallBacks {
       context,
       widget: BottomSheetWidget(
         title: 'are_you_sure_to_delete_task'.i18n,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextButton(
-              onPressed: () {
-                context.router.popForced();
-                tasksCubit.deleteTask(taskModel.id);
-              },
-              child: Text('yes'.i18n),
-            ),
-          ],
-        ),
+        model: taskModel,
+        onConfirm: (taskModel) {
+          context.router.popForced();
+          tasksCubit.deleteTask(taskModel.id);
+        },
       ),
     );
   }
@@ -295,16 +289,8 @@ class _TasksPageState extends State<TasksPage> implements TasksViewCallBacks {
           }
         },
       ),
-      floatingActionButton: Padding(
-        padding: AppConstants.padding16,
-        child: FloatingActionButton(
-          onPressed: onAddTap,
-          shape: RoundedRectangleBorder(
-            borderRadius: AppConstants.circularBorderRadius,
-          ),
-          backgroundColor: context.cs.secondaryContainer,
-          child: const Icon(Icons.add),
-        ),
+      floatingActionButton: MainAddFloatingButton(
+        onAddTap: onAddTap,
       ),
     );
   }

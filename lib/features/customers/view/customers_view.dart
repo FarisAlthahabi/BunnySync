@@ -9,6 +9,7 @@ import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
+import 'package:bunny_sync/global/widgets/buttons/main_add_floating_button.dart';
 import 'package:bunny_sync/global/widgets/element_tile.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
 import 'package:bunny_sync/global/widgets/main_error_widget.dart';
@@ -85,18 +86,11 @@ class _CustomersPageState extends State<CustomersPage>
       context,
       widget: BottomSheetWidget(
         title: 'are_you_sure_to_delete_breeder'.i18n,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextButton(
-              onPressed: () {
-                context.router.popForced();
-                customersCubit.deleteCustomer(customerModel.id);
-              },
-              child: Text('yes'.i18n),
-            ),
-          ],
-        ),
+        model: customerModel,
+        onConfirm: (customerModel) {
+          context.router.popForced();
+          customersCubit.deleteCustomer(customerModel.id);
+        },
       ),
     );
   }
@@ -241,16 +235,8 @@ class _CustomersPageState extends State<CustomersPage>
           }
         },
       ),
-      floatingActionButton: Padding(
-        padding: AppConstants.padding16,
-        child: FloatingActionButton(
-          onPressed: onAddTap,
-          shape: RoundedRectangleBorder(
-            borderRadius: AppConstants.circularBorderRadius,
-          ),
-          backgroundColor: context.cs.secondaryContainer,
-          child: const Icon(Icons.add),
-        ),
+      floatingActionButton: MainAddFloatingButton(
+        onAddTap: onAddTap,
       ),
     );
   }
