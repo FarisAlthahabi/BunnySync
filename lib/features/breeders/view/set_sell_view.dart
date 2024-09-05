@@ -170,7 +170,7 @@ class _SetSellPageState extends State<SetSellPage>
                 "set_date".i18n,
                 style: context.tt.bodyLarge?.copyWith(
                   fontWeight: FontWeight.w700,
-                  color: AppColors.darkGrey,
+                  color: context.cs.primaryFixed,
                 ),
               ),
               const SizedBox(height: 10),

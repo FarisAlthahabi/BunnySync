@@ -36,7 +36,7 @@ class MainErrorWidget extends StatelessWidget {
                 child: Text(
                   "try_again".i18n,
                   style: context.tt.bodyLarge?.copyWith(
-                    color: AppColors.mainColorShade2,
+                    color: context.cs.secondaryContainer,
                   ),
                 ),
               ),

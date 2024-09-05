@@ -310,7 +310,7 @@ class _AddKitPageState extends State<AddKitPage>
                             "gender".i18n,
                             style: context.tt.bodyLarge?.copyWith(
                               fontWeight: FontWeight.w700,
-                              color: AppColors.darkGrey,
+                              color: context.cs.primaryFixed,
                             ),
                           ),
                         ),

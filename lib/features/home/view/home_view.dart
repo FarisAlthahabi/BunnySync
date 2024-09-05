@@ -142,7 +142,7 @@ class _HomePageState extends State<HomePage> implements HomeViewCallBacks {
               }
               return IconButton(
                 iconSize: 30,
-                color: AppColors.mainColor,
+                color: context.cs.primary,
                 onPressed: onLogOutTap,
                 icon: const Icon(Icons.logout_rounded),
               );

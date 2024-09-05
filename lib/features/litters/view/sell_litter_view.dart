@@ -190,7 +190,7 @@ class _SellLitterPageState extends State<SellLitterPage>
                 "set_date".i18n,
                 style: context.tt.bodyLarge?.copyWith(
                   fontWeight: FontWeight.w700,
-                  color: AppColors.darkGrey,
+                  color: context.cs.primaryFixed,
                 ),
               ),
               const SizedBox(height: 10),

@@ -18,10 +18,10 @@ class NewTypeWidget extends StatelessWidget {
     return Column(
       children: [
         InkWell(
-          hoverColor: AppColors.backgroundColor,
+          hoverColor: context.cs.surface,
           onTap: onTap,
           child: CircleAvatar(
-            backgroundColor: AppColors.greyShade9,
+            backgroundColor: context.cs.tertiaryFixedDim,
             radius: 30,
             child: icon,
           ),

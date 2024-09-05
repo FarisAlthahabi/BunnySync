@@ -187,7 +187,7 @@ class _UpdateWeightPageState extends State<UpdateWeightPage>
                   "set_date".i18n,
                   style: context.tt.bodyLarge?.copyWith(
                     fontWeight: FontWeight.w700,
-                    color: AppColors.darkGrey,
+                    color: context.cs.primaryFixed,
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -292,7 +292,7 @@ class _UpdateWeightPageState extends State<UpdateWeightPage>
                       "set_date".i18n,
                       style: context.tt.bodyLarge?.copyWith(
                         fontWeight: FontWeight.w700,
-                        color: AppColors.darkGrey,
+                        color: context.cs.primaryFixed,
                       ),
                     ),
                     const SizedBox(height: 10),

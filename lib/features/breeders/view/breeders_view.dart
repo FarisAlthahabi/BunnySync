@@ -564,9 +564,9 @@ class _BreedersPageState extends State<BreedersPage>
                           ),
                         );
                       } else if (state is SearchBreederLoading) {
-                        return const Center(
+                        return Center(
                           child: LoadingIndicator(
-                            color: AppColors.mainColor,
+                            color: context.cs.primary,
                           ),
                         );
                       } else if (state is SearchBreederSuccess) {

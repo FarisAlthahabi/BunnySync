@@ -118,14 +118,14 @@ class _BreederLitterTileState extends State<BreederLitterTile> {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               border: Border.all(
-                                color: AppColors.greyShade,
+                                color: context.cs.onSurface,
                                 width: 1.5,
                               ),
                             ),
                             child: CircleAvatar(
                               backgroundColor: isShowKits
-                                  ? AppColors.red
-                                  : AppColors.greenShade,
+                                  ? context.cs.errorContainer
+                                  : context.cs.onPrimaryFixed,
                               child: Icon(
                                 isShowKits ? Icons.remove : Icons.add,
                                 color: context.cs.onSecondary,

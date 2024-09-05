@@ -43,8 +43,8 @@ class SearchTextField extends StatelessWidget {
             suffixIcon: onDeleteText != null
                 ? InkWell(
                     onTap: onDeleteText,
-                    child: const Icon(
-                      color: AppColors.darkBlue,
+                    child: Icon(
+                      color: context.cs.tertiary,
                       Icons.close,
                       size: 20,
                     ),

@@ -263,7 +263,7 @@ class _AddBreederPageState extends State<AddBreederPage>
                             "gender".i18n,
                             style: context.tt.bodyLarge?.copyWith(
                               fontWeight: FontWeight.w700,
-                              color: AppColors.darkGrey,
+                              color: context.cs.primaryFixed,
                             ),
                           ),
                         ),
@@ -318,7 +318,7 @@ class _AddBreederPageState extends State<AddBreederPage>
                       "set_date".i18n,
                       style: context.tt.bodyLarge?.copyWith(
                         fontWeight: FontWeight.w700,
-                        color: AppColors.darkGrey,
+                        color: context.cs.primaryFixed,
                       ),
                     ),
                     const SizedBox(height: 10),
