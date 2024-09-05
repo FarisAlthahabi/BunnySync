@@ -195,7 +195,7 @@ class _HomePageState extends State<HomePage> implements HomeViewCallBacks {
                                   subtitle:
                                       '${item.activeBreeders.allBreedersCount} ${'total'.i18n}',
                                   secondSubtitle:
-                                      '$female ${'does'.i18n} $male ${'bucks'.i18n}',
+                                      '$male ${'bucks'.i18n} $female ${'does'.i18n}',
                                 ),
                               ),
                             ),
