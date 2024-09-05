@@ -88,7 +88,7 @@ enum ProfileTypes implements DropDownItemModel {
       case 'other':
         return ProfileTypes.other;
       default:
-        throw Exception('Unknown ProfileTypes value: $value');
+        throw 'Unknown ProfileTypes value: $value';
     }
   }
 }

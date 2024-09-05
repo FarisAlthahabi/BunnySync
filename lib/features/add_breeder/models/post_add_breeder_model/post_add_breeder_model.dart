@@ -84,34 +84,34 @@ class PostAddBreederModel {
   }
 
   String get name {
-    return _name ?? (throw 'name is null');
+    return _name ?? (throw "name can't be empty");
   }
 
   String get prefix {
-    return _prefix ?? (throw 'prefix is null');
+    return _prefix ?? (throw "prefix can't be empty");
   }
 
   String get cage {
-    return _cage ?? (throw 'cage is null');
+    return _cage ?? (throw "cage can't be empty");
   }
 
   String get gender {
-    return _gender ?? (throw 'gender is null');
+    return _gender ?? (throw "gender can't be empty");
   }
 
   String get color {
-    return _color ?? (throw 'color is null');
+    return _color ?? (throw "color can't be empty");
   }
 
   DateTime get date {
-    return _date ?? (throw 'date is null');
+    return _date ?? (throw "date can't be empty");
   }
 
   String get tatto {
-    return _tatto ?? (throw 'tatto is null');
+    return _tatto ?? (throw "tatto can't be empty");
   }
 
   double get weight {
-    return _weight ?? (throw 'weight is null');
+    return _weight ?? (throw "weight can't be empty");
   }
 }

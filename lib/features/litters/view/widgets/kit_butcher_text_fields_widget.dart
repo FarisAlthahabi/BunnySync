@@ -3,7 +3,7 @@ import 'package:bunny_sync/features/litter_details/model/kit_model/kit_model.dar
 import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
-import 'package:bunny_sync/global/widgets/buttons/rotating_arrow_buttom.dart';
+import 'package:bunny_sync/global/widgets/buttons/rotating_arrow_button.dart';
 import 'package:bunny_sync/global/widgets/main_text_field.dart';
 import 'package:flutter/material.dart';
 

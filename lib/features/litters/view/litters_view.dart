@@ -141,16 +141,9 @@ class _LittersPageState extends State<LittersPage>
       context,
       widget: BottomSheetWidget(
         title: 'are_you_sure_to_set_litter_active'.i18n,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextButton(
-              onPressed: () {
-                rabbitConcernsCubit.setActive(litterId: litterEntryModel.id);
-              },
-              child: Text('yes'.i18n),
-            ),
-          ],
+        model: litterEntryModel,
+        onConfirm: (litterEntryModel) => rabbitConcernsCubit.setActive(
+          litterId: litterEntryModel.id,
         ),
       ),
     );
@@ -188,18 +181,11 @@ class _LittersPageState extends State<LittersPage>
       context,
       widget: BottomSheetWidget(
         title: 'are_you_sure_to_delete_litter'.i18n,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextButton(
-              onPressed: () {
-                context.router.popForced();
-                littersCubit.deleteLitter(litterEntryModel.id);
-              },
-              child: Text('yes'.i18n),
-            ),
-          ],
-        ),
+        model: litterEntryModel,
+        onConfirm: (litterEntryModel) {
+          context.router.popForced();
+          littersCubit.deleteLitter(litterEntryModel.id);
+        },
       ),
     );
   }

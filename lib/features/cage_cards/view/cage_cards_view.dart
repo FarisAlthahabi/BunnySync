@@ -8,6 +8,7 @@ import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
+import 'package:bunny_sync/global/widgets/buttons/main_add_floating_button.dart';
 import 'package:bunny_sync/global/widgets/element_tile.dart';
 import 'package:bunny_sync/global/widgets/main_app_bar.dart';
 import 'package:bunny_sync/global/widgets/main_error_widget.dart';
@@ -27,6 +28,8 @@ abstract class CageCardsViewCallBacks {
   void onCageTap(CageModel cageModel);
 
   void onEditCageTap(CageModel cageModel);
+
+  void onAddCageCopyTap(CageModel cageModel);
 
   void onDeleteCageTap(CageModel cageModel);
 }
@@ -68,6 +71,7 @@ class _CageCardsPageState extends State<CageCardsPage>
       widget: BottomSheetWidget(
         title: 'cages_options'.i18n,
         onEdit: onEditCageTap,
+        onCopy: onAddCageCopyTap,
         onDelete: onDeleteCageTap,
         model: cageModel,
       ),
@@ -81,6 +85,19 @@ class _CageCardsPageState extends State<CageCardsPage>
       AddCageRoute(
         cageCardsCubit: cageCardsCubit,
         cageModel: cageModel,
+        isCopy: false,
+      ),
+    );
+  }
+
+  @override
+  void onAddCageCopyTap(CageModel cageModel) {
+    Navigator.pop(context);
+    context.router.push(
+      AddCageRoute(
+        cageCardsCubit: cageCardsCubit,
+        cageModel: cageModel,
+        isCopy: true,
       ),
     );
   }
@@ -92,18 +109,11 @@ class _CageCardsPageState extends State<CageCardsPage>
       context,
       widget: BottomSheetWidget(
         title: 'are_you_sure_to_delete_cage'.i18n,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextButton(
-              onPressed: () {
-                context.router.popForced();
-                cageCardsCubit.deleteCageCard(cageModel.id);
-              },
-              child: Text('yes'.i18n),
-            ),
-          ],
-        ),
+        model: cageModel,
+        onConfirm: (cageModel) {
+          context.router.popForced();
+          cageCardsCubit.deleteCageCard(cageModel.id);
+        },
       ),
     );
   }
@@ -111,7 +121,9 @@ class _CageCardsPageState extends State<CageCardsPage>
   @override
   void onAddTap() {
     context.router.push(
-      AddCageRoute(cageCardsCubit: cageCardsCubit),
+      AddCageRoute(
+        cageCardsCubit: cageCardsCubit,
+      ),
     );
   }
 
@@ -221,16 +233,8 @@ class _CageCardsPageState extends State<CageCardsPage>
           }
         },
       ),
-      floatingActionButton: Padding(
-        padding: AppConstants.padding16,
-        child: FloatingActionButton(
-          onPressed: onAddTap,
-          shape: RoundedRectangleBorder(
-            borderRadius: AppConstants.circularBorderRadius,
-          ),
-          backgroundColor: context.cs.secondaryContainer,
-          child: const Icon(Icons.add),
-        ),
+      floatingActionButton: MainAddFloatingButton(
+        onAddTap: onAddTap,
       ),
     );
   }

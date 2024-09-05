@@ -116,7 +116,7 @@ enum LedgerTypes implements RadioSelectorItemModel {
     } else if (type == 'expensesPerBreeder') {
       return LedgerTypes.expensesPerBreeder;
     } else {
-      throw Exception('Unknown type: $type');
+      throw 'Unknown type: $type';
     }
   }
 }

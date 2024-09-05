@@ -37,7 +37,7 @@ class CageCardsCubit extends Cubit<GeneralCageCardsState> {
   }
 
   void addCageCard(CageModel cage) {
-    cages.add(cage);
+    cages.insert(0, cage);
     emit(CageCardsSuccess(cages));
   }
 

@@ -8,10 +8,12 @@ import 'package:bunny_sync/global/localization/localization.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
+import 'package:bunny_sync/global/widgets/buttons/main_add_floating_button.dart';
 import 'package:bunny_sync/global/widgets/images/app_image_widget.dart';
 import 'package:bunny_sync/global/widgets/main_error_widget.dart';
 import 'package:bunny_sync/global/widgets/main_show_bottom_sheet.dart';
 import 'package:bunny_sync/global/widgets/main_snack_bar.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -110,12 +112,18 @@ class _ImagesTabState extends State<ImagesTab> implements ImagesTabCallbacks {
   Future<void> pickCameraImage() async {
     context.router.popForced();
     final ImagePicker imagePicker = ImagePicker();
-    final image = await imagePicker.pickImage(source: ImageSource.camera);
-    if (image != null) {
-      breederDetailsCubit.addBreederImage(
-        widget.breederId,
-        image,
-      );
+    try {
+      final image = await imagePicker.pickImage(source: ImageSource.camera);
+      if (image != null) {
+        breederDetailsCubit.addBreederImage(
+          widget.breederId,
+          image,
+        );
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('choose an option');
+      }
     }
   }
 
@@ -160,25 +168,14 @@ class _ImagesTabState extends State<ImagesTab> implements ImagesTabCallbacks {
       context,
       widget: BottomSheetWidget(
         title: 'are_you_sure_to_delete_image'.i18n,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TextButton(
-              onPressed: () {
-                context.router.popForced();
-                breederDetailsCubit.deleteBreederImage(
-                  widget.breederId,
-                  breederImageModel.id,
-                );
-              },
-              style: const ButtonStyle(
-                alignment: AlignmentDirectional.centerStart,
-              ),
-              child: Text('yes'.i18n),
-            ),
-          ],
-        ),
+        model: breederImageModel,
+        onConfirm: (breederImageModel) {
+          context.router.popForced();
+          breederDetailsCubit.deleteBreederImage(
+            widget.breederId,
+            breederImageModel.id,
+          );
+        },
       ),
     );
   }
@@ -254,13 +251,8 @@ class _ImagesTabState extends State<ImagesTab> implements ImagesTabCallbacks {
             return const SizedBox.shrink();
           },
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: onAddTap,
-          shape: RoundedRectangleBorder(
-            borderRadius: AppConstants.circularBorderRadius,
-          ),
-          backgroundColor: context.cs.secondaryContainer,
-          child: const Icon(Icons.add),
+        floatingActionButton: MainAddFloatingButton(
+          onAddTap: onAddTap,
         ),
       ),
     );

@@ -10,6 +10,7 @@ import 'package:bunny_sync/global/router/router.dart';
 import 'package:bunny_sync/global/theme/theme.dart';
 import 'package:bunny_sync/global/utils/app_constants.dart';
 import 'package:bunny_sync/global/widgets/bottom_sheet_widget.dart';
+import 'package:bunny_sync/global/widgets/buttons/main_add_floating_button.dart';
 import 'package:bunny_sync/global/widgets/main_show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -198,13 +199,9 @@ class _DashboardPageState extends State<DashboardPage>
             );
           },
           floatingActionButton: currentIndex != 3
-              ? FloatingActionButton(
-                  onPressed: onAddTap,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: AppConstants.circularBorderRadius,
-                  ),
-                  backgroundColor: context.cs.secondaryContainer,
-                  child: const Icon(Icons.add),
+              ? MainAddFloatingButton(
+                  onAddTap: onAddTap,
+                  padding: 0,
                 )
               : null,
         );

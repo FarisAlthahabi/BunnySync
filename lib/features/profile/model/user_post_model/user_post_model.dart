@@ -118,7 +118,7 @@ class UserPostModel {
   @JsonKey(name: 'last_name')
   String get lastName {
     if (_lastName == null || _lastName.isEmpty) {
-      throw "Last name can't be empty";
+      return "Co";
     } else {
       return _lastName;
     }
@@ -179,7 +179,7 @@ class UserPostModel {
 
   ProfileTypes get type {
     if (_type == null) {
-      throw "Type can't be empty";
+      return ProfileTypes.existingCustomer;
     } else {
       return _type;
     }
@@ -187,7 +187,7 @@ class UserPostModel {
 
   String get search {
     if (_search == null || _search.isEmpty) {
-      throw "Search can't be empty";
+      return "my friends";
     } else {
       return _search;
     }

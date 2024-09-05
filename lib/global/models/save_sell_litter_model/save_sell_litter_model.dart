@@ -57,17 +57,17 @@ class SaveSellLitterModel {
 
   @DateTimeConverter()
   DateTime get date {
-    return _date ?? (throw Exception("Date can't be empty"));
+    return _date ?? (throw "Date can't be empty");
   }
 
   @JsonKey(name: 'customer')
   int get customerId {
-    return _customerId ?? (throw Exception("Customer can't be empty"));
+    return _customerId ?? (throw "Customer can't be empty");
   }
 
   @JsonKey(toJson: pricesToJson)
   dynamic get prices {
-    return _prices ?? (throw Exception("Prices can't be empty"));
+    return _prices ?? (throw "Prices can't be empty");
   }
 
   static String pricesToJson(dynamic value) {

@@ -47,7 +47,7 @@ class SaveButcherModel {
   Map<String, dynamic> toJson() => _$SaveButcherModelToJson(this);
 
   DateTime get date {
-    return _date ?? (throw Exception("Date can't be empty"));
+    return _date ?? (throw "Date can't be empty");
   }
   double? get preWeight {
     return _preWeight ;
